@@ -1,0 +1,30 @@
+<section class="final-cta">
+  <div class="container">
+    <div class="final-inner">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="eyebrow eyebrow-light">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h2 class="section-title" style="color: var(--cream);">{{ section.settings.heading }}</h2>
+      {%- if section.settings.body != blank -%}
+        <p>{{ section.settings.body }}</p>
+      {%- endif -%}
+      <a href="{{ section.settings.button_link }}" class="btn-primary btn-light btn-large">
+        {{ section.settings.button_text }} <span class="arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Final CTA",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Your next chapter" },
+    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Wake up to a<br><em>healthier you</em>.</p>" },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "You spend a third of your life asleep. Make it count." },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Try Dreamtape now" },
+    { "type": "url", "id": "button_link", "label": "Button link" }
+  ],
+  "presets": [{ "name": "Final CTA" }]
+}
+{% endschema %}

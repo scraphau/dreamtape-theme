@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "main": { "type": "main-product" },
+    "benefits": { "type": "benefits" },
+    "how": { "type": "how-it-works" },
+    "testimonials": { "type": "testimonials" },
+    "guarantee": { "type": "guarantee" },
+    "faq": { "type": "faq" }
+  },
+  "order": [
+    "main",
+    "benefits",
+    "how",
+    "testimonials",
+    "guarantee",
+    "faq"
+  ]
+}

@@ -1,0 +1,84 @@
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stars"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      {%- if section.settings.show_rating -%}
+        <div class="rating-pill">
+          <span class="stars">★★★★★</span>
+          <span>{{ section.settings.rating_text }}</span>
+        </div>
+      {%- endif -%}
+      <h1 class="hero-title">{{ section.settings.heading }}</h1>
+      <p class="hero-sub">{{ section.settings.subheading }}</p>
+      <div class="hero-cta">
+        <a href="{{ section.settings.button_link }}" class="btn-primary">
+          {{ section.settings.button_text }} <span class="arrow">→</span>
+        </a>
+        {%- if section.settings.meta_top != blank -%}
+          <div class="hero-meta">
+            <div>{{ section.settings.meta_top }}</div>
+            {%- if section.settings.meta_bottom != blank -%}
+              <div class="hero-meta-sub">{{ section.settings.meta_bottom }}</div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+      {%- if section.settings.quote_text != blank -%}
+        <div class="hero-quote">
+          <div class="hero-quote-stars">★★★★★</div>
+          <div>
+            <p>"{{ section.settings.quote_text }}"</p>
+            <span>— {{ section.settings.quote_author }}</span>
+          </div>
+        </div>
+      {%- endif -%}
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card hero-card-1">
+        <div class="hero-card-inner">
+          <div class="moon">◐</div>
+          <div>
+            <strong>{{ section.settings.card_1_title }}</strong>
+            <span>{{ section.settings.card_1_sub }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-card hero-card-2">
+        <div class="hero-card-inner">
+          <div class="moon">◑</div>
+          <div>
+            <strong>{{ section.settings.card_2_title }}</strong>
+            <span>{{ section.settings.card_2_sub }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-orb"></div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "checkbox", "id": "show_rating", "label": "Show rating pill", "default": true },
+    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "4.9 from 2,847 reviews" },
+    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Sleep like<br>you're meant to.</p>" },
+    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "Dreamtape mouth tape and nose strips guide you back to natural nasal breathing — for deeper sleep, quieter nights, and brighter mornings." },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Shop Dreamtape" },
+    { "type": "url", "id": "button_link", "label": "Button link" },
+    { "type": "text", "id": "meta_top", "label": "Meta text top", "default": "From $0.68 per night" },
+    { "type": "text", "id": "meta_bottom", "label": "Meta text bottom", "default": "30-night risk-free trial" },
+    { "type": "header", "content": "Quote" },
+    { "type": "text", "id": "quote_text", "label": "Quote text", "default": "Truly life-changing. I wake up before my alarm now." },
+    { "type": "text", "id": "quote_author", "label": "Author", "default": "Katie S., verified customer" },
+    { "type": "header", "content": "Floating cards" },
+    { "type": "text", "id": "card_1_title", "label": "Card 1 title", "default": "Mouth Tape" },
+    { "type": "text", "id": "card_1_sub", "label": "Card 1 sub", "default": "30 strips" },
+    { "type": "text", "id": "card_2_title", "label": "Card 2 title", "default": "Nose Strips" },
+    { "type": "text", "id": "card_2_sub", "label": "Card 2 sub", "default": "30 strips" }
+  ],
+  "presets": [{ "name": "Hero" }]
+}
+{% endschema %}

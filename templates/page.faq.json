@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "page-header": {
+      "type": "main-page"
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "eyebrow": "Questions",
+        "heading": "<p>Frequently asked <em>questions</em>.</p>"
+      }
+    },
+    "final-cta": {
+      "type": "final-cta"
+    }
+  },
+  "order": ["page-header", "faq", "final-cta"]
+}

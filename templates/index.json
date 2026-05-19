@@ -1,0 +1,26 @@
+{
+  "sections": {
+    "hero": { "type": "hero" },
+    "trust": { "type": "trust-badges" },
+    "wakeup": { "type": "wakeup-stat" },
+    "products": { "type": "featured-products" },
+    "benefits": { "type": "benefits" },
+    "how": { "type": "how-it-works" },
+    "testimonials": { "type": "testimonials" },
+    "guarantee": { "type": "guarantee" },
+    "faq": { "type": "faq" },
+    "final-cta": { "type": "final-cta" }
+  },
+  "order": [
+    "hero",
+    "trust",
+    "wakeup",
+    "products",
+    "benefits",
+    "how",
+    "testimonials",
+    "guarantee",
+    "faq",
+    "final-cta"
+  ]
+}

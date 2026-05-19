@@ -1,0 +1,39 @@
+<div class="announcement">
+  <div class="announcement-track">
+    {%- for block in section.blocks -%}
+      <span>✦ {{ block.settings.message }} ✦</span>
+    {%- endfor -%}
+    {%- comment -%} Duplicate for seamless scroll {%- endcomment -%}
+    {%- for block in section.blocks -%}
+      <span>✦ {{ block.settings.message }} ✦</span>
+    {%- endfor -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "max_blocks": 5,
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        {
+          "type": "text",
+          "id": "message",
+          "label": "Message",
+          "default": "Free shipping on orders over $79"
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      { "type": "message", "settings": { "message": "Free shipping on orders over $79" } },
+      { "type": "message", "settings": { "message": "30-night sleep trial" } },
+      { "type": "message", "settings": { "message": "Subscribe & save 20%" } }
+    ]
+  }
+}
+{% endschema %}

@@ -1,0 +1,115 @@
+<section class="product-page">
+  <div class="container">
+    <div class="product-layout">
+      <div class="product-gallery">
+        <div class="product-gallery-main" data-gallery-main>
+          {%- if product.featured_media -%}
+            <img src="{{ product.featured_media | image_url: width: 1200 }}" alt="{{ product.featured_media.alt | escape }}">
+          {%- else -%}
+            <span class="placeholder-icon">◐</span>
+          {%- endif -%}
+        </div>
+        {%- if product.media.size > 1 -%}
+          <div class="product-thumbs">
+            {%- for media in product.media -%}
+              <div class="product-thumb {% if forloop.first %}active{% endif %}" data-gallery-thumb>
+                <img src="{{ media | image_url: width: 200 }}" alt="">
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <div class="product-info">
+        {%- if product.metafields.reviews.rating.value != blank -%}
+          <div class="rating-row">
+            <span class="stars">★★★★★</span>
+            <span>{{ product.metafields.reviews.rating.value }} ({{ product.metafields.reviews.rating_count.value | default: 0 }} reviews)</span>
+          </div>
+        {%- endif -%}
+
+        <h1>{{ product.title }}</h1>
+
+        {%- if section.settings.show_tagline and product.metafields.custom.tagline.value != blank -%}
+          <p class="product-tagline">{{ product.metafields.custom.tagline.value }}</p>
+        {%- endif -%}
+
+        {%- if product.description != blank -%}
+          <div style="margin-bottom: 24px; color: var(--muted); font-size: 16px; line-height: 1.55;">
+            {{ product.description }}
+          </div>
+        {%- endif -%}
+
+        {%- if section.settings.bullets != blank -%}
+          <ul class="product-bullets">
+            {%- assign bullets = section.settings.bullets | newline_to_br | split: '<br />' -%}
+            {%- for bullet in bullets -%}
+              {%- if bullet != blank -%}
+                <li>{{ bullet }}</li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- form 'product', product -%}
+          {%- if product.variants.size > 1 -%}
+            <div class="variant-picker">
+              <span class="variant-picker-label">Choose your pack</span>
+              <div class="variant-options" data-variant-picker>
+                {%- for variant in product.variants -%}
+                  <button type="button" class="variant-option {% if forloop.first %}active{% endif %}" data-variant-id="{{ variant.id }}">
+                    {%- if variant.title contains '3' or variant.title contains 'Three' -%}
+                      <span class="vo-badge">Most popular</span>
+                    {%- elsif variant.title contains '6' or variant.title contains 'Six' -%}
+                      <span class="vo-badge">Best deal</span>
+                    {%- endif -%}
+                    <span class="vo-title">{{ variant.title }}</span>
+                    <span class="vo-sub">FREE shipping</span>
+                    <span class="vo-price">{{ variant.price | money_without_trailing_zeros }}</span>
+                  </button>
+                {%- endfor -%}
+              </div>
+            </div>
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+          {%- else -%}
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <div style="margin-bottom: 24px;">
+              <span class="price" style="font-size: 32px;">
+                {{ product.price | money_without_trailing_zeros }}
+                {%- if product.compare_at_price > product.price -%}
+                  <span class="price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+                {%- endif -%}
+              </span>
+            </div>
+          {%- endif -%}
+
+          <div class="product-form-buttons">
+            <button type="submit" class="btn-primary btn-dark btn-large btn-full" {% unless product.available %}disabled{% endunless %}>
+              {%- if product.available -%}
+                Add to cart <span class="arrow">→</span>
+              {%- else -%}
+                Sold out
+              {%- endif -%}
+            </button>
+          </div>
+        {%- endform -%}
+
+        <div class="product-trust">
+          <span>✓ In stock, ready to ship</span>
+          <span>✓ Free shipping on subscriptions</span>
+          <span>✓ 30-night risk-free trial</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product info",
+  "settings": [
+    { "type": "checkbox", "id": "show_tagline", "label": "Show product tagline (from metafield)", "default": true },
+    { "type": "textarea", "id": "bullets", "label": "Feature bullets (one per line)", "default": "Reduced snoring & improved sleep\nMore energy & immunity\nEnhanced jawline & facial structure" }
+  ]
+}
+{% endschema %}

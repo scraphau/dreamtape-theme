@@ -1,0 +1,60 @@
+<section class="trust">
+  <div class="container">
+    <div class="trust-grid">
+      {%- for block in section.blocks -%}
+        <div class="trust-item">
+          {%- case block.settings.icon -%}
+            {%- when 'shield' -%}
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg>
+            {%- when 'chart' -%}
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            {%- when 'check' -%}
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+            {%- when 'truck' -%}
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          {%- endcase -%}
+          <span>{{ block.settings.text }}</span>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust badges",
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Badge",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "shield", "label": "Shield" },
+            { "value": "chart", "label": "Chart" },
+            { "value": "check", "label": "Check" },
+            { "value": "truck", "label": "Truck" }
+          ],
+          "default": "shield"
+        },
+        { "type": "text", "id": "text", "label": "Text", "default": "100% Safe & Comfortable" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust badges",
+      "blocks": [
+        { "type": "badge", "settings": { "icon": "shield", "text": "100% Safe & Comfortable" } },
+        { "type": "badge", "settings": { "icon": "chart", "text": "Science-Backed Benefits" } },
+        { "type": "badge", "settings": { "icon": "check", "text": "30-Day Money-Back Guarantee" } },
+        { "type": "badge", "settings": { "icon": "truck", "text": "FREE Shipping with Subscriptions" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

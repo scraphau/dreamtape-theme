@@ -1,0 +1,50 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Dreamtape",
+    "theme_version": "1.0.0",
+    "theme_author": "Dreamtape",
+    "theme_documentation_url": "https://dreamtape.com",
+    "theme_support_url": "https://dreamtape.com/contact"
+  },
+  {
+    "name": "Colors",
+    "settings": [
+      {
+        "type": "color",
+        "id": "color_midnight",
+        "label": "Midnight (primary dark)",
+        "default": "#0e1a3a"
+      },
+      {
+        "type": "color",
+        "id": "color_cream",
+        "label": "Cream (light)",
+        "default": "#f4ecdc"
+      },
+      {
+        "type": "color",
+        "id": "color_paper",
+        "label": "Paper (page background)",
+        "default": "#faf5e9"
+      },
+      {
+        "type": "color",
+        "id": "color_gold",
+        "label": "Gold (accent)",
+        "default": "#c9a973"
+      }
+    ]
+  },
+  {
+    "name": "Branding",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "32x32 PNG recommended"
+      }
+    ]
+  }
+]

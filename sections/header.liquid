@@ -1,0 +1,57 @@
+<header class="header">
+  <div class="header-inner">
+    <button class="hamburger" aria-label="Open menu" data-menu-open>
+      <span></span><span></span><span></span>
+    </button>
+    <a href="{{ routes.root_url }}" class="logo">
+      <span class="logo-mark">◐</span>
+      <span class="logo-text">{{ shop.name | downcase }}</span>
+    </a>
+    <nav class="nav-desktop">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+    <div class="header-actions">
+      {%- if section.settings.cta_text != blank -%}
+        <a href="{{ section.settings.cta_link }}" class="btn-shop">{{ section.settings.cta_text }}</a>
+      {%- endif -%}
+      <a href="{{ routes.cart_url }}" class="cart-btn" aria-label="Cart">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="cart-count">{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-btn" data-menu-close>×</button>
+  {%- for link in section.settings.menu.links -%}
+    <a href="{{ link.url }}" data-menu-close>{{ link.title }}</a>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "CTA button text",
+      "default": "Shop"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "CTA button link"
+    }
+  ]
+}
+{% endschema %}

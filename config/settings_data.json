@@ -1,0 +1,16 @@
+{
+  "current": {
+    "color_midnight": "#0e1a3a",
+    "color_cream": "#f4ecdc",
+    "color_paper": "#faf5e9",
+    "color_gold": "#c9a973"
+  },
+  "presets": {
+    "Default": {
+      "color_midnight": "#0e1a3a",
+      "color_cream": "#f4ecdc",
+      "color_paper": "#faf5e9",
+      "color_gold": "#c9a973"
+    }
+  }
+}

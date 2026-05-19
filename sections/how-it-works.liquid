@@ -1,0 +1,50 @@
+<section class="how">
+  <div class="container">
+    <div class="section-head">
+      {%- if section.settings.eyebrow != blank -%}
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- endif -%}
+      <h2 class="section-title">{{ section.settings.heading }}</h2>
+    </div>
+    <div class="how-grid">
+      {%- for block in section.blocks -%}
+        <div class="how-step">
+          <div class="step-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+          <h3>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.body }}</p>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "How it works",
+  "max_blocks": 5,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How it works" },
+    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Three steps to <em>your best sleep</em>.</p>" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "Step title" },
+        { "type": "textarea", "id": "body", "label": "Body", "default": "Step description goes here." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How it works",
+      "blocks": [
+        { "type": "step", "settings": { "title": "Peel a strip", "body": "Each Dreamtape strip is pre-cut and ready in seconds. Easy to apply, even in the dark." } },
+        { "type": "step", "settings": { "title": "Apply gently", "body": "Place it lightly across your lips. The soft, hypoallergenic adhesive is lip- and beard-friendly." } },
+        { "type": "step", "settings": { "title": "Drift off", "body": "Breathe through your nose all night long. Wake up rested, refreshed, and ready." } }
+      ]
+    }
+  ]
+}
+{% endschema %}
