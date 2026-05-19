@@ -23,26 +23,6 @@
     },
     "header": {
       "type": "header",
-      "blocks": {
-        "nav_link_AeENXd": {
-          "type": "nav_link",
-          "settings": {
-            "label": "Mouth Tape",
-            "link": "shopify://collections/all"
-          }
-        },
-        "nav_link_6qpTJd": {
-          "type": "nav_link",
-          "settings": {
-            "label": "Contact",
-            "link": "shopify://pages/contact"
-          }
-        }
-      },
-      "block_order": [
-        "nav_link_AeENXd",
-        "nav_link_6qpTJd"
-      ],
       "settings": {
         "background_color": "#ffffff",
         "text_color": "#0e1a3a",
