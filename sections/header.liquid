@@ -3,9 +3,14 @@
     <button class="hamburger" aria-label="Open menu" data-menu-open>
       <span></span><span></span><span></span>
     </button>
-    <a href="{{ routes.root_url }}" class="logo">
-      <span class="logo-mark">◐</span>
-      <span class="logo-text">{{ shop.name | downcase }}</span>
+    <a href="{{ routes.root_url }}" class="logo" aria-label="{{ shop.name }} home">
+      <img
+        src="{{ 'dreamtape-logo.png' | asset_url }}"
+        alt="{{ shop.name }}"
+        class="logo-image"
+        width="1006"
+        height="233"
+      >
     </a>
     <nav class="nav-desktop">
       {%- for link in section.settings.menu.links -%}
@@ -25,7 +30,7 @@
 </header>
 
 <div class="mobile-menu" id="mobileMenu">
-  <button class="close-btn" data-menu-close>×</button>
+  <button class="close-btn" data-menu-close>&times;</button>
   {%- for link in section.settings.menu.links -%}
     <a href="{{ link.url }}" data-menu-close>{{ link.title }}</a>
   {%- endfor -%}
