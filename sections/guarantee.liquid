@@ -1,4 +1,4 @@
-<section class="guarantee">
+<section class="guarantee" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="guarantee-inner">
       <div class="guarantee-badge">
@@ -27,14 +27,86 @@
 {
   "name": "Guarantee",
   "settings": [
-    { "type": "text", "id": "days", "label": "Days number", "default": "30" },
-    { "type": "html", "id": "badge_label", "label": "Badge label", "default": "nights<br>risk-free" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our promise" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Sleep on it for 30 nights." },
-    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>We're so sure Dreamtape will change your sleep, we offer a 30-night money-back guarantee. If you're not waking up better-rested, send us one email — we'll refund you in full. No questions, no fuss.</p>" },
-    { "type": "text", "id": "button_text", "label": "Button text", "default": "Try Dreamtape now" },
-    { "type": "url", "id": "button_link", "label": "Button link" }
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f3f6fb"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#5a6580"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "days",
+      "label": "Days number",
+      "default": "30"
+    },
+    {
+      "type": "html",
+      "id": "badge_label",
+      "label": "Badge label",
+      "default": "nights<br>risk-free"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Our promise"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Sleep on it for 30 nights."
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body",
+      "default": "<p>We're so sure Dreamtape will change your sleep, we offer a 30-night money-back guarantee. If you're not waking up better-rested, send us one email — we'll refund you in full. No questions, no fuss.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Try Dreamtape now"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
   ],
-  "presets": [{ "name": "Guarantee" }]
+  "presets": [
+    {
+      "name": "Guarantee"
+    }
+  ]
 }
 {% endschema %}

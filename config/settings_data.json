@@ -1,16 +1,28 @@
 {
   "current": {
     "color_midnight": "#0e1a3a",
+    "color_midnight_2": "#1b2d5a",
+    "color_midnight_deep": "#07102a",
     "color_cream": "#ffffff",
     "color_paper": "#ffffff",
-    "color_gold": "#ffffff"
+    "color_gold": "#ffffff",
+    "color_light_background": "#f3f6fb",
+    "color_accent": "#0e1a3a",
+    "color_text": "#0a1432",
+    "color_muted": "#5a6580"
   },
   "presets": {
     "Default": {
       "color_midnight": "#0e1a3a",
+      "color_midnight_2": "#1b2d5a",
+      "color_midnight_deep": "#07102a",
       "color_cream": "#ffffff",
       "color_paper": "#ffffff",
-      "color_gold": "#ffffff"
+      "color_gold": "#ffffff",
+      "color_light_background": "#f3f6fb",
+      "color_accent": "#0e1a3a",
+      "color_text": "#0a1432",
+      "color_muted": "#5a6580"
     }
   }
 }

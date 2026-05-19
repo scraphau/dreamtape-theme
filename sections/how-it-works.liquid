@@ -1,4 +1,4 @@
-<section class="how">
+<section class="how" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="section-head">
       {%- if section.settings.eyebrow != blank -%}
@@ -23,16 +23,70 @@
   "name": "How it works",
   "max_blocks": 5,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How it works" },
-    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Three steps to <em>your best sleep</em>.</p>" }
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#dbe5f6"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "How it works"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Three steps to <em>your best sleep</em>.</p>"
+    }
   ],
   "blocks": [
     {
       "type": "step",
       "name": "Step",
       "settings": [
-        { "type": "text", "id": "title", "label": "Title", "default": "Step title" },
-        { "type": "textarea", "id": "body", "label": "Body", "default": "Step description goes here." }
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Step title"
+        },
+        {
+          "type": "textarea",
+          "id": "body",
+          "label": "Body",
+          "default": "Step description goes here."
+        }
       ]
     }
   ],
@@ -40,9 +94,27 @@
     {
       "name": "How it works",
       "blocks": [
-        { "type": "step", "settings": { "title": "Peel a strip", "body": "Each Dreamtape strip is pre-cut and ready in seconds. Easy to apply, even in the dark." } },
-        { "type": "step", "settings": { "title": "Apply gently", "body": "Place it lightly across your lips. The soft, hypoallergenic adhesive is lip- and beard-friendly." } },
-        { "type": "step", "settings": { "title": "Drift off", "body": "Breathe through your nose all night long. Wake up rested, refreshed, and ready." } }
+        {
+          "type": "step",
+          "settings": {
+            "title": "Peel a strip",
+            "body": "Each Dreamtape strip is pre-cut and ready in seconds. Easy to apply, even in the dark."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Apply gently",
+            "body": "Place it lightly across your lips. The soft, hypoallergenic adhesive is lip- and beard-friendly."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Drift off",
+            "body": "Breathe through your nose all night long. Wake up rested, refreshed, and ready."
+          }
+        }
       ]
     }
   ]

@@ -1,4 +1,4 @@
-<section class="faq">
+<section class="faq" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="section-head section-head-center">
       {%- if section.settings.eyebrow != blank -%}
@@ -22,16 +22,70 @@
   "name": "FAQ",
   "max_blocks": 20,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Questions" },
-    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Everything you might<br>be <em>wondering</em>.</p>" }
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#5a6580"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Questions"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Everything you might<br>be <em>wondering</em>.</p>"
+    }
   ],
   "blocks": [
     {
       "type": "qa",
       "name": "Question",
       "settings": [
-        { "type": "text", "id": "question", "label": "Question", "default": "Is mouth taping safe?" },
-        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Yes — for healthy adults with clear nasal passages, mouth taping is widely considered safe.</p>" }
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Is mouth taping safe?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Yes — for healthy adults with clear nasal passages, mouth taping is widely considered safe.</p>"
+        }
       ]
     }
   ],
@@ -39,10 +93,34 @@
     {
       "name": "FAQ",
       "blocks": [
-        { "type": "qa", "settings": { "question": "Is mouth taping safe?", "answer": "<p>Yes — for healthy adults with clear nasal passages, mouth taping is widely considered safe. Dreamtape uses a soft, hypoallergenic adhesive and a central breathing slit so air can still pass if needed.</p>" } },
-        { "type": "qa", "settings": { "question": "Will it work with a beard or moustache?", "answer": "<p>Absolutely. Our adhesive grips facial hair while staying gentle on lips.</p>" } },
-        { "type": "qa", "settings": { "question": "How long until I see results?", "answer": "<p>Most customers report quieter, deeper sleep from the very first night.</p>" } },
-        { "type": "qa", "settings": { "question": "Can I cancel my subscription?", "answer": "<p>Any time. Pause, skip, or cancel from your account dashboard.</p>" } }
+        {
+          "type": "qa",
+          "settings": {
+            "question": "Is mouth taping safe?",
+            "answer": "<p>Yes — for healthy adults with clear nasal passages, mouth taping is widely considered safe. Dreamtape uses a soft, hypoallergenic adhesive and a central breathing slit so air can still pass if needed.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "question": "Will it work with a beard or moustache?",
+            "answer": "<p>Absolutely. Our adhesive grips facial hair while staying gentle on lips.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "question": "How long until I see results?",
+            "answer": "<p>Most customers report quieter, deeper sleep from the very first night.</p>"
+          }
+        },
+        {
+          "type": "qa",
+          "settings": {
+            "question": "Can I cancel my subscription?",
+            "answer": "<p>Any time. Pause, skip, or cancel from your account dashboard.</p>"
+          }
+        }
       ]
     }
   ]

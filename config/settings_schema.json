@@ -18,6 +18,18 @@
       },
       {
         "type": "color",
+        "id": "color_midnight_2",
+        "label": "Midnight hover",
+        "default": "#1b2d5a"
+      },
+      {
+        "type": "color",
+        "id": "color_midnight_deep",
+        "label": "Deep footer background",
+        "default": "#07102a"
+      },
+      {
+        "type": "color",
         "id": "color_cream",
         "label": "White (light)",
         "default": "#ffffff"
@@ -31,8 +43,32 @@
       {
         "type": "color",
         "id": "color_gold",
-        "label": "White (accent)",
+        "label": "Light accent",
         "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "color_light_background",
+        "label": "Soft section background",
+        "default": "#f3f6fb"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Accent",
+        "default": "#0e1a3a"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Body text",
+        "default": "#0a1432"
+      },
+      {
+        "type": "color",
+        "id": "color_muted",
+        "label": "Muted text",
+        "default": "#5a6580"
       }
     ]
   },

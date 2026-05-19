@@ -1,4 +1,4 @@
-<section class="faq-page">
+<section class="faq-page" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <nav class="faq-breadcrumb" aria-label="Breadcrumb">
       <a href="{{ routes.root_url }}">Home</a>
@@ -84,16 +84,98 @@
 {
   "name": "FAQ page",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Help centre" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Dreamtape FAQs" },
-    { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>We get it, optimizing your breath for better sleep can feel new. We made finding the answers simple, from how Dreamtape works to when and how often to use it.</p>" },
-    { "type": "text", "id": "contact_text", "label": "Contact intro", "default": "For shipping, product troubleshooting, or anything more specific, visit our" },
-    { "type": "url", "id": "contact_link", "label": "Contact link" },
-    { "type": "text", "id": "contact_link_label", "label": "Contact link label", "default": "Contact page." },
-    { "type": "text", "id": "support_heading", "label": "Support heading", "default": "Not finding what you are looking for?" },
-    { "type": "richtext", "id": "support_text", "label": "Support text", "default": "<p>Send us a note and we will help you find the right answer before bedtime.</p>" },
-    { "type": "text", "id": "support_button", "label": "Support button", "default": "Get help" },
-    { "type": "url", "id": "support_link", "label": "Support button link" }
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#5a6580"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Help centre"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Dreamtape FAQs"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Intro",
+      "default": "<p>We get it, optimizing your breath for better sleep can feel new. We made finding the answers simple, from how Dreamtape works to when and how often to use it.</p>"
+    },
+    {
+      "type": "text",
+      "id": "contact_text",
+      "label": "Contact intro",
+      "default": "For shipping, product troubleshooting, or anything more specific, visit our"
+    },
+    {
+      "type": "url",
+      "id": "contact_link",
+      "label": "Contact link"
+    },
+    {
+      "type": "text",
+      "id": "contact_link_label",
+      "label": "Contact link label",
+      "default": "Contact page."
+    },
+    {
+      "type": "text",
+      "id": "support_heading",
+      "label": "Support heading",
+      "default": "Not finding what you are looking for?"
+    },
+    {
+      "type": "richtext",
+      "id": "support_text",
+      "label": "Support text",
+      "default": "<p>Send us a note and we will help you find the right answer before bedtime.</p>"
+    },
+    {
+      "type": "text",
+      "id": "support_button",
+      "label": "Support button",
+      "default": "Get help"
+    },
+    {
+      "type": "url",
+      "id": "support_link",
+      "label": "Support button link"
+    }
   ],
   "blocks": [
     {
@@ -106,16 +188,39 @@
           "label": "Category",
           "default": "mouth_tape",
           "options": [
-            { "value": "mouth_tape", "label": "Mouth Tape" },
-            { "value": "nose_strips", "label": "Nose Strips" },
-            { "value": "general", "label": "General" }
+            {
+              "value": "mouth_tape",
+              "label": "Mouth Tape"
+            },
+            {
+              "value": "nose_strips",
+              "label": "Nose Strips"
+            },
+            {
+              "value": "general",
+              "label": "General"
+            }
           ]
         },
-        { "type": "text", "id": "question", "label": "Question", "default": "Is Dreamtape safe to use?" },
-        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Dreamtape is designed to be gentle, comfortable, and easy to remove. If you have breathing concerns, sleep apnea, blocked nasal passages, or a medical condition, check with a healthcare professional before use.</p>" }
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Is Dreamtape safe to use?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>Dreamtape is designed to be gentle, comfortable, and easy to remove. If you have breathing concerns, sleep apnea, blocked nasal passages, or a medical condition, check with a healthcare professional before use.</p>"
+        }
       ]
     }
   ],
-  "presets": [{ "name": "FAQ page" }]
+  "presets": [
+    {
+      "name": "FAQ page"
+    }
+  ]
 }
 {% endschema %}

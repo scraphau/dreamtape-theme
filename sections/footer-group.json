@@ -1,10 +1,45 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "footer",
   "name": "Footer group",
   "sections": {
     "footer": {
-      "type": "footer"
+      "type": "footer",
+      "blocks": {
+        "newsletter_88XxRJ": {
+          "type": "newsletter",
+          "settings": {
+            "heading": "Newsletter",
+            "subheading": "Get 10% off your first order."
+          }
+        }
+      },
+      "block_order": [
+        "newsletter_88XxRJ"
+      ],
+      "settings": {
+        "background_color": "#07102a",
+        "text_color": "#ffffff",
+        "muted_text_color": "#dbe5f6",
+        "accent_color": "#ffffff",
+        "card_background_color": "#ffffff",
+        "tagline": "Sleep like you're meant to.",
+        "instagram": "",
+        "tiktok": "",
+        "facebook": "",
+        "disclaimer": "*This product is not intended to diagnose, treat, cure, or prevent any disease."
+      }
     }
   },
-  "order": ["footer"]
+  "order": [
+    "footer"
+  ]
 }

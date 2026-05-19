@@ -1,4 +1,4 @@
-<section class="testimonials">
+<section class="testimonials" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="section-head section-head-center">
       {%- if section.settings.eyebrow != blank -%}
@@ -26,17 +26,76 @@
   "name": "Testimonials",
   "max_blocks": 9,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Real Dreamtape sleepers" },
-    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>You'll want to <em>stock up</em>.</p>" }
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f3f6fb"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#5a6580"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Real Dreamtape sleepers"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>You'll want to <em>stock up</em>.</p>"
+    }
   ],
   "blocks": [
     {
       "type": "testimonial",
       "name": "Testimonial",
       "settings": [
-        { "type": "textarea", "id": "quote", "label": "Quote", "default": "Customer review goes here." },
-        { "type": "text", "id": "author", "label": "Author name", "default": "Name S." },
-        { "type": "text", "id": "author_meta", "label": "Author meta", "default": "Verified customer" }
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Quote",
+          "default": "Customer review goes here."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author name",
+          "default": "Name S."
+        },
+        {
+          "type": "text",
+          "id": "author_meta",
+          "label": "Author meta",
+          "default": "Verified customer"
+        }
       ]
     }
   ],
@@ -44,9 +103,30 @@
     {
       "name": "Testimonials",
       "blocks": [
-        { "type": "testimonial", "settings": { "quote": "Dreamtape has been a lifesaver. I switched to a subscription because I never want to run out — my husband actually thanks me for it.", "author": "Laura P.", "author_meta": "Verified customer" } },
-        { "type": "testimonial", "settings": { "quote": "I've tried every snoring fix on the market. Nothing comes close to this. My wife is happier, and I'm getting the best sleep I've had in years.", "author": "Mark S.", "author_meta": "Verified customer" } },
-        { "type": "testimonial", "settings": { "quote": "I was sceptical, but I took the chance. No more dry mouth. No more grogginess. I genuinely wake up feeling like a different person.", "author": "Sabrina C.", "author_meta": "Verified customer" } }
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Dreamtape has been a lifesaver. I switched to a subscription because I never want to run out — my husband actually thanks me for it.",
+            "author": "Laura P.",
+            "author_meta": "Verified customer"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I've tried every snoring fix on the market. Nothing comes close to this. My wife is happier, and I'm getting the best sleep I've had in years.",
+            "author": "Mark S.",
+            "author_meta": "Verified customer"
+          }
+        },
+        {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I was sceptical, but I took the chance. No more dry mouth. No more grogginess. I genuinely wake up feeling like a different person.",
+            "author": "Sabrina C.",
+            "author_meta": "Verified customer"
+          }
+        }
       ]
     }
   ]

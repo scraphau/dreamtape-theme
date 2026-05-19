@@ -1,4 +1,4 @@
-<header class="header">
+<header class="header" style="{% render 'section-color-vars', section: section %}">
   <div class="header-inner">
     <button class="hamburger" aria-label="Open menu" data-menu-open>
       <span></span><span></span><span></span>
@@ -12,20 +12,35 @@
         height="233"
       >
     </a>
+    {%- assign nav_blocks = section.blocks | where: 'type', 'nav_link' -%}
+    {%- assign use_custom_nav = false -%}
+    {%- if nav_blocks.size > 0 -%}
+      {%- assign use_custom_nav = true -%}
+    {%- endif -%}
     {%- assign has_faq_link = false -%}
-    {%- for link in section.settings.menu.links -%}
-      {%- assign link_title = link.title | downcase -%}
-      {%- if link_title == 'faq' or link.url contains '/pages/faq' or link.url contains 'view=faq' -%}
-        {%- assign has_faq_link = true -%}
-      {%- endif -%}
-    {%- endfor -%}
-    <nav class="nav-desktop">
+    {%- unless use_custom_nav -%}
       {%- for link in section.settings.menu.links -%}
-        <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- assign link_title = link.title | downcase -%}
+        {%- if link_title == 'faq' or link.url contains '/pages/faq' or link.url contains 'view=faq' -%}
+          {%- assign has_faq_link = true -%}
+        {%- endif -%}
       {%- endfor -%}
-      {%- unless has_faq_link -%}
-        <a href="/search?view=faq">FAQ</a>
-      {%- endunless -%}
+    {%- endunless -%}
+    <nav class="nav-desktop">
+      {%- if use_custom_nav -%}
+        {%- for block in nav_blocks -%}
+          {%- if block.settings.label != blank -%}
+            <a href="{{ block.settings.link | default: routes.root_url }}" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for link in section.settings.menu.links -%}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {%- endfor -%}
+        {%- unless has_faq_link -%}
+          <a href="/search?view=faq">FAQ</a>
+        {%- endunless -%}
+      {%- endif -%}
     </nav>
     <div class="header-actions">
       {%- if section.settings.cta_text != blank -%}
@@ -41,22 +56,65 @@
 
 <div class="mobile-menu" id="mobileMenu">
   <button class="close-btn" data-menu-close>&times;</button>
-  {%- for link in section.settings.menu.links -%}
-    <a href="{{ link.url }}" data-menu-close>{{ link.title }}</a>
-  {%- endfor -%}
-  {%- unless has_faq_link -%}
-    <a href="/search?view=faq" data-menu-close>FAQ</a>
-  {%- endunless -%}
+  {%- if use_custom_nav -%}
+    {%- for block in nav_blocks -%}
+      {%- if block.settings.label != blank -%}
+        <a href="{{ block.settings.link | default: routes.root_url }}" data-menu-close {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+      {%- endif -%}
+    {%- endfor -%}
+  {%- else -%}
+    {%- for link in section.settings.menu.links -%}
+      <a href="{{ link.url }}" data-menu-close>{{ link.title }}</a>
+    {%- endfor -%}
+    {%- unless has_faq_link -%}
+      <a href="/search?view=faq" data-menu-close>FAQ</a>
+    {%- endunless -%}
+  {%- endif -%}
 </div>
 
 {% schema %}
 {
   "name": "Header",
+  "max_blocks": 8,
   "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#5a6580"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
     {
       "type": "link_list",
       "id": "menu",
-      "label": "Main menu",
+      "label": "Fallback main menu",
       "default": "main-menu"
     },
     {
@@ -69,6 +127,25 @@
       "type": "url",
       "id": "cta_link",
       "label": "CTA button link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "nav_link",
+      "name": "Navigation link",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Mouth Tape"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
     }
   ]
 }

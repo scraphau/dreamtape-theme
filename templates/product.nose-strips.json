@@ -1,0 +1,44 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "show_tagline": true,
+        "bullets": "Opens nasal passages for easier breathing\nHelps reduce nighttime congestion\nComfortable hold for sleep and exercise"
+      }
+    },
+    "benefits": {
+      "type": "benefits",
+      "settings": {
+        "eyebrow": "Breathe easier",
+        "heading": "<p>More airflow.<br>Less resistance.</p>",
+        "lead": "Dreamtape nose strips gently lift and open your nasal passages so each breath feels smoother, clearer, and calmer."
+      }
+    },
+    "how": {
+      "type": "how-it-works"
+    },
+    "testimonials": {
+      "type": "testimonials"
+    },
+    "guarantee": {
+      "type": "guarantee"
+    },
+    "faq": {
+      "type": "faq"
+    }
+  },
+  "order": [
+    "main",
+    "benefits",
+    "how",
+    "testimonials",
+    "guarantee",
+    "faq"
+  ]
+}
