@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -21,16 +30,20 @@
       }
     },
     "how": {
-      "type": "how-it-works"
+      "type": "how-it-works",
+      "settings": {}
     },
     "testimonials": {
-      "type": "testimonials"
+      "type": "testimonials",
+      "settings": {}
     },
     "guarantee": {
-      "type": "guarantee"
+      "type": "guarantee",
+      "settings": {}
     },
     "faq": {
-      "type": "faq"
+      "type": "faq",
+      "settings": {}
     }
   },
   "order": [
