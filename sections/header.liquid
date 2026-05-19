@@ -12,10 +12,20 @@
         height="233"
       >
     </a>
+    {%- assign has_faq_link = false -%}
+    {%- for link in section.settings.menu.links -%}
+      {%- assign link_title = link.title | downcase -%}
+      {%- if link_title == 'faq' or link.url contains '/pages/faq' -%}
+        {%- assign has_faq_link = true -%}
+      {%- endif -%}
+    {%- endfor -%}
     <nav class="nav-desktop">
       {%- for link in section.settings.menu.links -%}
         <a href="{{ link.url }}">{{ link.title }}</a>
       {%- endfor -%}
+      {%- unless has_faq_link -%}
+        <a href="/pages/faq">FAQ</a>
+      {%- endunless -%}
     </nav>
     <div class="header-actions">
       {%- if section.settings.cta_text != blank -%}
@@ -34,6 +44,9 @@
   {%- for link in section.settings.menu.links -%}
     <a href="{{ link.url }}" data-menu-close>{{ link.title }}</a>
   {%- endfor -%}
+  {%- unless has_faq_link -%}
+    <a href="/pages/faq" data-menu-close>FAQ</a>
+  {%- endunless -%}
 </div>
 
 {% schema %}
