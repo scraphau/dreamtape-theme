@@ -1,0 +1,130 @@
+<section class="faq-page">
+  <div class="container">
+    <nav class="faq-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a>
+      <span>/</span>
+      <span>{{ page.title | default: 'FAQ' }}</span>
+    </nav>
+
+    <div class="faq-page-hero">
+      <div>
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        {%- endif -%}
+        <h1>{{ section.settings.heading }}</h1>
+      </div>
+      <div class="faq-page-intro">
+        {{ section.settings.intro }}
+        {%- if section.settings.contact_text != blank -%}
+          <p>
+            {{ section.settings.contact_text }}
+            {%- if section.settings.contact_link != blank -%}
+              <a href="{{ section.settings.contact_link }}">{{ section.settings.contact_link_label }}</a>
+            {%- endif -%}
+          </p>
+        {%- endif -%}
+      </div>
+    </div>
+
+    <div class="faq-tabs" aria-label="FAQ categories">
+      <a href="#mouth-tape">Mouth Tape</a>
+      <a href="#nose-strips">Nose Strips</a>
+      <a href="#general">General</a>
+    </div>
+
+    <div class="faq-page-grid">
+      <aside class="faq-sidebar" aria-label="FAQ categories">
+        <a href="#mouth-tape">Mouth Tape</a>
+        <a href="#nose-strips">Nose Strips</a>
+        <a href="#general">General</a>
+      </aside>
+
+      <div class="faq-groups">
+        <div class="faq-group" id="mouth-tape">
+          <h2>Mouth Tape</h2>
+          {%- for block in section.blocks -%}
+            {%- if block.settings.category == 'mouth_tape' -%}
+              <details class="faq-page-item" {{ block.shopify_attributes }}>
+                <summary>{{ block.settings.question }}</summary>
+                <div class="faq-page-answer">{{ block.settings.answer }}</div>
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="faq-group" id="nose-strips">
+          <h2>Nose Strips</h2>
+          {%- for block in section.blocks -%}
+            {%- if block.settings.category == 'nose_strips' -%}
+              <details class="faq-page-item" {{ block.shopify_attributes }}>
+                <summary>{{ block.settings.question }}</summary>
+                <div class="faq-page-answer">{{ block.settings.answer }}</div>
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="faq-group" id="general">
+          <h2>General</h2>
+          {%- for block in section.blocks -%}
+            {%- if block.settings.category == 'general' -%}
+              <details class="faq-page-item" {{ block.shopify_attributes }}>
+                <summary>{{ block.settings.question }}</summary>
+                <div class="faq-page-answer">{{ block.settings.answer }}</div>
+              </details>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-contact-panel">
+      <div>
+        <span class="eyebrow">Still wondering?</span>
+        <h2>{{ section.settings.support_heading }}</h2>
+        {{ section.settings.support_text }}
+      </div>
+      <a class="btn-primary" href="{{ section.settings.support_link }}">{{ section.settings.support_button }}</a>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "FAQ page",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Help centre" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Dreamtape FAQs" },
+    { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>We get it, optimizing your breath for better sleep can feel new. We made finding the answers simple, from how Dreamtape works to when and how often to use it.</p>" },
+    { "type": "text", "id": "contact_text", "label": "Contact intro", "default": "For shipping, product troubleshooting, or anything more specific, visit our" },
+    { "type": "url", "id": "contact_link", "label": "Contact link" },
+    { "type": "text", "id": "contact_link_label", "label": "Contact link label", "default": "Contact page." },
+    { "type": "text", "id": "support_heading", "label": "Support heading", "default": "Not finding what you are looking for?" },
+    { "type": "richtext", "id": "support_text", "label": "Support text", "default": "<p>Send us a note and we will help you find the right answer before bedtime.</p>" },
+    { "type": "text", "id": "support_button", "label": "Support button", "default": "Get help" },
+    { "type": "url", "id": "support_link", "label": "Support button link" }
+  ],
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Question",
+      "settings": [
+        {
+          "type": "select",
+          "id": "category",
+          "label": "Category",
+          "default": "mouth_tape",
+          "options": [
+            { "value": "mouth_tape", "label": "Mouth Tape" },
+            { "value": "nose_strips", "label": "Nose Strips" },
+            { "value": "general", "label": "General" }
+          ]
+        },
+        { "type": "text", "id": "question", "label": "Question", "default": "Is Dreamtape safe to use?" },
+        { "type": "richtext", "id": "answer", "label": "Answer", "default": "<p>Dreamtape is designed to be gentle, comfortable, and easy to remove. If you have breathing concerns, sleep apnea, blocked nasal passages, or a medical condition, check with a healthcare professional before use.</p>" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "FAQ page" }]
+}
+{% endschema %}
