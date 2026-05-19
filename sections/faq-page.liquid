@@ -26,22 +26,15 @@
       </div>
     </div>
 
-    <div class="faq-tabs" aria-label="FAQ categories">
-      <a href="#mouth-tape">Mouth Tape</a>
-      <a href="#nose-strips">Nose Strips</a>
-      <a href="#general">General</a>
-    </div>
+    <div class="faq-tabbed" data-faq-tabs>
+      <div class="faq-tabs" role="tablist" aria-label="FAQ categories">
+        <button class="faq-tab active" type="button" role="tab" aria-selected="true" aria-controls="faq-panel-mouth-tape" data-faq-tab="mouth-tape">Sleep Strips</button>
+        <button class="faq-tab" type="button" role="tab" aria-selected="false" aria-controls="faq-panel-nose-strips" data-faq-tab="nose-strips">Nose Strips</button>
+        <button class="faq-tab" type="button" role="tab" aria-selected="false" aria-controls="faq-panel-general" data-faq-tab="general">General</button>
+      </div>
 
-    <div class="faq-page-grid">
-      <aside class="faq-sidebar" aria-label="FAQ categories">
-        <a href="#mouth-tape">Mouth Tape</a>
-        <a href="#nose-strips">Nose Strips</a>
-        <a href="#general">General</a>
-      </aside>
-
-      <div class="faq-groups">
-        <div class="faq-group" id="mouth-tape">
-          <h2>Mouth Tape</h2>
+      <div class="faq-panels">
+        <div class="faq-panel active" id="faq-panel-mouth-tape" role="tabpanel" data-faq-panel="mouth-tape">
           {%- for block in section.blocks -%}
             {%- if block.settings.category == 'mouth_tape' -%}
               <details class="faq-page-item" {{ block.shopify_attributes }}>
@@ -52,8 +45,7 @@
           {%- endfor -%}
         </div>
 
-        <div class="faq-group" id="nose-strips">
-          <h2>Nose Strips</h2>
+        <div class="faq-panel" id="faq-panel-nose-strips" role="tabpanel" data-faq-panel="nose-strips" hidden>
           {%- for block in section.blocks -%}
             {%- if block.settings.category == 'nose_strips' -%}
               <details class="faq-page-item" {{ block.shopify_attributes }}>
@@ -64,8 +56,7 @@
           {%- endfor -%}
         </div>
 
-        <div class="faq-group" id="general">
-          <h2>General</h2>
+        <div class="faq-panel" id="faq-panel-general" role="tabpanel" data-faq-panel="general" hidden>
           {%- for block in section.blocks -%}
             {%- if block.settings.category == 'general' -%}
               <details class="faq-page-item" {{ block.shopify_attributes }}>

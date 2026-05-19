@@ -65,3 +65,30 @@ document.querySelectorAll('[data-gallery-thumb]').forEach(thumb => {
     thumb.classList.add('active');
   });
 });
+
+// FAQ category tabs
+document.querySelectorAll('[data-faq-tabs]').forEach(wrapper => {
+  const tabs = wrapper.querySelectorAll('[data-faq-tab]');
+  const panels = wrapper.querySelectorAll('[data-faq-panel]');
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = tab.dataset.faqTab;
+
+      tabs.forEach(item => {
+        const isActive = item === tab;
+        item.classList.toggle('active', isActive);
+        item.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      });
+
+      panels.forEach(panel => {
+        const isActive = panel.dataset.faqPanel === target;
+        panel.classList.toggle('active', isActive);
+        panel.hidden = !isActive;
+        if (!isActive) {
+          panel.querySelectorAll('details[open]').forEach(item => item.removeAttribute('open'));
+        }
+      });
+    });
+  });
+});
