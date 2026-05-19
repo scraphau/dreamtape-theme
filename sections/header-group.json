@@ -1,13 +1,42 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "type": "header",
   "name": "Header group",
   "sections": {
     "announcement-bar": {
-      "type": "announcement-bar"
+      "type": "announcement-bar",
+      "blocks": {
+        "message_haEfhQ": {
+          "type": "message",
+          "settings": {
+            "message": "✦ Free shipping over $79   ✦   30-night sleep trial   ✦   Subscribe & save up to 50%"
+          }
+        }
+      },
+      "block_order": [
+        "message_haEfhQ"
+      ],
+      "settings": {}
     },
     "header": {
-      "type": "header"
+      "type": "header",
+      "settings": {
+        "menu": "main-menu",
+        "cta_text": "Shop",
+        "cta_link": ""
+      }
     }
   },
-  "order": ["announcement-bar", "header"]
+  "order": [
+    "announcement-bar",
+    "header"
+  ]
 }
