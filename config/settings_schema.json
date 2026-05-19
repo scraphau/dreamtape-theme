@@ -19,20 +19,20 @@
       {
         "type": "color",
         "id": "color_cream",
-        "label": "Cream (light)",
-        "default": "#f4ecdc"
+        "label": "White (light)",
+        "default": "#ffffff"
       },
       {
         "type": "color",
         "id": "color_paper",
-        "label": "Paper (page background)",
-        "default": "#faf5e9"
+        "label": "White (page background)",
+        "default": "#ffffff"
       },
       {
         "type": "color",
         "id": "color_gold",
-        "label": "Gold (accent)",
-        "default": "#c9a973"
+        "label": "White (accent)",
+        "default": "#ffffff"
       }
     ]
   },

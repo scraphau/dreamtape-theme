@@ -2,9 +2,14 @@
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
-        <a href="{{ routes.root_url }}" class="logo logo-footer">
-          <span class="logo-mark">◐</span>
-          <span class="logo-text">{{ shop.name | downcase }}</span>
+        <a href="{{ routes.root_url }}" class="logo logo-footer" aria-label="{{ shop.name }} home">
+          <img
+            src="{{ 'dreamtape-logo.png' | asset_url }}"
+            alt="{{ shop.name }}"
+            class="logo-image"
+            width="1006"
+            height="233"
+          >
         </a>
         {%- if section.settings.tagline != blank -%}
           <p>{{ section.settings.tagline }}</p>
