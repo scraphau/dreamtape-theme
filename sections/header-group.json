@@ -48,6 +48,13 @@
             "link": "/collections/all"
           }
         },
+        "nav-nose-strips": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Nose Strips",
+            "link": "/products/nose-strips"
+          }
+        },
         "nav-contact": {
           "type": "nav_link",
           "settings": {
@@ -66,6 +73,7 @@
       "block_order": [
         "nav-home",
         "nav-catalog",
+        "nav-nose-strips",
         "nav-contact",
         "nav-faq"
       ]
