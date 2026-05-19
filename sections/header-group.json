@@ -13,17 +13,6 @@
   "sections": {
     "announcement-bar": {
       "type": "announcement-bar",
-      "blocks": {
-        "message_haEfhQ": {
-          "type": "message",
-          "settings": {
-            "message": "✦ Free shipping over $79   ✦   30-night sleep trial   ✦   Subscribe & save up to 50%"
-          }
-        }
-      },
-      "block_order": [
-        "message_haEfhQ"
-      ],
       "settings": {}
     },
     "header": {
