@@ -50,7 +50,7 @@
         "text_color": "#0e1a3a",
         "muted_text_color": "#5a6580",
         "accent_color": "#0e1a3a",
-        "card_background_color": "#0e1a3a",
+        "card_background_color": "#dbe5f6",
         "stat_number": "61",
         "stat_unit": "%",
         "stat_label": "of adults are mouth breathers",
@@ -64,10 +64,10 @@
     "products": {
       "type": "featured-products",
       "settings": {
-        "background_color": "#f3f6fb",
+        "background_color": "#dbe5f6",
         "text_color": "#0e1a3a",
         "muted_text_color": "#5a6580",
-        "accent_color": "#0e1a3a",
+        "accent_color": "#0a1432",
         "card_background_color": "#ffffff",
         "eyebrow": "Our collection",
         "heading": "<p>Everything for your <em>nasal breathing</em> ritual.</p>",
