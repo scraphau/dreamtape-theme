@@ -15,7 +15,7 @@
     {%- assign has_faq_link = false -%}
     {%- for link in section.settings.menu.links -%}
       {%- assign link_title = link.title | downcase -%}
-      {%- if link_title == 'faq' or link.url contains '/pages/faq' -%}
+      {%- if link_title == 'faq' or link.url contains '/pages/faq' or link.url contains 'view=faq' -%}
         {%- assign has_faq_link = true -%}
       {%- endif -%}
     {%- endfor -%}
@@ -24,7 +24,7 @@
         <a href="{{ link.url }}">{{ link.title }}</a>
       {%- endfor -%}
       {%- unless has_faq_link -%}
-        <a href="/pages/faq">FAQ</a>
+        <a href="/search?view=faq">FAQ</a>
       {%- endunless -%}
     </nav>
     <div class="header-actions">
@@ -45,7 +45,7 @@
     <a href="{{ link.url }}" data-menu-close>{{ link.title }}</a>
   {%- endfor -%}
   {%- unless has_faq_link -%}
-    <a href="/pages/faq" data-menu-close>FAQ</a>
+    <a href="/search?view=faq" data-menu-close>FAQ</a>
   {%- endunless -%}
 </div>
 

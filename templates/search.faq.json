@@ -1,0 +1,178 @@
+{
+  "sections": {
+    "faq-page": {
+      "type": "faq-page",
+      "settings": {
+        "eyebrow": "Help centre",
+        "heading": "Dreamtape FAQs",
+        "intro": "<p>We get it, optimizing your breath for better sleep can feel new. We made finding the answers simple, from how Dreamtape works to when and how often to use it.</p>",
+        "contact_text": "For shipping, product troubleshooting, or anything more specific, visit our",
+        "contact_link": "/pages/contact",
+        "contact_link_label": "Contact page.",
+        "support_heading": "Not finding what you are looking for?",
+        "support_text": "<p>Send us a note and we will help you find the right answer before bedtime.</p>",
+        "support_button": "Get help",
+        "support_link": "/pages/contact"
+      },
+      "blocks": {
+        "mouth-what": {
+          "type": "qa",
+          "settings": {
+            "category": "mouth_tape",
+            "question": "What is Dreamtape mouth tape?",
+            "answer": "<p>Dreamtape mouth tape gently supports nasal breathing while you sleep. It helps keep your mouth closed in a comfortable way so you can settle into quieter, deeper rest.</p>"
+          }
+        },
+        "mouth-use": {
+          "type": "qa",
+          "settings": {
+            "category": "mouth_tape",
+            "question": "How do I use Dreamtape?",
+            "answer": "<p>Start with clean, dry lips. Peel one strip from the sheet, place it gently across your mouth, and press the edges down so it feels secure before you go to sleep.</p>"
+          }
+        },
+        "mouth-safe": {
+          "type": "qa",
+          "settings": {
+            "category": "mouth_tape",
+            "question": "Is mouth taping safe?",
+            "answer": "<p>Dreamtape is made for healthy adults with clear nasal breathing. If you have sleep apnea, breathing concerns, blocked nasal passages, or a medical condition, speak with a healthcare professional before use.</p>"
+          }
+        },
+        "mouth-remove": {
+          "type": "qa",
+          "settings": {
+            "category": "mouth_tape",
+            "question": "Will it hurt to remove?",
+            "answer": "<p>No. Dreamtape is designed for gentle, comfortable removal. Peel slowly from one side and remove it with care.</p>"
+          }
+        },
+        "mouth-beard": {
+          "type": "qa",
+          "settings": {
+            "category": "mouth_tape",
+            "question": "Can I use it with facial hair?",
+            "answer": "<p>Yes, many customers use Dreamtape with light facial hair. For the best hold, apply it to clean, dry skin and avoid heavy oils or balms before bed.</p>"
+          }
+        },
+        "mouth-reuse": {
+          "type": "qa",
+          "settings": {
+            "category": "mouth_tape",
+            "question": "Are the strips reusable?",
+            "answer": "<p>No. For hygiene and adhesive performance, each Dreamtape strip is single-use.</p>"
+          }
+        },
+        "nose-what": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "What are Dreamtape nose strips?",
+            "answer": "<p>Dreamtape nose strips are breathing aids that gently lift and open the nasal passages to support easier airflow during sleep or daily wear.</p>"
+          }
+        },
+        "nose-apply": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "How do I apply and remove nose strips?",
+            "answer": "<p>Clean and dry your nose, then place the strip across the bridge following the natural curve toward your nostrils. Press gently to secure. To remove, peel slowly from both ends.</p>"
+          }
+        },
+        "nose-safe": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "Are nose strips safe for sensitive skin?",
+            "answer": "<p>They are designed to be gentle, but everyone’s skin is different. Stop using them if irritation occurs.</p>"
+          }
+        },
+        "nose-fall": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "Can the strips fall off overnight?",
+            "answer": "<p>The adhesive is designed to stay secure through the night. Clean, dry skin gives you the best hold.</p>"
+          }
+        },
+        "nose-pair": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "Can I pair nose strips with mouth tape?",
+            "answer": "<p>Yes. Many customers use both together to support nasal breathing from both sides of the habit: opening airflow through the nose while gently encouraging the mouth to stay closed.</p>"
+          }
+        },
+        "general-trial": {
+          "type": "qa",
+          "settings": {
+            "category": "general",
+            "question": "How does the 30-night sleep trial work?",
+            "answer": "<p>Try Dreamtape for 30 nights. If it is not right for you, contact our support team and we will help with the next step.</p>"
+          }
+        },
+        "general-shipping": {
+          "type": "qa",
+          "settings": {
+            "category": "general",
+            "question": "How long does shipping take?",
+            "answer": "<p>Shipping times depend on your location and selected delivery method. You will receive tracking details after your order ships.</p>"
+          }
+        },
+        "general-cost": {
+          "type": "qa",
+          "settings": {
+            "category": "general",
+            "question": "How much is shipping?",
+            "answer": "<p>Dreamtape offers free shipping over $79. Shipping costs for smaller orders are shown at checkout.</p>"
+          }
+        },
+        "general-subscribe": {
+          "type": "qa",
+          "settings": {
+            "category": "general",
+            "question": "How do subscriptions work?",
+            "answer": "<p>Subscriptions make it easy to keep your nightly routine stocked. Choose the delivery rhythm that fits you, then pause, skip, or cancel when needed.</p>"
+          }
+        },
+        "general-payments": {
+          "type": "qa",
+          "settings": {
+            "category": "general",
+            "question": "What payments do you accept?",
+            "answer": "<p>Available payment methods are shown at checkout and may include major credit cards and express payment options.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "mouth-what",
+        "mouth-use",
+        "mouth-safe",
+        "mouth-remove",
+        "mouth-beard",
+        "mouth-reuse",
+        "nose-what",
+        "nose-apply",
+        "nose-safe",
+        "nose-fall",
+        "nose-pair",
+        "general-trial",
+        "general-shipping",
+        "general-cost",
+        "general-subscribe",
+        "general-payments"
+      ]
+    },
+    "final-cta": {
+      "type": "final-cta",
+      "settings": {
+        "eyebrow": "Better nights start here",
+        "heading": "<p>Make every night <em>count</em>.</p>",
+        "body": "Start building a calmer breathing routine with Dreamtape.",
+        "button_text": "Shop Dreamtape",
+        "button_link": "/collections/all"
+      }
+    }
+  },
+  "order": ["faq-page", "final-cta"]
+}
