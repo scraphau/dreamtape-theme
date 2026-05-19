@@ -1,4 +1,4 @@
-<section class="products" id="shop">
+<section class="products" id="shop" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="section-head">
       {%- if section.settings.eyebrow != blank -%}
@@ -38,11 +38,71 @@
 {
   "name": "Featured products",
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Our collection" },
-    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Everything for your <em>nasal breathing</em> ritual.</p>" },
-    { "type": "collection", "id": "collection", "label": "Collection" },
-    { "type": "range", "id": "products_to_show", "label": "Products to show", "min": 2, "max": 8, "step": 1, "default": 3 }
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#f3f6fb"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#5a6580"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Our collection"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Everything for your <em>nasal breathing</em> ritual.</p>"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 3
+    }
   ],
-  "presets": [{ "name": "Featured products" }]
+  "presets": [
+    {
+      "name": "Featured products"
+    }
+  ]
 }
 {% endschema %}

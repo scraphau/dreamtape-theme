@@ -1,4 +1,4 @@
-<section class="wakeup">
+<section class="wakeup" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="wakeup-grid">
       <div class="wakeup-visual">
@@ -28,15 +28,92 @@
 {
   "name": "Wake-up stat",
   "settings": [
-    { "type": "text", "id": "stat_number", "label": "Stat number", "default": "61" },
-    { "type": "text", "id": "stat_unit", "label": "Stat unit", "default": "%" },
-    { "type": "text", "id": "stat_label", "label": "Stat label", "default": "of adults are mouth breathers" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "A wake-up call" },
-    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Mouth breathing is wrecking your nights — and your <em>face</em>.</p>" },
-    { "type": "richtext", "id": "body", "label": "Body text", "default": "<p>Snoring, dry mouth, disrupted REM, lower oxygenation, and a weaker facial structure. Most of us do it without realising.</p><p>Dreamtape gently guides your jaw closed so you nose-breathe through the night.</p>" },
-    { "type": "text", "id": "button_text", "label": "Button text", "default": "Try Dreamtape" },
-    { "type": "url", "id": "button_link", "label": "Button link" }
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#5a6580"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "text",
+      "id": "stat_number",
+      "label": "Stat number",
+      "default": "61"
+    },
+    {
+      "type": "text",
+      "id": "stat_unit",
+      "label": "Stat unit",
+      "default": "%"
+    },
+    {
+      "type": "text",
+      "id": "stat_label",
+      "label": "Stat label",
+      "default": "of adults are mouth breathers"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "A wake-up call"
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>Mouth breathing is wrecking your nights — and your <em>face</em>.</p>"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Body text",
+      "default": "<p>Snoring, dry mouth, disrupted REM, lower oxygenation, and a weaker facial structure. Most of us do it without realising.</p><p>Dreamtape gently guides your jaw closed so you nose-breathe through the night.</p>"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Try Dreamtape"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    }
   ],
-  "presets": [{ "name": "Wake-up stat" }]
+  "presets": [
+    {
+      "name": "Wake-up stat"
+    }
+  ]
 }
 {% endschema %}

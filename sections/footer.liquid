@@ -1,4 +1,4 @@
-<footer class="footer">
+<footer class="footer" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="footer-top">
       <div class="footer-brand">
@@ -73,6 +73,40 @@
   "name": "Footer",
   "settings": [
     {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#07102a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#dbe5f6"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    },
+    {
       "type": "text",
       "id": "tagline",
       "label": "Brand tagline",
@@ -105,8 +139,17 @@
       "type": "menu",
       "name": "Menu column",
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Shop" },
-        { "type": "link_list", "id": "menu", "label": "Menu" }
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Shop"
+        },
+        {
+          "type": "link_list",
+          "id": "menu",
+          "label": "Menu"
+        }
       ]
     },
     {
@@ -114,16 +157,38 @@
       "name": "Newsletter",
       "limit": 1,
       "settings": [
-        { "type": "text", "id": "heading", "label": "Heading", "default": "Newsletter" },
-        { "type": "text", "id": "subheading", "label": "Subheading", "default": "Get 15% off your first order." }
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Newsletter"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Get 15% off your first order."
+        }
       ]
     }
   ],
   "default": {
     "blocks": [
-      { "type": "menu", "settings": { "heading": "Shop" } },
-      { "type": "menu", "settings": { "heading": "Help" } },
-      { "type": "newsletter" }
+      {
+        "type": "menu",
+        "settings": {
+          "heading": "Shop"
+        }
+      },
+      {
+        "type": "menu",
+        "settings": {
+          "heading": "Help"
+        }
+      },
+      {
+        "type": "newsletter"
+      }
     ]
   }
 }

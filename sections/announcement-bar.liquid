@@ -1,4 +1,4 @@
-<div class="announcement" aria-label="Free shipping over $79. 30-night sleep trial. Subscribe and save up to 50 percent.">
+<div class="announcement" style="{% render 'section-color-vars', section: section %}" aria-label="Free shipping over $79. 30-night sleep trial. Subscribe and save up to 50 percent.">
   <div class="announcement-track" aria-hidden="true">
     {%- for loop_index in (1..2) -%}
       <div class="announcement-sequence">
@@ -20,6 +20,41 @@
 {% schema %}
 {
   "name": "Announcement bar",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#dbe5f6"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    }
+  ]
 }
 {% endschema %}

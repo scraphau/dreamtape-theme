@@ -1,4 +1,4 @@
-<section class="benefits">
+<section class="benefits" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="section-head section-head-center">
       {%- if section.settings.eyebrow != blank -%}
@@ -26,18 +26,82 @@
   "name": "Benefits",
   "max_blocks": 9,
   "settings": [
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "One fix. Many wins." },
-    { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>A cascade of benefits<br>from <em>one small strip</em>.</p>" },
-    { "type": "textarea", "id": "lead", "label": "Lead text", "default": "When you switch from mouth to nose breathing, you unlock better oxygenation, deeper REM, a stronger jawline, and a sharper immune system — naturally and effortlessly." }
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#5a6580"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#f3f6fb"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "One fix. Many wins."
+    },
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "<p>A cascade of benefits<br>from <em>one small strip</em>.</p>"
+    },
+    {
+      "type": "textarea",
+      "id": "lead",
+      "label": "Lead text",
+      "default": "When you switch from mouth to nose breathing, you unlock better oxygenation, deeper REM, a stronger jawline, and a sharper immune system — naturally and effortlessly."
+    }
   ],
   "blocks": [
     {
       "type": "benefit",
       "name": "Benefit",
       "settings": [
-        { "type": "text", "id": "icon", "label": "Icon (character)", "default": "☾" },
-        { "type": "text", "id": "title", "label": "Title", "default": "Stop snoring" },
-        { "type": "text", "id": "body", "label": "Body", "default": "Quiet nights for you and anyone next to you." }
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (character)",
+          "default": "☾"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Stop snoring"
+        },
+        {
+          "type": "text",
+          "id": "body",
+          "label": "Body",
+          "default": "Quiet nights for you and anyone next to you."
+        }
       ]
     }
   ],
@@ -45,12 +109,54 @@
     {
       "name": "Benefits",
       "blocks": [
-        { "type": "benefit", "settings": { "icon": "☾", "title": "Stop snoring", "body": "Quiet nights for you (and anyone next to you)." } },
-        { "type": "benefit", "settings": { "icon": "✦", "title": "Sharper jawline", "body": "Proper tongue posture supports facial structure." } },
-        { "type": "benefit", "settings": { "icon": "⚡", "title": "More energy", "body": "Deeper REM means brighter mornings." } },
-        { "type": "benefit", "settings": { "icon": "❀", "title": "Boost immunity", "body": "Nasal breathing filters and humidifies air." } },
-        { "type": "benefit", "settings": { "icon": "◐", "title": "Better mood", "body": "Quality sleep is the foundation of feeling good." } },
-        { "type": "benefit", "settings": { "icon": "✿", "title": "Fresh breath", "body": "No more dry mouth or morning breath." } }
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "☾",
+            "title": "Stop snoring",
+            "body": "Quiet nights for you (and anyone next to you)."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "✦",
+            "title": "Sharper jawline",
+            "body": "Proper tongue posture supports facial structure."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "⚡",
+            "title": "More energy",
+            "body": "Deeper REM means brighter mornings."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "❀",
+            "title": "Boost immunity",
+            "body": "Nasal breathing filters and humidifies air."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "◐",
+            "title": "Better mood",
+            "body": "Quality sleep is the foundation of feeling good."
+          }
+        },
+        {
+          "type": "benefit",
+          "settings": {
+            "icon": "✿",
+            "title": "Fresh breath",
+            "body": "No more dry mouth or morning breath."
+          }
+        }
       ]
     }
   ]

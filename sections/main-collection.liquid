@@ -1,4 +1,4 @@
-<section class="collection-page">
+<section class="collection-page" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="collection-header">
       <h1>{{ collection.title }}</h1>
@@ -19,6 +19,41 @@
 {% schema %}
 {
   "name": "Collection",
-  "settings": []
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#5a6580"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#ffffff"
+    }
+  ]
 }
 {% endschema %}
