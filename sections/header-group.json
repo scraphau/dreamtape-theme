@@ -32,7 +32,43 @@
         "menu": "main-menu",
         "cta_text": "Shop",
         "cta_link": ""
-      }
+      },
+      "blocks": {
+        "nav-home": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Home",
+            "link": "/"
+          }
+        },
+        "nav-catalog": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Mouth Tape",
+            "link": "/collections/all"
+          }
+        },
+        "nav-contact": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Contact",
+            "link": "/pages/contact"
+          }
+        },
+        "nav-faq": {
+          "type": "nav_link",
+          "settings": {
+            "label": "FAQ",
+            "link": "/search?view=faq"
+          }
+        }
+      },
+      "block_order": [
+        "nav-home",
+        "nav-catalog",
+        "nav-contact",
+        "nav-faq"
+      ]
     }
   },
   "order": [
