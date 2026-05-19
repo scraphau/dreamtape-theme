@@ -1,6 +1,43 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "main": { "type": "main-collection" }
+    "main": {
+      "type": "main-collection",
+      "disabled": true,
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff"
+      }
+    },
+    "featured_products_tWXMWA": {
+      "type": "featured-products",
+      "name": "Featured products",
+      "settings": {
+        "background_color": "#f3f6fb",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Our collection",
+        "heading": "<p>Everything for your <em>nasal breathing</em> ritual.</p>",
+        "collection": "",
+        "products_to_show": 3
+      }
+    }
   },
-  "order": ["main"]
+  "order": [
+    "main",
+    "featured_products_tWXMWA"
+  ]
 }
