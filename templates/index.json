@@ -1,15 +1,161 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "hero": { "type": "hero" },
-    "trust": { "type": "trust-badges" },
-    "wakeup": { "type": "wakeup-stat" },
-    "products": { "type": "featured-products" },
-    "benefits": { "type": "benefits" },
-    "how": { "type": "how-it-works" },
-    "testimonials": { "type": "testimonials" },
-    "guarantee": { "type": "guarantee" },
-    "faq": { "type": "faq" },
-    "final-cta": { "type": "final-cta" }
+    "hero": {
+      "type": "hero",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "show_rating": true,
+        "rating_text": "4.9 from 2,847 reviews",
+        "heading": "<p>Sleep like<br>you're meant to.</p>",
+        "subheading": "Dreamtape mouth tape and nose strips guide you back to natural nasal breathing — for deeper sleep, quieter nights, and brighter mornings.",
+        "button_text": "Shop Dreamtape",
+        "button_link": "",
+        "meta_top": "From $0.68 per night",
+        "meta_bottom": "30-night risk-free trial",
+        "quote_text": "Truly life-changing. I wake up before my alarm now.",
+        "quote_author": "Katie S., verified customer",
+        "card_1_title": "Mouth Tape",
+        "card_1_sub": "30 strips",
+        "card_2_title": "Nose Strips",
+        "card_2_sub": "30 strips"
+      }
+    },
+    "trust": {
+      "type": "trust-badges",
+      "settings": {
+        "background_color": "#f3f6fb",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff"
+      }
+    },
+    "wakeup": {
+      "type": "wakeup-stat",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#0e1a3a",
+        "stat_number": "61",
+        "stat_unit": "%",
+        "stat_label": "of adults are mouth breathers",
+        "eyebrow": "A wake-up call",
+        "heading": "<p>Mouth breathing is wrecking your nights — and your <em>face</em>.</p>",
+        "body": "<p>Snoring, dry mouth, disrupted REM, lower oxygenation, and a weaker facial structure. Most of us do it without realising.</p><p>Dreamtape gently guides your jaw closed so you nose-breathe through the night.</p>",
+        "button_text": "Try Dreamtape",
+        "button_link": ""
+      }
+    },
+    "products": {
+      "type": "featured-products",
+      "settings": {
+        "background_color": "#f3f6fb",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Our collection",
+        "heading": "<p>Everything for your <em>nasal breathing</em> ritual.</p>",
+        "collection": "",
+        "products_to_show": 3
+      }
+    },
+    "benefits": {
+      "type": "benefits",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#f3f6fb",
+        "eyebrow": "One fix. Many wins.",
+        "heading": "<p>A cascade of benefits<br>from <em>one small strip</em>.</p>",
+        "lead": "When you switch from mouth to nose breathing, you unlock better oxygenation, deeper REM, a stronger jawline, and a sharper immune system — naturally and effortlessly."
+      }
+    },
+    "how": {
+      "type": "how-it-works",
+      "settings": {
+        "background_color": "#0e1a3a",
+        "text_color": "#ffffff",
+        "muted_text_color": "#dbe5f6",
+        "accent_color": "#ffffff",
+        "card_background_color": "#ffffff",
+        "eyebrow": "How it works",
+        "heading": "<p>Three steps to <em>your best sleep</em>.</p>"
+      }
+    },
+    "testimonials": {
+      "type": "testimonials",
+      "settings": {
+        "background_color": "#f3f6fb",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Real Dreamtape sleepers",
+        "heading": "<p>You'll want to <em>stock up</em>.</p>"
+      }
+    },
+    "guarantee": {
+      "type": "guarantee",
+      "settings": {
+        "background_color": "#f3f6fb",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "days": "30",
+        "badge_label": "nights<br>risk-free",
+        "eyebrow": "Our promise",
+        "heading": "Sleep on it for 30 nights.",
+        "body": "<p>We're so sure Dreamtape will change your sleep, we offer a 30-night money-back guarantee. If you're not waking up better-rested, send us one email — we'll refund you in full. No questions, no fuss.</p>",
+        "button_text": "Try Dreamtape now",
+        "button_link": ""
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Questions",
+        "heading": "<p>Everything you might<br>be <em>wondering</em>.</p>"
+      }
+    },
+    "final-cta": {
+      "type": "final-cta",
+      "settings": {
+        "background_color": "#0e1a3a",
+        "text_color": "#ffffff",
+        "muted_text_color": "#dbe5f6",
+        "accent_color": "#ffffff",
+        "card_background_color": "#1b2d5a",
+        "eyebrow": "Your next chapter",
+        "heading": "<p>Wake up to a<br/><em>healthier you</em>.</p>",
+        "body": "You spend a third of your life asleep. Make it count.",
+        "button_text": "Try Dreamtape now",
+        "button_link": ""
+      }
+    }
   },
   "order": [
     "hero",
