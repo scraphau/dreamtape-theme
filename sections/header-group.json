@@ -23,6 +23,16 @@
     },
     "header": {
       "type": "header",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "menu": "main-menu",
+        "cta_text": "Shop",
+        "cta_link": ""
+      },
       "blocks": {
         "nav-home": {
           "type": "nav_link",
@@ -31,18 +41,18 @@
             "link": "/"
           }
         },
+        "nav-reviews": {
+          "type": "nav_link",
+          "settings": {
+            "label": "Reviews",
+            "link": "/search?view=reviews"
+          }
+        },
         "nav-catalog": {
           "type": "nav_link",
           "settings": {
             "label": "Mouth Tape",
             "link": "/collections/all"
-          }
-        },
-        "nav-nose-strips": {
-          "type": "nav_link",
-          "settings": {
-            "label": "Nose Strips",
-            "link": "/products/nose-strips"
           }
         },
         "nav-contact": {
@@ -63,20 +73,10 @@
       "block_order": [
         "nav-home",
         "nav-catalog",
-        "nav-nose-strips",
+        "nav-reviews",
         "nav-contact",
         "nav-faq"
-      ],
-      "settings": {
-        "background_color": "#ffffff",
-        "text_color": "#0e1a3a",
-        "muted_text_color": "#5a6580",
-        "accent_color": "#dbe5f6",
-        "card_background_color": "#07102a",
-        "menu": "main-menu",
-        "cta_text": "Shop",
-        "cta_link": ""
-      }
+      ]
     }
   },
   "order": [

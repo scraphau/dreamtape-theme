@@ -1,0 +1,11 @@
+{
+  "sections": {
+    "main": {
+      "type": "reviews-page"
+    },
+    "final-cta": {
+      "type": "final-cta"
+    }
+  },
+  "order": ["main", "final-cta"]
+}
