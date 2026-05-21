@@ -30,6 +30,10 @@
 
         <h1>{{ product.title }}</h1>
 
+        <div class="product-judgeme-badge">
+          {%- render 'judgeme-preview-badge' -%}
+        </div>
+
         {%- if section.settings.show_tagline and product.metafields.custom.tagline.value != blank -%}
           <p class="product-tagline">{{ product.metafields.custom.tagline.value }}</p>
         {%- endif -%}
@@ -100,6 +104,10 @@
           <span>✓ 30-night risk-free trial</span>
         </div>
       </div>
+    </div>
+
+    <div class="product-judgeme-reviews">
+      {%- render 'judgeme-product-reviews' -%}
     </div>
   </div>
 </section>
