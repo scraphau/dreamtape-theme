@@ -64,9 +64,9 @@
     "products": {
       "type": "featured-products",
       "settings": {
-        "background_color": "#dbe5f6",
+        "background_color": "#f3f6fb",
         "text_color": "#0e1a3a",
-        "muted_text_color": "#5a6580",
+        "muted_text_color": "#f3f6fb",
         "accent_color": "#0a1432",
         "card_background_color": "#ffffff",
         "eyebrow": "Our collection",
@@ -115,11 +115,11 @@
     "guarantee": {
       "type": "guarantee",
       "settings": {
-        "background_color": "#f3f6fb",
+        "background_color": "#dbe5f6",
         "text_color": "#0e1a3a",
         "muted_text_color": "#5a6580",
-        "accent_color": "#0e1a3a",
-        "card_background_color": "#ffffff",
+        "accent_color": "#f3f6fb",
+        "card_background_color": "#5a6580",
         "days": "30",
         "badge_label": "nights<br>risk-free",
         "eyebrow": "Our promise",
