@@ -29,7 +29,6 @@
     <div class="faq-tabbed" data-faq-tabs>
       <div class="faq-tabs" role="tablist" aria-label="FAQ categories">
         <button class="faq-tab active" type="button" role="tab" aria-selected="true" aria-controls="faq-panel-mouth-tape" data-faq-tab="mouth-tape">Sleep Strips</button>
-        <button class="faq-tab" type="button" role="tab" aria-selected="false" aria-controls="faq-panel-nose-strips" data-faq-tab="nose-strips">Nose Strips</button>
         <button class="faq-tab" type="button" role="tab" aria-selected="false" aria-controls="faq-panel-general" data-faq-tab="general">General</button>
       </div>
 
@@ -37,17 +36,6 @@
         <div class="faq-panel active" id="faq-panel-mouth-tape" role="tabpanel" data-faq-panel="mouth-tape">
           {%- for block in section.blocks -%}
             {%- if block.settings.category == 'mouth_tape' -%}
-              <details class="faq-page-item" {{ block.shopify_attributes }}>
-                <summary>{{ block.settings.question }}</summary>
-                <div class="faq-page-answer">{{ block.settings.answer }}</div>
-              </details>
-            {%- endif -%}
-          {%- endfor -%}
-        </div>
-
-        <div class="faq-panel" id="faq-panel-nose-strips" role="tabpanel" data-faq-panel="nose-strips" hidden>
-          {%- for block in section.blocks -%}
-            {%- if block.settings.category == 'nose_strips' -%}
               <details class="faq-page-item" {{ block.shopify_attributes }}>
                 <summary>{{ block.settings.question }}</summary>
                 <div class="faq-page-answer">{{ block.settings.answer }}</div>
@@ -191,10 +179,6 @@
             {
               "value": "mouth_tape",
               "label": "Mouth Tape"
-            },
-            {
-              "value": "nose_strips",
-              "label": "Nose Strips"
             },
             {
               "value": "general",
