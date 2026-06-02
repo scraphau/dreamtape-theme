@@ -22,7 +22,7 @@
         "heading": "<p>Sleep like<br/>you're meant to.</p>",
         "subheading": "Dreamtape mouth tape helps guide you back to natural nasal breathing for deeper sleep, quieter nights, and brighter mornings.",
         "button_text": "SHOP DREAMTAPE",
-        "button_link": "",
+        "button_link": "shopify://products/mouth-tape",
         "meta_top": "From $0.59 per night",
         "meta_bottom": "30-night risk-free trial",
         "quote_text": "Absolutely love this! I wake up before my alarm now.",
@@ -56,7 +56,7 @@
         "heading": "<p>Mouth breathing is wrecking your nights — and your <em>face</em>.</p>",
         "body": "<p>Snoring, dry mouth, disrupted REM, lower oxygenation, and a weaker facial structure. Most of us do it without realising.</p><p>Dreamtape gently guides your jaw closed so you nose-breathe through the night.</p>",
         "button_text": "Try Dreamtape",
-        "button_link": ""
+        "button_link": "shopify://products/mouth-tape"
       }
     },
     "products": {
@@ -182,7 +182,7 @@
         "heading": "Sleep on it for 30 nights.",
         "body": "<p>We're so sure Dreamtape will change your sleep, we offer a 30-night money-back guarantee. If you're not waking up better-rested, send us one email — we'll refund you in full. No questions, no fuss.</p>",
         "button_text": "Try Dreamtape now",
-        "button_link": ""
+        "button_link": "shopify://products/mouth-tape"
       }
     },
     "faq": {
@@ -209,7 +209,7 @@
         "heading": "<p>Wake up to a<br/><em>healthier you</em>.</p>",
         "body": "You spend a third of your life asleep. Make it count.",
         "button_text": "Try Dreamtape now",
-        "button_link": ""
+        "button_link": "shopify://products/mouth-tape"
       }
     }
   },
