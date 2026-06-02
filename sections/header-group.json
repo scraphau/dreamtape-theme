@@ -35,7 +35,7 @@
           "type": "nav_link",
           "settings": {
             "label": "Mouth Tape",
-            "link": "/products/mouth-tape"
+            "link": "shopify://products/mouth-tape"
           }
         },
         "nav-reviews": {
