@@ -1,4 +1,4 @@
-/*
+﻿/*
  * ------------------------------------------------------------
  * IMPORTANT: The contents of this file are auto-generated.
  *
@@ -69,8 +69,8 @@
         "card_background_color": "#ffffff",
         "eyebrow": "Mouth Tape",
         "heading": "<p>All for your <em>nasal breathing</em> ritual.</p>",
-        "collection": "mouth-tape",
-        "products_to_show": 2
+        "product": "mouth-tape", "collection": "",
+        
       }
     },
     "benefits": {
