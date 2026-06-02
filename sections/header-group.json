@@ -58,13 +58,6 @@
             "label": "FAQ",
             "link": "/search?view=faq"
           }
-        },
-        "nav-67": {
-          "type": "nav_link",
-          "settings": {
-            "label": "67",
-            "link": "/"
-          }
         }
       },
       "block_order": [
@@ -72,8 +65,7 @@
         "nav-catalog",
         "nav-reviews",
         "nav-contact",
-        "nav-faq",
-        "nav-67"
+        "nav-faq"
       ],
       "settings": {
         "background_color": "#ffffff",
