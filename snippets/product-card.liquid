@@ -4,23 +4,21 @@
 {%- endcomment -%}
 
 <article class="product-card">
-  <a href="{{ product.url }}" style="display:block;">
-    <div class="product-image">
-      {%- if tag != blank -%}
-        <div class="product-tag {% if tag_style == 'sale' %}tag-sale{% endif %}">{{ tag }}</div>
-      {%- elsif product.compare_at_price > product.price -%}
-        <div class="product-tag tag-sale">Sale</div>
-      {%- endif -%}
+  <div class="product-image">
+    {%- if tag != blank -%}
+      <div class="product-tag {% if tag_style == 'sale' %}tag-sale{% endif %}">{{ tag }}</div>
+    {%- elsif product.compare_at_price > product.price -%}
+      <div class="product-tag tag-sale">Sale</div>
+    {%- endif -%}
 
-      {%- if product.featured_media -%}
-        <img src="{{ product.featured_media | image_url: width: 600 }}" alt="{{ product.featured_media.alt | escape }}" loading="lazy">
-      {%- else -%}
-        <div class="product-image-placeholder">◐</div>
-      {%- endif -%}
-    </div>
-  </a>
+    {%- if product.featured_media -%}
+      <img src="{{ product.featured_media | image_url: width: 600 }}" alt="{{ product.featured_media.alt | escape }}" loading="lazy">
+    {%- else -%}
+      <div class="product-image-placeholder">◐</div>
+    {%- endif -%}
+  </div>
   <div class="product-body">
-    <h3><a href="{{ product.url }}" style="color:inherit;">{{ product.title }}</a></h3>
+    <h3>{{ product.title }}</h3>
     {%- if product.description != blank -%}
       <p>{{ product.description | strip_html | truncate: 90 }}</p>
     {%- endif -%}
