@@ -35,7 +35,7 @@
           "type": "nav_link",
           "settings": {
             "label": "Mouth Tape",
-            "link": "/collections/all"
+            "link": "/products/mouth-tape"
           }
         },
         "nav-reviews": {
@@ -58,6 +58,13 @@
             "label": "FAQ",
             "link": "/search?view=faq"
           }
+        },
+        "nav-67": {
+          "type": "nav_link",
+          "settings": {
+            "label": "67",
+            "link": "/"
+          }
         }
       },
       "block_order": [
@@ -65,7 +72,8 @@
         "nav-catalog",
         "nav-reviews",
         "nav-contact",
-        "nav-faq"
+        "nav-faq",
+        "nav-67"
       ],
       "settings": {
         "background_color": "#ffffff",
