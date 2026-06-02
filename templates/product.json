@@ -9,12 +9,6 @@
  */
 {
   "sections": {
-    "main": { "type": "main-product" },
-    "benefits": { "type": "benefits" },
-    "how": { "type": "how-it-works" },
-    "testimonials": { "type": "testimonials" },
-    "guarantee": { "type": "guarantee" },
-    "faq": { "type": "faq" }
     "main": {
       "type": "main-product",
       "settings": {
@@ -114,3 +108,4 @@
     "guarantee",
     "faq"
   ]
+}
