@@ -9,11 +9,19 @@
             <img src="{{ product.featured_media | image_url: width: 1200 }}" alt="{{ product.featured_media.alt | escape }}">
           {%- else -%}
             <div class="product-gallery-placeholder">
-              <span>◐</span>
-              <p>{{ product.title }}</p>
+              <div class="pgp-inner">
+                <span class="pgp-moon">◐</span>
+                <p class="pgp-name">{{ product.title }}</p>
+                <span class="pgp-note">Product image coming soon</span>
+              </div>
             </div>
           {%- endif -%}
+
+          {%- if section.settings.image_badge != blank -%}
+            <div class="gallery-badge">{{ section.settings.image_badge }}</div>
+          {%- endif -%}
         </div>
+
         {%- if product.media.size > 1 -%}
           <div class="product-thumbs">
             {%- for media in product.media -%}
@@ -23,6 +31,24 @@
             {%- endfor -%}
           </div>
         {%- endif -%}
+
+        <!-- Social proof below image -->
+        <div class="product-social-proof">
+          <div class="psp-item">
+            <span class="psp-num">{{ section.settings.proof_1_num }}</span>
+            <span class="psp-label">{{ section.settings.proof_1_label }}</span>
+          </div>
+          <div class="psp-divider"></div>
+          <div class="psp-item">
+            <span class="psp-num">{{ section.settings.proof_2_num }}</span>
+            <span class="psp-label">{{ section.settings.proof_2_label }}</span>
+          </div>
+          <div class="psp-divider"></div>
+          <div class="psp-item">
+            <span class="psp-num">{{ section.settings.proof_3_num }}</span>
+            <span class="psp-label">{{ section.settings.proof_3_label }}</span>
+          </div>
+        </div>
       </div>
 
       <!-- Info -->
@@ -33,7 +59,7 @@
           <span class="product-stars">★★★★★</span>
           <span class="product-rating-count">
             {%- if product.metafields.reviews.rating_count.value != blank -%}
-              {{ product.metafields.reviews.rating.value }} · {{ product.metafields.reviews.rating_count.value }} reviews
+              {{ product.metafields.reviews.rating.value }} ({{ product.metafields.reviews.rating_count.value }} reviews)
             {%- else -%}
               {{ section.settings.rating_text }}
             {%- endif -%}
@@ -63,48 +89,77 @@
         {%- form 'product', product -%}
 
           {%- if product.variants.size > 1 -%}
+
             <div class="variant-picker">
               <div class="variant-picker-header">
-                <span class="variant-picker-label">Choose your pack</span>
-                <span class="variant-picker-sub">Save more with larger packs</span>
+                <span class="variant-picker-label">Choose your supply</span>
+                <span class="variant-picker-sub">Bigger packs = bigger savings</span>
               </div>
-              <div class="variant-options" data-variant-picker>
+
+              <div class="variant-options-stack" data-variant-picker>
                 {%- for variant in product.variants -%}
                   {%- assign strips = 30 -%}
+                  {%- assign months = 1 -%}
                   {%- if variant.title contains '3' or variant.title contains 'Three' -%}
                     {%- assign strips = 90 -%}
+                    {%- assign months = 3 -%}
                   {%- elsif variant.title contains '6' or variant.title contains 'Six' -%}
                     {%- assign strips = 180 -%}
+                    {%- assign months = 6 -%}
                   {%- endif -%}
-                  {%- assign per_night = variant.price | divided_by: strips -%}
+                  {%- assign per_strip = variant.price | divided_by: strips -%}
+
+                  {%- assign is_popular = false -%}
+                  {%- assign is_deal = false -%}
+                  {%- if variant.title contains '3' or variant.title contains 'Three' -%}
+                    {%- assign is_popular = true -%}
+                  {%- elsif variant.title contains '6' or variant.title contains 'Six' -%}
+                    {%- assign is_deal = true -%}
+                  {%- endif -%}
+
                   <button type="button"
-                    class="variant-option {% if forloop.first %}active{% endif %}"
+                    class="variant-card {% if forloop.first %}active{% endif %} {% if is_popular %}variant-card--popular{% endif %}"
                     data-variant-id="{{ variant.id }}"
                     data-price="{{ variant.price | money_without_trailing_zeros }}"
-                    data-compare="{{ variant.compare_at_price | money_without_trailing_zeros }}">
-                    {%- if variant.title contains '3' or variant.title contains 'Three' -%}
-                      <span class="vo-badge">Most popular</span>
-                    {%- elsif variant.title contains '6' or variant.title contains 'Six' -%}
-                      <span class="vo-badge vo-badge--deal">Best deal</span>
-                    {%- endif -%}
-                    <span class="vo-title">{{ variant.title }}</span>
-                    <span class="vo-strips">{{ strips }} strips</span>
-                    <span class="vo-price">{{ variant.price | money_without_trailing_zeros }}</span>
-                    <span class="vo-per-night">{{ per_night | money }} / night</span>
+                    data-compare="{{ variant.compare_at_price | money_without_trailing_zeros }}"
+                    data-per-strip="{{ per_strip | money }}">
+
+                    <div class="vc-select">
+                      <span class="vc-radio"></span>
+                    </div>
+
+                    <div class="vc-body">
+                      <div class="vc-top">
+                        <span class="vc-title">{{ variant.title }}</span>
+                        {%- if is_popular -%}
+                          <span class="vc-pill vc-pill--popular">Most Popular</span>
+                        {%- elsif is_deal -%}
+                          <span class="vc-pill vc-pill--deal">Best Deal</span>
+                        {%- endif -%}
+                      </div>
+                      <span class="vc-meta">{{ strips }} strips · {{ months }} month supply · FREE shipping</span>
+                    </div>
+
+                    <div class="vc-pricing">
+                      <span class="vc-price">{{ variant.price | money_without_trailing_zeros }}</span>
+                      {%- if variant.compare_at_price > variant.price -%}
+                        <span class="vc-compare">{{ variant.compare_at_price | money_without_trailing_zeros }}</span>
+                      {%- endif -%}
+                      <span class="vc-per-strip">{{ per_strip | money }}/strip</span>
+                    </div>
                   </button>
                 {%- endfor -%}
               </div>
             </div>
 
-            <!-- Dynamic price display -->
-            <div class="product-price-row" data-price-display>
+            <!-- Price row -->
+            <div class="product-price-row">
               {%- assign first = product.selected_or_first_available_variant -%}
               <span class="product-price-current" data-current-price>{{ first.price | money_without_trailing_zeros }}</span>
               {%- if first.compare_at_price > first.price -%}
                 <span class="product-price-compare" data-compare-price>{{ first.compare_at_price | money_without_trailing_zeros }}</span>
-                <span class="product-price-save" data-save-badge>
-                  Save {{ first.compare_at_price | minus: first.price | money_without_trailing_zeros }}
-                </span>
+                {%- assign saved = first.compare_at_price | minus: first.price -%}
+                <span class="product-price-save" data-save-badge>You save {{ saved | money_without_trailing_zeros }}</span>
               {%- endif -%}
             </div>
 
@@ -117,21 +172,28 @@
               <span class="product-price-current">{{ product.price | money_without_trailing_zeros }}</span>
               {%- if product.compare_at_price > product.price -%}
                 <span class="product-price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
-                <span class="product-price-save">Save {{ product.compare_at_price | minus: product.price | money_without_trailing_zeros }}</span>
+                {%- assign saved = product.compare_at_price | minus: product.price -%}
+                <span class="product-price-save">You save {{ saved | money_without_trailing_zeros }}</span>
               {%- endif -%}
             </div>
 
           {%- endif -%}
 
-          <div class="product-form-buttons">
-            <button type="submit" class="btn-atc" {% unless product.available %}disabled{% endunless %}>
-              {%- if product.available -%}
-                <span>Add to Cart</span> <span class="arrow">→</span>
-              {%- else -%}
-                Sold out
-              {%- endif -%}
-            </button>
-          </div>
+          <!-- Subscribe note -->
+          {%- if section.settings.subscribe_note != blank -%}
+            <div class="product-subscribe-note">
+              <span class="psn-icon">🔄</span>
+              <span>{{ section.settings.subscribe_note }}</span>
+            </div>
+          {%- endif -%}
+
+          <button type="submit" class="btn-atc" {% unless product.available %}disabled{% endunless %}>
+            {%- if product.available -%}
+              Add to Cart — {{ section.settings.cta_suffix }}
+            {%- else -%}
+              Sold out
+            {%- endif -%}
+          </button>
 
           {%- if section.settings.sub_note != blank -%}
             <p class="product-sub-note">{{ section.settings.sub_note }}</p>
@@ -139,35 +201,23 @@
 
         {%- endform -%}
 
-        <!-- Trust grid -->
-        <div class="product-trust-grid">
-          <div class="product-trust-item">
-            <span class="pti-icon">🛡</span>
-            <div>
-              <strong>30-Night Guarantee</strong>
-              <span>Full refund, no questions asked</span>
-            </div>
+        <!-- Trust row -->
+        <div class="product-trust-row">
+          <div class="ptr-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span>30-Night Guarantee</span>
           </div>
-          <div class="product-trust-item">
-            <span class="pti-icon">🚚</span>
-            <div>
-              <strong>Free Shipping</strong>
-              <span>On all subscription orders</span>
-            </div>
+          <div class="ptr-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span>Free Shipping</span>
           </div>
-          <div class="product-trust-item">
-            <span class="pti-icon">⭐</span>
-            <div>
-              <strong>4.9 Star Rating</strong>
-              <span>From thousands of members</span>
-            </div>
+          <div class="ptr-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Cancel Anytime</span>
           </div>
-          <div class="product-trust-item">
-            <span class="pti-icon">✋</span>
-            <div>
-              <strong>Cancel Anytime</strong>
-              <span>Zero commitment required</span>
-            </div>
+          <div class="ptr-item">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            <span>Ships in 1–2 Days</span>
           </div>
         </div>
 
@@ -176,56 +226,55 @@
   </div>
 </section>
 
-<!-- Sticky ATC bar -->
+<!-- Sticky ATC -->
 <div class="sticky-atc" id="stickyAtc" aria-hidden="true">
   <div class="container">
     <div class="sticky-atc-inner">
-      <div class="sticky-atc-info">
+      <div class="sticky-atc-left">
         <strong>{{ product.title }}</strong>
-        <span data-sticky-price>{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}</span>
+        <span class="sticky-atc-stars">★★★★★</span>
+        <span class="sticky-atc-rating">{{ section.settings.rating_text }}</span>
       </div>
-      <button class="btn-atc btn-atc--small" onclick="document.getElementById('product-form').querySelector('[type=submit]').click()">
-        Add to Cart →
-      </button>
+      <div class="sticky-atc-right">
+        <span class="sticky-atc-price" data-sticky-price>{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}</span>
+        <button class="btn-atc-sticky" onclick="document.getElementById('product-form').querySelector('[type=submit]').click()">
+          Add to Cart →
+        </button>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
 (function(){
-  // Sticky ATC visibility
   const form = document.getElementById('product-form');
   const bar  = document.getElementById('stickyAtc');
   if (form && bar) {
-    const io = new IntersectionObserver(([e]) => {
+    new IntersectionObserver(([e]) => {
       bar.classList.toggle('visible', !e.isIntersecting);
-      bar.setAttribute('aria-hidden', e.isIntersecting ? 'true' : 'false');
-    }, { rootMargin: '-80px 0px 0px 0px' });
-    io.observe(form);
+    }, { rootMargin: '-60px 0px 0px 0px' }).observe(form);
   }
 
-  // Variant picker — update price display
   document.querySelectorAll('[data-variant-picker]').forEach(picker => {
-    const form  = picker.closest('form');
-    const opts  = picker.querySelectorAll('.variant-option');
-    const input = form?.querySelector('[data-variant-input]');
+    const frm   = picker.closest('form');
+    const cards = picker.querySelectorAll('.variant-card');
+    const input = frm?.querySelector('[data-variant-input]');
     const curEl = document.querySelector('[data-current-price]');
     const cmpEl = document.querySelector('[data-compare-price]');
     const savEl = document.querySelector('[data-save-badge]');
-    const stickyPrice = document.querySelector('[data-sticky-price]');
+    const stickyP = document.querySelector('[data-sticky-price]');
 
-    opts.forEach(opt => {
-      opt.addEventListener('click', () => {
-        opts.forEach(o => o.classList.remove('active'));
-        opt.classList.add('active');
-        if (input) input.value = opt.dataset.variantId;
-        if (curEl)  curEl.textContent  = opt.dataset.price  || '';
-        if (stickyPrice) stickyPrice.textContent = opt.dataset.price || '';
-        if (cmpEl)  {
-          cmpEl.textContent  = opt.dataset.compare || '';
-          cmpEl.style.display = opt.dataset.compare ? '' : 'none';
-        }
-        if (savEl) savEl.style.display = opt.dataset.compare ? '' : 'none';
+    cards.forEach(card => {
+      card.addEventListener('click', () => {
+        cards.forEach(c => c.classList.remove('active'));
+        card.classList.add('active');
+        if (input) input.value = card.dataset.variantId;
+        const price   = card.dataset.price   || '';
+        const compare = card.dataset.compare  || '';
+        if (curEl)   curEl.textContent  = price;
+        if (stickyP) stickyP.textContent = price;
+        if (cmpEl) { cmpEl.textContent = compare; cmpEl.style.display = compare ? '' : 'none'; }
+        if (savEl)   savEl.style.display = compare ? '' : 'none';
       });
     });
   });
@@ -242,12 +291,23 @@
     { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#5a6580" },
     { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0e1a3a" },
     { "type": "color", "id": "card_background_color", "label": "Card background color", "default": "#ffffff" },
-    { "type": "header", "content": "Content" },
-    { "type": "text", "id": "rating_text", "label": "Rating text (fallback)", "default": "4.9 · 2,847 reviews" },
-    { "type": "text", "id": "badge_text", "label": "Award badge text (e.g. #1 Mouth Tape)", "default": "#1 Mouth Tape" },
-    { "type": "text", "id": "tagline", "label": "Tagline (overrides metafield)", "default": "The last sleep upgrade you'll ever need." },
+    { "type": "header", "content": "Product content" },
+    { "type": "text", "id": "rating_text", "label": "Rating text", "default": "4.9 · 2,847 reviews" },
+    { "type": "text", "id": "badge_text", "label": "Award badge", "default": "#1 Mouth Tape" },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "The last sleep upgrade you'll ever need." },
     { "type": "textarea", "id": "bullets", "label": "Feature bullets (one per line)", "default": "Reduced snoring & deeper sleep every night\nMore energy, sharper focus every morning\nStronger jaw & enhanced facial structure" },
-    { "type": "text", "id": "sub_note", "label": "Below button note", "default": "Zero commitment — pause or cancel anytime" }
+    { "type": "text", "id": "image_badge", "label": "Image overlay badge", "default": "From $0.67/night" },
+    { "type": "header", "content": "Social proof (below image)" },
+    { "type": "text", "id": "proof_1_num", "label": "Stat 1 number", "default": "87%" },
+    { "type": "text", "id": "proof_1_label", "label": "Stat 1 label", "default": "better sleep quality" },
+    { "type": "text", "id": "proof_2_num", "label": "Stat 2 number", "default": "30K+" },
+    { "type": "text", "id": "proof_2_label", "label": "Stat 2 label", "default": "happy members" },
+    { "type": "text", "id": "proof_3_num", "label": "Stat 3 number", "default": "4.9★" },
+    { "type": "text", "id": "proof_3_label", "label": "Stat 3 label", "default": "average rating" },
+    { "type": "header", "content": "CTA & notes" },
+    { "type": "text", "id": "cta_suffix", "label": "Button text suffix (after em dash)", "default": "Try Risk-Free" },
+    { "type": "text", "id": "subscribe_note", "label": "Subscribe & save note", "default": "Save an extra 15% with Auto-Refills — pause or cancel anytime" },
+    { "type": "text", "id": "sub_note", "label": "Below button note", "default": "30-night money-back guarantee · Free shipping" }
   ]
 }
 {% endschema %}
