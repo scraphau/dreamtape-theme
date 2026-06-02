@@ -79,49 +79,49 @@
         "benefit_PMxVhC": {
           "type": "benefit",
           "settings": {
-            "icon": "☾",
+            "icon": "😴",
             "title": "Stop snoring",
-            "body": "Quiet nights for you and anyone next to you."
+            "body": "Nasal breathing keeps your airway open — quieter nights for you and everyone around you."
           }
         },
         "benefit_PmTNDB": {
           "type": "benefit",
           "settings": {
-            "icon": "☾",
-            "title": "Stop snoring",
-            "body": "Quiet nights for you and anyone next to you."
+            "icon": "⚡",
+            "title": "Wake up energised",
+            "body": "More oxygen overnight means better deep sleep and brighter, sharper mornings."
           }
         },
         "benefit_BBUjkW": {
           "type": "benefit",
           "settings": {
-            "icon": "☾",
-            "title": "Stop snoring",
-            "body": "Quiet nights for you and anyone next to you."
+            "icon": "🦷",
+            "title": "Fresh breath",
+            "body": "No more dry mouth. Nasal breathing keeps your mouth moist and bacteria-free overnight."
           }
         },
         "benefit_pPXRzn": {
           "type": "benefit",
           "settings": {
-            "icon": "☾",
-            "title": "Stop snoring",
-            "body": "Quiet nights for you and anyone next to you."
+            "icon": "💪",
+            "title": "Stronger jawline",
+            "body": "Keeping your mouth closed engages your jaw muscles — improving facial structure over time."
           }
         },
         "benefit_MAihfK": {
           "type": "benefit",
           "settings": {
-            "icon": "☾",
-            "title": "Stop snoring",
-            "body": "Quiet nights for you and anyone next to you."
+            "icon": "🛡️",
+            "title": "Boost immunity",
+            "body": "Your nose filters and humidifies air, removing bacteria before it reaches your lungs."
           }
         },
         "benefit_AMN3kf": {
           "type": "benefit",
           "settings": {
-            "icon": "☾",
-            "title": "Stop snoring",
-            "body": "Quiet nights for you and anyone next to you."
+            "icon": "🧠",
+            "title": "Reduce stress",
+            "body": "Nasal breathing activates your parasympathetic system — calming your body and mind for deep rest."
           }
         }
       },
