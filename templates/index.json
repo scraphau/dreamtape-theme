@@ -67,9 +67,9 @@
         "muted_text_color": "#f3f6fb",
         "accent_color": "#0a1432",
         "card_background_color": "#ffffff",
-        "eyebrow": "Our collection",
-        "heading": "<p>Everything for your <em>nasal breathing</em> ritual.</p>",
-        "collection": "",
+        "eyebrow": "Mouth Tape",
+        "heading": "<p>All for your <em>nasal breathing</em> ritual.</p>",
+        "collection": "mouth-tape",
         "products_to_show": 3
       }
     },
