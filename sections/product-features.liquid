@@ -1,0 +1,63 @@
+<section class="product-features-section" style="{% render 'section-color-vars', section: section %}">
+  <div class="container">
+    <div class="section-head section-head-center reveal">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 class="section-title">{{ section.settings.heading | replace: '[em]', '<em>' | replace: '[/em]', '</em>' }}</h2>
+      {%- if section.settings.subheading != blank -%}
+        <p class="section-lead">{{ section.settings.subheading }}</p>
+      {%- endif -%}
+    </div>
+
+    <div class="product-features-grid">
+      {%- for i in (1..8) -%}
+        {%- assign icon_key = 'feature_' | append: i | append: '_icon' -%}
+        {%- assign label_key = 'feature_' | append: i | append: '_label' -%}
+        {%- assign icon = section.settings[icon_key] -%}
+        {%- assign label = section.settings[label_key] -%}
+        {%- if label != blank -%}
+          <div class="product-feature reveal">
+            <div class="product-feature-icon">{{ icon }}</div>
+            <span>{{ label }}</span>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+
+    {%- if section.settings.price_note != blank -%}
+      <p class="product-features-price reveal">{{ section.settings.price_note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Features grid",
+  "settings": [
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#f3f6fb" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#0e1a3a" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#5a6580" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0e1a3a" },
+    { "type": "color", "id": "card_background_color", "label": "Card background color", "default": "#ffffff" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why Dreamtape" },
+    { "type": "text", "id": "heading", "label": "Heading (use [em]...[/em])", "default": "Engineered for [em]Deep Sleep[/em]" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Every detail designed to keep you breathing right, all night long." },
+    { "type": "text", "id": "feature_1_icon", "label": "Feature 1 icon", "default": "💋" },
+    { "type": "text", "id": "feature_1_label", "label": "Feature 1 label", "default": "Lip & moustache friendly" },
+    { "type": "text", "id": "feature_2_icon", "label": "Feature 2 icon", "default": "🔒" },
+    { "type": "text", "id": "feature_2_label", "label": "Feature 2 label", "default": "Secure fit all night" },
+    { "type": "text", "id": "feature_3_icon", "label": "Feature 3 icon", "default": "🪶" },
+    { "type": "text", "id": "feature_3_label", "label": "Feature 3 label", "default": "Ultra lightweight" },
+    { "type": "text", "id": "feature_4_icon", "label": "Feature 4 icon", "default": "🌿" },
+    { "type": "text", "id": "feature_4_label", "label": "Feature 4 label", "default": "Hypoallergenic adhesive" },
+    { "type": "text", "id": "feature_5_icon", "label": "Feature 5 icon", "default": "✋" },
+    { "type": "text", "id": "feature_5_label", "label": "Feature 5 label", "default": "Pain-free removal" },
+    { "type": "text", "id": "feature_6_icon", "label": "Feature 6 icon", "default": "🌬" },
+    { "type": "text", "id": "feature_6_label", "label": "Feature 6 label", "default": "Breathable mesh for safety" },
+    { "type": "text", "id": "feature_7_icon", "label": "Feature 7 icon", "default": "🧬" },
+    { "type": "text", "id": "feature_7_label", "label": "Feature 7 label", "default": "Dermatologist tested" },
+    { "type": "text", "id": "feature_8_icon", "label": "Feature 8 icon", "default": "🎯" },
+    { "type": "text", "id": "feature_8_label", "label": "Feature 8 label", "default": "Optimal lip-seal design" },
+    { "type": "text", "id": "price_note", "label": "Price note", "default": "From just $0.67 per night — less than a cup of coffee." }
+  ]
+}
+{% endschema %}

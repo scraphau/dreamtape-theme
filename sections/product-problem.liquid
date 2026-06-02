@@ -1,0 +1,61 @@
+<section class="product-problem" style="{% render 'section-color-vars', section: section %}">
+  <div class="container">
+    <div class="product-problem-inner">
+      <div class="product-problem-text reveal">
+        <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        <h2 class="section-title">{{ section.settings.heading | replace: '[em]', '<em>' | replace: '[/em]', '</em>' }}</h2>
+        <p class="section-lead">{{ section.settings.intro }}</p>
+        <ul class="problem-list">
+          {%- assign items = section.settings.problems | newline_to_br | split: '<br />' -%}
+          {%- for item in items -%}
+            {%- unless item == blank -%}
+              <li>
+                <span class="problem-icon">⚠</span>
+                {{ item }}
+              </li>
+            {%- endunless -%}
+          {%- endfor -%}
+        </ul>
+        <a href="#product-form" class="btn-primary btn-dark">{{ section.settings.cta_text }} <span class="arrow">→</span></a>
+      </div>
+      <div class="product-problem-visual reveal">
+        <div class="problem-stat-card">
+          <div class="problem-stat-number">{{ section.settings.stat_number }}</div>
+          <p class="problem-stat-label">{{ section.settings.stat_label }}</p>
+        </div>
+        <div class="problem-solution-list">
+          {%- assign solutions = section.settings.solutions | newline_to_br | split: '<br />' -%}
+          {%- for sol in solutions -%}
+            {%- unless sol == blank -%}
+              <div class="problem-solution-item">
+                <span class="solution-check">✓</span>
+                {{ sol }}
+              </div>
+            {%- endunless -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Problem section",
+  "settings": [
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#0e1a3a" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#5a6580" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0e1a3a" },
+    { "type": "color", "id": "card_background_color", "label": "Card background color", "default": "#f3f6fb" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Problem" },
+    { "type": "text", "id": "heading", "label": "Heading (use [em]...[/em] for italic)", "default": "Are You a [em]Mouth Breather?[/em]" },
+    { "type": "textarea", "id": "intro", "label": "Intro text", "default": "Most of us breathe through our mouths at night without even realising it. It quietly undermines your sleep, your health, and how you look — every single night." },
+    { "type": "textarea", "id": "problems", "label": "Problem list (one per line)", "default": "Sagging jawline & reduced facial definition\nDisruptive snoring & restless sleep\nBad morning breath & dry mouth\nFatigue, brain fog & low energy\nWeakened immunity & poor recovery" },
+    { "type": "text", "id": "cta_text", "label": "CTA text", "default": "Fix it tonight" },
+    { "type": "text", "id": "stat_number", "label": "Stat number", "default": "87%" },
+    { "type": "text", "id": "stat_label", "label": "Stat label", "default": "of members report improved sleep quality within 30 days" },
+    { "type": "textarea", "id": "solutions", "label": "Solution list (one per line)", "default": "Deeper, uninterrupted sleep\nMore energy every morning\nReduced snoring overnight\nStronger jawline over time\nFresher breath on waking" }
+  ]
+}
+{% endschema %}

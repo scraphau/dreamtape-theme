@@ -1,0 +1,33 @@
+<section class="product-press" style="{% render 'section-color-vars', section: section %}">
+  <div class="container">
+    <div class="product-press-inner">
+      <span class="product-press-label">{{ section.settings.label }}</span>
+      <div class="product-press-logos">
+        {%- if section.settings.logo_1 != blank -%}<span>{{ section.settings.logo_1 }}</span>{%- endif -%}
+        {%- if section.settings.logo_2 != blank -%}<span>{{ section.settings.logo_2 }}</span>{%- endif -%}
+        {%- if section.settings.logo_3 != blank -%}<span>{{ section.settings.logo_3 }}</span>{%- endif -%}
+        {%- if section.settings.logo_4 != blank -%}<span>{{ section.settings.logo_4 }}</span>{%- endif -%}
+        {%- if section.settings.logo_5 != blank -%}<span>{{ section.settings.logo_5 }}</span>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Press logos",
+  "settings": [
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#f3f6fb" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#0e1a3a" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#5a6580" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0e1a3a" },
+    { "type": "color", "id": "card_background_color", "label": "Card background color", "default": "#ffffff" },
+    { "type": "text", "id": "label", "label": "Label", "default": "As seen in" },
+    { "type": "text", "id": "logo_1", "label": "Publication 1", "default": "Men's Health" },
+    { "type": "text", "id": "logo_2", "label": "Publication 2", "default": "Vogue" },
+    { "type": "text", "id": "logo_3", "label": "Publication 3", "default": "GQ" },
+    { "type": "text", "id": "logo_4", "label": "Publication 4", "default": "Women's Health" },
+    { "type": "text", "id": "logo_5", "label": "Publication 5", "default": "PopSugar" }
+  ]
+}
+{% endschema %}

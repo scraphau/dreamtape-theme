@@ -1,0 +1,58 @@
+<section class="product-comparison-section" style="{% render 'section-color-vars', section: section %}">
+  <div class="container">
+    <div class="section-head section-head-center reveal">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 class="section-title">{{ section.settings.heading | replace: '[em]', '<em>' | replace: '[/em]', '</em>' }}</h2>
+    </div>
+
+    <div class="comparison-table-wrap reveal">
+      <table class="comparison-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th class="comparison-us">{{ section.settings.col_us }}</th>
+            <th class="comparison-them">{{ section.settings.col_them }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- assign rows = section.settings.rows | newline_to_br | split: '<br />' -%}
+          {%- for row in rows -%}
+            {%- unless row == blank -%}
+              <tr>
+                <td>{{ row }}</td>
+                <td class="comparison-us"><span class="cmp-check">✓</span></td>
+                <td class="comparison-them"><span class="cmp-cross">✗</span></td>
+              </tr>
+            {%- endunless -%}
+          {%- endfor -%}
+        </tbody>
+      </table>
+    </div>
+
+    {%- if section.settings.cta_text != blank -%}
+      <div class="comparison-cta reveal">
+        <a href="{{ section.settings.cta_url | default: '#product-form' }}" class="btn-primary btn-dark btn-large">{{ section.settings.cta_text }} <span class="arrow">→</span></a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Comparison table",
+  "settings": [
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#f3f6fb" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#0e1a3a" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#5a6580" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0e1a3a" },
+    { "type": "color", "id": "card_background_color", "label": "Card background color", "default": "#ffffff" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Difference" },
+    { "type": "text", "id": "heading", "label": "Heading (use [em]...[/em])", "default": "How We [em]Compare[/em]" },
+    { "type": "text", "id": "col_us", "label": "Our column label", "default": "Dreamtape" },
+    { "type": "text", "id": "col_them", "label": "Competitor column label", "default": "Regular Mouth Tape" },
+    { "type": "textarea", "id": "rows", "label": "Comparison rows (one per line)", "default": "Hypoallergenic medical-grade adhesive\nFacial hair & lip friendly\nStays on all night — no reapplication\nEasy to apply in 3 seconds\nBreathable mesh — safe to use\nGentle, pain-free removal\nDermatologist tested & approved" },
+    { "type": "text", "id": "cta_text", "label": "CTA text", "default": "Try Dreamtape tonight" },
+    { "type": "url", "id": "cta_url", "label": "CTA URL" }
+  ]
+}
+{% endschema %}

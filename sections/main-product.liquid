@@ -1,4 +1,4 @@
-<section class="product-page" style="{% render 'section-color-vars', section: section %}">
+<section id="product-form" class="product-page" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="product-layout">
       <div class="product-gallery">
@@ -98,10 +98,15 @@
           </div>
         {%- endform -%}
 
+        {%- if section.settings.per_night_text != blank -%}
+          <p class="product-per-night">{{ section.settings.per_night_text }}</p>
+        {%- endif -%}
+
         <div class="product-trust">
           <span>✓ In stock, ready to ship</span>
           <span>✓ Free shipping on subscriptions</span>
           <span>✓ 30-night risk-free trial</span>
+          <span>✓ Cancel anytime</span>
         </div>
       </div>
     </div>
@@ -149,6 +154,12 @@
       "id": "card_background_color",
       "label": "Card background color",
       "default": "#ffffff"
+    },
+    {
+      "type": "text",
+      "id": "per_night_text",
+      "label": "Per-night price note",
+      "default": "From just $0.67 per night — less than a cup of coffee."
     },
     {
       "type": "checkbox",

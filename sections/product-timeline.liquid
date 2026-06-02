@@ -1,0 +1,53 @@
+<section class="product-timeline-section" style="{% render 'section-color-vars', section: section %}">
+  <div class="container">
+    <div class="section-head section-head-center reveal">
+      <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+      <h2 class="section-title">{{ section.settings.heading | replace: '[em]', '<em>' | replace: '[/em]', '</em>' }}</h2>
+    </div>
+
+    <div class="product-timeline-list">
+      {%- for i in (1..6) -%}
+        {%- assign label_key = 'item_' | append: i | append: '_label' -%}
+        {%- assign body_key = 'item_' | append: i | append: '_body' -%}
+        {%- assign label = section.settings[label_key] -%}
+        {%- assign body = section.settings[body_key] -%}
+        {%- if label != blank -%}
+          <details class="timeline-item reveal">
+            <summary>
+              <span class="timeline-marker">{{ i }}</span>
+              {{ label }}
+            </summary>
+            <div class="timeline-body">{{ body }}</div>
+          </details>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Benefits timeline",
+  "settings": [
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#0e1a3a" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#5a6580" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0e1a3a" },
+    { "type": "color", "id": "card_background_color", "label": "Card background color", "default": "#f3f6fb" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Your Journey" },
+    { "type": "text", "id": "heading", "label": "Heading (use [em]...[/em])", "default": "Benefits That [em]Compound Over Time[/em]" },
+    { "type": "text", "id": "item_1_label", "label": "Item 1 label", "default": "Night 1 — Sleep Better Immediately" },
+    { "type": "textarea", "id": "item_1_body", "label": "Item 1 body", "default": "The moment you tape your lips shut, your body switches to nasal breathing. Your airway widens, oxygen absorption improves, and you enter deeper sleep cycles sooner. Most people wake up feeling noticeably more rested after the very first night." },
+    { "type": "text", "id": "item_2_label", "label": "Item 2 label", "default": "Week 1 — Snoring Reduces, Energy Rises" },
+    { "type": "textarea", "id": "item_2_body", "label": "Item 2 body", "default": "With consistent nasal breathing, snoring decreases significantly. Your body produces more nitric oxide — a natural vasodilator that improves blood flow and oxygen delivery. You wake up with clearer sinuses and more energy to start the day." },
+    { "type": "text", "id": "item_3_label", "label": "Item 3 label", "default": "Week 2–3 — Morning Breath Gone, Immunity Up" },
+    { "type": "textarea", "id": "item_3_body", "label": "Item 3 body", "default": "Nasal breathing filters and humidifies air before it enters your lungs, dramatically reducing dry mouth and bad morning breath. Your immune system strengthens as your nasal passages produce more of the bacteria-fighting compounds they were designed to." },
+    { "type": "text", "id": "item_4_label", "label": "Item 4 label", "default": "Month 1 — Deep Restorative Sleep" },
+    { "type": "textarea", "id": "item_4_body", "label": "Item 4 body", "default": "By now, nasal breathing during sleep has become your new normal. You spend more time in deep REM sleep, your stress hormones decrease, and your body is able to fully repair and regenerate overnight. Partners report a dramatic reduction in snoring." },
+    { "type": "text", "id": "item_5_label", "label": "Item 5 label", "default": "Month 2+ — Enhanced Facial Structure" },
+    { "type": "textarea", "id": "item_5_body", "label": "Item 5 body", "default": "Consistent mouth-closed sleep exercises your masseter and jaw muscles. Over time, this can improve facial definition and jawline appearance — the same principle behind \"mewing.\" Combined with better sleep quality, many members notice positive changes in how they look and feel." },
+    { "type": "text", "id": "item_6_label", "label": "Item 6 label", "default": "" },
+    { "type": "textarea", "id": "item_6_body", "label": "Item 6 body", "default": "" }
+  ]
+}
+{% endschema %}
