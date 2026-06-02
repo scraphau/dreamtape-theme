@@ -75,6 +75,64 @@
     },
     "benefits": {
       "type": "benefits",
+      "blocks": {
+        "benefit_PMxVhC": {
+          "type": "benefit",
+          "settings": {
+            "icon": "☾",
+            "title": "Stop snoring",
+            "body": "Quiet nights for you and anyone next to you."
+          }
+        },
+        "benefit_PmTNDB": {
+          "type": "benefit",
+          "settings": {
+            "icon": "☾",
+            "title": "Stop snoring",
+            "body": "Quiet nights for you and anyone next to you."
+          }
+        },
+        "benefit_BBUjkW": {
+          "type": "benefit",
+          "settings": {
+            "icon": "☾",
+            "title": "Stop snoring",
+            "body": "Quiet nights for you and anyone next to you."
+          }
+        },
+        "benefit_pPXRzn": {
+          "type": "benefit",
+          "settings": {
+            "icon": "☾",
+            "title": "Stop snoring",
+            "body": "Quiet nights for you and anyone next to you."
+          }
+        },
+        "benefit_MAihfK": {
+          "type": "benefit",
+          "settings": {
+            "icon": "☾",
+            "title": "Stop snoring",
+            "body": "Quiet nights for you and anyone next to you."
+          }
+        },
+        "benefit_AMN3kf": {
+          "type": "benefit",
+          "settings": {
+            "icon": "☾",
+            "title": "Stop snoring",
+            "body": "Quiet nights for you and anyone next to you."
+          }
+        }
+      },
+      "block_order": [
+        "benefit_PMxVhC",
+        "benefit_PmTNDB",
+        "benefit_BBUjkW",
+        "benefit_pPXRzn",
+        "benefit_MAihfK",
+        "benefit_AMN3kf"
+      ],
       "settings": {
         "background_color": "#ffffff",
         "text_color": "#0e1a3a",
@@ -82,7 +140,7 @@
         "accent_color": "#0e1a3a",
         "card_background_color": "#f3f6fb",
         "eyebrow": "One fix. Many wins.",
-        "heading": "<p>A cascade of benefits<br>from <em>one small strip</em>.</p>",
+        "heading": "<p>A cascade of benefits<br/>from <em>one small strip</em>.</p>",
         "lead": "When you switch from mouth to nose breathing, you unlock better oxygenation, deeper REM, a stronger jawline, and a sharper immune system — naturally and effortlessly."
       }
     },
