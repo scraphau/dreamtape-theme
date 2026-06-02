@@ -60,46 +60,6 @@
             "answer": "<p>No. For hygiene and adhesive performance, each Dreamtape strip is single-use.</p>"
           }
         },
-        "nose-what": {
-          "type": "qa",
-          "settings": {
-            "category": "nose_strips",
-            "question": "What are Dreamtape nose strips?",
-            "answer": "<p>Dreamtape nose strips are breathing aids that gently lift and open the nasal passages to support easier airflow during sleep or daily wear.</p>"
-          }
-        },
-        "nose-apply": {
-          "type": "qa",
-          "settings": {
-            "category": "nose_strips",
-            "question": "How do I apply and remove nose strips?",
-            "answer": "<p>Clean and dry your nose, then place the strip across the bridge following the natural curve toward your nostrils. Press gently to secure. To remove, peel slowly from both ends.</p>"
-          }
-        },
-        "nose-safe": {
-          "type": "qa",
-          "settings": {
-            "category": "nose_strips",
-            "question": "Are nose strips safe for sensitive skin?",
-            "answer": "<p>They are designed to be gentle, but everyone’s skin is different. Stop using them if irritation occurs.</p>"
-          }
-        },
-        "nose-fall": {
-          "type": "qa",
-          "settings": {
-            "category": "nose_strips",
-            "question": "Can the strips fall off overnight?",
-            "answer": "<p>The adhesive is designed to stay secure through the night. Clean, dry skin gives you the best hold.</p>"
-          }
-        },
-        "nose-pair": {
-          "type": "qa",
-          "settings": {
-            "category": "nose_strips",
-            "question": "Can I pair nose strips with mouth tape?",
-            "answer": "<p>Yes. Many customers use both together to support nasal breathing from both sides of the habit: opening airflow through the nose while gently encouraging the mouth to stay closed.</p>"
-          }
-        },
         "general-trial": {
           "type": "qa",
           "settings": {
@@ -148,11 +108,6 @@
         "mouth-remove",
         "mouth-beard",
         "mouth-reuse",
-        "nose-what",
-        "nose-apply",
-        "nose-safe",
-        "nose-fall",
-        "nose-pair",
         "general-trial",
         "general-shipping",
         "general-cost",
