@@ -1,12 +1,17 @@
 <section id="product-form" class="product-page" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="product-layout">
+
+      <!-- Gallery -->
       <div class="product-gallery">
         <div class="product-gallery-main" data-gallery-main>
           {%- if product.featured_media -%}
             <img src="{{ product.featured_media | image_url: width: 1200 }}" alt="{{ product.featured_media.alt | escape }}">
           {%- else -%}
-            <span class="placeholder-icon">◐</span>
+            <div class="product-gallery-placeholder">
+              <span>◐</span>
+              <p>{{ product.title }}</p>
+            </div>
           {%- endif -%}
         </div>
         {%- if product.media.size > 1 -%}
@@ -20,159 +25,229 @@
         {%- endif -%}
       </div>
 
+      <!-- Info -->
       <div class="product-info">
-        {%- if product.metafields.reviews.rating.value != blank -%}
-          <div class="rating-row">
-            <span class="stars">★★★★★</span>
-            <span>{{ product.metafields.reviews.rating.value }} ({{ product.metafields.reviews.rating_count.value | default: 0 }} reviews)</span>
-          </div>
-        {%- endif -%}
 
-        <h1>{{ product.title }}</h1>
-
-        <div class="product-judgeme-badge">
-          {%- render 'judgeme-preview-badge' -%}
+        <!-- Rating -->
+        <div class="product-rating-row">
+          <span class="product-stars">★★★★★</span>
+          <span class="product-rating-count">
+            {%- if product.metafields.reviews.rating_count.value != blank -%}
+              {{ product.metafields.reviews.rating.value }} · {{ product.metafields.reviews.rating_count.value }} reviews
+            {%- else -%}
+              {{ section.settings.rating_text }}
+            {%- endif -%}
+          </span>
+          {%- if section.settings.badge_text != blank -%}
+            <span class="product-award-badge">{{ section.settings.badge_text }}</span>
+          {%- endif -%}
         </div>
 
-        {%- if section.settings.show_tagline and product.metafields.custom.tagline.value != blank -%}
-          <p class="product-tagline">{{ product.metafields.custom.tagline.value }}</p>
-        {%- endif -%}
+        <h1 class="product-title">{{ product.title }}</h1>
 
-        {%- if product.description != blank -%}
-          <div style="margin-bottom: 24px; color: var(--muted); font-size: 16px; line-height: 1.55;">
-            {{ product.description }}
-          </div>
+        {%- if section.settings.tagline != blank -%}
+          <p class="product-tagline">{{ section.settings.tagline }}</p>
+        {%- elsif product.metafields.custom.tagline.value != blank -%}
+          <p class="product-tagline">{{ product.metafields.custom.tagline.value }}</p>
         {%- endif -%}
 
         {%- if section.settings.bullets != blank -%}
           <ul class="product-bullets">
             {%- assign bullets = section.settings.bullets | newline_to_br | split: '<br />' -%}
             {%- for bullet in bullets -%}
-              {%- if bullet != blank -%}
-                <li>{{ bullet }}</li>
-              {%- endif -%}
+              {%- if bullet != blank -%}<li>{{ bullet }}</li>{%- endif -%}
             {%- endfor -%}
           </ul>
         {%- endif -%}
 
         {%- form 'product', product -%}
+
           {%- if product.variants.size > 1 -%}
             <div class="variant-picker">
-              <span class="variant-picker-label">Choose your pack</span>
+              <div class="variant-picker-header">
+                <span class="variant-picker-label">Choose your pack</span>
+                <span class="variant-picker-sub">Save more with larger packs</span>
+              </div>
               <div class="variant-options" data-variant-picker>
                 {%- for variant in product.variants -%}
-                  <button type="button" class="variant-option {% if forloop.first %}active{% endif %}" data-variant-id="{{ variant.id }}">
+                  {%- assign strips = 30 -%}
+                  {%- if variant.title contains '3' or variant.title contains 'Three' -%}
+                    {%- assign strips = 90 -%}
+                  {%- elsif variant.title contains '6' or variant.title contains 'Six' -%}
+                    {%- assign strips = 180 -%}
+                  {%- endif -%}
+                  {%- assign per_night = variant.price | divided_by: strips -%}
+                  <button type="button"
+                    class="variant-option {% if forloop.first %}active{% endif %}"
+                    data-variant-id="{{ variant.id }}"
+                    data-price="{{ variant.price | money_without_trailing_zeros }}"
+                    data-compare="{{ variant.compare_at_price | money_without_trailing_zeros }}">
                     {%- if variant.title contains '3' or variant.title contains 'Three' -%}
                       <span class="vo-badge">Most popular</span>
                     {%- elsif variant.title contains '6' or variant.title contains 'Six' -%}
-                      <span class="vo-badge">Best deal</span>
+                      <span class="vo-badge vo-badge--deal">Best deal</span>
                     {%- endif -%}
                     <span class="vo-title">{{ variant.title }}</span>
-                    <span class="vo-sub">FREE shipping</span>
+                    <span class="vo-strips">{{ strips }} strips</span>
                     <span class="vo-price">{{ variant.price | money_without_trailing_zeros }}</span>
+                    <span class="vo-per-night">{{ per_night | money }} / night</span>
                   </button>
                 {%- endfor -%}
               </div>
             </div>
-            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-          {%- else -%}
-            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
-            <div style="margin-bottom: 24px;">
-              <span class="price" style="font-size: 32px;">
-                {{ product.price | money_without_trailing_zeros }}
-                {%- if product.compare_at_price > product.price -%}
-                  <span class="price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
-                {%- endif -%}
-              </span>
+
+            <!-- Dynamic price display -->
+            <div class="product-price-row" data-price-display>
+              {%- assign first = product.selected_or_first_available_variant -%}
+              <span class="product-price-current" data-current-price>{{ first.price | money_without_trailing_zeros }}</span>
+              {%- if first.compare_at_price > first.price -%}
+                <span class="product-price-compare" data-compare-price>{{ first.compare_at_price | money_without_trailing_zeros }}</span>
+                <span class="product-price-save" data-save-badge>
+                  Save {{ first.compare_at_price | minus: first.price | money_without_trailing_zeros }}
+                </span>
+              {%- endif -%}
             </div>
+
+            <input type="hidden" name="id" value="{{ first.id }}" data-variant-input>
+
+          {%- else -%}
+
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <div class="product-price-row">
+              <span class="product-price-current">{{ product.price | money_without_trailing_zeros }}</span>
+              {%- if product.compare_at_price > product.price -%}
+                <span class="product-price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+                <span class="product-price-save">Save {{ product.compare_at_price | minus: product.price | money_without_trailing_zeros }}</span>
+              {%- endif -%}
+            </div>
+
           {%- endif -%}
 
           <div class="product-form-buttons">
-            <button type="submit" class="btn-primary btn-dark btn-large btn-full" {% unless product.available %}disabled{% endunless %}>
+            <button type="submit" class="btn-atc" {% unless product.available %}disabled{% endunless %}>
               {%- if product.available -%}
-                Add to cart <span class="arrow">→</span>
+                <span>Add to Cart</span> <span class="arrow">→</span>
               {%- else -%}
                 Sold out
               {%- endif -%}
             </button>
           </div>
+
+          {%- if section.settings.sub_note != blank -%}
+            <p class="product-sub-note">{{ section.settings.sub_note }}</p>
+          {%- endif -%}
+
         {%- endform -%}
 
-        {%- if section.settings.per_night_text != blank -%}
-          <p class="product-per-night">{{ section.settings.per_night_text }}</p>
-        {%- endif -%}
-
-        <div class="product-trust">
-          <span>✓ In stock, ready to ship</span>
-          <span>✓ Free shipping on subscriptions</span>
-          <span>✓ 30-night risk-free trial</span>
-          <span>✓ Cancel anytime</span>
+        <!-- Trust grid -->
+        <div class="product-trust-grid">
+          <div class="product-trust-item">
+            <span class="pti-icon">🛡</span>
+            <div>
+              <strong>30-Night Guarantee</strong>
+              <span>Full refund, no questions asked</span>
+            </div>
+          </div>
+          <div class="product-trust-item">
+            <span class="pti-icon">🚚</span>
+            <div>
+              <strong>Free Shipping</strong>
+              <span>On all subscription orders</span>
+            </div>
+          </div>
+          <div class="product-trust-item">
+            <span class="pti-icon">⭐</span>
+            <div>
+              <strong>4.9 Star Rating</strong>
+              <span>From thousands of members</span>
+            </div>
+          </div>
+          <div class="product-trust-item">
+            <span class="pti-icon">✋</span>
+            <div>
+              <strong>Cancel Anytime</strong>
+              <span>Zero commitment required</span>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
 
-    <div class="product-judgeme-reviews">
-      {%- render 'judgeme-product-reviews' -%}
+      </div>
     </div>
   </div>
 </section>
+
+<!-- Sticky ATC bar -->
+<div class="sticky-atc" id="stickyAtc" aria-hidden="true">
+  <div class="container">
+    <div class="sticky-atc-inner">
+      <div class="sticky-atc-info">
+        <strong>{{ product.title }}</strong>
+        <span data-sticky-price>{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}</span>
+      </div>
+      <button class="btn-atc btn-atc--small" onclick="document.getElementById('product-form').querySelector('[type=submit]').click()">
+        Add to Cart →
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Sticky ATC visibility
+  const form = document.getElementById('product-form');
+  const bar  = document.getElementById('stickyAtc');
+  if (form && bar) {
+    const io = new IntersectionObserver(([e]) => {
+      bar.classList.toggle('visible', !e.isIntersecting);
+      bar.setAttribute('aria-hidden', e.isIntersecting ? 'true' : 'false');
+    }, { rootMargin: '-80px 0px 0px 0px' });
+    io.observe(form);
+  }
+
+  // Variant picker — update price display
+  document.querySelectorAll('[data-variant-picker]').forEach(picker => {
+    const form  = picker.closest('form');
+    const opts  = picker.querySelectorAll('.variant-option');
+    const input = form?.querySelector('[data-variant-input]');
+    const curEl = document.querySelector('[data-current-price]');
+    const cmpEl = document.querySelector('[data-compare-price]');
+    const savEl = document.querySelector('[data-save-badge]');
+    const stickyPrice = document.querySelector('[data-sticky-price]');
+
+    opts.forEach(opt => {
+      opt.addEventListener('click', () => {
+        opts.forEach(o => o.classList.remove('active'));
+        opt.classList.add('active');
+        if (input) input.value = opt.dataset.variantId;
+        if (curEl)  curEl.textContent  = opt.dataset.price  || '';
+        if (stickyPrice) stickyPrice.textContent = opt.dataset.price || '';
+        if (cmpEl)  {
+          cmpEl.textContent  = opt.dataset.compare || '';
+          cmpEl.style.display = opt.dataset.compare ? '' : 'none';
+        }
+        if (savEl) savEl.style.display = opt.dataset.compare ? '' : 'none';
+      });
+    });
+  });
+})();
+</script>
 
 {% schema %}
 {
   "name": "Product info",
   "settings": [
-    {
-      "type": "header",
-      "content": "Colors"
-    },
-    {
-      "type": "color",
-      "id": "background_color",
-      "label": "Background color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "color",
-      "id": "text_color",
-      "label": "Text color",
-      "default": "#0e1a3a"
-    },
-    {
-      "type": "color",
-      "id": "muted_text_color",
-      "label": "Muted text color",
-      "default": "#5a6580"
-    },
-    {
-      "type": "color",
-      "id": "accent_color",
-      "label": "Accent color",
-      "default": "#0e1a3a"
-    },
-    {
-      "type": "color",
-      "id": "card_background_color",
-      "label": "Card background color",
-      "default": "#ffffff"
-    },
-    {
-      "type": "text",
-      "id": "per_night_text",
-      "label": "Per-night price note",
-      "default": "From just $0.67 per night — less than a cup of coffee."
-    },
-    {
-      "type": "checkbox",
-      "id": "show_tagline",
-      "label": "Show product tagline (from metafield)",
-      "default": true
-    },
-    {
-      "type": "textarea",
-      "id": "bullets",
-      "label": "Feature bullets (one per line)",
-      "default": "Reduced snoring & improved sleep\nMore energy & immunity\nEnhanced jawline & facial structure"
-    }
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#0e1a3a" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#5a6580" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0e1a3a" },
+    { "type": "color", "id": "card_background_color", "label": "Card background color", "default": "#ffffff" },
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "rating_text", "label": "Rating text (fallback)", "default": "4.9 · 2,847 reviews" },
+    { "type": "text", "id": "badge_text", "label": "Award badge text (e.g. #1 Mouth Tape)", "default": "#1 Mouth Tape" },
+    { "type": "text", "id": "tagline", "label": "Tagline (overrides metafield)", "default": "The last sleep upgrade you'll ever need." },
+    { "type": "textarea", "id": "bullets", "label": "Feature bullets (one per line)", "default": "Reduced snoring & deeper sleep every night\nMore energy, sharper focus every morning\nStronger jaw & enhanced facial structure" },
+    { "type": "text", "id": "sub_note", "label": "Below button note", "default": "Zero commitment — pause or cancel anytime" }
   ]
 }
 {% endschema %}
