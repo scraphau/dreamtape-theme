@@ -25,12 +25,14 @@
       <p>{{ product.description | strip_html | truncate: 90 }}</p>
     {%- endif -%}
     <div class="product-meta">
-      <span class="price">
-        {{ product.price | money_without_trailing_zeros }}
-        {%- if product.compare_at_price > product.price -%}
-          <span class="price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
-        {%- endif -%}
-      </span>
+      {%- if product.price > 0 -%}
+        <span class="price">
+          {{ product.price | money_without_trailing_zeros }}
+          {%- if product.compare_at_price > product.price -%}
+            <span class="price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+          {%- endif -%}
+        </span>
+      {%- endif -%}
       {%- if product.metafields.reviews.rating.value != blank -%}
         <span class="rating">★ {{ product.metafields.reviews.rating.value }}</span>
       {%- endif -%}
