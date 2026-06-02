@@ -1,32 +1,20 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
-    "main":       { "type": "main-collection" },
-    "press":      { "type": "product-press" },
-    "problem":    { "type": "product-problem" },
-    "benefits":   { "type": "benefits" },
-    "stats":      { "type": "product-stats" },
-    "features":   { "type": "product-features" },
-    "how":        { "type": "how-it-works" },
-    "timeline":   { "type": "product-timeline" },
-    "comparison": { "type": "product-comparison" },
-    "testimonials": { "type": "testimonials" },
-    "guarantee":  { "type": "guarantee" },
-    "faq":        { "type": "faq" },
-    "cta":        { "type": "final-cta" }
+    "main": {
+      "type": "main-collection",
+      "settings": {}
+    }
   },
   "order": [
-    "main",
-    "press",
-    "problem",
-    "benefits",
-    "stats",
-    "features",
-    "how",
-    "timeline",
-    "comparison",
-    "testimonials",
-    "guarantee",
-    "faq",
-    "cta"
+    "main"
   ]
 }
