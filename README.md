@@ -143,3 +143,4 @@ Common issues:
 3. **Header menu empty** — Create a menu in **Navigation** and assign it in the header section settings.
 
 Built with Shopify Online Store 2.0 (JSON templates, sections everywhere, section groups). Compatible with Shopify checkout, payments, discounts, and gift cards.
+
