@@ -11,6 +11,78 @@
   "type": "footer",
   "name": "Footer group",
   "sections": {
+    "benefits_N9FQg4": {
+      "type": "benefits",
+      "blocks": {
+        "benefit_QGRBUM": {
+          "type": "benefit",
+          "settings": {
+            "icon": "☾",
+            "title": "Stop snoring",
+            "body": "Quiet nights for you (and anyone next to you)."
+          }
+        },
+        "benefit_ByUU9x": {
+          "type": "benefit",
+          "settings": {
+            "icon": "✦",
+            "title": "Sharper jawline",
+            "body": "Proper tongue posture supports facial structure."
+          }
+        },
+        "benefit_gKtwYD": {
+          "type": "benefit",
+          "settings": {
+            "icon": "⚡",
+            "title": "More energy",
+            "body": "Deeper REM means brighter mornings."
+          }
+        },
+        "benefit_bEzePG": {
+          "type": "benefit",
+          "settings": {
+            "icon": "❀",
+            "title": "Boost immunity",
+            "body": "Nasal breathing filters and humidifies air."
+          }
+        },
+        "benefit_aFbKjY": {
+          "type": "benefit",
+          "settings": {
+            "icon": "◐",
+            "title": "Better mood",
+            "body": "Quality sleep is the foundation of feeling good."
+          }
+        },
+        "benefit_aQyPLr": {
+          "type": "benefit",
+          "settings": {
+            "icon": "✿",
+            "title": "Fresh breath",
+            "body": "No more dry mouth or morning breath."
+          }
+        }
+      },
+      "block_order": [
+        "benefit_QGRBUM",
+        "benefit_ByUU9x",
+        "benefit_gKtwYD",
+        "benefit_bEzePG",
+        "benefit_aFbKjY",
+        "benefit_aQyPLr"
+      ],
+      "name": "Benefits",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#f3f6fb",
+        "eyebrow": "One fix. Many wins.",
+        "heading": "<p>A cascade of benefits<br>from <em>one small strip</em>.</p>",
+        "lead": "When you switch from mouth to nose breathing, you unlock better oxygenation, deeper REM, a stronger jawline, and a sharper immune system — naturally and effortlessly."
+      }
+    },
     "footer": {
       "type": "footer",
       "blocks": {
@@ -40,6 +112,7 @@
     }
   },
   "order": [
+    "benefits_N9FQg4",
     "footer"
   ]
 }
