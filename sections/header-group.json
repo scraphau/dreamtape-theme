@@ -35,7 +35,7 @@
           "type": "nav_link",
           "settings": {
             "label": "Mouth Tape",
-            "link": "shopify://collections/all"
+            "link": "/collections/all"
           }
         },
         "nav-reviews": {

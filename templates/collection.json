@@ -1,6 +1,32 @@
 {
   "sections": {
-    "main": { "type": "main-collection" }
+    "main":       { "type": "main-collection" },
+    "press":      { "type": "product-press" },
+    "problem":    { "type": "product-problem" },
+    "benefits":   { "type": "benefits" },
+    "stats":      { "type": "product-stats" },
+    "features":   { "type": "product-features" },
+    "how":        { "type": "how-it-works" },
+    "timeline":   { "type": "product-timeline" },
+    "comparison": { "type": "product-comparison" },
+    "testimonials": { "type": "testimonials" },
+    "guarantee":  { "type": "guarantee" },
+    "faq":        { "type": "faq" },
+    "cta":        { "type": "final-cta" }
   },
-  "order": ["main"]
+  "order": [
+    "main",
+    "press",
+    "problem",
+    "benefits",
+    "stats",
+    "features",
+    "how",
+    "timeline",
+    "comparison",
+    "testimonials",
+    "guarantee",
+    "faq",
+    "cta"
+  ]
 }
