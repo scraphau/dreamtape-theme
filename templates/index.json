@@ -194,14 +194,14 @@
         "accent_color": "#0e1a3a",
         "card_background_color": "#ffffff",
         "eyebrow": "Questions",
-        "heading": "<p>Everything you might<br>be <em>wondering</em>.</p>"
+        "heading": "<p>Everything you might<br/>be <em>wondering</em>.</p>"
       }
     },
     "final-cta": {
       "type": "final-cta",
       "settings": {
         "background_color": "#0e1a3a",
-        "text_color": "#ffffff",
+        "text_color": "#0e1a3a",
         "muted_text_color": "#dbe5f6",
         "accent_color": "#ffffff",
         "card_background_color": "#ffffff",
