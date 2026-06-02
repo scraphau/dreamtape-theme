@@ -6,7 +6,7 @@
       {%- endif -%}
       <h2 class="section-title">{{ section.settings.heading }}</h2>
     </div>
-    <div class="product-grid">
+    <div class="product-grid product-grid--centered">
       {%- assign collection = collections[section.settings.collection] -%}
       {%- if collection != blank and collection.products.size > 0 -%}
         {%- for product in collection.products limit: section.settings.products_to_show -%}
@@ -25,7 +25,7 @@
               <div class="product-meta">
                 <span class="price">$32</span>
               </div>
-              <a href="#" class="btn-primary btn-dark btn-full">View product</a>
+              <a href="#" class="btn-primary btn-dark btn-full">Learn more</a>
             </div>
           </article>
         {%- endfor -%}

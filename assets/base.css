@@ -521,6 +521,8 @@ a { color: inherit; text-decoration: none; }
 /* ---------- Products ---------- */
 .products { padding: 120px 0; background: var(--section-bg, var(--cream-warm)); color: var(--section-text, var(--midnight)); }
 .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.product-grid--centered { justify-items: center; }
+.product-grid--centered:has(.product-card:only-child) { grid-template-columns: minmax(0, 380px); justify-content: center; }
 .product-card {
   background: var(--section-card-bg, var(--paper));
   border-radius: 20px;
