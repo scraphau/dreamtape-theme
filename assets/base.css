@@ -433,7 +433,7 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid var(--section-accent, var(--midnight));
 }
 .btn-secondary:hover { background: var(--section-accent, var(--midnight)); color: var(--section-card-bg, var(--cream)); }
-.btn-light { background: var(--section-card-bg, var(--cream)); color: var(--midnight); }
+.btn-light { background: var(--section-card-bg, var(--cream)); color: var(--midnight); border: 1.5px solid transparent; transition: all 0.25s ease; }
 .btn-light:hover { background: transparent; color: var(--section-card-bg, var(--cream)); border-color: var(--section-card-bg, var(--cream)); transform: translateY(-1px); }
 .btn-large { padding: 20px 36px; font-size: 17px; }
 .btn-full { display: flex; justify-content: center; width: 100%; }
