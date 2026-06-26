@@ -1,0 +1,35 @@
+{
+  "sections": {
+    "contact-page": {
+      "type": "contact-page",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#f3f6fb",
+        "eyebrow": "Get in touch",
+        "heading": "Questions or feedback? We're here to help.",
+        "subheading": "Fill out the form below and our team will get back to you.",
+        "response_note": "We typically respond within 24 hours.",
+        "label_name": "Name",
+        "placeholder_name": "Your name",
+        "label_email": "Email",
+        "placeholder_email": "your@email.com",
+        "label_order": "Order Number",
+        "placeholder_order": "#1234",
+        "optional_label": "(optional)",
+        "label_message": "Message",
+        "placeholder_message": "How can we help?",
+        "submit_label": "Send it",
+        "success_message": "Thanks! We'll be in touch within 24 hours.",
+        "faq_eyebrow": "Need answers fast?",
+        "faq_heading": "Visit our FAQ page",
+        "faq_subtext": "Find quick answers to the most common questions about Dreamtape.",
+        "faq_button": "Visit our FAQ page",
+        "faq_link": "/pages/faq"
+      }
+    }
+  },
+  "order": ["contact-page"]
+}
