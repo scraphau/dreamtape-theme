@@ -1,0 +1,453 @@
+<section class="contact-page" style="{% render 'section-color-vars', section: section %}">
+  <div class="container">
+
+    <nav class="faq-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a>
+      <span>/</span>
+      <span>{{ page.title | default: 'Contact' }}</span>
+    </nav>
+
+    <div class="contact-grid">
+      <div class="contact-intro">
+        {%- if section.settings.eyebrow != blank -%}
+          <span class="eyebrow">{{ section.settings.eyebrow }}</span>
+        {%- endif -%}
+        <h1>{{ section.settings.heading }}</h1>
+        {%- if section.settings.lead != blank -%}
+          <p class="contact-lead">{{ section.settings.lead }}</p>
+        {%- endif -%}
+        {%- if section.settings.support_email != blank -%}
+          <p class="contact-email-note">
+            For media and partnership enquiries, email us directly at
+            <a href="mailto:{{ section.settings.support_email }}">{{ section.settings.support_email }}</a>
+          </p>
+        {%- endif -%}
+      </div>
+
+      <div class="contact-form-wrap">
+        {% form 'contact' %}
+          {%- if form.posted_successfully? -%}
+            <p class="contact-success">Thanks — your message is on its way. We'll be in touch within 24 hours.</p>
+          {%- endif -%}
+          {%- if form.errors -%}
+            <div class="contact-errors">
+              {%- for field in form.errors -%}
+                <p>{{ form.errors.translated_fields[field] | capitalize }} {{ form.errors.messages[field] }}</p>
+              {%- endfor -%}
+            </div>
+          {%- endif -%}
+
+          <div class="contact-row">
+            <div class="contact-field">
+              <label for="contact-name">Name</label>
+              <input type="text" id="contact-name" name="contact[name]" value="{{ form.name }}" required>
+            </div>
+            <div class="contact-field">
+              <label for="contact-email">Email</label>
+              <input type="email" id="contact-email" name="contact[email]" value="{{ form.email }}" required>
+            </div>
+          </div>
+
+          <div class="contact-row">
+            <div class="contact-field">
+              <label for="contact-country">Country</label>
+              <select id="contact-country" name="contact[country]">
+                <option value="" disabled selected>Select your country</option>
+                <option value="Australia">Australia</option>
+                <option value="United Kingdom">United Kingdom</option>
+                <option value="United States">United States</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="contact-field">
+              <label for="contact-order">Order Number <span class="contact-optional">(optional)</span></label>
+              <input type="text" id="contact-order" name="contact[order_number]">
+            </div>
+          </div>
+
+          <div class="contact-field contact-field--full">
+            <label for="contact-message">Your Message</label>
+            <textarea id="contact-message" name="contact[body]" rows="6" required>{{ form.body }}</textarea>
+          </div>
+
+          <button type="submit" class="btn-primary contact-submit">{{ section.settings.submit_label | default: 'Send It' }}</button>
+        {% endform %}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{%- if section.settings.faq_link != blank -%}
+  <section class="contact-asap" style="{% render 'section-color-vars', section: section %}">
+    <div class="container">
+      <div class="contact-asap-inner">
+        <div>
+          <h2>{{ section.settings.faq_heading }}</h2>
+          <p>{{ section.settings.faq_subtext }}</p>
+        </div>
+        <a class="btn-primary contact-asap-btn" href="{{ section.settings.faq_link }}">
+          {{ section.settings.faq_button }}
+          <span aria-hidden="true">&nbsp;&rarr;</span>
+        </a>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{%- if section.blocks.size > 0 -%}
+  <section class="contact-badges" style="{% render 'section-color-vars', section: section %}">
+    <div class="container">
+      <div class="contact-badges-grid">
+        {%- for block in section.blocks -%}
+          <div class="contact-badge" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon != blank -%}
+              <span class="contact-badge-icon">{{ block.settings.icon }}</span>
+            {%- endif -%}
+            <span>{{ block.settings.text }}</span>
+          </div>
+        {%- endfor -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+<style>
+  .contact-page {
+    background: var(--section-bg);
+    color: var(--section-text);
+    padding: 64px 0 48px;
+  }
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 0.85fr 1.15fr;
+    gap: 56px;
+    align-items: start;
+    margin-top: 40px;
+  }
+  .contact-intro h1 {
+    font-size: 2.4rem;
+    line-height: 1.1;
+    font-weight: 800;
+    margin: 12px 0 18px;
+    letter-spacing: -0.02em;
+  }
+  .contact-lead {
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: var(--section-muted);
+    margin: 0 0 16px;
+  }
+  .contact-email-note {
+    font-size: 0.95rem;
+    color: var(--section-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .contact-email-note a {
+    color: var(--section-accent);
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .contact-email-note a:hover { text-decoration: underline; }
+
+  .contact-form-wrap {
+    background: var(--section-card-bg);
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 18px;
+    padding: 32px;
+  }
+  .contact-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+  .contact-field {
+    margin-bottom: 18px;
+    display: flex;
+    flex-direction: column;
+  }
+  .contact-field--full { margin-bottom: 22px; }
+  .contact-field label {
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-bottom: 7px;
+    letter-spacing: 0.01em;
+    color: var(--section-text);
+  }
+  .contact-optional { font-weight: 400; color: var(--section-muted); }
+  .contact-field input,
+  .contact-field select,
+  .contact-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 11px;
+    padding: 13px 14px;
+    font-size: 1rem;
+    background: #fff;
+    color: var(--section-text);
+    font-family: inherit;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .contact-field textarea { resize: vertical; }
+  .contact-field input:focus,
+  .contact-field select:focus,
+  .contact-field textarea:focus {
+    outline: none;
+    border-color: var(--section-accent);
+    box-shadow: 0 0 0 3px rgba(14,26,58,0.1);
+  }
+  .contact-submit { width: 100%; justify-content: center; }
+  .contact-success {
+    background: #e6f7ec;
+    border: 1px solid #b7e4c7;
+    color: #1c7a43;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+  .contact-errors {
+    background: #fdecec;
+    border: 1px solid #f5c2c2;
+    color: #b3261e;
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+  }
+  .contact-errors p { margin: 4px 0; }
+
+  .contact-asap {
+    background: var(--section-bg);
+    padding: 0 0 48px;
+  }
+  .contact-asap-inner {
+    background: var(--section-accent);
+    color: #fff;
+    border-radius: 18px;
+    padding: 38px 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .contact-asap-inner h2 {
+    margin: 0 0 6px;
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: #fff;
+  }
+  .contact-asap-inner p { margin: 0; opacity: 0.75; }
+  .contact-asap-btn {
+    background: rgba(255,255,255,0.15) !important;
+    border: 2px solid rgba(255,255,255,0.4) !important;
+    white-space: nowrap;
+  }
+  .contact-asap-btn:hover {
+    background: rgba(255,255,255,0.25) !important;
+  }
+
+  .contact-badges {
+    background: var(--section-bg);
+    padding: 0 0 72px;
+  }
+  .contact-badges-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    padding-top: 36px;
+  }
+  .contact-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--section-text);
+  }
+  .contact-badge-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    background: var(--section-card-bg);
+    border: 1px solid rgba(0,0,0,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+  }
+
+  @media (max-width: 860px) {
+    .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+    .contact-badges-grid { grid-template-columns: repeat(2, 1fr); gap: 28px 20px; }
+    .contact-asap-inner { padding: 30px 28px; }
+    .contact-intro h1 { font-size: 2rem; }
+  }
+  @media (max-width: 520px) {
+    .contact-row { grid-template-columns: 1fr; gap: 0; }
+    .contact-form-wrap { padding: 22px; }
+    .contact-badges-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Contact page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "muted_text_color",
+      "label": "Muted text color",
+      "default": "#5a6580"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent color",
+      "default": "#0e1a3a"
+    },
+    {
+      "type": "color",
+      "id": "card_background_color",
+      "label": "Card background color",
+      "default": "#f5f7fa"
+    },
+    {
+      "type": "header",
+      "content": "Intro"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Get in touch"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Questions or Feedback?"
+    },
+    {
+      "type": "text",
+      "id": "lead",
+      "label": "Lead text",
+      "default": "Just breathe easy and fill out the form below. The Dreamtape team will get back to you within 24 hours."
+    },
+    {
+      "type": "text",
+      "id": "support_email",
+      "label": "Support email"
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button label",
+      "default": "Send It"
+    },
+    {
+      "type": "header",
+      "content": "FAQ callout"
+    },
+    {
+      "type": "text",
+      "id": "faq_heading",
+      "label": "Heading",
+      "default": "Need answers ASAP?"
+    },
+    {
+      "type": "text",
+      "id": "faq_subtext",
+      "label": "Subtext",
+      "default": "Not finding what you're looking for?"
+    },
+    {
+      "type": "text",
+      "id": "faq_button",
+      "label": "Button label",
+      "default": "Visit our FAQ page"
+    },
+    {
+      "type": "url",
+      "id": "faq_link",
+      "label": "FAQ page link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "badge",
+      "name": "Trust badge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon (emoji or symbol)",
+          "default": "✓"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Badge text",
+          "default": "30-Day Money Back Guarantee"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Contact page",
+      "blocks": [
+        {
+          "type": "badge",
+          "settings": {
+            "icon": "☁",
+            "text": "100% Safe & Comfortable"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "icon": "📈",
+            "text": "Science Backed Benefits"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "icon": "✓",
+            "text": "30-Day Money Back Guarantee"
+          }
+        },
+        {
+          "type": "badge",
+          "settings": {
+            "icon": "✈",
+            "text": "FREE Shipping With Subscriptions"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
