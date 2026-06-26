@@ -121,7 +121,7 @@ document.querySelectorAll('[data-reviews-page]').forEach(page => {
   const reviewMarkup = review => `
     <article class="review-card" data-local-review data-rating="${review.rating}">
       <div class="review-card-top">
-        <span>about <a href="/collections/all">Dreamtape</a></span>
+        <span>about <a href="/products/mouth-tape">Dreamtape Mouth Tape</a></span>
         <time>${review.date}</time>
       </div>
       <div class="reviews-stars">${stars(review.rating)}</div>
