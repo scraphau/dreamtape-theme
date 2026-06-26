@@ -18,17 +18,17 @@
         "accent_color": "#0e1a3a",
         "card_background_color": "#ffffff",
         "show_rating": true,
-        "rating_text": "4.9 from 462 reviews",
-        "heading": "<p>Sleep like<br/>you're meant to.</p>",
-        "subheading": "Dreamtape mouth tape helps guide you back to natural nasal breathing for deeper sleep, quieter nights, and brighter mornings.",
+        "rating_text": "Loved by Dreamtape sleepers",
+        "heading": "<p>Wake up feeling<br/>fresh again.</p>",
+        "subheading": "Dreamtape is a gentle sleep strip designed to help keep your lips comfortably closed, supporting nasal breathing through the night.",
         "button_text": "SHOP DREAMTAPE",
         "button_link": "shopify://products/mouth-tape",
-        "meta_top": "From $0.59 per night",
-        "meta_bottom": "30-night risk-free trial",
-        "quote_text": "Absolutely love this! I wake up before my alarm now.",
-        "quote_author": "Jessie M., verified customer",
-        "card_1_title": "Mouth Tape",
-        "card_1_sub": "30 strips"
+        "meta_top": "30 strips per pack",
+        "meta_bottom": "Gentle overnight hold",
+        "quote_text": "So easy to use and way more comfortable than I expected.",
+        "quote_author": "Verified customer",
+        "card_1_title": "Dreamtape",
+        "card_1_sub": "30 sleep strips"
       }
     },
     "trust": {
@@ -49,12 +49,12 @@
         "muted_text_color": "#5a6580",
         "accent_color": "#0e1a3a",
         "card_background_color": "#ffffff",
-        "stat_number": "61",
-        "stat_unit": "%",
-        "stat_label": "of adults are mouth breathers",
-        "eyebrow": "A wake-up call",
-        "heading": "<p>Mouth breathing is wrecking your nights — and your <em>face</em>.</p>",
-        "body": "<p>Snoring, dry mouth, disrupted REM, lower oxygenation, and a weaker facial structure. Most of us do it without realising.</p><p>Dreamtape gently guides your jaw closed so you nose-breathe through the night.</p>",
+        "stat_number": "30",
+        "stat_unit": "",
+        "stat_label": "gentle sleep strips in every pack",
+        "eyebrow": "A better nightly habit",
+        "heading": "<p>Small strip.<br/>Better sleep routine.</p>",
+        "body": "<p>Mouth breathing at night can leave you waking up with a dry mouth, disturbed sleep, or noisy breathing.</p><p>Dreamtape helps gently encourage lips-closed sleep so nasal breathing feels easier and more natural.</p>",
         "button_text": "Try Dreamtape",
         "button_link": "shopify://products/mouth-tape"
       }
@@ -67,8 +67,8 @@
         "muted_text_color": "#0e1a3a",
         "accent_color": "#0a1432",
         "card_background_color": "#ffffff",
-        "eyebrow": "Mouth Tape",
-        "heading": "<p>All for your <em>nasal breathing</em> ritual.</p>",
+        "eyebrow": "Dreamtape Sleep Strips",
+        "heading": "<p>Made for your <em>nightly sleep</em> routine.</p>",
         "product": "mouth-tape",
         "collection": "dreamtape-sleep-strips"
       }
@@ -79,49 +79,49 @@
         "benefit_PMxVhC": {
           "type": "benefit",
           "settings": {
-            "icon": "😴",
-            "title": "Stop snoring",
-            "body": "Nasal breathing keeps your airway open — quieter nights for you and everyone around you."
+            "icon": "🌙",
+            "title": "Supports nasal breathing",
+            "body": "Helps keep your lips comfortably closed so breathing through your nose feels more natural overnight."
           }
         },
         "benefit_PmTNDB": {
           "type": "benefit",
           "settings": {
-            "icon": "⚡",
-            "title": "Wake up energised",
-            "body": "More oxygen overnight means better deep sleep and brighter, sharper mornings."
+            "icon": "💧",
+            "title": "Wake with less dry mouth",
+            "body": "A lips-closed sleep routine can help reduce that dry-mouth feeling many people notice in the morning."
           }
         },
         "benefit_BBUjkW": {
           "type": "benefit",
           "settings": {
-            "icon": "🦷",
-            "title": "Fresh breath",
-            "body": "No more dry mouth. Nasal breathing keeps your mouth moist and bacteria-free overnight."
+            "icon": "🤌",
+            "title": "Comfortable overnight hold",
+            "body": "Designed to stay in place while still feeling light and easy to remove when you wake up."
           }
         },
         "benefit_pPXRzn": {
           "type": "benefit",
           "settings": {
-            "icon": "💪",
-            "title": "Stronger jawline",
-            "body": "Keeping your mouth closed engages your jaw muscles — improving facial structure over time."
+            "icon": "🧼",
+            "title": "Gentle on skin",
+            "body": "Made for nightly use with a soft adhesive feel that is simple to apply and remove."
           }
         },
         "benefit_MAihfK": {
           "type": "benefit",
           "settings": {
-            "icon": "🛡️",
-            "title": "Boost immunity",
-            "body": "Your nose filters and humidifies air, removing bacteria before it reaches your lungs."
+            "icon": "👃",
+            "title": "Encourages a calmer routine",
+            "body": "A simple reminder to slow down, close your lips, and settle into nose breathing before sleep."
           }
         },
         "benefit_AMN3kf": {
           "type": "benefit",
           "settings": {
-            "icon": "🧠",
-            "title": "Reduce stress",
-            "body": "Nasal breathing activates your parasympathetic system — calming your body and mind for deep rest."
+            "icon": "🍃",
+            "title": "Lightweight and breathable",
+            "body": "Soft, minimal, and easy to wear so it fits naturally into your nightly routine."
           }
         }
       },
@@ -139,9 +139,9 @@
         "muted_text_color": "#5a6580",
         "accent_color": "#0e1a3a",
         "card_background_color": "#f3f6fb",
-        "eyebrow": "One fix. Many wins.",
-        "heading": "<p>A cascade of benefits<br/>from <em>one small strip</em>.</p>",
-        "lead": "When you switch from mouth to nose breathing, you unlock better oxygenation, deeper REM, a stronger jawline, and a sharper immune system — naturally and effortlessly."
+        "eyebrow": "Why Dreamtape",
+        "heading": "<p>A cleaner way to<br/>build a <em>better sleep habit</em>.</p>",
+        "lead": "Dreamtape is built for comfort, consistency, and a simple nightly ritual — helping support lips-closed sleep without feeling bulky or harsh."
       }
     },
     "how": {
@@ -153,7 +153,7 @@
         "accent_color": "#ffffff",
         "card_background_color": "#ffffff",
         "eyebrow": "How it works",
-        "heading": "<p>Three steps to <em>your best sleep</em>.</p>"
+        "heading": "<p>Three steps to a<br/><em>better night routine</em>.</p>"
       }
     },
     "testimonials": {
@@ -164,8 +164,8 @@
         "muted_text_color": "#5a6580",
         "accent_color": "#0e1a3a",
         "card_background_color": "#ffffff",
-        "eyebrow": "Real Dreamtape sleepers",
-        "heading": "<p>You'll want to <em>stock up</em>.</p>"
+        "eyebrow": "Dreamtape reviews",
+        "heading": "<p>Simple, comfortable,<br/>and easy to <em>stick with</em>.</p>"
       }
     },
     "guarantee": {
@@ -179,8 +179,8 @@
         "days": "30",
         "badge_label": "nights<br>risk-free",
         "eyebrow": "Our promise",
-        "heading": "Sleep on it for 30 nights.",
-        "body": "<p>We're so sure Dreamtape will change your sleep, we offer a 30-night money-back guarantee. If you're not waking up better-rested, send us one email — we'll refund you in full. No questions, no fuss.</p>",
+        "heading": "Try it for 30 nights.",
+        "body": "<p>Build the habit at your own pace. If Dreamtape is not the right fit for your sleep routine, contact us within 30 nights and we will help make it right.</p>",
         "button_text": "Try Dreamtape now",
         "button_link": "shopify://products/mouth-tape"
       }
@@ -205,10 +205,10 @@
         "muted_text_color": "#dbe5f6",
         "accent_color": "#ffffff",
         "card_background_color": "#ffffff",
-        "eyebrow": "Your next chapter",
-        "heading": "<p>Wake up to a<br/><em>healthier you</em>.</p>",
-        "body": "You spend a third of your life asleep. Make it count.",
-        "button_text": "Try Dreamtape now",
+        "eyebrow": "Start tonight",
+        "heading": "<p>Make nasal breathing<br/><em>your nightly habit</em>.</p>",
+        "body": "A small strip that makes your bedtime routine feel cleaner, calmer, and more intentional.",
+        "button_text": "Shop Dreamtape",
         "button_link": "shopify://products/mouth-tape"
       }
     }
