@@ -7,13 +7,31 @@
       <h2 class="section-title">{{ section.settings.heading }}</h2>
     </div>
     <div class="how-grid">
-      {%- for block in section.blocks -%}
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <div class="how-step" {{ block.shopify_attributes }}>
+            <div class="step-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.body }}</p>
+          </div>
+        {%- endfor -%}
+      {%- else -%}
         <div class="how-step">
-          <div class="step-num">{{ forloop.index | prepend: '0' | slice: -2, 2 }}</div>
-          <h3>{{ block.settings.title }}</h3>
-          <p>{{ block.settings.body }}</p>
+          <div class="step-num">01</div>
+          <h3>Peel a strip</h3>
+          <p>Each Dreamtape strip is pre-cut and ready in seconds. Easy to apply, even in the dark.</p>
         </div>
-      {%- endfor -%}
+        <div class="how-step">
+          <div class="step-num">02</div>
+          <h3>Apply gently</h3>
+          <p>Place it lightly across your lips. The soft, hypoallergenic adhesive is lip- and beard-friendly.</p>
+        </div>
+        <div class="how-step">
+          <div class="step-num">03</div>
+          <h3>Drift off</h3>
+          <p>Breathe through your nose all night long. Wake up rested, refreshed, and ready.</p>
+        </div>
+      {%- endif -%}
     </div>
   </div>
 </section>
