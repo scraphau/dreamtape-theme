@@ -2,7 +2,9 @@
   <div class="container">
     <div class="reviews-hero">
       <h1>{{ section.settings.heading }}</h1>
-      <p class="reviews-kicker">{{ section.settings.kicker }}</p>
+      {%- if section.settings.kicker != blank -%}
+        <p class="reviews-kicker">{{ section.settings.kicker }}</p>
+      {%- endif -%}
     </div>
 
     <div class="reviews-summary">
@@ -193,7 +195,7 @@
       "type": "color",
       "id": "accent_color",
       "label": "Accent color",
-      "default": "#0e9aa0"
+      "default": "#0e1a3a"
     },
     {
       "type": "color",
@@ -211,7 +213,7 @@
       "type": "text",
       "id": "kicker",
       "label": "Kicker",
-      "default": "1M+ STRIPS SOLD - 100K+ RESTED CUSTOMERS"
+      "default": ""
     }
   ]
 }

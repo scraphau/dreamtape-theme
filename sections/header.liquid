@@ -30,12 +30,22 @@
       {%- if use_custom_nav -%}
         {%- for block in nav_blocks -%}
           {%- if block.settings.label != blank -%}
-            <a href="{{ block.settings.link | default: routes.root_url }}" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+            {%- assign nav_label = block.settings.label | downcase -%}
+            {%- assign nav_href = block.settings.link | default: routes.root_url -%}
+            {%- if nav_label == 'reviews' -%}
+              {%- assign nav_href = '/search?view=reviews' -%}
+            {%- endif -%}
+            <a href="{{ nav_href }}" {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
           {%- endif -%}
         {%- endfor -%}
       {%- else -%}
         {%- for link in section.settings.menu.links -%}
-          <a href="{{ link.url }}">{{ link.title }}</a>
+          {%- assign nav_title = link.title | downcase -%}
+          {%- assign nav_href = link.url -%}
+          {%- if nav_title == 'reviews' -%}
+            {%- assign nav_href = '/search?view=reviews' -%}
+          {%- endif -%}
+          <a href="{{ nav_href }}">{{ link.title }}</a>
         {%- endfor -%}
         {%- unless has_faq_link -%}
           <a href="/search?view=faq">FAQ</a>
@@ -59,12 +69,22 @@
   {%- if use_custom_nav -%}
     {%- for block in nav_blocks -%}
       {%- if block.settings.label != blank -%}
-        <a href="{{ block.settings.link | default: routes.root_url }}" data-menu-close {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
+        {%- assign nav_label = block.settings.label | downcase -%}
+        {%- assign nav_href = block.settings.link | default: routes.root_url -%}
+        {%- if nav_label == 'reviews' -%}
+          {%- assign nav_href = '/search?view=reviews' -%}
+        {%- endif -%}
+        <a href="{{ nav_href }}" data-menu-close {{ block.shopify_attributes }}>{{ block.settings.label }}</a>
       {%- endif -%}
     {%- endfor -%}
   {%- else -%}
     {%- for link in section.settings.menu.links -%}
-      <a href="{{ link.url }}" data-menu-close>{{ link.title }}</a>
+      {%- assign nav_title = link.title | downcase -%}
+      {%- assign nav_href = link.url -%}
+      {%- if nav_title == 'reviews' -%}
+        {%- assign nav_href = '/search?view=reviews' -%}
+      {%- endif -%}
+      <a href="{{ nav_href }}" data-menu-close>{{ link.title }}</a>
     {%- endfor -%}
     {%- unless has_faq_link -%}
       <a href="/search?view=faq" data-menu-close>FAQ</a>

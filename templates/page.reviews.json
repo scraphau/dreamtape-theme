@@ -1,7 +1,11 @@
 {
   "sections": {
     "main": {
-      "type": "reviews-page"
+      "type": "reviews-page",
+      "settings": {
+        "accent_color": "#0e1a3a",
+        "kicker": ""
+      }
     },
     "final-cta": {
       "type": "final-cta"
