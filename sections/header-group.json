@@ -35,14 +35,14 @@
           "type": "nav_link",
           "settings": {
             "label": "Mouth Tape",
-            "link": "shopify://products/mouth-tape"
+            "link": "/pages/mouth-tape"
           }
         },
         "nav-reviews": {
           "type": "nav_link",
           "settings": {
             "label": "Reviews",
-            "link": "/search?view=reviews"
+            "link": "/pages/reviews"
           }
         },
         "nav-contact": {
@@ -56,7 +56,7 @@
           "type": "nav_link",
           "settings": {
             "label": "FAQ",
-            "link": "/search?view=faq"
+            "link": "/pages/faq"
           }
         }
       },
