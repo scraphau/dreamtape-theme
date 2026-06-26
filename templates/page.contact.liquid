@@ -23,7 +23,6 @@
       </div>
 
       <div class="rp-form-wrap">
-        {%- assign posted = false -%}
         {% form 'contact' %}
           {% if form.posted_successfully? %}
             <p class="rp-success">Thanks — your message is on its way. We'll be in touch within 24 hours.</p>
