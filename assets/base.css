@@ -1063,19 +1063,25 @@ a { color: inherit; text-decoration: none; }
 .product-bullets li:first-child { border-top: 1px solid var(--line); }
 .product-bullets li::before { content: '✓'; position: absolute; left: 0; color: #2d9e6c; font-weight: 700; }
 
-/* Variant picker — stacked horizontal cards (Respire-style) */
+/* Variant picker — stacked horizontal cards */
 .variant-picker { margin-bottom: 16px; }
-.variant-picker-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; }
-.variant-picker-label { font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--section-text, var(--midnight)); }
-.variant-picker-sub { font-size: 11.5px; color: var(--section-muted, var(--muted)); }
+.variant-picker-divider {
+  display: flex; align-items: center; gap: 16px;
+  margin-bottom: 16px;
+  font-size: 12px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--section-text, var(--midnight));
+}
+.variant-picker-divider::before,
+.variant-picker-divider::after { content: ''; flex: 1; height: 1px; background: var(--line); }
 
 .variant-options-stack { display: flex; flex-direction: column; gap: 10px; }
 .variant-card {
   display: grid;
   grid-template-columns: 28px 1fr auto;
   align-items: center;
-  gap: 14px;
-  padding: 14px 16px;
+  gap: 16px;
+  padding: 22px 24px;
+  min-height: 88px;
   border: 2px solid var(--line);
   border-radius: 14px;
   background: var(--section-card-bg, var(--paper));
@@ -1084,14 +1090,26 @@ a { color: inherit; text-decoration: none; }
   text-align: left;
   transition: all 0.2s;
   position: relative;
+  overflow: hidden;
 }
 .variant-card:hover { border-color: rgba(14,26,58,0.35); }
 .variant-card.active {
   border-color: var(--section-accent, var(--midnight));
-  background: #f5f7fc;
+  background: #faf6ea;
   box-shadow: 0 0 0 1px var(--section-accent, var(--midnight));
 }
 .variant-card--popular { border-color: var(--section-accent, var(--midnight)); }
+.variant-card--deal { border-color: var(--section-accent, var(--midnight)); }
+
+.vc-ribbon {
+  position: absolute;
+  top: 0; right: 0;
+  background: var(--section-accent, var(--midnight));
+  color: var(--section-card-bg, var(--cream));
+  font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 5px 14px 5px 18px;
+  border-bottom-left-radius: 10px;
+}
 
 .vc-radio {
   width: 20px; height: 20px; border-radius: 50%;
@@ -1108,25 +1126,59 @@ a { color: inherit; text-decoration: none; }
 
 .vc-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
 .vc-top { display: flex; align-items: center; gap: 8px; }
-.vc-title { font-family: var(--font-serif); font-size: 15px; font-weight: 500; color: var(--section-text, var(--midnight)); }
+.vc-title { font-family: var(--font-sans); font-size: 15px; font-weight: 700; color: var(--section-text, var(--midnight)); }
 .vc-pill {
-  font-size: 9px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
-  padding: 2px 8px; border-radius: 100px;
+  font-size: 10px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase;
+  padding: 3px 9px; border-radius: 100px;
+  background: #3f6fe0; color: #fff;
 }
-.vc-pill--popular { background: var(--section-accent, var(--midnight)); color: var(--section-card-bg, var(--cream)); }
-.vc-pill--deal { background: #2d9e6c; color: #fff; }
-.vc-meta { font-size: 11.5px; color: var(--section-muted, var(--muted)); }
+.vc-meta { display: block; font-size: 12px; color: var(--section-muted, var(--muted)); }
+.vc-meta--italic { font-style: italic; }
 
 .vc-pricing { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; flex-shrink: 0; }
-.vc-price { font-family: var(--font-serif); font-size: 17px; font-weight: 500; color: var(--section-text, var(--midnight)); }
-.vc-compare { font-size: 12px; color: var(--section-muted, var(--muted)); text-decoration: line-through; }
-.vc-per-strip { font-size: 11px; color: var(--section-muted, var(--muted)); }
+.vc-price { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--section-text, var(--midnight)); }
+.vc-price.is-discounted { color: #2d9e6c; }
+.vc-compare { font-size: 13px; color: var(--section-muted, var(--muted)); text-decoration: line-through; }
 
 /* Price row */
 .product-price-row { display: flex; align-items: center; gap: 10px; margin: 16px 0; flex-wrap: wrap; }
 .product-price-current { font-family: var(--font-serif); font-size: 34px; font-weight: 400; letter-spacing: -0.02em; color: var(--section-text, var(--midnight)); }
+.product-price-current.is-discounted { color: #2d9e6c; }
 .product-price-compare { font-size: 17px; color: var(--section-muted, var(--muted)); text-decoration: line-through; font-family: var(--font-serif); }
 .product-price-save { background: #e8f5ee; color: #2d7a56; font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 100px; }
+
+/* Subscribe & save toggle */
+.product-subscribe-toggle {
+  display: flex; align-items: flex-start; gap: 12px;
+  border: 1.5px dashed var(--section-accent, var(--midnight));
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  background: var(--section-card-bg, #f5f7fc);
+}
+.product-subscribe-toggle input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
+.pst-check {
+  width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px;
+  border: 2px solid var(--section-accent, var(--midnight));
+  border-radius: 5px;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.2s;
+}
+.pst-check::after {
+  content: '✓';
+  color: var(--section-card-bg, var(--cream));
+  font-size: 13px; font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+.product-subscribe-toggle input:checked ~ .pst-check {
+  background: var(--section-accent, var(--midnight));
+}
+.product-subscribe-toggle input:checked ~ .pst-check::after { opacity: 1; }
+.pst-body { display: flex; flex-direction: column; gap: 2px; }
+.pst-body strong { font-size: 14px; color: var(--section-text, var(--midnight)); }
+.pst-body span { font-size: 12.5px; color: var(--section-muted, var(--muted)); }
 
 /* Subscribe note */
 .product-subscribe-note {
