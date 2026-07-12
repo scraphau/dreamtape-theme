@@ -31,24 +31,6 @@
             {%- endfor -%}
           </div>
         {%- endif -%}
-
-        <!-- Social proof below image -->
-        <div class="product-social-proof">
-          <div class="psp-item">
-            <span class="psp-num">{{ section.settings.proof_1_num }}</span>
-            <span class="psp-label">{{ section.settings.proof_1_label }}</span>
-          </div>
-          <div class="psp-divider"></div>
-          <div class="psp-item">
-            <span class="psp-num">{{ section.settings.proof_2_num }}</span>
-            <span class="psp-label">{{ section.settings.proof_2_label }}</span>
-          </div>
-          <div class="psp-divider"></div>
-          <div class="psp-item">
-            <span class="psp-num">{{ section.settings.proof_3_num }}</span>
-            <span class="psp-label">{{ section.settings.proof_3_label }}</span>
-          </div>
-        </div>
       </div>
 
       <!-- Info -->
@@ -187,6 +169,8 @@
             </div>
           {%- endif -%}
 
+          <div class="subscriptions_app_embed_block"></div>
+
           <button type="submit" class="btn-atc" {% unless product.available %}disabled{% endunless %}>
             {%- if product.available -%}
               Add to Cart — {{ section.settings.cta_suffix }}
@@ -226,35 +210,8 @@
   </div>
 </section>
 
-<!-- Sticky ATC -->
-<div class="sticky-atc" id="stickyAtc" aria-hidden="true">
-  <div class="container">
-    <div class="sticky-atc-inner">
-      <div class="sticky-atc-left">
-        <strong>{{ product.title }}</strong>
-        <span class="sticky-atc-stars">★★★★★</span>
-        <span class="sticky-atc-rating">{{ section.settings.rating_text }}</span>
-      </div>
-      <div class="sticky-atc-right">
-        <span class="sticky-atc-price" data-sticky-price>{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}</span>
-        <button class="btn-atc-sticky" onclick="document.getElementById('product-form').querySelector('[type=submit]').click()">
-          Add to Cart →
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
 (function(){
-  const form = document.getElementById('product-form');
-  const bar  = document.getElementById('stickyAtc');
-  if (form && bar) {
-    new IntersectionObserver(([e]) => {
-      bar.classList.toggle('visible', !e.isIntersecting);
-    }, { rootMargin: '-60px 0px 0px 0px' }).observe(form);
-  }
-
   document.querySelectorAll('[data-variant-picker]').forEach(picker => {
     const frm   = picker.closest('form');
     const cards = picker.querySelectorAll('.variant-card');
@@ -262,7 +219,6 @@
     const curEl = document.querySelector('[data-current-price]');
     const cmpEl = document.querySelector('[data-compare-price]');
     const savEl = document.querySelector('[data-save-badge]');
-    const stickyP = document.querySelector('[data-sticky-price]');
 
     cards.forEach(card => {
       card.addEventListener('click', () => {
@@ -272,7 +228,6 @@
         const price   = card.dataset.price   || '';
         const compare = card.dataset.compare  || '';
         if (curEl)   curEl.textContent  = price;
-        if (stickyP) stickyP.textContent = price;
         if (cmpEl) { cmpEl.textContent = compare; cmpEl.style.display = compare ? '' : 'none'; }
         if (savEl)   savEl.style.display = compare ? '' : 'none';
       });
@@ -297,13 +252,6 @@
     { "type": "text", "id": "tagline", "label": "Tagline", "default": "The last sleep upgrade you'll ever need." },
     { "type": "textarea", "id": "bullets", "label": "Feature bullets (one per line)", "default": "Reduced snoring & deeper sleep every night\nMore energy, sharper focus every morning\nStronger jaw & enhanced facial structure" },
     { "type": "text", "id": "image_badge", "label": "Image overlay badge", "default": "From $0.67/night" },
-    { "type": "header", "content": "Social proof (below image)" },
-    { "type": "text", "id": "proof_1_num", "label": "Stat 1 number", "default": "87%" },
-    { "type": "text", "id": "proof_1_label", "label": "Stat 1 label", "default": "better sleep quality" },
-    { "type": "text", "id": "proof_2_num", "label": "Stat 2 number", "default": "30K+" },
-    { "type": "text", "id": "proof_2_label", "label": "Stat 2 label", "default": "happy members" },
-    { "type": "text", "id": "proof_3_num", "label": "Stat 3 number", "default": "4.9★" },
-    { "type": "text", "id": "proof_3_label", "label": "Stat 3 label", "default": "average rating" },
     { "type": "header", "content": "CTA & notes" },
     { "type": "text", "id": "cta_suffix", "label": "Button text suffix (after em dash)", "default": "Try Risk-Free" },
     { "type": "text", "id": "subscribe_note", "label": "Subscribe & save note", "default": "Save an extra 15% with Auto-Refills — pause or cancel anytime" },

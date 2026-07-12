@@ -1,0 +1,14 @@
+{%- liquid
+  assign label_lower = label | downcase
+  assign emoji = ''
+  if label_lower contains 'home'
+    assign emoji = '🏠'
+  elsif label_lower contains 'mouth' or label_lower contains 'tape'
+    assign emoji = '😴'
+  elsif label_lower contains 'contact'
+    assign emoji = '✉️'
+  elsif label_lower contains 'faq'
+    assign emoji = '❓'
+  endif
+-%}
+{{- emoji -}}

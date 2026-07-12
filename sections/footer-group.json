@@ -13,18 +13,6 @@
   "sections": {
     "footer": {
       "type": "footer",
-      "blocks": {
-        "newsletter_88XxRJ": {
-          "type": "newsletter",
-          "settings": {
-            "heading": "Newsletter",
-            "subheading": "Get 10% off your first order."
-          }
-        }
-      },
-      "block_order": [
-        "newsletter_88XxRJ"
-      ],
       "settings": {
         "background_color": "#07102a",
         "text_color": "#ffffff",
