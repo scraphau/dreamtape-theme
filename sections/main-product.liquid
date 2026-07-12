@@ -127,6 +127,8 @@
                   {%- if effective_compare > variant.price -%}
                     {%- assign saved_amount = effective_compare | minus: variant.price -%}
                     {%- assign discount_percent = saved_amount | times: 100 | divided_by: effective_compare -%}
+                    {%- comment -%} Round down to the nearest 5 so a slightly-off dollar amount still shows a clean marketing number (never overstates the actual discount). {%- endcomment -%}
+                    {%- assign discount_percent = discount_percent | divided_by: 5 | times: 5 -%}
                   {%- endif -%}
 
                   {%- comment -%} Match the selling plan tier to this pack size (e.g. "every 3 months" plan for the 3-month pack) rather than always taking the first available plan. {%- endcomment -%}
@@ -211,6 +213,9 @@
                   {%- endif -%}
                   {%- if name_percent > 0 -%}
                     {%- assign sub_discount_percent = name_percent -%}
+                  {%- else -%}
+                    {%- comment -%} No literal percentage in the plan name (e.g. fixed-price plan) - round down to the nearest 5 so a slightly-off dollar amount still shows a clean number. {%- endcomment -%}
+                    {%- assign sub_discount_percent = sub_discount_percent | divided_by: 5 | times: 5 -%}
                   {%- endif -%}
 
                   <button type="button"
