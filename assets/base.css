@@ -211,27 +211,33 @@ a { color: inherit; text-decoration: none; }
 .mobile-menu {
   position: fixed;
   inset: 0;
-  background: var(--section-bg, var(--midnight));
-  color: var(--section-text, var(--cream));
+  background: var(--paper);
+  color: var(--midnight);
   z-index: 200;
-  padding: 80px 40px;
+  padding: 84px 28px 40px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
-  font-family: var(--font-serif);
-  font-size: 32px;
+  gap: 0;
+  font-family: var(--font-sans, inherit);
+  font-size: 22px;
   transform: translateX(-100%);
   transition: transform 0.4s ease;
+  overflow-y: auto;
 }
 .mobile-menu.open { transform: translateX(0); }
+.mobile-menu a {
+  padding: 20px 2px;
+  border-bottom: 1px solid var(--line);
+  color: var(--midnight);
+}
 .close-btn {
   position: absolute;
-  top: 24px;
-  right: 28px;
+  top: 22px;
+  right: 24px;
   background: none;
   border: none;
-  color: var(--section-text, var(--cream));
-  font-size: 36px;
+  color: var(--midnight);
+  font-size: 30px;
   cursor: pointer;
   line-height: 1;
 }
