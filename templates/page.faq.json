@@ -127,7 +127,7 @@
         "contact_link": "/pages/contact",
         "contact_link_label": "Contact page.",
         "support_heading": "Not finding what you are looking for?",
-        "support_text": "<p>Send us a note and we will help you find the right answer before bedtime.</p>",
+        "support_text": "<p>Send us a note and we will help you find the right answer.</p>",
         "support_button": "Get help",
         "support_link": "/pages/contact"
       }
@@ -136,7 +136,7 @@
       "type": "final-cta",
       "settings": {
         "background_color": "#0e1a3a",
-        "text_color": "#0E1A3A",
+        "text_color": "#0e1a3a",
         "muted_text_color": "#dbe5f6",
         "accent_color": "#ffffff",
         "card_background_color": "#ffffff",
