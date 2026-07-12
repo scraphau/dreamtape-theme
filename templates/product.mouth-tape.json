@@ -89,6 +89,58 @@
     },
     "faq": {
       "type": "faq",
+      "blocks": {
+        "faq_what": {
+          "type": "qa",
+          "settings": {
+            "question": "What is Dreamtape mouth tape?",
+            "answer": "<p>Dreamtape mouth tape gently supports nasal breathing while you sleep. It helps keep your mouth closed in a comfortable way so you can settle into quieter, deeper rest.</p>"
+          }
+        },
+        "faq_use": {
+          "type": "qa",
+          "settings": {
+            "question": "How do I use Dreamtape?",
+            "answer": "<p>Start with clean, dry lips. Peel one strip from the sheet, place it gently across your mouth, and press the edges down so it feels secure before you go to sleep.</p>"
+          }
+        },
+        "faq_safe": {
+          "type": "qa",
+          "settings": {
+            "question": "Is mouth taping safe?",
+            "answer": "<p>Dreamtape is made for healthy adults with clear nasal breathing. If you have sleep apnea, breathing concerns, blocked nasal passages, or a medical condition, speak with a healthcare professional before use.</p>"
+          }
+        },
+        "faq_remove": {
+          "type": "qa",
+          "settings": {
+            "question": "Will it hurt to remove?",
+            "answer": "<p>No. Dreamtape is designed for gentle, comfortable removal. Peel slowly from one side and remove it with care.</p>"
+          }
+        },
+        "faq_facial_hair": {
+          "type": "qa",
+          "settings": {
+            "question": "Can I use it with facial hair?",
+            "answer": "<p>Yes, many customers use Dreamtape with light facial hair. For the best hold, apply it to clean, dry skin and avoid heavy oils or balms before bed.</p>"
+          }
+        },
+        "faq_reusable": {
+          "type": "qa",
+          "settings": {
+            "question": "Are the strips reusable?",
+            "answer": "<p>No. For hygiene and adhesive performance, each Dreamtape strip is single-use.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_what",
+        "faq_use",
+        "faq_safe",
+        "faq_remove",
+        "faq_facial_hair",
+        "faq_reusable"
+      ],
       "settings": {
         "background_color": "#ffffff",
         "text_color": "#0e1a3a",
