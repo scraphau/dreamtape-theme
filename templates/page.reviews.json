@@ -1,11 +1,44 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
-      "type": "reviews-page"
+      "type": "reviews-page",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e9aa0",
+        "card_background_color": "#ffffff",
+        "heading": "Dreamtape Reviews",
+        "kicker": "1M+ STRIPS SOLD - 100K+ RESTED CUSTOMERS"
+      }
     },
     "final-cta": {
-      "type": "final-cta"
+      "type": "final-cta",
+      "settings": {
+        "background_color": "#0e1a3a",
+        "text_color": "#0E1A3A",
+        "muted_text_color": "#dbe5f6",
+        "accent_color": "#ffffff",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Your next chapter",
+        "heading": "<p>Wake up to a<br/><em>healthier you</em>.</p>",
+        "body": "You spend a third of your life asleep. Make it count.",
+        "button_text": "Try Dreamtape now",
+        "button_link": ""
+      }
     }
   },
-  "order": ["main", "final-cta"]
+  "order": [
+    "main",
+    "final-cta"
+  ]
 }
