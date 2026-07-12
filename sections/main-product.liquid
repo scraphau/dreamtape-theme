@@ -73,22 +73,20 @@
           {%- if product.variants.size > 1 -%}
 
             <div class="variant-picker">
-              <div class="variant-picker-header">
-                <span class="variant-picker-label">Choose your supply</span>
-                <span class="variant-picker-sub">Bigger packs = bigger savings</span>
-              </div>
+              <div class="variant-picker-divider"><span>Choose your pack</span></div>
 
               <div class="variant-options-stack" data-variant-picker>
                 {%- for variant in product.variants -%}
-                  {%- assign strips = 30 -%}
+                  {%- assign packs = 1 -%}
                   {%- assign months = 1 -%}
                   {%- if variant.title contains '3' or variant.title contains 'Three' -%}
-                    {%- assign strips = 90 -%}
+                    {%- assign packs = 3 -%}
                     {%- assign months = 3 -%}
                   {%- elsif variant.title contains '6' or variant.title contains 'Six' -%}
-                    {%- assign strips = 180 -%}
+                    {%- assign packs = 6 -%}
                     {%- assign months = 6 -%}
                   {%- endif -%}
+                  {%- assign strips = packs | times: 30 -%}
                   {%- assign per_strip = variant.price | divided_by: strips -%}
 
                   {%- assign is_popular = false -%}
@@ -99,12 +97,30 @@
                     {%- assign is_deal = true -%}
                   {%- endif -%}
 
+                  {%- assign discount_percent = 0 -%}
+                  {%- if variant.compare_at_price > variant.price -%}
+                    {%- assign saved_amount = variant.compare_at_price | minus: variant.price -%}
+                    {%- assign discount_percent = saved_amount | times: 100 | divided_by: variant.compare_at_price -%}
+                  {%- endif -%}
+
+                  {%- assign selling_plan_id = '' -%}
+                  {%- if variant.selling_plan_allocations.size > 0 -%}
+                    {%- assign selling_plan_id = variant.selling_plan_allocations.first.selling_plan.id -%}
+                  {%- endif -%}
+
                   <button type="button"
-                    class="variant-card {% if forloop.first %}active{% endif %} {% if is_popular %}variant-card--popular{% endif %}"
+                    class="variant-card {% if forloop.first %}active{% endif %} {% if is_popular %}variant-card--popular{% elsif is_deal %}variant-card--deal{% endif %}"
                     data-variant-id="{{ variant.id }}"
                     data-price="{{ variant.price | money_without_trailing_zeros }}"
                     data-compare="{{ variant.compare_at_price | money_without_trailing_zeros }}"
-                    data-per-strip="{{ per_strip | money }}">
+                    data-per-strip="{{ per_strip | money }}"
+                    data-selling-plan-id="{{ selling_plan_id }}">
+
+                    {%- if is_popular -%}
+                      <span class="vc-ribbon">Most Popular</span>
+                    {%- elsif is_deal -%}
+                      <span class="vc-ribbon">Best Deal</span>
+                    {%- endif -%}
 
                     <div class="vc-select">
                       <span class="vc-radio"></span>
@@ -112,14 +128,13 @@
 
                     <div class="vc-body">
                       <div class="vc-top">
-                        <span class="vc-title">{{ variant.title }}</span>
-                        {%- if is_popular -%}
-                          <span class="vc-pill vc-pill--popular">Most Popular</span>
-                        {%- elsif is_deal -%}
-                          <span class="vc-pill vc-pill--deal">Best Deal</span>
+                        <span class="vc-title">{{ months }} Month Supply</span>
+                        {%- if discount_percent > 0 -%}
+                          <span class="vc-pill">{{ discount_percent }}% off</span>
                         {%- endif -%}
                       </div>
-                      <span class="vc-meta">{{ strips }} strips · {{ months }} month supply · FREE shipping</span>
+                      <span class="vc-meta vc-meta--italic">{{ packs }} x 30 Pack{% if packs > 1 %}s{% endif %}</span>
+                      <span class="vc-meta">FREE Shipping &amp; Container</span>
                     </div>
 
                     <div class="vc-pricing">
@@ -127,7 +142,6 @@
                       {%- if variant.compare_at_price > variant.price -%}
                         <span class="vc-compare">{{ variant.compare_at_price | money_without_trailing_zeros }}</span>
                       {%- endif -%}
-                      <span class="vc-per-strip">{{ per_strip | money }}/strip</span>
                     </div>
                   </button>
                 {%- endfor -%}
@@ -149,7 +163,12 @@
 
           {%- else -%}
 
-            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            {%- assign single_variant = product.selected_or_first_available_variant -%}
+            {%- assign selling_plan_id = '' -%}
+            {%- if single_variant.selling_plan_allocations.size > 0 -%}
+              {%- assign selling_plan_id = single_variant.selling_plan_allocations.first.selling_plan.id -%}
+            {%- endif -%}
+            <input type="hidden" name="id" value="{{ single_variant.id }}" data-single-variant-selling-plan="{{ selling_plan_id }}">
             <div class="product-price-row">
               <span class="product-price-current">{{ product.price | money_without_trailing_zeros }}</span>
               {%- if product.compare_at_price > product.price -%}
@@ -161,15 +180,23 @@
 
           {%- endif -%}
 
-          <!-- Subscribe note -->
-          {%- if section.settings.subscribe_note != blank -%}
+          <!-- Subscribe & save toggle -->
+          {%- if product.selling_plan_groups.size > 0 -%}
+            <label class="product-subscribe-toggle">
+              <input type="checkbox" data-subscribe-toggle>
+              <span class="pst-check"></span>
+              <span class="pst-body">
+                <strong>Save more with Automatic Refills!</strong>
+                <span>Zero commitment, Cancel Anytime</span>
+              </span>
+            </label>
+            <input type="hidden" name="selling_plan" value="" data-selling-plan-input>
+          {%- elsif section.settings.subscribe_note != blank -%}
             <div class="product-subscribe-note">
               <span class="psn-icon">🔄</span>
               <span>{{ section.settings.subscribe_note }}</span>
             </div>
           {%- endif -%}
-
-          <div class="subscriptions_app_embed_block"></div>
 
           <button type="submit" class="btn-atc" {% unless product.available %}disabled{% endunless %}>
             {%- if product.available -%}
@@ -212,6 +239,25 @@
 
 <script>
 (function(){
+  const form = document.getElementById('product-form');
+  const subscribeToggle = form?.querySelector('[data-subscribe-toggle]');
+  const sellingPlanInput = form?.querySelector('[data-selling-plan-input]');
+  let currentSellingPlanId = '';
+
+  function syncSellingPlanInput() {
+    if (!sellingPlanInput) return;
+    sellingPlanInput.value = (subscribeToggle && subscribeToggle.checked) ? currentSellingPlanId : '';
+  }
+
+  if (subscribeToggle) {
+    subscribeToggle.addEventListener('change', syncSellingPlanInput);
+  }
+
+  const singleVariantInput = form?.querySelector('[data-single-variant-selling-plan]');
+  if (singleVariantInput) {
+    currentSellingPlanId = singleVariantInput.dataset.singleVariantSellingPlan || '';
+  }
+
   document.querySelectorAll('[data-variant-picker]').forEach(picker => {
     const frm   = picker.closest('form');
     const cards = picker.querySelectorAll('.variant-card');
@@ -219,6 +265,9 @@
     const curEl = document.querySelector('[data-current-price]');
     const cmpEl = document.querySelector('[data-compare-price]');
     const savEl = document.querySelector('[data-save-badge]');
+
+    const activeCard = picker.querySelector('.variant-card.active');
+    if (activeCard) currentSellingPlanId = activeCard.dataset.sellingPlanId || '';
 
     cards.forEach(card => {
       card.addEventListener('click', () => {
@@ -230,9 +279,13 @@
         if (curEl)   curEl.textContent  = price;
         if (cmpEl) { cmpEl.textContent = compare; cmpEl.style.display = compare ? '' : 'none'; }
         if (savEl)   savEl.style.display = compare ? '' : 'none';
+        currentSellingPlanId = card.dataset.sellingPlanId || '';
+        syncSellingPlanInput();
       });
     });
   });
+
+  syncSellingPlanInput();
 })();
 </script>
 

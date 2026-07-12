@@ -132,34 +132,10 @@
         "eyebrow": "Questions",
         "heading": "<p>Everything you might<br>be <em>wondering</em>.</p>"
       }
-    },
-    "1783860121e02f07c0": {
-      "type": "apps",
-      "blocks": {
-        "subscriptions_app_block_Bt34GN": {
-          "type": "shopify://apps/subscriptions/blocks/app-block/a3bfe9ec-96f8-4508-a003-df608a36d2ad",
-          "settings": {
-            "widget_style": "card",
-            "widget_style_card_selector": "radio_button",
-            "subscription_policy_url": "",
-            "color_text_body": "#5a6580",
-            "dividers_color": "#e2e6ee",
-            "background_color": "#ffffff",
-            "border_thickness": 1,
-            "border_radius": 12,
-            "product": "mouth-tape"
-          }
-        }
-      },
-      "block_order": [
-        "subscriptions_app_block_Bt34GN"
-      ],
-      "settings": {}
     }
   },
   "order": [
     "main",
-    "1783860121e02f07c0",
     "benefits",
     "how",
     "guarantee",
