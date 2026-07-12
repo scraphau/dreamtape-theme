@@ -129,17 +129,38 @@
                     {%- assign discount_percent = saved_amount | times: 100 | divided_by: effective_compare -%}
                   {%- endif -%}
 
+                  {%- comment -%} Match the selling plan tier to this pack size (e.g. "every 3 months" plan for the 3-month pack) rather than always taking the first available plan. {%- endcomment -%}
+                  {%- assign matched_allocation = blank -%}
+                  {%- for alloc in variant.selling_plan_allocations -%}
+                    {%- assign plan_name = alloc.selling_plan.name | downcase -%}
+                    {%- assign is_match = false -%}
+                    {%- if packs == 3 and plan_name contains '3 month' -%}
+                      {%- assign is_match = true -%}
+                    {%- elsif packs == 6 and plan_name contains '6 month' -%}
+                      {%- assign is_match = true -%}
+                    {%- elsif packs == 1 and plan_name contains 'month' -%}
+                      {%- unless plan_name contains '3 month' or plan_name contains '6 month' -%}
+                        {%- assign is_match = true -%}
+                      {%- endunless -%}
+                    {%- endif -%}
+                    {%- if is_match and matched_allocation == blank -%}
+                      {%- assign matched_allocation = alloc -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+                  {%- if matched_allocation == blank -%}
+                    {%- assign matched_allocation = variant.selling_plan_allocations.first -%}
+                  {%- endif -%}
+
                   {%- assign selling_plan_id = '' -%}
                   {%- assign sub_price = '' -%}
                   {%- assign sub_compare = '' -%}
                   {%- assign sub_discount_percent = 0 -%}
-                  {%- if variant.selling_plan_allocations.size > 0 -%}
-                    {%- assign allocation = variant.selling_plan_allocations.first -%}
-                    {%- assign selling_plan_id = allocation.selling_plan.id -%}
-                    {%- assign sub_price = allocation.price | money_without_trailing_zeros -%}
+                  {%- if matched_allocation -%}
+                    {%- assign selling_plan_id = matched_allocation.selling_plan.id -%}
+                    {%- assign sub_price = matched_allocation.price | money_without_trailing_zeros -%}
                     {%- assign sub_compare = variant.price | money_without_trailing_zeros -%}
-                    {%- if allocation.price < variant.price -%}
-                      {%- assign sub_saved = variant.price | minus: allocation.price -%}
+                    {%- if matched_allocation.price < variant.price -%}
+                      {%- assign sub_saved = variant.price | minus: matched_allocation.price -%}
                       {%- assign sub_discount_percent = sub_saved | times: 100 | divided_by: variant.price -%}
                     {%- endif -%}
                   {%- endif -%}
@@ -186,13 +207,27 @@
           {%- else -%}
 
             {%- assign single_variant = product.selected_or_first_available_variant -%}
+            {%- assign matched_allocation = blank -%}
+            {%- for alloc in single_variant.selling_plan_allocations -%}
+              {%- assign plan_name = alloc.selling_plan.name | downcase -%}
+              {%- if plan_name contains 'month' -%}
+                {%- unless plan_name contains '3 month' or plan_name contains '6 month' -%}
+                  {%- if matched_allocation == blank -%}
+                    {%- assign matched_allocation = alloc -%}
+                  {%- endif -%}
+                {%- endunless -%}
+              {%- endif -%}
+            {%- endfor -%}
+            {%- if matched_allocation == blank -%}
+              {%- assign matched_allocation = single_variant.selling_plan_allocations.first -%}
+            {%- endif -%}
+
             {%- assign selling_plan_id = '' -%}
             {%- assign sub_price = '' -%}
             {%- assign sub_compare = '' -%}
-            {%- if single_variant.selling_plan_allocations.size > 0 -%}
-              {%- assign allocation = single_variant.selling_plan_allocations.first -%}
-              {%- assign selling_plan_id = allocation.selling_plan.id -%}
-              {%- assign sub_price = allocation.price | money_without_trailing_zeros -%}
+            {%- if matched_allocation -%}
+              {%- assign selling_plan_id = matched_allocation.selling_plan.id -%}
+              {%- assign sub_price = matched_allocation.price | money_without_trailing_zeros -%}
               {%- assign sub_compare = single_variant.price | money_without_trailing_zeros -%}
             {%- endif -%}
             <input type="hidden" name="id" value="{{ single_variant.id }}" data-single-variant-selling-plan="{{ selling_plan_id }}">
