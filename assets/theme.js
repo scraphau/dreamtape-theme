@@ -2,9 +2,11 @@
 document.addEventListener('click', (e) => {
   if (e.target.matches('[data-menu-open]')) {
     document.getElementById('mobileMenu')?.classList.add('open');
+    document.getElementById('mobileMenuBackdrop')?.classList.add('open');
   }
   if (e.target.matches('[data-menu-close]')) {
     document.getElementById('mobileMenu')?.classList.remove('open');
+    document.getElementById('mobileMenuBackdrop')?.classList.remove('open');
   }
 });
 
