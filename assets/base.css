@@ -39,6 +39,12 @@ a { color: inherit; text-decoration: none; }
 
 .container { max-width: 1240px; margin: 0 auto; padding: 0 28px; }
 
+/* Subscriptions app block placement (product page) */
+#shopify-section-1783860121e02f07c0 { max-width: 1240px; margin: 0 auto; padding: 0 28px 40px; }
+@media (max-width: 640px) {
+  #shopify-section-1783860121e02f07c0 { padding: 0 20px 32px; }
+}
+
 .skip-to-content {
   position: absolute;
   left: -9999px;
