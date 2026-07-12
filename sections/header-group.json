@@ -75,7 +75,7 @@
         "card_background_color": "#ffffff",
         "menu": "main-menu",
         "cta_text": "Shop",
-        "cta_link": ""
+        "cta_link": "shopify://products/mouth-tape"
       }
     }
   },
