@@ -82,7 +82,7 @@
             <!-- Price row -->
             <div class="product-price-row">
               {%- assign first = product.selected_or_first_available_variant -%}
-              <span class="product-price-current" data-current-price>{{ first.price | money_without_trailing_zeros }}</span>
+              <span class="product-price-current {% if first.compare_at_price > first.price %}is-discounted{% endif %}" data-current-price>{{ first.price | money_without_trailing_zeros }}</span>
               {%- if first.compare_at_price > first.price -%}
                 <span class="product-price-compare" data-compare-price>{{ first.compare_at_price | money_without_trailing_zeros }}</span>
                 {%- assign saved = first.compare_at_price | minus: first.price -%}
@@ -151,6 +151,17 @@
                     {%- assign matched_allocation = variant.selling_plan_allocations.first -%}
                   {%- endif -%}
 
+                  {%- comment -%} Read the intended percentage straight from the plan name (e.g. "...10% off") so it's exact, since deriving it from real dollar amounts can be off by a point due to rounding. {%- endcomment -%}
+                  {%- assign name_percent = 0 -%}
+                  {%- if matched_allocation -%}
+                    {%- assign plan_name_lower = matched_allocation.selling_plan.name | downcase -%}
+                    {%- if plan_name_lower contains '%' -%}
+                      {%- assign before_percent = plan_name_lower | split: '%' | first -%}
+                      {%- assign name_words = before_percent | split: ' ' -%}
+                      {%- assign name_percent = name_words | last | times: 1 -%}
+                    {%- endif -%}
+                  {%- endif -%}
+
                   {%- comment -%}
                     Shopify's own selling_plan_allocation.price is always the
                     plan's percentage off variant.price (the already-discounted
@@ -190,6 +201,9 @@
                         {%- assign sub_discount_percent = sub_saved | times: 100 | divided_by: sub_compare_basis -%}
                       {%- endif -%}
                     {%- endif -%}
+                  {%- endif -%}
+                  {%- if name_percent > 0 -%}
+                    {%- assign sub_discount_percent = name_percent -%}
                   {%- endif -%}
 
                   <button type="button"
@@ -285,7 +299,7 @@
               data-compare="{{ product.compare_at_price | money_without_trailing_zeros }}"
               data-sub-price="{{ sub_price }}"
               data-sub-compare="{{ sub_compare }}">
-              <span class="product-price-current" data-current-price>{{ product.price | money_without_trailing_zeros }}</span>
+              <span class="product-price-current {% if product.compare_at_price > product.price %}is-discounted{% endif %}" data-current-price>{{ product.price | money_without_trailing_zeros }}</span>
               <span class="product-price-compare" data-compare-price {% unless product.compare_at_price > product.price %}style="display:none;"{% endunless %}>{{ product.compare_at_price | money_without_trailing_zeros }}</span>
               {%- assign saved = product.compare_at_price | minus: product.price -%}
               <span class="product-price-save" data-save-badge {% unless product.compare_at_price > product.price %}style="display:none;"{% endunless %}>You save {{ saved | money_without_trailing_zeros }}</span>
@@ -397,10 +411,14 @@
     const subscribed = isSubscribed() && source.dataset.subPrice;
     const price   = subscribed ? source.dataset.subPrice   : source.dataset.price;
     const compare = subscribed ? source.dataset.subCompare : source.dataset.compare;
+    const hasDiscount = !!compare;
 
-    if (curEl) curEl.textContent = price || '';
-    if (cmpEl) { cmpEl.textContent = compare || ''; cmpEl.style.display = compare ? '' : 'none'; }
-    if (savEl) savEl.style.display = compare ? '' : 'none';
+    if (curEl) {
+      curEl.textContent = price || '';
+      curEl.classList.toggle('is-discounted', hasDiscount);
+    }
+    if (cmpEl) { cmpEl.textContent = compare || ''; cmpEl.style.display = hasDiscount ? '' : 'none'; }
+    if (savEl) savEl.style.display = hasDiscount ? '' : 'none';
   }
 
   function refreshAllPricing() {
