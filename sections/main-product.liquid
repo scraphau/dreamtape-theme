@@ -178,11 +178,16 @@
                       {%- assign sub_compare = effective_compare | money_without_trailing_zeros -%}
                       {%- assign sub_discount_percent = plan_percent_off -%}
                     {%- else -%}
+                      {%- comment -%} Fixed-price plan: still compare against effective_compare (the real "was" price) rather than the one-time sale price. {%- endcomment -%}
+                      {%- assign sub_compare_basis = variant.price -%}
+                      {%- if effective_compare > matched_allocation.price -%}
+                        {%- assign sub_compare_basis = effective_compare -%}
+                      {%- endif -%}
                       {%- assign sub_price = matched_allocation.price | money_without_trailing_zeros -%}
-                      {%- assign sub_compare = variant.price | money_without_trailing_zeros -%}
-                      {%- if matched_allocation.price < variant.price -%}
-                        {%- assign sub_saved = variant.price | minus: matched_allocation.price -%}
-                        {%- assign sub_discount_percent = sub_saved | times: 100 | divided_by: variant.price -%}
+                      {%- assign sub_compare = sub_compare_basis | money_without_trailing_zeros -%}
+                      {%- if matched_allocation.price < sub_compare_basis -%}
+                        {%- assign sub_saved = sub_compare_basis | minus: matched_allocation.price -%}
+                        {%- assign sub_discount_percent = sub_saved | times: 100 | divided_by: sub_compare_basis -%}
                       {%- endif -%}
                     {%- endif -%}
                   {%- endif -%}
@@ -266,8 +271,12 @@
                 {%- assign sub_price = sub_price_value | money_without_trailing_zeros -%}
                 {%- assign sub_compare = single_effective_compare | money_without_trailing_zeros -%}
               {%- else -%}
+                {%- assign sub_compare_basis = single_variant.price -%}
+                {%- if single_effective_compare > matched_allocation.price -%}
+                  {%- assign sub_compare_basis = single_effective_compare -%}
+                {%- endif -%}
                 {%- assign sub_price = matched_allocation.price | money_without_trailing_zeros -%}
-                {%- assign sub_compare = single_variant.price | money_without_trailing_zeros -%}
+                {%- assign sub_compare = sub_compare_basis | money_without_trailing_zeros -%}
               {%- endif -%}
             {%- endif -%}
             <input type="hidden" name="id" value="{{ single_variant.id }}" data-single-variant-selling-plan="{{ selling_plan_id }}">
