@@ -27,7 +27,7 @@
         </div>
       </div>
 
-      <details class="footer-col footer-accordion">
+      <details class="footer-col footer-accordion" open>
         <summary>
           <h4>Get in Touch</h4>
           <span class="footer-chevron" aria-hidden="true">
@@ -39,7 +39,7 @@
           <a href="mailto:{{ section.settings.support_email }}">{{ section.settings.support_email }}</a>
         </div>
       </details>
-      <details class="footer-col footer-accordion">
+      <details class="footer-col footer-accordion" open>
         <summary>
           <h4>Explore</h4>
           <span class="footer-chevron" aria-hidden="true">
@@ -50,7 +50,7 @@
           <a href="/pages/faq">FAQs</a>
         </div>
       </details>
-      <details class="footer-col footer-accordion">
+      <details class="footer-col footer-accordion" open>
         <summary>
           <h4>Policies</h4>
           <span class="footer-chevron" aria-hidden="true">
@@ -63,7 +63,7 @@
           <a href="/policies/refund-policy">Refund Policy</a>
         </div>
       </details>
-      <details class="footer-col footer-accordion">
+      <details class="footer-col footer-accordion" open>
         <summary>
           <h4>Shop</h4>
           <span class="footer-chevron" aria-hidden="true">
@@ -103,6 +103,18 @@
     {%- endif -%}
   </div>
 </footer>
+
+<script>
+(function(){
+  var accordions = document.querySelectorAll('.footer-accordion');
+  var mq = window.matchMedia('(max-width: 640px)');
+  function syncFooterAccordions() {
+    accordions.forEach(function(details){ details.open = !mq.matches; });
+  }
+  syncFooterAccordions();
+  mq.addEventListener('change', syncFooterAccordions);
+})();
+</script>
 
 {% schema %}
 {
