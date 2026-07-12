@@ -208,35 +208,8 @@
   </div>
 </section>
 
-<!-- Sticky ATC -->
-<div class="sticky-atc" id="stickyAtc" aria-hidden="true">
-  <div class="container">
-    <div class="sticky-atc-inner">
-      <div class="sticky-atc-left">
-        <strong>{{ product.title }}</strong>
-        <span class="sticky-atc-stars">★★★★★</span>
-        <span class="sticky-atc-rating">{{ section.settings.rating_text }}</span>
-      </div>
-      <div class="sticky-atc-right">
-        <span class="sticky-atc-price" data-sticky-price>{{ product.selected_or_first_available_variant.price | money_without_trailing_zeros }}</span>
-        <button class="btn-atc-sticky" onclick="document.getElementById('product-form').querySelector('[type=submit]').click()">
-          Add to Cart →
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <script>
 (function(){
-  const form = document.getElementById('product-form');
-  const bar  = document.getElementById('stickyAtc');
-  if (form && bar) {
-    new IntersectionObserver(([e]) => {
-      bar.classList.toggle('visible', !e.isIntersecting);
-    }, { rootMargin: '-60px 0px 0px 0px' }).observe(form);
-  }
-
   document.querySelectorAll('[data-variant-picker]').forEach(picker => {
     const frm   = picker.closest('form');
     const cards = picker.querySelectorAll('.variant-card');
@@ -244,7 +217,6 @@
     const curEl = document.querySelector('[data-current-price]');
     const cmpEl = document.querySelector('[data-compare-price]');
     const savEl = document.querySelector('[data-save-badge]');
-    const stickyP = document.querySelector('[data-sticky-price]');
 
     cards.forEach(card => {
       card.addEventListener('click', () => {
@@ -254,7 +226,6 @@
         const price   = card.dataset.price   || '';
         const compare = card.dataset.compare  || '';
         if (curEl)   curEl.textContent  = price;
-        if (stickyP) stickyP.textContent = price;
         if (cmpEl) { cmpEl.textContent = compare; cmpEl.style.display = compare ? '' : 'none'; }
         if (savEl)   savEl.style.display = compare ? '' : 'none';
       });

@@ -1139,32 +1139,6 @@ a { color: inherit; text-decoration: none; }
 }
 .ptr-item svg { color: var(--section-accent, var(--midnight)); flex-shrink: 0; opacity: 0.7; }
 
-/* Sticky ATC */
-.sticky-atc {
-  position: fixed; bottom: 0; left: 0; right: 0;
-  background: var(--midnight); color: var(--cream);
-  padding: 12px 0; z-index: 90;
-  transform: translateY(100%);
-  transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.18);
-}
-.sticky-atc.visible { transform: translateY(0); }
-.sticky-atc-inner { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
-.sticky-atc-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
-.sticky-atc-left strong { font-family: var(--font-serif); font-size: 16px; text-transform: capitalize; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.sticky-atc-stars { color: #f5a623; font-size: 12px; flex-shrink: 0; }
-.sticky-atc-rating { font-size: 12px; color: rgba(255,255,255,0.6); white-space: nowrap; }
-.sticky-atc-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
-.sticky-atc-price { font-family: var(--font-serif); font-size: 18px; font-weight: 500; }
-.btn-atc-sticky {
-  background: white; color: var(--midnight);
-  padding: 10px 22px; border-radius: 100px;
-  font-size: 14px; font-weight: 600; border: none;
-  cursor: pointer; font-family: inherit;
-  transition: background 0.2s; white-space: nowrap;
-}
-.btn-atc-sticky:hover { background: rgba(255,255,255,0.88); }
-
 .product-judgeme-reviews { margin-top: 72px; }
 .product-judgeme-badge { margin: -4px 0 18px; }
 
@@ -1374,7 +1348,6 @@ a { color: inherit; text-decoration: none; }
   .stat-card { padding: 44px 32px; }
   .product-title { font-size: 32px; }
   .product-trust-grid { grid-template-columns: 1fr; }
-  .sticky-atc-info strong, .sticky-atc-info span { font-size: 14px; }
   .cart-item { grid-template-columns: 80px 1fr; gap: 14px; }
   .cart-item img { width: 80px; height: 80px; }
 }
