@@ -1297,7 +1297,7 @@ a { color: inherit; text-decoration: none; }
   .nav-desktop { display: none; }
   .hamburger { display: flex; }
   .header-inner { grid-template-columns: auto 1fr auto; }
-  .logo { grid-column: 2; }
+  .logo { grid-column: 2; justify-content: center; }
   .logo-image { width: 150px; }
   .footer-top { grid-template-columns: 1fr 1fr 1fr; gap: 32px 36px; }
   .badge-circle { width: 200px; height: 200px; }
