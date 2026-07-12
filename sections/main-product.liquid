@@ -117,8 +117,18 @@
                   {%- endif -%}
 
                   {%- assign selling_plan_id = '' -%}
+                  {%- assign sub_price = '' -%}
+                  {%- assign sub_compare = '' -%}
+                  {%- assign sub_discount_percent = 0 -%}
                   {%- if variant.selling_plan_allocations.size > 0 -%}
-                    {%- assign selling_plan_id = variant.selling_plan_allocations.first.selling_plan.id -%}
+                    {%- assign allocation = variant.selling_plan_allocations.first -%}
+                    {%- assign selling_plan_id = allocation.selling_plan.id -%}
+                    {%- assign sub_price = allocation.price | money_without_trailing_zeros -%}
+                    {%- assign sub_compare = variant.price | money_without_trailing_zeros -%}
+                    {%- if allocation.price < variant.price -%}
+                      {%- assign sub_saved = variant.price | minus: allocation.price -%}
+                      {%- assign sub_discount_percent = sub_saved | times: 100 | divided_by: variant.price -%}
+                    {%- endif -%}
                   {%- endif -%}
 
                   <button type="button"
@@ -126,6 +136,10 @@
                     data-variant-id="{{ variant.id }}"
                     data-price="{{ variant.price | money_without_trailing_zeros }}"
                     data-compare="{{ variant.compare_at_price | money_without_trailing_zeros }}"
+                    data-discount="{{ discount_percent }}"
+                    data-sub-price="{{ sub_price }}"
+                    data-sub-compare="{{ sub_compare }}"
+                    data-sub-discount="{{ sub_discount_percent }}"
                     data-per-strip="{{ per_strip | money }}"
                     data-selling-plan-id="{{ selling_plan_id }}">
 
@@ -142,19 +156,15 @@
                     <div class="vc-body">
                       <div class="vc-top">
                         <span class="vc-title">{{ months }} Month Supply</span>
-                        {%- if discount_percent > 0 -%}
-                          <span class="vc-pill">{{ discount_percent }}% off</span>
-                        {%- endif -%}
+                        <span class="vc-pill" data-vc-pill {% if discount_percent == 0 %}style="display:none;"{% endif %}>{{ discount_percent }}% off</span>
                       </div>
                       <span class="vc-meta vc-meta--italic">{{ packs }} x 30 Pack{% if packs > 1 %}s{% endif %}</span>
                       <span class="vc-meta">FREE Shipping &amp; Container</span>
                     </div>
 
                     <div class="vc-pricing">
-                      <span class="vc-price">{{ variant.price | money_without_trailing_zeros }}</span>
-                      {%- if variant.compare_at_price > variant.price -%}
-                        <span class="vc-compare">{{ variant.compare_at_price | money_without_trailing_zeros }}</span>
-                      {%- endif -%}
+                      <span class="vc-price" data-vc-price>{{ variant.price | money_without_trailing_zeros }}</span>
+                      <span class="vc-compare" data-vc-compare {% unless variant.compare_at_price > variant.price %}style="display:none;"{% endunless %}>{{ variant.compare_at_price | money_without_trailing_zeros }}</span>
                     </div>
                   </button>
                 {%- endfor -%}
@@ -165,17 +175,24 @@
 
             {%- assign single_variant = product.selected_or_first_available_variant -%}
             {%- assign selling_plan_id = '' -%}
+            {%- assign sub_price = '' -%}
+            {%- assign sub_compare = '' -%}
             {%- if single_variant.selling_plan_allocations.size > 0 -%}
-              {%- assign selling_plan_id = single_variant.selling_plan_allocations.first.selling_plan.id -%}
+              {%- assign allocation = single_variant.selling_plan_allocations.first -%}
+              {%- assign selling_plan_id = allocation.selling_plan.id -%}
+              {%- assign sub_price = allocation.price | money_without_trailing_zeros -%}
+              {%- assign sub_compare = single_variant.price | money_without_trailing_zeros -%}
             {%- endif -%}
             <input type="hidden" name="id" value="{{ single_variant.id }}" data-single-variant-selling-plan="{{ selling_plan_id }}">
-            <div class="product-price-row">
-              <span class="product-price-current">{{ product.price | money_without_trailing_zeros }}</span>
-              {%- if product.compare_at_price > product.price -%}
-                <span class="product-price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
-                {%- assign saved = product.compare_at_price | minus: product.price -%}
-                <span class="product-price-save">You save {{ saved | money_without_trailing_zeros }}</span>
-              {%- endif -%}
+            <div class="product-price-row"
+              data-price="{{ product.price | money_without_trailing_zeros }}"
+              data-compare="{{ product.compare_at_price | money_without_trailing_zeros }}"
+              data-sub-price="{{ sub_price }}"
+              data-sub-compare="{{ sub_compare }}">
+              <span class="product-price-current" data-current-price>{{ product.price | money_without_trailing_zeros }}</span>
+              <span class="product-price-compare" data-compare-price {% unless product.compare_at_price > product.price %}style="display:none;"{% endunless %}>{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+              {%- assign saved = product.compare_at_price | minus: product.price -%}
+              <span class="product-price-save" data-save-badge {% unless product.compare_at_price > product.price %}style="display:none;"{% endunless %}>You save {{ saved | money_without_trailing_zeros }}</span>
             </div>
 
           {%- endif -%}
@@ -242,15 +259,69 @@
   const form = document.getElementById('product-form');
   const subscribeToggle = form?.querySelector('[data-subscribe-toggle]');
   const sellingPlanInput = form?.querySelector('[data-selling-plan-input]');
+  const curEl = form?.querySelector('[data-current-price]');
+  const cmpEl = form?.querySelector('[data-compare-price]');
+  const savEl = form?.querySelector('[data-save-badge]');
   let currentSellingPlanId = '';
+
+  function isSubscribed() {
+    return !!(subscribeToggle && subscribeToggle.checked);
+  }
 
   function syncSellingPlanInput() {
     if (!sellingPlanInput) return;
-    sellingPlanInput.value = (subscribeToggle && subscribeToggle.checked) ? currentSellingPlanId : '';
+    sellingPlanInput.value = isSubscribed() ? currentSellingPlanId : '';
+  }
+
+  // Update a card's own displayed price/discount pill for the current mode
+  function applyCardPricing(card) {
+    const subscribed = isSubscribed() && card.dataset.subPrice;
+    const price    = subscribed ? card.dataset.subPrice   : card.dataset.price;
+    const compare  = subscribed ? card.dataset.subCompare : card.dataset.compare;
+    const discount = subscribed ? card.dataset.subDiscount : card.dataset.discount;
+
+    const priceEl = card.querySelector('[data-vc-price]');
+    const compareEl = card.querySelector('[data-vc-compare]');
+    const pillEl = card.querySelector('[data-vc-pill]');
+
+    if (priceEl) priceEl.textContent = price || '';
+    if (compareEl) { compareEl.textContent = compare || ''; compareEl.style.display = compare ? '' : 'none'; }
+    if (pillEl) {
+      const pct = Number(discount || 0);
+      pillEl.textContent = pct + '% off';
+      pillEl.style.display = pct > 0 ? '' : 'none';
+    }
+
+    return { price, compare };
+  }
+
+  // Update the top price row from a given card (or the single-variant row)
+  function applyTopPricing(source) {
+    if (!source) return;
+    const subscribed = isSubscribed() && source.dataset.subPrice;
+    const price   = subscribed ? source.dataset.subPrice   : source.dataset.price;
+    const compare = subscribed ? source.dataset.subCompare : source.dataset.compare;
+
+    if (curEl) curEl.textContent = price || '';
+    if (cmpEl) { cmpEl.textContent = compare || ''; cmpEl.style.display = compare ? '' : 'none'; }
+    if (savEl) savEl.style.display = compare ? '' : 'none';
+  }
+
+  function refreshAllPricing() {
+    document.querySelectorAll('.variant-card').forEach(applyCardPricing);
+    const activeCard = document.querySelector('.variant-card.active');
+    if (activeCard) {
+      applyTopPricing(activeCard);
+      currentSellingPlanId = activeCard.dataset.sellingPlanId || '';
+    } else {
+      const priceRow = form?.querySelector('.product-price-row[data-sub-price]');
+      if (priceRow) applyTopPricing(priceRow);
+    }
+    syncSellingPlanInput();
   }
 
   if (subscribeToggle) {
-    subscribeToggle.addEventListener('change', syncSellingPlanInput);
+    subscribeToggle.addEventListener('change', refreshAllPricing);
   }
 
   const singleVariantInput = form?.querySelector('[data-single-variant-selling-plan]');
@@ -262,30 +333,22 @@
     const frm   = picker.closest('form');
     const cards = picker.querySelectorAll('.variant-card');
     const input = frm?.querySelector('[data-variant-input]');
-    const curEl = document.querySelector('[data-current-price]');
-    const cmpEl = document.querySelector('[data-compare-price]');
-    const savEl = document.querySelector('[data-save-badge]');
 
-    const activeCard = picker.querySelector('.variant-card.active');
-    if (activeCard) currentSellingPlanId = activeCard.dataset.sellingPlanId || '';
+    cards.forEach(applyCardPricing);
 
     cards.forEach(card => {
       card.addEventListener('click', () => {
         cards.forEach(c => c.classList.remove('active'));
         card.classList.add('active');
         if (input) input.value = card.dataset.variantId;
-        const price   = card.dataset.price   || '';
-        const compare = card.dataset.compare  || '';
-        if (curEl)   curEl.textContent  = price;
-        if (cmpEl) { cmpEl.textContent = compare; cmpEl.style.display = compare ? '' : 'none'; }
-        if (savEl)   savEl.style.display = compare ? '' : 'none';
         currentSellingPlanId = card.dataset.sellingPlanId || '';
+        applyTopPricing(card);
         syncSellingPlanInput();
       });
     });
   });
 
-  syncSellingPlanInput();
+  refreshAllPricing();
 })();
 </script>
 
