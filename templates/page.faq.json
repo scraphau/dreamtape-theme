@@ -11,18 +11,6 @@
   "sections": {
     "faq-page": {
       "type": "faq-page",
-      "settings": {
-        "eyebrow": "Help centre",
-        "heading": "Dreamtape FAQs",
-        "intro": "<p>We get it, optimizing your breath for better sleep can feel new. We made finding the answers simple, from how Dreamtape works to when and how often to use it.</p>",
-        "contact_text": "For shipping, product troubleshooting, or anything more specific, visit our",
-        "contact_link": "/pages/contact",
-        "contact_link_label": "Contact page.",
-        "support_heading": "Not finding what you are looking for?",
-        "support_text": "<p>Send us a note and we will help you find the right answer before bedtime.</p>",
-        "support_button": "Get help",
-        "support_link": "/pages/contact"
-      },
       "blocks": {
         "mouth-what": {
           "type": "qa",
@@ -125,11 +113,33 @@
         "general-cost",
         "general-subscribe",
         "general-payments"
-      ]
+      ],
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Help centre",
+        "heading": "Dreamtape FAQs",
+        "intro": "<p>We get it, optimizing your breath for better sleep can feel new. We made finding the answers simple, from how Dreamtape works to when and how often to use it.</p>",
+        "contact_text": "For shipping, product troubleshooting, or anything more specific, visit our",
+        "contact_link": "/pages/contact",
+        "contact_link_label": "Contact page.",
+        "support_heading": "Not finding what you are looking for?",
+        "support_text": "<p>Send us a note and we will help you find the right answer before bedtime.</p>",
+        "support_button": "Get help",
+        "support_link": "/pages/contact"
+      }
     },
     "final-cta": {
       "type": "final-cta",
       "settings": {
+        "background_color": "#0e1a3a",
+        "text_color": "#0E1A3A",
+        "muted_text_color": "#dbe5f6",
+        "accent_color": "#ffffff",
+        "card_background_color": "#ffffff",
         "eyebrow": "Better nights start here",
         "heading": "<p>Make every night <em>count</em>.</p>",
         "body": "Start building a calmer breathing routine with Dreamtape.",
@@ -138,5 +148,8 @@
       }
     }
   },
-  "order": ["faq-page", "final-cta"]
+  "order": [
+    "faq-page",
+    "final-cta"
+  ]
 }
