@@ -169,6 +169,8 @@
             </div>
           {%- endif -%}
 
+          <div class="subscriptions_app_embed_block"></div>
+
           <button type="submit" class="btn-atc" {% unless product.available %}disabled{% endunless %}>
             {%- if product.available -%}
               Add to Cart — {{ section.settings.cta_suffix }}
