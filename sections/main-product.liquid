@@ -151,17 +151,39 @@
                     {%- assign matched_allocation = variant.selling_plan_allocations.first -%}
                   {%- endif -%}
 
+                  {%- comment -%}
+                    Shopify's own selling_plan_allocation.price is always the
+                    plan's percentage off variant.price (the already-discounted
+                    one-time price). To instead take the percentage off the
+                    "compare at" price, read the plan's real configured
+                    percentage from price_adjustments and apply it to
+                    effective_compare ourselves.
+                  {%- endcomment -%}
                   {%- assign selling_plan_id = '' -%}
                   {%- assign sub_price = '' -%}
                   {%- assign sub_compare = '' -%}
                   {%- assign sub_discount_percent = 0 -%}
                   {%- if matched_allocation -%}
                     {%- assign selling_plan_id = matched_allocation.selling_plan.id -%}
-                    {%- assign sub_price = matched_allocation.price | money_without_trailing_zeros -%}
-                    {%- assign sub_compare = variant.price | money_without_trailing_zeros -%}
-                    {%- if matched_allocation.price < variant.price -%}
-                      {%- assign sub_saved = variant.price | minus: matched_allocation.price -%}
-                      {%- assign sub_discount_percent = sub_saved | times: 100 | divided_by: variant.price -%}
+                    {%- assign plan_adjustment = matched_allocation.selling_plan.price_adjustments.first -%}
+                    {%- assign plan_percent_off = 0 -%}
+                    {%- if plan_adjustment.value_type == 'percentage' -%}
+                      {%- assign plan_percent_off = plan_adjustment.value | at_least: 0 | at_most: 100 -%}
+                    {%- endif -%}
+
+                    {%- if plan_percent_off > 0 and effective_compare > 0 -%}
+                      {%- assign keep_percent = 100 | minus: plan_percent_off -%}
+                      {%- assign sub_price_value = effective_compare | times: keep_percent | divided_by: 100 -%}
+                      {%- assign sub_price = sub_price_value | money_without_trailing_zeros -%}
+                      {%- assign sub_compare = effective_compare | money_without_trailing_zeros -%}
+                      {%- assign sub_discount_percent = plan_percent_off -%}
+                    {%- else -%}
+                      {%- assign sub_price = matched_allocation.price | money_without_trailing_zeros -%}
+                      {%- assign sub_compare = variant.price | money_without_trailing_zeros -%}
+                      {%- if matched_allocation.price < variant.price -%}
+                        {%- assign sub_saved = variant.price | minus: matched_allocation.price -%}
+                        {%- assign sub_discount_percent = sub_saved | times: 100 | divided_by: variant.price -%}
+                      {%- endif -%}
                     {%- endif -%}
                   {%- endif -%}
 
@@ -222,13 +244,31 @@
               {%- assign matched_allocation = single_variant.selling_plan_allocations.first -%}
             {%- endif -%}
 
+            {%- assign single_effective_compare = single_variant.price -%}
+            {%- if single_variant.compare_at_price > single_variant.price -%}
+              {%- assign single_effective_compare = single_variant.compare_at_price -%}
+            {%- endif -%}
+
             {%- assign selling_plan_id = '' -%}
             {%- assign sub_price = '' -%}
             {%- assign sub_compare = '' -%}
             {%- if matched_allocation -%}
               {%- assign selling_plan_id = matched_allocation.selling_plan.id -%}
-              {%- assign sub_price = matched_allocation.price | money_without_trailing_zeros -%}
-              {%- assign sub_compare = single_variant.price | money_without_trailing_zeros -%}
+              {%- assign plan_adjustment = matched_allocation.selling_plan.price_adjustments.first -%}
+              {%- assign plan_percent_off = 0 -%}
+              {%- if plan_adjustment.value_type == 'percentage' -%}
+                {%- assign plan_percent_off = plan_adjustment.value | at_least: 0 | at_most: 100 -%}
+              {%- endif -%}
+
+              {%- if plan_percent_off > 0 and single_effective_compare > 0 -%}
+                {%- assign keep_percent = 100 | minus: plan_percent_off -%}
+                {%- assign sub_price_value = single_effective_compare | times: keep_percent | divided_by: 100 -%}
+                {%- assign sub_price = sub_price_value | money_without_trailing_zeros -%}
+                {%- assign sub_compare = single_effective_compare | money_without_trailing_zeros -%}
+              {%- else -%}
+                {%- assign sub_price = matched_allocation.price | money_without_trailing_zeros -%}
+                {%- assign sub_compare = single_variant.price | money_without_trailing_zeros -%}
+              {%- endif -%}
             {%- endif -%}
             <input type="hidden" name="id" value="{{ single_variant.id }}" data-single-variant-selling-plan="{{ selling_plan_id }}">
             <div class="product-price-row"
