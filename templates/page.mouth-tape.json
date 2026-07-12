@@ -16,7 +16,6 @@
     "how":        { "type": "how-it-works" },
     "timeline":   { "type": "product-timeline" },
     "comparison": { "type": "product-comparison" },
-    "testimonials": { "type": "testimonials" },
     "guarantee":  { "type": "guarantee" },
     "faq":        { "type": "faq" },
     "cta":        { "type": "final-cta" }
@@ -31,7 +30,6 @@
     "how",
     "timeline",
     "comparison",
-    "testimonials",
     "guarantee",
     "faq",
     "cta"

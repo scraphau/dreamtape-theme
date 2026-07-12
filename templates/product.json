@@ -58,18 +58,6 @@
         "heading": "<p>Three steps to <em>your best sleep</em>.</p>"
       }
     },
-    "testimonials": {
-      "type": "testimonials",
-      "settings": {
-        "background_color": "#f3f6fb",
-        "text_color": "#0e1a3a",
-        "muted_text_color": "#5a6580",
-        "accent_color": "#0e1a3a",
-        "card_background_color": "#ffffff",
-        "eyebrow": "Real Dreamtape sleepers",
-        "heading": "<p>You'll want to <em>stock up</em>.</p>"
-      }
-    },
     "guarantee": {
       "type": "guarantee",
       "settings": {
@@ -104,7 +92,6 @@
     "main",
     "benefits",
     "how",
-    "testimonials",
     "guarantee",
     "faq"
   ]
