@@ -31,16 +31,6 @@
         "card_1_sub": "30 strips"
       }
     },
-    "trust": {
-      "type": "trust-badges",
-      "settings": {
-        "background_color": "#f3f6fb",
-        "text_color": "#0e1a3a",
-        "muted_text_color": "#5a6580",
-        "accent_color": "#0e1a3a",
-        "card_background_color": "#ffffff"
-      }
-    },
     "wakeup": {
       "type": "wakeup-stat",
       "settings": {
@@ -191,7 +181,6 @@
   },
   "order": [
     "hero",
-    "trust",
     "wakeup",
     "products",
     "benefits",
