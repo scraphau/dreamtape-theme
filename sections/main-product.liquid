@@ -151,14 +151,21 @@
                     {%- assign matched_allocation = variant.selling_plan_allocations.first -%}
                   {%- endif -%}
 
-                  {%- comment -%} Read the intended percentage straight from the plan name (e.g. "...10% off") so it's exact, since deriving it from real dollar amounts can be off by a point due to rounding. {%- endcomment -%}
+                  {%- comment -%} Read the intended percentage straight from the plan name (e.g. "...10% off") so it's exact, since deriving it from real dollar amounts can be off by a point due to rounding. Strips common punctuation in case the number isn't cleanly space-separated. {%- endcomment -%}
                   {%- assign name_percent = 0 -%}
                   {%- if matched_allocation -%}
                     {%- assign plan_name_lower = matched_allocation.selling_plan.name | downcase -%}
                     {%- if plan_name_lower contains '%' -%}
                       {%- assign before_percent = plan_name_lower | split: '%' | first -%}
+                      {%- assign before_percent = before_percent | replace: ',', ' ' | replace: '(', ' ' | replace: ')', ' ' -%}
                       {%- assign name_words = before_percent | split: ' ' -%}
-                      {%- assign name_percent = name_words | last | times: 1 -%}
+                      {%- assign name_words = name_words | reverse -%}
+                      {%- for word in name_words -%}
+                        {%- assign word_number = word | times: 1 -%}
+                        {%- if word != '' and word_number > 0 and name_percent == 0 -%}
+                          {%- assign name_percent = word_number -%}
+                        {%- endif -%}
+                      {%- endfor -%}
                     {%- endif -%}
                   {%- endif -%}
 
@@ -237,7 +244,7 @@
                     </div>
 
                     <div class="vc-pricing">
-                      <span class="vc-price" data-vc-price>{{ variant.price | money_without_trailing_zeros }}</span>
+                      <span class="vc-price {% if effective_compare > variant.price %}is-discounted{% endif %}" data-vc-price>{{ variant.price | money_without_trailing_zeros }}</span>
                       <span class="vc-compare" data-vc-compare {% unless effective_compare > variant.price %}style="display:none;"{% endunless %}>{{ effective_compare | money_without_trailing_zeros }}</span>
                     </div>
                   </button>
@@ -394,7 +401,10 @@
     const compareEl = card.querySelector('[data-vc-compare]');
     const pillEl = card.querySelector('[data-vc-pill]');
 
-    if (priceEl) priceEl.textContent = price || '';
+    if (priceEl) {
+      priceEl.textContent = price || '';
+      priceEl.classList.toggle('is-discounted', !!compare);
+    }
     if (compareEl) { compareEl.textContent = compare || ''; compareEl.style.display = compare ? '' : 'none'; }
     if (pillEl) {
       const pct = Number(discount || 0);
