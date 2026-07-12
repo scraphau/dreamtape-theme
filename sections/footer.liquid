@@ -85,18 +85,6 @@
               {%- endfor -%}
             {%- endif -%}
           </div>
-        {%- elsif block.type == 'newsletter' -%}
-          <div class="footer-col">
-            <h4>{{ block.settings.heading }}</h4>
-            {%- if block.settings.subheading != blank -%}
-              <p>{{ block.settings.subheading }}</p>
-            {%- endif -%}
-            {%- form 'customer', class: 'signup' -%}
-              <input type="hidden" name="contact[tags]" value="newsletter">
-              <input type="email" name="contact[email]" placeholder="your@email.com" required>
-              <button type="submit">Join</button>
-            {%- endform -%}
-          </div>
         {%- endif -%}
       {%- endfor -%}
     </div>
@@ -205,45 +193,7 @@
           "label": "Menu"
         }
       ]
-    },
-    {
-      "type": "newsletter",
-      "name": "Newsletter",
-      "limit": 1,
-      "settings": [
-        {
-          "type": "text",
-          "id": "heading",
-          "label": "Heading",
-          "default": "Newsletter"
-        },
-        {
-          "type": "text",
-          "id": "subheading",
-          "label": "Subheading",
-          "default": "Get 10% off your first order."
-        }
-      ]
     }
-  ],
-  "default": {
-    "blocks": [
-      {
-        "type": "menu",
-        "settings": {
-          "heading": "Shop"
-        }
-      },
-      {
-        "type": "menu",
-        "settings": {
-          "heading": "Help"
-        }
-      },
-      {
-        "type": "newsletter"
-      }
-    ]
-  }
+  ]
 }
 {% endschema %}

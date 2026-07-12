@@ -916,7 +916,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- Footer ---------- */
 .footer { background: var(--section-bg, var(--midnight-deep)); color: var(--section-text, var(--cream)); padding: 80px 0 32px; }
-.footer-top { display: grid; grid-template-columns: 1.4fr repeat(5, 1fr); gap: 32px; padding-bottom: 48px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
+.footer-top { display: grid; grid-template-columns: 1.4fr repeat(4, 1fr); gap: 32px; padding-bottom: 48px; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
 .footer-brand p { margin-top: 12px; font-family: var(--font-serif); font-style: italic; color: var(--section-muted, rgba(255, 255, 255, 0.65)); font-size: 17px; }
 .logo-footer { color: var(--section-text, var(--cream)); margin-bottom: 4px; }
 .logo-footer .logo-image {
@@ -957,11 +957,6 @@ a { color: inherit; text-decoration: none; }
   transition: transform 0.3s ease;
 }
 .footer-accordion[open] .footer-chevron { transform: rotate(180deg); }
-.signup { display: flex; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.18); border-radius: 100px; overflow: hidden; }
-.signup input { flex: 1; background: transparent; border: none; padding: 12px 18px; color: var(--section-text, var(--cream)); font-family: inherit; font-size: 13.5px; outline: none; }
-.signup input::placeholder { color: rgba(255, 255, 255, 0.4); }
-.signup button { background: var(--section-accent, var(--gold)); border: none; padding: 12px 22px; color: var(--section-bg, var(--midnight)); font-weight: 600; font-size: 13.5px; cursor: pointer; font-family: inherit; transition: background 0.3s; }
-.signup button:hover { background: var(--section-card-bg, var(--cream)); }
 .footer-bottom { display: flex; justify-content: space-between; align-items: center; padding-top: 28px; font-size: 13px; color: rgba(255, 255, 255, 0.5); }
 .footer-links { display: flex; gap: 24px; }
 .footer-links a:hover { color: var(--section-accent, var(--gold)); }
@@ -1353,16 +1348,22 @@ a { color: inherit; text-decoration: none; }
   .review-form-actions { flex-direction: column; }
   .wakeup, .products, .benefits, .how, .testimonials, .guarantee, .faq { padding: 80px 0; }
   .final-cta { padding: 100px 0; }
-  .footer-top { grid-template-columns: 1fr; }
-  .footer-bottom { flex-direction: column; gap: 14px; text-align: center; }
-  .footer-brand { display: flex; flex-direction: column; align-items: center; text-align: center; }
-  .social { justify-content: center; }
-  .footer-accordion summary { cursor: pointer; padding: 20px 0; border-top: 1px solid rgba(255, 255, 255, 0.14); }
-  .footer-accordion summary h4 { font-size: 22px; }
-  .footer-chevron { display: flex; }
+  .footer { padding: 36px 0 20px; }
+  .footer-top { grid-template-columns: 1fr; gap: 4px; padding-bottom: 16px; }
+  .footer-bottom { flex-direction: column; gap: 10px; text-align: center; padding-top: 18px; font-size: 12px; }
+  .footer-brand { display: flex; flex-direction: column; align-items: center; text-align: center; margin-bottom: 8px; }
+  .logo-footer .logo-image { width: 130px; }
+  .footer-brand p { font-size: 14px; margin-top: 8px; }
+  .social { justify-content: center; margin-top: 14px; }
+  .social a { width: 32px; height: 32px; }
+  .footer-accordion summary { cursor: pointer; padding: 14px 0; border-top: 1px solid rgba(255, 255, 255, 0.14); }
+  .footer-accordion summary h4 { font-size: 16px; }
+  .footer-chevron { display: flex; width: 28px; height: 28px; }
   .footer-accordion:not([open]) .footer-col-links { display: none; }
-  .footer-accordion[open] .footer-col-links { display: block; padding: 2px 0 20px; }
+  .footer-accordion[open] .footer-col-links { display: block; padding: 2px 0 14px; }
   .footer-accordion:last-of-type { border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
+  .footer-col a { font-size: 13px; padding: 5px 0; }
+  .disclaimer { font-size: 11px; margin-top: 14px; }
   .hero-cta { flex-direction: column; align-items: flex-start; }
   .stat-number { font-size: 100px; }
   .percent { font-size: 44px; }
