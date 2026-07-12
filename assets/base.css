@@ -214,9 +214,10 @@ a { color: inherit; text-decoration: none; }
 .mobile-menu {
   position: fixed;
   inset: 0;
-  background: var(--paper);
+  background-color: #ffffff;
+  opacity: 1;
   color: var(--midnight);
-  z-index: 200;
+  z-index: 999;
   padding: 84px 28px 40px;
   display: flex;
   flex-direction: column;
