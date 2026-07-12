@@ -38,13 +38,6 @@
             "link": "shopify://products/mouth-tape"
           }
         },
-        "nav-reviews": {
-          "type": "nav_link",
-          "settings": {
-            "label": "Reviews",
-            "link": "/pages/reviews"
-          }
-        },
         "nav-contact": {
           "type": "nav_link",
           "settings": {
@@ -63,7 +56,6 @@
       "block_order": [
         "nav-home",
         "nav-catalog",
-        "nav-reviews",
         "nav-contact",
         "nav-faq"
       ],
