@@ -1287,7 +1287,7 @@ a { color: inherit; text-decoration: none; }
   .trust-grid { grid-template-columns: 1fr 1fr; }
   .nav-desktop { display: none; }
   .hamburger { display: flex; }
-  .header-inner { grid-template-columns: auto auto 1fr auto; }
+  .header-inner { grid-template-columns: auto 1fr auto; }
   .logo { grid-column: 2; }
   .logo-image { width: 150px; }
   .footer-top { grid-template-columns: 1fr 1fr 1fr; gap: 32px 36px; }
@@ -1296,6 +1296,7 @@ a { color: inherit; text-decoration: none; }
 }
 @media (max-width: 640px) {
   .container { padding: 0 20px; }
+  .btn-shop { display: none; }
   .hero { padding: 60px 0 80px; }
   .faq-page {
     padding: 42px 0 80px;
