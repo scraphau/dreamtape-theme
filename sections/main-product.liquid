@@ -72,6 +72,13 @@
 
           {%- if product.variants.size > 1 -%}
 
+            {%- assign base_price = 0 -%}
+            {%- for v in product.variants -%}
+              {%- unless v.title contains '3' or v.title contains 'Three' or v.title contains '6' or v.title contains 'Six' -%}
+                {%- assign base_price = v.price -%}
+              {%- endunless -%}
+            {%- endfor -%}
+
             <!-- Price row -->
             <div class="product-price-row">
               {%- assign first = product.selected_or_first_available_variant -%}
@@ -110,10 +117,16 @@
                     {%- assign is_deal = true -%}
                   {%- endif -%}
 
+                  {%- assign implied_compare = base_price | times: packs -%}
+                  {%- assign effective_compare = variant.compare_at_price -%}
+                  {%- if effective_compare <= variant.price and implied_compare > variant.price -%}
+                    {%- assign effective_compare = implied_compare -%}
+                  {%- endif -%}
+
                   {%- assign discount_percent = 0 -%}
-                  {%- if variant.compare_at_price > variant.price -%}
-                    {%- assign saved_amount = variant.compare_at_price | minus: variant.price -%}
-                    {%- assign discount_percent = saved_amount | times: 100 | divided_by: variant.compare_at_price -%}
+                  {%- if effective_compare > variant.price -%}
+                    {%- assign saved_amount = effective_compare | minus: variant.price -%}
+                    {%- assign discount_percent = saved_amount | times: 100 | divided_by: effective_compare -%}
                   {%- endif -%}
 
                   {%- assign selling_plan_id = '' -%}
@@ -135,7 +148,7 @@
                     class="variant-card {% if forloop.first %}active{% endif %} {% if is_popular %}variant-card--popular{% elsif is_deal %}variant-card--deal{% endif %}"
                     data-variant-id="{{ variant.id }}"
                     data-price="{{ variant.price | money_without_trailing_zeros }}"
-                    data-compare="{{ variant.compare_at_price | money_without_trailing_zeros }}"
+                    data-compare="{{ effective_compare | money_without_trailing_zeros }}"
                     data-discount="{{ discount_percent }}"
                     data-sub-price="{{ sub_price }}"
                     data-sub-compare="{{ sub_compare }}"
@@ -163,7 +176,7 @@
 
                     <div class="vc-pricing">
                       <span class="vc-price" data-vc-price>{{ variant.price | money_without_trailing_zeros }}</span>
-                      <span class="vc-compare" data-vc-compare {% unless variant.compare_at_price > variant.price %}style="display:none;"{% endunless %}>{{ variant.compare_at_price | money_without_trailing_zeros }}</span>
+                      <span class="vc-compare" data-vc-compare {% unless effective_compare > variant.price %}style="display:none;"{% endunless %}>{{ effective_compare | money_without_trailing_zeros }}</span>
                     </div>
                   </button>
                 {%- endfor -%}
