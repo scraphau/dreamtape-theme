@@ -27,6 +27,9 @@
               {{ section.settings.button_text }} <span class="arrow">→</span>
             </a>
           {%- endif -%}
+          {%- if section.settings.trial_text != blank -%}
+            <div class="wakeup-trial">{{ section.settings.trial_text }}</div>
+          {%- endif -%}
         </div>
       {%- endif -%}
     </div>
@@ -85,7 +88,7 @@
       "type": "richtext",
       "id": "heading",
       "label": "Heading",
-      "default": "<p>6 in 10 adults sleep with their <em>mouth open</em>.</p>"
+      "default": "<p>61% of adults sleep with their <em>mouth open</em>.</p>"
     },
     {
       "type": "richtext",
@@ -113,6 +116,12 @@
       "type": "url",
       "id": "button_link",
       "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "trial_text",
+      "label": "Trial text (below button)",
+      "default": "30-Day Risk-Free Trial"
     }
   ],
   "presets": [

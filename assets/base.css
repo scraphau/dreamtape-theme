@@ -522,6 +522,7 @@ a { color: inherit; text-decoration: none; }
 .wakeup-photo img { width: 100%; height: auto; display: block; }
 .wakeup-footer { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
 .wakeup-meta { font-size: 14px; color: var(--section-muted, var(--muted)); }
+.wakeup-trial { font-size: 12.5px; color: var(--section-muted, rgba(14, 26, 58, 0.42)); }
 
 /* Stat card visual, used by product-problem and product-stats sections */
 .stat-card {

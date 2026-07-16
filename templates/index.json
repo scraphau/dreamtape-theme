@@ -40,11 +40,12 @@
         "accent_color": "#0e1a3a",
         "card_background_color": "#ffffff",
         "eyebrow": "The nasal breathing gap",
-        "heading": "<p>6 in 10 adults sleep with their <em>mouth open</em>.</p>",
+        "heading": "<p>61% of adults sleep with their <em>mouth open</em>.</p>",
         "body": "<p>Open-mouth sleep dries out your airway, fragments deep sleep, and can soften your jawline over time.</p><p>Dreamtape trains your lips to stay gently closed, so you breathe the way you're built to — through your nose.</p>",
         "meta_text": "From $0.59 per night",
         "button_text": "Get Dreamtape",
-        "button_link": "shopify://products/mouth-tape"
+        "button_link": "shopify://products/mouth-tape",
+        "trial_text": "30-Day Risk-Free Trial"
       }
     },
     "products": {
