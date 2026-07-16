@@ -1,6 +1,7 @@
 {%- comment -%}
   Renders a product card.
-  Accepts: product (required), tag (optional badge string), tag_style (optional, 'sale' or default)
+  Accepts: product (required), tag (optional badge string), tag_style (optional, 'sale' or default),
+  image (optional image object to show instead of the product's featured media)
 {%- endcomment -%}
 
 <article class="product-card">
@@ -11,7 +12,9 @@
       <div class="product-tag tag-sale">Sale</div>
     {%- endif -%}
 
-    {%- if product.featured_media -%}
+    {%- if image != blank -%}
+      <img src="{{ image | image_url: width: 600 }}" alt="{{ image.alt | default: product.title | escape }}" loading="lazy">
+    {%- elsif product.featured_media -%}
       <img src="{{ product.featured_media | image_url: width: 600 }}" alt="{{ product.featured_media.alt | escape }}" loading="lazy">
     {%- else -%}
       <div class="product-image-placeholder">◐</div>
