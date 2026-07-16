@@ -82,12 +82,28 @@
             <!-- Price row -->
             <div class="product-price-row">
               {%- assign first = product.selected_or_first_available_variant -%}
-              <span class="product-price-current {% if first.compare_at_price > first.price %}is-discounted{% endif %}" data-current-price>{{ first.price | money_without_trailing_zeros }}</span>
-              {%- if first.compare_at_price > first.price -%}
-                <span class="product-price-compare" data-compare-price>{{ first.compare_at_price | money_without_trailing_zeros }}</span>
-                {%- assign saved = first.compare_at_price | minus: first.price -%}
-                <span class="product-price-save" data-save-badge>You save {{ saved | money_without_trailing_zeros }}</span>
+
+              {%- assign first_packs = 1 -%}
+              {%- if first.title contains '3' or first.title contains 'Three' -%}
+                {%- assign first_packs = 3 -%}
+              {%- elsif first.title contains '6' or first.title contains 'Six' -%}
+                {%- assign first_packs = 6 -%}
               {%- endif -%}
+              {%- assign first_implied_compare = base_price | times: first_packs -%}
+              {%- assign first_effective_compare = first.compare_at_price -%}
+              {%- if first_effective_compare <= first.price and first_implied_compare > first.price -%}
+                {%- assign first_effective_compare = first_implied_compare -%}
+              {%- endif -%}
+
+              <span class="product-price-compare" data-compare-price {% unless first_effective_compare > first.price %}style="display:none;"{% endunless %}>{{ first_effective_compare | money_without_trailing_zeros }}</span>
+              <span class="product-price-current {% if first_effective_compare > first.price %}is-discounted{% endif %}" data-current-price>{{ first.price | money_without_trailing_zeros }}</span>
+              {%- assign first_discount_percent = 0 -%}
+              {%- if first_effective_compare > first.price -%}
+                {%- assign first_saved = first_effective_compare | minus: first.price -%}
+                {%- assign first_discount_percent = first_saved | times: 100 | divided_by: first_effective_compare -%}
+                {%- assign first_discount_percent = first_discount_percent | divided_by: 5 | times: 5 -%}
+              {%- endif -%}
+              <span class="product-price-pill" data-price-pill {% if first_discount_percent == 0 %}style="display:none;"{% endif %}>{{ first_discount_percent }}% off</span>
             </div>
 
             <input type="hidden" name="id" value="{{ first.id }}" data-variant-input>
@@ -249,7 +265,7 @@
                     </div>
 
                     <div class="vc-pricing">
-                      <span class="vc-price {% if effective_compare > variant.price %}is-discounted{% endif %}" data-vc-price>{{ variant.price | money_without_trailing_zeros }}</span>
+                      <span class="vc-price" data-vc-price>{{ variant.price | money_without_trailing_zeros }}</span>
                       <span class="vc-compare" data-vc-compare {% unless effective_compare > variant.price %}style="display:none;"{% endunless %}>{{ effective_compare | money_without_trailing_zeros }}</span>
                     </div>
                   </button>
@@ -283,6 +299,7 @@
             {%- assign selling_plan_id = '' -%}
             {%- assign sub_price = '' -%}
             {%- assign sub_compare = '' -%}
+            {%- assign sub_discount_percent = 0 -%}
             {%- if matched_allocation -%}
               {%- assign selling_plan_id = matched_allocation.selling_plan.id -%}
               {%- assign plan_adjustment = matched_allocation.selling_plan.price_adjustments.first -%}
@@ -296,6 +313,7 @@
                 {%- assign sub_price_value = single_effective_compare | times: keep_percent | divided_by: 100 -%}
                 {%- assign sub_price = sub_price_value | money_without_trailing_zeros -%}
                 {%- assign sub_compare = single_effective_compare | money_without_trailing_zeros -%}
+                {%- assign sub_discount_percent = plan_percent_off -%}
               {%- else -%}
                 {%- assign sub_compare_basis = single_variant.price -%}
                 {%- if single_effective_compare > matched_allocation.price -%}
@@ -303,18 +321,31 @@
                 {%- endif -%}
                 {%- assign sub_price = matched_allocation.price | money_without_trailing_zeros -%}
                 {%- assign sub_compare = sub_compare_basis | money_without_trailing_zeros -%}
+                {%- assign sub_discount_percent = 0 -%}
+                {%- if matched_allocation.price < sub_compare_basis -%}
+                  {%- assign sub_saved = sub_compare_basis | minus: matched_allocation.price -%}
+                  {%- assign sub_discount_percent = sub_saved | times: 100 | divided_by: sub_compare_basis -%}
+                  {%- assign sub_discount_percent = sub_discount_percent | divided_by: 5 | times: 5 -%}
+                {%- endif -%}
               {%- endif -%}
+            {%- endif -%}
+            {%- assign discount_percent = 0 -%}
+            {%- if product.compare_at_price > product.price -%}
+              {%- assign saved = product.compare_at_price | minus: product.price -%}
+              {%- assign discount_percent = saved | times: 100 | divided_by: product.compare_at_price -%}
+              {%- assign discount_percent = discount_percent | divided_by: 5 | times: 5 -%}
             {%- endif -%}
             <input type="hidden" name="id" value="{{ single_variant.id }}" data-single-variant-selling-plan="{{ selling_plan_id }}">
             <div class="product-price-row"
               data-price="{{ product.price | money_without_trailing_zeros }}"
               data-compare="{{ product.compare_at_price | money_without_trailing_zeros }}"
+              data-discount="{{ discount_percent }}"
               data-sub-price="{{ sub_price }}"
-              data-sub-compare="{{ sub_compare }}">
-              <span class="product-price-current {% if product.compare_at_price > product.price %}is-discounted{% endif %}" data-current-price>{{ product.price | money_without_trailing_zeros }}</span>
+              data-sub-compare="{{ sub_compare }}"
+              data-sub-discount="{{ sub_discount_percent }}">
               <span class="product-price-compare" data-compare-price {% unless product.compare_at_price > product.price %}style="display:none;"{% endunless %}>{{ product.compare_at_price | money_without_trailing_zeros }}</span>
-              {%- assign saved = product.compare_at_price | minus: product.price -%}
-              <span class="product-price-save" data-save-badge {% unless product.compare_at_price > product.price %}style="display:none;"{% endunless %}>You save {{ saved | money_without_trailing_zeros }}</span>
+              <span class="product-price-current {% if product.compare_at_price > product.price %}is-discounted{% endif %}" data-current-price>{{ product.price | money_without_trailing_zeros }}</span>
+              <span class="product-price-pill" data-price-pill {% if discount_percent == 0 %}style="display:none;"{% endif %}>{{ discount_percent }}% off</span>
             </div>
 
           {%- endif -%}
@@ -383,7 +414,7 @@
   const sellingPlanInput = form?.querySelector('[data-selling-plan-input]');
   const curEl = form?.querySelector('[data-current-price]');
   const cmpEl = form?.querySelector('[data-compare-price]');
-  const savEl = form?.querySelector('[data-save-badge]');
+  const pillTopEl = form?.querySelector('[data-price-pill]');
   let currentSellingPlanId = '';
 
   function isSubscribed() {
@@ -408,7 +439,6 @@
 
     if (priceEl) {
       priceEl.textContent = price || '';
-      priceEl.classList.toggle('is-discounted', !!compare);
     }
     if (compareEl) { compareEl.textContent = compare || ''; compareEl.style.display = compare ? '' : 'none'; }
     if (pillEl) {
@@ -424,8 +454,9 @@
   function applyTopPricing(source) {
     if (!source) return;
     const subscribed = isSubscribed() && source.dataset.subPrice;
-    const price   = subscribed ? source.dataset.subPrice   : source.dataset.price;
-    const compare = subscribed ? source.dataset.subCompare : source.dataset.compare;
+    const price    = subscribed ? source.dataset.subPrice   : source.dataset.price;
+    const compare  = subscribed ? source.dataset.subCompare : source.dataset.compare;
+    const discount = subscribed ? source.dataset.subDiscount : source.dataset.discount;
     const hasDiscount = !!compare;
 
     if (curEl) {
@@ -433,7 +464,11 @@
       curEl.classList.toggle('is-discounted', hasDiscount);
     }
     if (cmpEl) { cmpEl.textContent = compare || ''; cmpEl.style.display = hasDiscount ? '' : 'none'; }
-    if (savEl) savEl.style.display = hasDiscount ? '' : 'none';
+    if (pillTopEl) {
+      const pct = Number(discount || 0);
+      pillTopEl.textContent = pct + '% off';
+      pillTopEl.style.display = pct > 0 ? '' : 'none';
+    }
   }
 
   function refreshAllPricing() {

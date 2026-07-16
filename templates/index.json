@@ -39,14 +39,13 @@
         "muted_text_color": "#5a6580",
         "accent_color": "#0e1a3a",
         "card_background_color": "#ffffff",
-        "stat_number": "61",
-        "stat_unit": "%",
-        "stat_label": "of adults are mouth breathers",
-        "eyebrow": "A wake-up call",
-        "heading": "<p>Mouth breathing is wrecking your nights — and your <em>face</em>.</p>",
-        "body": "<p>Snoring, dry mouth, disrupted REM, lower oxygenation, and a weaker facial structure. Most of us do it without realising.</p><p>Dreamtape gently guides your jaw closed so you nose-breathe through the night.</p>",
-        "button_text": "Try Dreamtape",
-        "button_link": "shopify://products/mouth-tape"
+        "eyebrow": "WAKE UP CALL",
+        "heading": "<p>61% of adults sleep with their <em>mouth open</em>.</p>",
+        "body": "<p>Open-mouth sleep dries out your airway, fragments deep sleep, and can soften your jawline over time.</p><p>Dreamtape trains your lips to stay gently closed, so you breathe the way you're built to — through your nose.</p>",
+        "meta_text": "From $0.59 per night",
+        "button_text": "Get Dreamtape",
+        "button_link": "shopify://products/mouth-tape",
+        "trial_text": "30-Day Risk-Free Trial"
       }
     },
     "products": {
@@ -60,7 +59,8 @@
         "eyebrow": "Mouth Tape",
         "heading": "<p>All for your <em>nasal breathing</em> ritual.</p>",
         "product": "mouth-tape",
-        "collection": "dreamtape-sleep-strips"
+        "collection": "dreamtape-sleep-strips",
+        "show_price": false
       }
     },
     "benefits": {
