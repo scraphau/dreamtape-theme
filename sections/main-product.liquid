@@ -82,14 +82,27 @@
             <!-- Price row -->
             <div class="product-price-row">
               {%- assign first = product.selected_or_first_available_variant -%}
-              {%- if first.compare_at_price > first.price -%}
-                <span class="product-price-compare" data-compare-price>{{ first.compare_at_price | money_without_trailing_zeros }}</span>
+
+              {%- assign first_packs = 1 -%}
+              {%- if first.title contains '3' or first.title contains 'Three' -%}
+                {%- assign first_packs = 3 -%}
+              {%- elsif first.title contains '6' or first.title contains 'Six' -%}
+                {%- assign first_packs = 6 -%}
               {%- endif -%}
-              <span class="product-price-current {% if first.compare_at_price > first.price %}is-discounted{% endif %}" data-current-price>{{ first.price | money_without_trailing_zeros }}</span>
+              {%- assign first_implied_compare = base_price | times: first_packs -%}
+              {%- assign first_effective_compare = first.compare_at_price -%}
+              {%- if first_effective_compare <= first.price and first_implied_compare > first.price -%}
+                {%- assign first_effective_compare = first_implied_compare -%}
+              {%- endif -%}
+
+              {%- if first_effective_compare > first.price -%}
+                <span class="product-price-compare" data-compare-price>{{ first_effective_compare | money_without_trailing_zeros }}</span>
+              {%- endif -%}
+              <span class="product-price-current {% if first_effective_compare > first.price %}is-discounted{% endif %}" data-current-price>{{ first.price | money_without_trailing_zeros }}</span>
               {%- assign first_discount_percent = 0 -%}
-              {%- if first.compare_at_price > first.price -%}
-                {%- assign first_saved = first.compare_at_price | minus: first.price -%}
-                {%- assign first_discount_percent = first_saved | times: 100 | divided_by: first.compare_at_price -%}
+              {%- if first_effective_compare > first.price -%}
+                {%- assign first_saved = first_effective_compare | minus: first.price -%}
+                {%- assign first_discount_percent = first_saved | times: 100 | divided_by: first_effective_compare -%}
                 {%- assign first_discount_percent = first_discount_percent | divided_by: 5 | times: 5 -%}
               {%- endif -%}
               <span class="product-price-pill" data-price-pill {% if first_discount_percent == 0 %}style="display:none;"{% endif %}>{{ first_discount_percent }}% off</span>
