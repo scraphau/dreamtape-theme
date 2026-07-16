@@ -584,7 +584,7 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
   background: linear-gradient(135deg, var(--midnight), var(--midnight-2));
 }
-.product-image img { width: 100%; height: 100%; object-fit: cover; object-position: center 65%; }
+.product-image img { width: 100%; height: 100%; object-fit: cover; object-position: center 90%; }
 .product-image-placeholder {
   width: 60%;
   height: 60%;
