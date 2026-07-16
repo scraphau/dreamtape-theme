@@ -36,7 +36,7 @@ const io = new IntersectionObserver((entries) => {
     }
   });
 }, {threshold: 0.12});
-document.querySelectorAll('.section-head, .product-card, .benefit, .how-step, .testimonial, .wakeup-grid, .guarantee-inner, .faq-item').forEach(el => {
+document.querySelectorAll('.section-head, .product-card, .benefit, .how-step, .testimonial, .wakeup-inner, .guarantee-inner, .faq-item').forEach(el => {
   el.classList.add('reveal');
   io.observe(el);
 });

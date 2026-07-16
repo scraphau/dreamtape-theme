@@ -1,25 +1,34 @@
 <section class="wakeup" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
-    <div class="wakeup-grid">
-      <div class="wakeup-visual">
-        <div class="stat-card">
-          <div class="stat-number">{{ section.settings.stat_number }}<span class="percent">{{ section.settings.stat_unit }}</span></div>
-          <div class="stat-label">{{ section.settings.stat_label }}</div>
-        </div>
-        <div class="stat-decor"></div>
-      </div>
-      <div class="wakeup-text">
+    <div class="wakeup-inner">
+      <div class="wakeup-head">
         {%- if section.settings.eyebrow != blank -%}
           <span class="eyebrow">{{ section.settings.eyebrow }}</span>
         {%- endif -%}
         <h2>{{ section.settings.heading }}</h2>
-        <div>{{ section.settings.body }}</div>
-        {%- if section.settings.button_text != blank -%}
-          <a href="{{ section.settings.button_link }}" class="btn-primary btn-dark">
-            {{ section.settings.button_text }} <span class="arrow">→</span>
-          </a>
-        {%- endif -%}
+        <div class="wakeup-body">{{ section.settings.body }}</div>
       </div>
+      <div class="wakeup-photo">
+        <img
+          src="{{ 'wakeup-photo.png' | asset_url }}"
+          alt="Woman sleeping peacefully wearing Dreamtape mouth tape"
+          width="1672"
+          height="941"
+          loading="lazy"
+        >
+      </div>
+      {%- if section.settings.meta_text != blank or section.settings.button_text != blank -%}
+        <div class="wakeup-footer">
+          {%- if section.settings.meta_text != blank -%}
+            <div class="wakeup-meta">{{ section.settings.meta_text }}</div>
+          {%- endif -%}
+          {%- if section.settings.button_text != blank -%}
+            <a href="{{ section.settings.button_link }}" class="btn-primary btn-dark">
+              {{ section.settings.button_text }} <span class="arrow">→</span>
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
     </div>
   </div>
 </section>
@@ -63,22 +72,8 @@
       "default": "#0e1a3a"
     },
     {
-      "type": "text",
-      "id": "stat_number",
-      "label": "Stat number",
-      "default": "61"
-    },
-    {
-      "type": "text",
-      "id": "stat_unit",
-      "label": "Stat unit",
-      "default": "%"
-    },
-    {
-      "type": "text",
-      "id": "stat_label",
-      "label": "Stat label",
-      "default": "of adults are mouth breathers"
+      "type": "header",
+      "content": "Content"
     },
     {
       "type": "text",
@@ -90,13 +85,23 @@
       "type": "richtext",
       "id": "heading",
       "label": "Heading",
-      "default": "<p>Mouth breathing is wrecking your nights — and your <em>face</em>.</p>"
+      "default": "<p>Are you in the <em>61%</em>?</p>"
     },
     {
       "type": "richtext",
       "id": "body",
       "label": "Body text",
-      "default": "<p>Snoring, dry mouth, disrupted REM, lower oxygenation, and a weaker facial structure. Most of us do it without realising.</p><p>Dreamtape gently guides your jaw closed so you nose-breathe through the night.</p>"
+      "default": "<p>Mouth breathing is just as bad for your health as it is for your looks. It reduces oxygenation, disturbs sleep, causes dry mouth, and weakens your facial structure.</p><p>61% of adults are mouth breathers. Don't be part of the club — use Dreamtape.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Footer"
+    },
+    {
+      "type": "text",
+      "id": "meta_text",
+      "label": "Meta text",
+      "default": "From $0.59 per night"
     },
     {
       "type": "text",

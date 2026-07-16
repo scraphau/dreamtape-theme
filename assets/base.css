@@ -514,8 +514,16 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- Wakeup ---------- */
 .wakeup { padding: 120px 0; background: var(--section-bg, var(--paper)); color: var(--section-text, var(--midnight)); }
-.wakeup-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
-.wakeup-visual { position: relative; display: flex; align-items: center; justify-content: center; }
+.wakeup-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+.wakeup-head { max-width: 640px; margin: 0 auto 48px; }
+.wakeup-head h2 { margin-bottom: 20px; }
+.wakeup-body p { color: var(--section-muted, var(--muted)); font-size: 17px; line-height: 1.6; margin-bottom: 16px; }
+.wakeup-photo { border-radius: 24px; overflow: hidden; box-shadow: var(--shadow-deep); }
+.wakeup-photo img { width: 100%; height: auto; display: block; }
+.wakeup-footer { margin-top: 40px; display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.wakeup-meta { font-size: 14px; color: var(--section-muted, var(--muted)); }
+
+/* Stat card visual, used by product-problem and product-stats sections */
 .stat-card {
   position: relative;
   background: var(--section-card-bg, var(--midnight));
@@ -550,9 +558,6 @@ a { color: inherit; text-decoration: none; }
   top: -40px;
   z-index: 1;
 }
-.wakeup-text h2 { margin-bottom: 24px; }
-.wakeup-text p { color: var(--section-muted, var(--muted)); font-size: 17px; margin-bottom: 16px; max-width: 520px; }
-.wakeup-text .btn-secondary { margin-top: 16px; }
 
 /* ---------- Products ---------- */
 .products { padding: 120px 0; background: var(--section-bg, var(--cream-warm)); color: var(--section-text, var(--midnight)); }
@@ -1291,7 +1296,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 980px) {
-  .hero-inner, .wakeup-grid, .guarantee-inner, .product-layout {
+  .hero-inner, .guarantee-inner, .product-layout {
     grid-template-columns: 1fr;
     gap: 40px;
   }

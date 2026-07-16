@@ -39,12 +39,10 @@
         "muted_text_color": "#5a6580",
         "accent_color": "#0e1a3a",
         "card_background_color": "#ffffff",
-        "stat_number": "61",
-        "stat_unit": "%",
-        "stat_label": "of adults are mouth breathers",
         "eyebrow": "A wake-up call",
-        "heading": "<p>Mouth breathing is wrecking your nights — and your <em>face</em>.</p>",
-        "body": "<p>Snoring, dry mouth, disrupted REM, lower oxygenation, and a weaker facial structure. Most of us do it without realising.</p><p>Dreamtape gently guides your jaw closed so you nose-breathe through the night.</p>",
+        "heading": "<p>Are you in the <em>61%</em>?</p>",
+        "body": "<p>61% of adults are mouth breathers. Mouth breathing reduces oxygenation, disturbs sleep, causes dry mouth, and weakens your facial structure — most of us do it without realising.</p><p>Dreamtape gently guides your jaw closed so you nose-breathe through the night.</p>",
+        "meta_text": "From $0.59 per night",
         "button_text": "Try Dreamtape",
         "button_link": "shopify://products/mouth-tape"
       }
