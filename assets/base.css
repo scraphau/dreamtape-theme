@@ -1074,7 +1074,7 @@ a { color: inherit; text-decoration: none; }
   border-bottom: 1px solid var(--line);
 }
 .product-bullets li:first-child { border-top: 1px solid var(--line); }
-.product-bullets li::before { content: '✓'; position: absolute; left: 0; color: #2d9e6c; font-weight: 700; }
+.product-bullets li::before { content: '✓'; position: absolute; left: 0; color: #32cd32; font-weight: 700; }
 
 /* Variant picker — stacked horizontal cards */
 .variant-picker { margin-bottom: 16px; }
@@ -1155,7 +1155,7 @@ a { color: inherit; text-decoration: none; }
 /* Price row */
 .product-price-row { display: flex; align-items: center; gap: 10px; margin: 16px 0; flex-wrap: wrap; }
 .product-price-current { font-family: var(--font-serif); font-size: 34px; font-weight: 400; letter-spacing: -0.02em; color: var(--section-text, var(--midnight)); }
-.product-price-current.is-discounted { color: #2d9e6c; }
+.product-price-current.is-discounted { color: #32cd32; }
 .product-price-compare { font-size: 34px; color: var(--section-text, var(--midnight)); text-decoration: line-through; font-family: var(--font-serif); }
 .product-price-pill {
   font-size: 11px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase;
@@ -1541,7 +1541,7 @@ a { color: inherit; text-decoration: none; }
   font-weight: 500;
 }
 .solution-check {
-  color: #2d9e6c;
+  color: #32cd32;
   font-weight: 700;
   flex-shrink: 0;
 }
@@ -1739,7 +1739,7 @@ a { color: inherit; text-decoration: none; }
   font-size: 16px;
 }
 .cmp-check {
-  color: #2d9e6c;
+  color: #32cd32;
   font-size: 18px;
   font-weight: 700;
 }
