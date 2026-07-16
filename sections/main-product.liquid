@@ -95,9 +95,7 @@
                 {%- assign first_effective_compare = first_implied_compare -%}
               {%- endif -%}
 
-              {%- if first_effective_compare > first.price -%}
-                <span class="product-price-compare" data-compare-price>{{ first_effective_compare | money_without_trailing_zeros }}</span>
-              {%- endif -%}
+              <span class="product-price-compare" data-compare-price {% unless first_effective_compare > first.price %}style="display:none;"{% endunless %}>{{ first_effective_compare | money_without_trailing_zeros }}</span>
               <span class="product-price-current {% if first_effective_compare > first.price %}is-discounted{% endif %}" data-current-price>{{ first.price | money_without_trailing_zeros }}</span>
               {%- assign first_discount_percent = 0 -%}
               {%- if first_effective_compare > first.price -%}
