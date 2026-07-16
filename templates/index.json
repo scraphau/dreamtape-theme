@@ -59,7 +59,8 @@
         "eyebrow": "Mouth Tape",
         "heading": "<p>All for your <em>nasal breathing</em> ritual.</p>",
         "product": "mouth-tape",
-        "collection": "dreamtape-sleep-strips"
+        "collection": "dreamtape-sleep-strips",
+        "show_price": false
       }
     },
     "benefits": {

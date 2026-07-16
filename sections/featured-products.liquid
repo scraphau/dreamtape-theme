@@ -7,13 +7,14 @@
       <h2 class="section-title">{{ section.settings.heading }}</h2>
     </div>
     <div class="product-grid product-grid--centered">
+      {%- assign default_card_image_src = 'featured-product-photo.png' | asset_url -%}
       {%- if section.settings.product != blank -%}
         {%- assign featured = all_products[section.settings.product] -%}
-        {%- render 'product-card', product: featured, image: section.settings.card_image -%}
+        {%- render 'product-card', product: featured, image: section.settings.card_image, image_src: default_card_image_src, show_price: section.settings.show_price -%}
       {%- elsif section.settings.collection != blank -%}
         {%- assign col = collections[section.settings.collection] -%}
         {%- for product in col.products limit: 1 -%}
-          {%- render 'product-card', product: product, image: section.settings.card_image -%}
+          {%- render 'product-card', product: product, image: section.settings.card_image, image_src: default_card_image_src, show_price: section.settings.show_price -%}
         {%- endfor -%}
       {%- else -%}
         <article class="product-card">
@@ -45,7 +46,8 @@
     { "type": "richtext", "id": "heading", "label": "Heading", "default": "<p>Everything for your <em>nasal breathing</em> ritual.</p>" },
     { "type": "product", "id": "product", "label": "Product (shows single centred card)" },
     { "type": "collection", "id": "collection", "label": "Collection (fallback, shows first product)" },
-    { "type": "image_picker", "id": "card_image", "label": "Card image override", "info": "Optional. Overrides the product's own photo on this card only — the product page and other channels are unaffected." }
+    { "type": "image_picker", "id": "card_image", "label": "Card image override", "info": "Optional. Overrides the product's own photo on this card only — the product page and other channels are unaffected." },
+    { "type": "checkbox", "id": "show_price", "label": "Show price", "default": true }
   ],
   "presets": [{ "name": "Featured products" }]
 }

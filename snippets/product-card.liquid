@@ -1,7 +1,9 @@
 {%- comment -%}
   Renders a product card.
   Accepts: product (required), tag (optional badge string), tag_style (optional, 'sale' or default),
-  image (optional image object to show instead of the product's featured media)
+  image (optional image object, takes priority over image_src and the product's featured media),
+  image_src (optional raw image URL, used if image is blank),
+  show_price (optional, defaults to true)
 {%- endcomment -%}
 
 <article class="product-card">
@@ -14,6 +16,8 @@
 
     {%- if image != blank -%}
       <img src="{{ image | image_url: width: 600 }}" alt="{{ image.alt | default: product.title | escape }}" loading="lazy">
+    {%- elsif image_src != blank -%}
+      <img src="{{ image_src }}" alt="{{ product.title | escape }}" loading="lazy">
     {%- elsif product.featured_media -%}
       <img src="{{ product.featured_media | image_url: width: 600 }}" alt="{{ product.featured_media.alt | escape }}" loading="lazy">
     {%- else -%}
@@ -25,19 +29,21 @@
     {%- if product.description != blank -%}
       <p>{{ product.description | strip_html | truncate: 90 }}</p>
     {%- endif -%}
-    <div class="product-meta">
-      {%- if product.price > 0 -%}
-        <span class="price">
-          {{ product.price | money_without_trailing_zeros }}
-          {%- if product.compare_at_price > product.price -%}
-            <span class="price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
-          {%- endif -%}
-        </span>
-      {%- endif -%}
-      {%- if product.metafields.reviews.rating.value != blank -%}
-        <span class="rating">★ {{ product.metafields.reviews.rating.value }}</span>
-      {%- endif -%}
-    </div>
+    {%- if show_price != false or product.metafields.reviews.rating.value != blank -%}
+      <div class="product-meta">
+        {%- if show_price != false and product.price > 0 -%}
+          <span class="price">
+            {{ product.price | money_without_trailing_zeros }}
+            {%- if product.compare_at_price > product.price -%}
+              <span class="price-compare">{{ product.compare_at_price | money_without_trailing_zeros }}</span>
+            {%- endif -%}
+          </span>
+        {%- endif -%}
+        {%- if product.metafields.reviews.rating.value != blank -%}
+          <span class="rating">★ {{ product.metafields.reviews.rating.value }}</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
     <a href="{{ product.url }}" class="btn-primary btn-dark btn-full">LEARN MORE</a>
   </div>
 </article>
