@@ -86,7 +86,13 @@
                 <span class="product-price-compare" data-compare-price>{{ first.compare_at_price | money_without_trailing_zeros }}</span>
               {%- endif -%}
               <span class="product-price-current {% if first.compare_at_price > first.price %}is-discounted{% endif %}" data-current-price>{{ first.price | money_without_trailing_zeros }}</span>
-              <span class="product-price-pill" data-price-pill style="display:none;"></span>
+              {%- assign first_discount_percent = 0 -%}
+              {%- if first.compare_at_price > first.price -%}
+                {%- assign first_saved = first.compare_at_price | minus: first.price -%}
+                {%- assign first_discount_percent = first_saved | times: 100 | divided_by: first.compare_at_price -%}
+                {%- assign first_discount_percent = first_discount_percent | divided_by: 5 | times: 5 -%}
+              {%- endif -%}
+              <span class="product-price-pill" data-price-pill {% if first_discount_percent == 0 %}style="display:none;"{% endif %}>{{ first_discount_percent }}% off</span>
             </div>
 
             <input type="hidden" name="id" value="{{ first.id }}" data-variant-input>
@@ -328,7 +334,7 @@
               data-sub-discount="{{ sub_discount_percent }}">
               <span class="product-price-compare" data-compare-price {% unless product.compare_at_price > product.price %}style="display:none;"{% endunless %}>{{ product.compare_at_price | money_without_trailing_zeros }}</span>
               <span class="product-price-current {% if product.compare_at_price > product.price %}is-discounted{% endif %}" data-current-price>{{ product.price | money_without_trailing_zeros }}</span>
-              <span class="product-price-pill" data-price-pill style="display:none;"></span>
+              <span class="product-price-pill" data-price-pill {% if discount_percent == 0 %}style="display:none;"{% endif %}>{{ discount_percent }}% off</span>
             </div>
 
           {%- endif -%}
@@ -449,9 +455,8 @@
     if (cmpEl) { cmpEl.textContent = compare || ''; cmpEl.style.display = hasDiscount ? '' : 'none'; }
     if (pillTopEl) {
       const pct = Number(discount || 0);
-      const showPill = subscribed && pct > 0;
       pillTopEl.textContent = pct + '% off';
-      pillTopEl.style.display = showPill ? '' : 'none';
+      pillTopEl.style.display = pct > 0 ? '' : 'none';
     }
   }
 
