@@ -86,15 +86,7 @@
                 <span class="product-price-compare" data-compare-price>{{ first.compare_at_price | money_without_trailing_zeros }}</span>
               {%- endif -%}
               <span class="product-price-current {% if first.compare_at_price > first.price %}is-discounted{% endif %}" data-current-price>{{ first.price | money_without_trailing_zeros }}</span>
-              {%- if first.compare_at_price > first.price -%}
-                {%- assign first_saved = first.compare_at_price | minus: first.price -%}
-                {%- assign first_discount_percent = first_saved | times: 100 | divided_by: first.compare_at_price -%}
-                {%- assign first_discount_percent = first_discount_percent | divided_by: 5 | times: 5 -%}
-                <span class="product-price-pill" data-price-pill {% if first_discount_percent == 0 %}style="display:none;"{% endif %}>{{ first_discount_percent }}% off</span>
-                <span class="product-price-save" data-save-badge>You save {{ first_saved | money_without_trailing_zeros }}</span>
-              {%- else -%}
-                <span class="product-price-pill" data-price-pill style="display:none;"></span>
-              {%- endif -%}
+              <span class="product-price-pill" data-price-pill style="display:none;"></span>
             </div>
 
             <input type="hidden" name="id" value="{{ first.id }}" data-variant-input>
@@ -250,14 +242,14 @@
                     <div class="vc-body">
                       <div class="vc-top">
                         <span class="vc-title">{{ months }} Month Supply</span>
+                        <span class="vc-pill" data-vc-pill {% if discount_percent == 0 %}style="display:none;"{% endif %}>{{ discount_percent }}% off</span>
                       </div>
                       <span class="vc-meta vc-meta--italic">{{ packs }} x 30 Pack{% if packs > 1 %}s{% endif %}</span>
                     </div>
 
                     <div class="vc-pricing">
+                      <span class="vc-price" data-vc-price>{{ variant.price | money_without_trailing_zeros }}</span>
                       <span class="vc-compare" data-vc-compare {% unless effective_compare > variant.price %}style="display:none;"{% endunless %}>{{ effective_compare | money_without_trailing_zeros }}</span>
-                      <span class="vc-price {% if effective_compare > variant.price %}is-discounted{% endif %}" data-vc-price>{{ variant.price | money_without_trailing_zeros }}</span>
-                      <span class="vc-pill" data-vc-pill {% if discount_percent == 0 %}style="display:none;"{% endif %}>{{ discount_percent }}% off</span>
                     </div>
                   </button>
                 {%- endfor -%}
@@ -336,8 +328,7 @@
               data-sub-discount="{{ sub_discount_percent }}">
               <span class="product-price-compare" data-compare-price {% unless product.compare_at_price > product.price %}style="display:none;"{% endunless %}>{{ product.compare_at_price | money_without_trailing_zeros }}</span>
               <span class="product-price-current {% if product.compare_at_price > product.price %}is-discounted{% endif %}" data-current-price>{{ product.price | money_without_trailing_zeros }}</span>
-              <span class="product-price-pill" data-price-pill {% unless discount_percent > 0 %}style="display:none;"{% endunless %}>{{ discount_percent }}% off</span>
-              <span class="product-price-save" data-save-badge {% unless product.compare_at_price > product.price %}style="display:none;"{% endunless %}>You save {{ saved | money_without_trailing_zeros }}</span>
+              <span class="product-price-pill" data-price-pill style="display:none;"></span>
             </div>
 
           {%- endif -%}
@@ -406,7 +397,6 @@
   const sellingPlanInput = form?.querySelector('[data-selling-plan-input]');
   const curEl = form?.querySelector('[data-current-price]');
   const cmpEl = form?.querySelector('[data-compare-price]');
-  const savEl = form?.querySelector('[data-save-badge]');
   const pillTopEl = form?.querySelector('[data-price-pill]');
   let currentSellingPlanId = '';
 
@@ -432,7 +422,6 @@
 
     if (priceEl) {
       priceEl.textContent = price || '';
-      priceEl.classList.toggle('is-discounted', !!compare);
     }
     if (compareEl) { compareEl.textContent = compare || ''; compareEl.style.display = compare ? '' : 'none'; }
     if (pillEl) {
@@ -458,11 +447,11 @@
       curEl.classList.toggle('is-discounted', hasDiscount);
     }
     if (cmpEl) { cmpEl.textContent = compare || ''; cmpEl.style.display = hasDiscount ? '' : 'none'; }
-    if (savEl) savEl.style.display = hasDiscount ? '' : 'none';
     if (pillTopEl) {
       const pct = Number(discount || 0);
+      const showPill = subscribed && pct > 0;
       pillTopEl.textContent = pct + '% off';
-      pillTopEl.style.display = pct > 0 ? '' : 'none';
+      pillTopEl.style.display = showPill ? '' : 'none';
     }
   }
 
