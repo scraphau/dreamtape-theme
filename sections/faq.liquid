@@ -8,10 +8,15 @@
     </div>
     <div class="faq-list">
       {%- for block in section.blocks -%}
-        <details class="faq-item">
-          <summary>{{ block.settings.question }}</summary>
-          <div class="faq-answer">{{ block.settings.answer }}</div>
-        </details>
+        <div class="faq-item">
+          <button type="button" class="faq-summary" aria-expanded="false">
+            <span>{{ block.settings.question }}</span>
+            <span class="faq-toggle" aria-hidden="true"></span>
+          </button>
+          <div class="faq-body">
+            <div class="faq-answer">{{ block.settings.answer }}</div>
+          </div>
+        </div>
       {%- endfor -%}
     </div>
   </div>

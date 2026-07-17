@@ -93,6 +93,23 @@ document.querySelectorAll('.faq-page-summary').forEach(btn => {
   });
 });
 
+// Bottom-of-product-page FAQ accordion (same open/close as the gallery FAQ)
+document.querySelectorAll('.faq-item .faq-summary').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const body = item.querySelector('.faq-body');
+    if (item.classList.contains('is-open')) {
+      item.classList.remove('is-open');
+      body.style.maxHeight = '0px';
+      btn.setAttribute('aria-expanded', 'false');
+    } else {
+      item.classList.add('is-open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+
 // FAQ category tabs
 document.querySelectorAll('[data-faq-tabs]').forEach(wrapper => {
   const tabs = wrapper.querySelectorAll('[data-faq-tab]');
