@@ -36,10 +36,15 @@
         <div class="faq-panel active" id="faq-panel-mouth-tape" role="tabpanel" data-faq-panel="mouth-tape">
           {%- for block in section.blocks -%}
             {%- if block.settings.category == 'mouth_tape' -%}
-              <details class="faq-page-item" {{ block.shopify_attributes }}>
-                <summary>{{ block.settings.question }}</summary>
-                <div class="faq-page-answer">{{ block.settings.answer }}</div>
-              </details>
+              <div class="faq-page-item" {{ block.shopify_attributes }}>
+                <button type="button" class="faq-page-summary" aria-expanded="false">
+                  <span class="faq-page-question">{{ block.settings.question }}</span>
+                  <span class="faq-page-toggle" aria-hidden="true"></span>
+                </button>
+                <div class="faq-page-body">
+                  <div class="faq-page-answer">{{ block.settings.answer }}</div>
+                </div>
+              </div>
             {%- endif -%}
           {%- endfor -%}
         </div>
@@ -47,10 +52,15 @@
         <div class="faq-panel" id="faq-panel-general" role="tabpanel" data-faq-panel="general" hidden>
           {%- for block in section.blocks -%}
             {%- if block.settings.category == 'general' -%}
-              <details class="faq-page-item" {{ block.shopify_attributes }}>
-                <summary>{{ block.settings.question }}</summary>
-                <div class="faq-page-answer">{{ block.settings.answer }}</div>
-              </details>
+              <div class="faq-page-item" {{ block.shopify_attributes }}>
+                <button type="button" class="faq-page-summary" aria-expanded="false">
+                  <span class="faq-page-question">{{ block.settings.question }}</span>
+                  <span class="faq-page-toggle" aria-hidden="true"></span>
+                </button>
+                <div class="faq-page-body">
+                  <div class="faq-page-answer">{{ block.settings.answer }}</div>
+                </div>
+              </div>
             {%- endif -%}
           {%- endfor -%}
         </div>
