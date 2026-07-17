@@ -73,15 +73,22 @@
           {%- if product.variants.size > 1 -%}
 
             {%- assign base_price = 0 -%}
+            {%- assign three_month_variant = blank -%}
             {%- for v in product.variants -%}
               {%- unless v.title contains '3' or v.title contains 'Three' or v.title contains '6' or v.title contains 'Six' -%}
                 {%- assign base_price = v.price -%}
               {%- endunless -%}
+              {%- if v.title contains '3' or v.title contains 'Three' -%}
+                {%- if three_month_variant == blank -%}
+                  {%- assign three_month_variant = v -%}
+                {%- endif -%}
+              {%- endif -%}
             {%- endfor -%}
 
             <!-- Price row -->
             <div class="product-price-row">
-              {%- assign first = product.selected_or_first_available_variant -%}
+              {%- comment -%} Land on the 3-month pack by default so every internal link into this page opens on the 3-month subscription, unless the URL explicitly selects a different variant. {%- endcomment -%}
+              {%- assign first = product.selected_variant | default: three_month_variant | default: product.selected_or_first_available_variant -%}
 
               {%- assign first_packs = 1 -%}
               {%- if first.title contains '3' or first.title contains 'Three' -%}
@@ -235,7 +242,7 @@
                   {%- endif -%}
 
                   <button type="button"
-                    class="variant-card {% if forloop.first %}active{% endif %} {% if is_popular %}variant-card--popular{% elsif is_deal %}variant-card--deal{% endif %}"
+                    class="variant-card {% if variant.id == first.id %}active{% endif %} {% if is_popular %}variant-card--popular{% elsif is_deal %}variant-card--deal{% endif %}"
                     data-variant-id="{{ variant.id }}"
                     data-price="{{ variant.price | money_without_trailing_zeros }}"
                     data-compare="{{ effective_compare | money_without_trailing_zeros }}"
@@ -353,7 +360,7 @@
           <!-- Subscribe & save toggle -->
           {%- if product.selling_plan_groups.size > 0 -%}
             <label class="product-subscribe-toggle">
-              <input type="checkbox" data-subscribe-toggle>
+              <input type="checkbox" data-subscribe-toggle checked>
               <span class="pst-check"></span>
               <span class="pst-body">
                 <strong>Save more with Automatic Refills!</strong>
