@@ -1096,7 +1096,6 @@ a { color: inherit; text-decoration: none; }
   overflow: hidden;
   transition: max-height 0.5s ease;
 }
-.gallery-faq-item.is-open .gallery-faq-body { max-height: 160px; }
 .gallery-faq-answer { padding: 0 4px 18px 32px; font-size: 14px; line-height: 1.6; color: var(--section-muted, var(--muted)); }
 
 /* Product info */

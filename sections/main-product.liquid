@@ -544,8 +544,16 @@
   document.querySelectorAll('[data-gallery-faq] .gallery-faq-summary').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.gallery-faq-item');
-      const isOpen = item.classList.toggle('is-open');
-      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      const body = item.querySelector('.gallery-faq-body');
+      if (item.classList.contains('is-open')) {
+        item.classList.remove('is-open');
+        body.style.maxHeight = '0px';
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        item.classList.add('is-open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
+      }
     });
   });
 })();
