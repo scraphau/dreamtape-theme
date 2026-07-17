@@ -1076,13 +1076,13 @@ a { color: inherit; text-decoration: none; }
 }
 .gallery-faq-icon svg { width: 100%; height: 100%; display: block; }
 .gallery-faq-question { flex: 1; font-size: 14.5px; font-weight: 500; }
-.gallery-faq-chevron { width: 16px; height: 16px; flex-shrink: 0; color: var(--section-muted, var(--muted)); transition: transform 0.5s ease; }
+.gallery-faq-chevron { width: 16px; height: 16px; flex-shrink: 0; color: var(--section-muted, var(--muted)); transition: transform 0.9s ease; }
 .gallery-faq-chevron svg { width: 100%; height: 100%; display: block; }
 .gallery-faq-item.is-open .gallery-faq-chevron { transform: rotate(180deg); }
 .gallery-faq-body {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.5s ease;
+  transition: max-height 0.9s ease;
 }
 .gallery-faq-item.is-open .gallery-faq-body { max-height: 140px; }
 .gallery-faq-answer { padding: 0 4px 18px 32px; font-size: 14px; line-height: 1.6; color: var(--section-muted, var(--muted)); }
