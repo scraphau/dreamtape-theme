@@ -70,6 +70,46 @@ document.querySelectorAll('[data-gallery-thumb]').forEach(thumb => {
   });
 });
 
+// FAQ page accordion (question opens/closes like the product page gallery FAQ)
+function closeFaqPageItem(item) {
+  const body = item.querySelector('.faq-page-body');
+  const btn = item.querySelector('.faq-page-summary');
+  item.classList.remove('is-open');
+  if (body) body.style.maxHeight = '0px';
+  if (btn) btn.setAttribute('aria-expanded', 'false');
+}
+
+document.querySelectorAll('.faq-page-summary').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-page-item');
+    const body = item.querySelector('.faq-page-body');
+    if (item.classList.contains('is-open')) {
+      closeFaqPageItem(item);
+    } else {
+      item.classList.add('is-open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+
+// Bottom-of-product-page FAQ accordion (same open/close as the gallery FAQ)
+document.querySelectorAll('.faq-item .faq-summary').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const body = item.querySelector('.faq-body');
+    if (item.classList.contains('is-open')) {
+      item.classList.remove('is-open');
+      body.style.maxHeight = '0px';
+      btn.setAttribute('aria-expanded', 'false');
+    } else {
+      item.classList.add('is-open');
+      body.style.maxHeight = body.scrollHeight + 'px';
+      btn.setAttribute('aria-expanded', 'true');
+    }
+  });
+});
+
 // FAQ category tabs
 document.querySelectorAll('[data-faq-tabs]').forEach(wrapper => {
   const tabs = wrapper.querySelectorAll('[data-faq-tab]');
@@ -90,7 +130,7 @@ document.querySelectorAll('[data-faq-tabs]').forEach(wrapper => {
         panel.classList.toggle('active', isActive);
         panel.hidden = !isActive;
         if (!isActive) {
-          panel.querySelectorAll('details[open]').forEach(item => item.removeAttribute('open'));
+          panel.querySelectorAll('.faq-page-item.is-open').forEach(closeFaqPageItem);
         }
       });
     });

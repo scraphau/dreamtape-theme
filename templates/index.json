@@ -69,7 +69,7 @@
         "benefit_PMxVhC": {
           "type": "benefit",
           "settings": {
-            "icon": "😴",
+            "icon": "snore",
             "title": "Stop snoring",
             "body": "Nasal breathing keeps your airway open — quieter nights for you and everyone around you."
           }
@@ -77,7 +77,7 @@
         "benefit_PmTNDB": {
           "type": "benefit",
           "settings": {
-            "icon": "⚡",
+            "icon": "energy",
             "title": "Wake up energised",
             "body": "More oxygen overnight means better deep sleep and brighter, sharper mornings."
           }
@@ -85,7 +85,7 @@
         "benefit_BBUjkW": {
           "type": "benefit",
           "settings": {
-            "icon": "🦷",
+            "icon": "breath",
             "title": "Fresh breath",
             "body": "No more dry mouth. Nasal breathing keeps your mouth moist and bacteria-free overnight."
           }
@@ -93,7 +93,7 @@
         "benefit_pPXRzn": {
           "type": "benefit",
           "settings": {
-            "icon": "💪",
+            "icon": "posture",
             "title": "Natural Mouth Posture",
             "body": "Keeping your mouth closed engages your jaw muscles — improving facial structure over time."
           }
@@ -101,7 +101,7 @@
         "benefit_MAihfK": {
           "type": "benefit",
           "settings": {
-            "icon": "🛡️",
+            "icon": "shield",
             "title": "Cleaner Overnight Breathing",
             "body": "Encourages nasal airflow, allowing your nose to naturally filter and humidify each breath while you sleep."
           }
@@ -109,7 +109,7 @@
         "benefit_AMN3kf": {
           "type": "benefit",
           "settings": {
-            "icon": "🧠",
+            "icon": "calm",
             "title": "Reduce stress",
             "body": "Nasal breathing activates your parasympathetic system — calming your body and mind for deep rest."
           }
@@ -128,7 +128,7 @@
         "text_color": "#0e1a3a",
         "muted_text_color": "#5a6580",
         "accent_color": "#0e1a3a",
-        "card_background_color": "#f3f6fb",
+        "card_background_color": "#dbe5f6",
         "eyebrow": "One fix. Many wins.",
         "heading": "<p>A cascade of benefits<br/>from <em>one small strip</em>.</p>",
         "lead": "When you switch from mouth to nose breathing, you unlock better oxygenation, deeper REM, a stronger jawline, and a sharper immune system — naturally and effortlessly."

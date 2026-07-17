@@ -31,6 +31,26 @@
             {%- endfor -%}
           </div>
         {%- endif -%}
+
+        {%- assign gallery_faq_blocks = section.blocks | where: 'type', 'gallery_faq' -%}
+        {%- if gallery_faq_blocks.size > 0 -%}
+          <div class="gallery-faq" data-gallery-faq>
+            {%- for block in gallery_faq_blocks -%}
+              <div class="gallery-faq-item" {{ block.shopify_attributes }}>
+                <button type="button" class="gallery-faq-summary" aria-expanded="false">
+                  <span class="gallery-faq-icon">{% render 'icon-line', icon: block.settings.icon %}</span>
+                  <span class="gallery-faq-question">{{ block.settings.question }}</span>
+                  <span class="gallery-faq-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                  </span>
+                </button>
+                <div class="gallery-faq-body">
+                  <div class="gallery-faq-answer">{{ block.settings.answer }}</div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
       </div>
 
       <!-- Info -->
@@ -73,15 +93,22 @@
           {%- if product.variants.size > 1 -%}
 
             {%- assign base_price = 0 -%}
+            {%- assign three_month_variant = blank -%}
             {%- for v in product.variants -%}
               {%- unless v.title contains '3' or v.title contains 'Three' or v.title contains '6' or v.title contains 'Six' -%}
                 {%- assign base_price = v.price -%}
               {%- endunless -%}
+              {%- if v.title contains '3' or v.title contains 'Three' -%}
+                {%- if three_month_variant == blank -%}
+                  {%- assign three_month_variant = v -%}
+                {%- endif -%}
+              {%- endif -%}
             {%- endfor -%}
 
             <!-- Price row -->
             <div class="product-price-row">
-              {%- assign first = product.selected_or_first_available_variant -%}
+              {%- comment -%} Land on the 3-month pack by default so every internal link into this page opens on the 3-month subscription, unless the URL explicitly selects a different variant. {%- endcomment -%}
+              {%- assign first = product.selected_variant | default: three_month_variant | default: product.selected_or_first_available_variant -%}
 
               {%- assign first_packs = 1 -%}
               {%- if first.title contains '3' or first.title contains 'Three' -%}
@@ -235,7 +262,7 @@
                   {%- endif -%}
 
                   <button type="button"
-                    class="variant-card {% if forloop.first %}active{% endif %} {% if is_popular %}variant-card--popular{% elsif is_deal %}variant-card--deal{% endif %}"
+                    class="variant-card {% if variant.id == first.id %}active{% endif %} {% if is_popular %}variant-card--popular{% elsif is_deal %}variant-card--deal{% endif %}"
                     data-variant-id="{{ variant.id }}"
                     data-price="{{ variant.price | money_without_trailing_zeros }}"
                     data-compare="{{ effective_compare | money_without_trailing_zeros }}"
@@ -353,11 +380,11 @@
           <!-- Subscribe & save toggle -->
           {%- if product.selling_plan_groups.size > 0 -%}
             <label class="product-subscribe-toggle">
-              <input type="checkbox" data-subscribe-toggle>
+              <input type="checkbox" data-subscribe-toggle checked>
               <span class="pst-check"></span>
               <span class="pst-body">
-                <strong>Save more with Automatic Refills!</strong>
-                <span>Zero commitment, Cancel Anytime</span>
+                <strong>Turn on Auto-Refills to save more</strong>
+                <span>Adjust your schedule or cancel anytime — no fees, no fuss</span>
               </span>
             </label>
             <input type="hidden" name="selling_plan" value="" data-selling-plan-input>
@@ -513,6 +540,22 @@
   });
 
   refreshAllPricing();
+
+  document.querySelectorAll('[data-gallery-faq] .gallery-faq-summary').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.gallery-faq-item');
+      const body = item.querySelector('.gallery-faq-body');
+      if (item.classList.contains('is-open')) {
+        item.classList.remove('is-open');
+        body.style.maxHeight = '0px';
+        btn.setAttribute('aria-expanded', 'false');
+      } else {
+        item.classList.add('is-open');
+        body.style.maxHeight = body.scrollHeight + 'px';
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
 })();
 </script>
 
@@ -536,6 +579,40 @@
     { "type": "text", "id": "cta_suffix", "label": "Button text suffix (after em dash)", "default": "Try Risk-Free" },
     { "type": "text", "id": "subscribe_note", "label": "Subscribe & save note", "default": "Save an extra 15% with Auto-Refills — pause or cancel anytime" },
     { "type": "text", "id": "sub_note", "label": "Below button note", "default": "30-night money-back guarantee · Free shipping" }
+  ],
+  "blocks": [
+    {
+      "type": "gallery_faq",
+      "name": "Gallery FAQ item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "tape", "label": "Tape strip" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "refresh", "label": "Refresh" },
+            { "value": "check", "label": "Checkmark" },
+            { "value": "snore", "label": "Moon" },
+            { "value": "calm", "label": "Brain" }
+          ],
+          "default": "tape"
+        },
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How does Dreamtape work?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>A soft strip gently keeps your lips closed overnight, guiding you toward nasal breathing.</p>"
+        }
+      ]
+    }
   ]
 }
 {% endschema %}

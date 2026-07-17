@@ -12,7 +12,7 @@
     <div class="benefits-grid">
       {%- for block in section.blocks -%}
         <div class="benefit">
-          <div class="benefit-icon">{{ block.settings.icon }}</div>
+          <div class="benefit-icon">{% render 'icon-line', icon: block.settings.icon %}</div>
           <h4>{{ block.settings.title }}</h4>
           <p>{{ block.settings.body }}</p>
         </div>
@@ -85,10 +85,18 @@
       "name": "Benefit",
       "settings": [
         {
-          "type": "text",
+          "type": "select",
           "id": "icon",
-          "label": "Icon (character)",
-          "default": "☾"
+          "label": "Icon",
+          "options": [
+            { "value": "snore", "label": "Moon (sleep)" },
+            { "value": "energy", "label": "Lightning (energy)" },
+            { "value": "breath", "label": "Tooth (fresh breath)" },
+            { "value": "posture", "label": "Muscle (posture)" },
+            { "value": "shield", "label": "Shield (protection)" },
+            { "value": "calm", "label": "Brain (calm)" }
+          ],
+          "default": "snore"
         },
         {
           "type": "text",
@@ -112,7 +120,7 @@
         {
           "type": "benefit",
           "settings": {
-            "icon": "☾",
+            "icon": "snore",
             "title": "Stop snoring",
             "body": "Quiet nights for you (and anyone next to you)."
           }
@@ -120,7 +128,7 @@
         {
           "type": "benefit",
           "settings": {
-            "icon": "✦",
+            "icon": "posture",
             "title": "Sharper jawline",
             "body": "Proper tongue posture supports facial structure."
           }
@@ -128,7 +136,7 @@
         {
           "type": "benefit",
           "settings": {
-            "icon": "⚡",
+            "icon": "energy",
             "title": "More energy",
             "body": "Deeper REM means brighter mornings."
           }
@@ -136,7 +144,7 @@
         {
           "type": "benefit",
           "settings": {
-            "icon": "❀",
+            "icon": "shield",
             "title": "Boost immunity",
             "body": "Nasal breathing filters and humidifies air."
           }
@@ -144,7 +152,7 @@
         {
           "type": "benefit",
           "settings": {
-            "icon": "◐",
+            "icon": "calm",
             "title": "Better mood",
             "body": "Quality sleep is the foundation of feeling good."
           }
@@ -152,7 +160,7 @@
         {
           "type": "benefit",
           "settings": {
-            "icon": "✿",
+            "icon": "breath",
             "title": "Fresh breath",
             "body": "No more dry mouth or morning breath."
           }

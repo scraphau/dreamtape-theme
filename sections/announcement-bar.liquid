@@ -1,12 +1,12 @@
-<div class="announcement" style="{% render 'section-color-vars', section: section %}" aria-label="Free shipping over $79. Subscribe and save up to 50 percent.">
+<a href="{{ section.settings.link | default: 'shopify://products/mouth-tape' }}" class="announcement" style="{% render 'section-color-vars', section: section %}" aria-label="Free AU shipping over $79. Subscribe and save up to 50 percent. Shop now.">
   <div class="announcement-track" aria-hidden="true">
     {%- for loop_index in (1..2) -%}
       <div class="announcement-sequence">
-        <span class="announcement-message">&#10022; Free shipping over $79 &#10022; Subscribe &amp; save up to 50% &#10022; Free shipping over $79 &#10022; Subscribe &amp; save up to 50% &#10022; Free shipping over $79 &#10022; Subscribe &amp; save up to 50% &#10022; Free shipping over $79 &#10022; Subscribe &amp; save up to 50%</span>
+        <span class="announcement-message">&#10022;&nbsp;&nbsp;&nbsp;&nbsp;FREE AU SHIPPING $79+&nbsp;&nbsp;&nbsp;&nbsp;&#10022;&nbsp;&nbsp;&nbsp;&nbsp;Subscribe &amp; save up to 50%&nbsp;&nbsp;&nbsp;&nbsp;&#10022;&nbsp;&nbsp;&nbsp;&nbsp;FREE AU SHIPPING $79+&nbsp;&nbsp;&nbsp;&nbsp;&#10022;&nbsp;&nbsp;&nbsp;&nbsp;Subscribe &amp; save up to 50%&nbsp;&nbsp;&nbsp;&nbsp;&#10022;&nbsp;&nbsp;&nbsp;&nbsp;FREE AU SHIPPING $79+&nbsp;&nbsp;&nbsp;&nbsp;&#10022;&nbsp;&nbsp;&nbsp;&nbsp;Subscribe &amp; save up to 50%&nbsp;&nbsp;&nbsp;&nbsp;&#10022;&nbsp;&nbsp;&nbsp;&nbsp;FREE AU SHIPPING $79+&nbsp;&nbsp;&nbsp;&nbsp;&#10022;&nbsp;&nbsp;&nbsp;&nbsp;Subscribe &amp; save up to 50%</span>
       </div>
     {%- endfor -%}
   </div>
-</div>
+</a>
 
 {% schema %}
 {
@@ -45,6 +45,16 @@
       "id": "card_background_color",
       "label": "Card background color",
       "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Link"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link",
+      "info": "Where the bar goes when clicked. Defaults to the mouth tape product page."
     }
   ]
 }
