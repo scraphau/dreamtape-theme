@@ -1054,7 +1054,7 @@ a { color: inherit; text-decoration: none; }
 .product-thumb.active { border-color: var(--section-accent, var(--midnight)); }
 .product-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
-.gallery-faq { margin-top: 8px; }
+.gallery-faq { margin-top: 28px; }
 .gallery-faq-item { border-bottom: 1px solid var(--line); }
 .gallery-faq-item:first-child { border-top: 1px solid var(--line); }
 .gallery-faq-item summary {
