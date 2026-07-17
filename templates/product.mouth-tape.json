@@ -33,7 +33,7 @@
           "settings": {
             "icon": "refresh",
             "question": "How do Auto-Refills work?",
-            "answer": "<p>Choose Auto-Refills at checkout and a fresh pack ships automatically on your schedule, at a discounted price, so you never run out. You can pick a 1, 3, or 6 month cadence to match how you sleep, and everything is managed from your account, where you can see upcoming orders, swap dates, or change your pack size at any time.</p>"
+            "answer": "<p>Choose Auto-Refills at checkout and a fresh pack ships automatically on your schedule, at a discounted price, so you never run out. You can pick a 1, 3, or 6 month subscription to match how you sleep, and everything is managed from your account, where you can see upcoming orders, swap dates, or change your pack size at any time.</p>"
           }
         },
         "gallery_faq_cancel": {
@@ -70,7 +70,7 @@
     "benefits": {
       "type": "benefits",
       "settings": {
-        "background_color": "#F3F6FB",
+        "background_color": "#f3f6fb",
         "text_color": "#0e1a3a",
         "muted_text_color": "#5a6580",
         "accent_color": "#0e1a3a",
