@@ -12,19 +12,9 @@
     <div class="benefits-grid">
       {%- for block in section.blocks -%}
         <div class="benefit">
-          <svg class="benefit-cloud" viewBox="0 0 240 160" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <g class="benefit-cloud-fill">
-              <rect x="0" y="96" width="240" height="64" rx="32"/>
-              <circle cx="50" cy="68" r="60"/>
-              <circle cx="120" cy="46" r="72"/>
-              <circle cx="190" cy="68" r="60"/>
-            </g>
-          </svg>
-          <div class="benefit-content">
-            <div class="benefit-icon">{% render 'icon-line', icon: block.settings.icon %}</div>
-            <h4>{{ block.settings.title }}</h4>
-            <p>{{ block.settings.body }}</p>
-          </div>
+          <div class="benefit-icon">{% render 'icon-line', icon: block.settings.icon %}</div>
+          <h4>{{ block.settings.title }}</h4>
+          <p>{{ block.settings.body }}</p>
         </div>
       {%- endfor -%}
     </div>

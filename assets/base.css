@@ -639,18 +639,21 @@ a { color: inherit; text-decoration: none; }
 /* ---------- Benefits ---------- */
 .benefits { padding: 120px 0; background: var(--section-bg, var(--paper)); color: var(--section-text, var(--midnight)); }
 .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.benefit { position: relative; padding: 40px 32px 32px; height: 230px; transition: transform 0.4s; }
-.benefit:hover { transform: translateY(-4px); }
-.benefit-cloud { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; filter: drop-shadow(0 4px 10px rgba(14, 26, 58, 0.08)); }
-.benefit-cloud-fill { fill: var(--section-card-bg, var(--mist, #dbe5f6)); transition: fill 0.4s; }
-.benefit:hover .benefit-cloud-fill { fill: var(--section-accent, var(--midnight)); }
+.benefit {
+  position: relative;
+  padding: 32px 32px 28px;
+  background: var(--section-card-bg, var(--mist, #dbe5f6));
+  border-radius: 24px;
+  box-shadow: 0 4px 14px rgba(14, 26, 58, 0.06);
+  transition: transform 0.4s, background 0.4s;
+}
+.benefit:hover { transform: translateY(-4px); background: var(--section-accent, var(--midnight)); }
 .benefit:hover .benefit-icon { color: var(--section-card-bg, var(--gold)); }
 .benefit:hover p { color: rgba(255, 255, 255, 0.75); }
-.benefit-content { position: relative; z-index: 1; }
 .benefit-icon {
   position: absolute;
-  top: -4px;
-  right: 0;
+  top: 32px;
+  right: 32px;
   width: 30px; height: 30px;
   color: var(--section-accent, var(--gold-deep));
   transition: color 0.3s;
