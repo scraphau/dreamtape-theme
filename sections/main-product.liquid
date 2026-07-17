@@ -31,6 +31,26 @@
             {%- endfor -%}
           </div>
         {%- endif -%}
+
+        {%- assign gallery_faq_blocks = section.blocks | where: 'type', 'gallery_faq' -%}
+        {%- if gallery_faq_blocks.size > 0 -%}
+          <div class="gallery-faq" data-gallery-faq>
+            {%- for block in gallery_faq_blocks -%}
+              <div class="gallery-faq-item" {{ block.shopify_attributes }}>
+                <button type="button" class="gallery-faq-summary" aria-expanded="false">
+                  <span class="gallery-faq-icon">{% render 'icon-line', icon: block.settings.icon %}</span>
+                  <span class="gallery-faq-question">{{ block.settings.question }}</span>
+                  <span class="gallery-faq-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                  </span>
+                </button>
+                <div class="gallery-faq-body">
+                  <div class="gallery-faq-answer">{{ block.settings.answer }}</div>
+                </div>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
       </div>
 
       <!-- Info -->
@@ -408,26 +428,6 @@
             <span>Ships in 1–2 Days</span>
           </div>
         </div>
-
-        {%- assign gallery_faq_blocks = section.blocks | where: 'type', 'gallery_faq' -%}
-        {%- if gallery_faq_blocks.size > 0 -%}
-          <div class="gallery-faq" data-gallery-faq>
-            {%- for block in gallery_faq_blocks -%}
-              <div class="gallery-faq-item" {{ block.shopify_attributes }}>
-                <button type="button" class="gallery-faq-summary" aria-expanded="false">
-                  <span class="gallery-faq-icon">{% render 'icon-line', icon: block.settings.icon %}</span>
-                  <span class="gallery-faq-question">{{ block.settings.question }}</span>
-                  <span class="gallery-faq-chevron" aria-hidden="true">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
-                  </span>
-                </button>
-                <div class="gallery-faq-body">
-                  <div class="gallery-faq-answer">{{ block.settings.answer }}</div>
-                </div>
-              </div>
-            {%- endfor -%}
-          </div>
-        {%- endif -%}
 
       </div>
     </div>
