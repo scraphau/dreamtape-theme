@@ -1054,6 +1054,29 @@ a { color: inherit; text-decoration: none; }
 .product-thumb.active { border-color: var(--section-accent, var(--midnight)); }
 .product-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
+.gallery-faq { margin-top: 8px; }
+.gallery-faq-item { border-bottom: 1px solid var(--line); }
+.gallery-faq-item:first-child { border-top: 1px solid var(--line); }
+.gallery-faq-item summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 4px;
+  cursor: pointer;
+  list-style: none;
+}
+.gallery-faq-item summary::-webkit-details-marker { display: none; }
+.gallery-faq-icon {
+  width: 20px; height: 20px; flex-shrink: 0;
+  color: var(--section-accent, var(--gold-deep));
+}
+.gallery-faq-icon svg { width: 100%; height: 100%; display: block; }
+.gallery-faq-question { flex: 1; font-size: 14.5px; font-weight: 500; }
+.gallery-faq-chevron { width: 16px; height: 16px; flex-shrink: 0; color: var(--section-muted, var(--muted)); transition: transform 0.25s; }
+.gallery-faq-chevron svg { width: 100%; height: 100%; display: block; }
+.gallery-faq-item[open] .gallery-faq-chevron { transform: rotate(180deg); }
+.gallery-faq-answer { padding: 0 4px 18px 32px; font-size: 14px; line-height: 1.6; color: var(--section-muted, var(--muted)); }
+
 /* Product info */
 .product-rating-row { display: flex; align-items: center; gap: 8px; font-size: 13px; margin-bottom: 14px; flex-wrap: wrap; }
 .product-stars { color: #f5a623; letter-spacing: 1px; font-size: 14px; }

@@ -31,6 +31,24 @@
             {%- endfor -%}
           </div>
         {%- endif -%}
+
+        {%- assign gallery_faq_blocks = section.blocks | where: 'type', 'gallery_faq' -%}
+        {%- if gallery_faq_blocks.size > 0 -%}
+          <div class="gallery-faq">
+            {%- for block in gallery_faq_blocks -%}
+              <details class="gallery-faq-item" {{ block.shopify_attributes }}>
+                <summary>
+                  <span class="gallery-faq-icon">{% render 'icon-line', icon: block.settings.icon %}</span>
+                  <span class="gallery-faq-question">{{ block.settings.question }}</span>
+                  <span class="gallery-faq-chevron" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                  </span>
+                </summary>
+                <div class="gallery-faq-answer">{{ block.settings.answer }}</div>
+              </details>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
       </div>
 
       <!-- Info -->
@@ -543,6 +561,40 @@
     { "type": "text", "id": "cta_suffix", "label": "Button text suffix (after em dash)", "default": "Try Risk-Free" },
     { "type": "text", "id": "subscribe_note", "label": "Subscribe & save note", "default": "Save an extra 15% with Auto-Refills — pause or cancel anytime" },
     { "type": "text", "id": "sub_note", "label": "Below button note", "default": "30-night money-back guarantee · Free shipping" }
+  ],
+  "blocks": [
+    {
+      "type": "gallery_faq",
+      "name": "Gallery FAQ item",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "tape", "label": "Tape strip" },
+            { "value": "shield", "label": "Shield" },
+            { "value": "refresh", "label": "Refresh" },
+            { "value": "check", "label": "Checkmark" },
+            { "value": "snore", "label": "Moon" },
+            { "value": "calm", "label": "Brain" }
+          ],
+          "default": "tape"
+        },
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "How does Dreamtape work?"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>A soft strip gently keeps your lips closed overnight, guiding you toward nasal breathing.</p>"
+        }
+      ]
+    }
   ]
 }
 {% endschema %}

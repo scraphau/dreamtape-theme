@@ -11,6 +11,46 @@
   "sections": {
     "main": {
       "type": "main-product",
+      "blocks": {
+        "gallery_faq_works": {
+          "type": "gallery_faq",
+          "settings": {
+            "icon": "tape",
+            "question": "How does Dreamtape work?",
+            "answer": "<p>A soft, hypoallergenic strip rests gently over your lips overnight, encouraging you to breathe through your nose instead of your mouth for deeper, quieter sleep.</p>"
+          }
+        },
+        "gallery_faq_trial": {
+          "type": "gallery_faq",
+          "settings": {
+            "icon": "shield",
+            "question": "What happens during my 30-night trial?",
+            "answer": "<p>Sleep on it for up to 30 nights. If you're not waking up better rested, send us one email and we'll refund you in full — no questions asked.</p>"
+          }
+        },
+        "gallery_faq_refills": {
+          "type": "gallery_faq",
+          "settings": {
+            "icon": "refresh",
+            "question": "How do Auto-Refills work?",
+            "answer": "<p>Choose Auto-Refills at checkout and a fresh pack ships automatically on your schedule, at a discounted price, so you never run out.</p>"
+          }
+        },
+        "gallery_faq_cancel": {
+          "type": "gallery_faq",
+          "settings": {
+            "icon": "check",
+            "question": "Can I pause or cancel anytime?",
+            "answer": "<p>Yes — there's no lock-in. Skip a shipment, change your frequency, or cancel whenever you like from your account.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "gallery_faq_works",
+        "gallery_faq_trial",
+        "gallery_faq_refills",
+        "gallery_faq_cancel"
+      ],
       "settings": {
         "background_color": "#ffffff",
         "text_color": "#0e1a3a",
