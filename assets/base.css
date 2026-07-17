@@ -639,11 +639,11 @@ a { color: inherit; text-decoration: none; }
 /* ---------- Benefits ---------- */
 .benefits { padding: 120px 0; background: var(--section-bg, var(--paper)); color: var(--section-text, var(--midnight)); }
 .benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
-.benefit { position: relative; padding: 40px 32px 32px; transition: transform 0.4s; }
+.benefit { position: relative; padding: 40px 36px 32px; min-height: 230px; transition: transform 0.4s; }
 .benefit:hover { transform: translateY(-4px); }
 .benefit-cloud { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 0; filter: drop-shadow(0 4px 10px rgba(14, 26, 58, 0.08)); }
-.benefit-cloud-fill { fill: var(--section-card-bg, var(--mist, #dbe5f6)); stroke: rgba(14, 26, 58, 0.08); stroke-width: 1.5; transition: fill 0.4s, stroke 0.4s; }
-.benefit:hover .benefit-cloud-fill { fill: var(--section-accent, var(--midnight)); stroke: var(--section-accent, var(--midnight)); }
+.benefit-cloud-fill { fill: var(--section-card-bg, var(--mist, #dbe5f6)); transition: fill 0.4s; }
+.benefit:hover .benefit-cloud-fill { fill: var(--section-accent, var(--midnight)); }
 .benefit:hover .benefit-icon { color: var(--section-card-bg, var(--gold)); }
 .benefit:hover p { color: rgba(255, 255, 255, 0.75); }
 .benefit-content { position: relative; z-index: 1; }
