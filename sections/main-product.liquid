@@ -563,6 +563,13 @@
   // Gallery: thumbnail clicks + prev/next arrows slide the track (all full-size images are already in the DOM, so switching never re-loads or blurs)
   const galleryTrack = document.querySelector('[data-gallery-track]');
   const galleryThumbs = Array.from(document.querySelectorAll('[data-gallery-thumb]'));
+  const galleryPrevBtn = document.querySelector('[data-gallery-prev]');
+  const galleryNextBtn = document.querySelector('[data-gallery-next]');
+
+  function updateGalleryArrows(index) {
+    if (galleryPrevBtn) galleryPrevBtn.disabled = index <= 0;
+    if (galleryNextBtn) galleryNextBtn.disabled = index >= galleryThumbs.length - 1;
+  }
 
   function showGalleryIndex(index) {
     if (!galleryTrack || !galleryThumbs.length) return;
@@ -571,6 +578,7 @@
     galleryTrack.style.transform = `translateX(-${index * 100}%)`;
     galleryThumbs.forEach(t => t.classList.remove('active'));
     thumb.classList.add('active');
+    updateGalleryArrows(index);
   }
 
   galleryThumbs.forEach((thumb, index) => {
@@ -582,14 +590,16 @@
     return active === -1 ? 0 : active;
   }
 
-  document.querySelector('[data-gallery-prev]')?.addEventListener('click', () => {
-    const next = (currentGalleryIndex() - 1 + galleryThumbs.length) % galleryThumbs.length;
-    showGalleryIndex(next);
+  galleryPrevBtn?.addEventListener('click', () => {
+    const next = currentGalleryIndex() - 1;
+    if (next >= 0) showGalleryIndex(next);
   });
-  document.querySelector('[data-gallery-next]')?.addEventListener('click', () => {
-    const next = (currentGalleryIndex() + 1) % galleryThumbs.length;
-    showGalleryIndex(next);
+  galleryNextBtn?.addEventListener('click', () => {
+    const next = currentGalleryIndex() + 1;
+    if (next < galleryThumbs.length) showGalleryIndex(next);
   });
+
+  updateGalleryArrows(currentGalleryIndex());
 
   document.querySelectorAll('[data-gallery-faq] .gallery-faq-summary').forEach(btn => {
     btn.addEventListener('click', () => {
