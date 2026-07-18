@@ -6,7 +6,7 @@
       <div class="product-gallery">
         <div class="product-gallery-main" data-gallery-main>
           {%- if product.featured_media -%}
-            <img src="{{ product.featured_media | image_url: width: 1200 }}" alt="{{ product.featured_media.alt | escape }}">
+            <img src="{{ product.featured_media | image_url: width: 1200 }}" alt="{{ product.featured_media.alt | escape }}" data-gallery-img>
           {%- else -%}
             <div class="product-gallery-placeholder">
               <div class="pgp-inner">
@@ -20,12 +20,21 @@
           {%- if section.settings.image_badge != blank -%}
             <div class="gallery-badge">{{ section.settings.image_badge }}</div>
           {%- endif -%}
+
+          {%- if product.media.size > 1 -%}
+            <button type="button" class="gallery-arrow gallery-arrow--prev" data-gallery-prev aria-label="Previous image">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button type="button" class="gallery-arrow gallery-arrow--next" data-gallery-next aria-label="Next image">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+          {%- endif -%}
         </div>
 
         {%- if product.media.size > 1 -%}
           <div class="product-thumbs">
             {%- for media in product.media -%}
-              <div class="product-thumb {% if forloop.first %}active{% endif %}" data-gallery-thumb>
+              <div class="product-thumb {% if forloop.first %}active{% endif %}" data-gallery-thumb data-full-src="{{ media | image_url: width: 1200 }}" data-alt="{{ media.alt | escape }}">
                 <img src="{{ media | image_url: width: 200 }}" alt="">
               </div>
             {%- endfor -%}
@@ -544,6 +553,39 @@
   });
 
   refreshAllPricing();
+
+  // Gallery: thumbnail clicks + prev/next arrows
+  const galleryMain = document.querySelector('[data-gallery-main]');
+  const galleryImg = galleryMain?.querySelector('[data-gallery-img]');
+  const galleryThumbs = Array.from(document.querySelectorAll('[data-gallery-thumb]'));
+
+  function showGalleryIndex(index) {
+    if (!galleryImg || !galleryThumbs.length) return;
+    const thumb = galleryThumbs[index];
+    if (!thumb) return;
+    galleryImg.src = thumb.dataset.fullSrc;
+    galleryImg.alt = thumb.dataset.alt || '';
+    galleryThumbs.forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+  }
+
+  galleryThumbs.forEach((thumb, index) => {
+    thumb.addEventListener('click', () => showGalleryIndex(index));
+  });
+
+  function currentGalleryIndex() {
+    const active = galleryThumbs.findIndex(t => t.classList.contains('active'));
+    return active === -1 ? 0 : active;
+  }
+
+  document.querySelector('[data-gallery-prev]')?.addEventListener('click', () => {
+    const next = (currentGalleryIndex() - 1 + galleryThumbs.length) % galleryThumbs.length;
+    showGalleryIndex(next);
+  });
+  document.querySelector('[data-gallery-next]')?.addEventListener('click', () => {
+    const next = (currentGalleryIndex() + 1) % galleryThumbs.length;
+    showGalleryIndex(next);
+  });
 
   document.querySelectorAll('[data-gallery-faq] .gallery-faq-summary').forEach(btn => {
     btn.addEventListener('click', () => {
