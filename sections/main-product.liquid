@@ -289,7 +289,7 @@
                         <span class="vc-pill" data-vc-pill {% if discount_percent == 0 %}style="display:none;"{% endif %}>{{ discount_percent }}% off</span>
                       </div>
                       <span class="vc-meta vc-meta--italic">{{ packs }} x 30 Strips</span>
-                      <span class="vc-shipping">FREE Shipping</span>
+                      <span class="vc-shipping" data-vc-shipping>FREE Shipping</span>
                     </div>
 
                     <div class="vc-pricing">
@@ -474,6 +474,9 @@
       pillEl.textContent = pct + '% off';
       pillEl.style.display = pct > 0 ? '' : 'none';
     }
+
+    const shippingEl = card.querySelector('[data-vc-shipping]');
+    if (shippingEl) shippingEl.style.display = isSubscribed() ? '' : 'none';
 
     return { price, compare };
   }
