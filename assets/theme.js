@@ -56,20 +56,6 @@ document.querySelectorAll('[data-variant-picker]').forEach(picker => {
   });
 });
 
-// Product gallery thumb swap
-document.querySelectorAll('[data-gallery-thumb]').forEach(thumb => {
-  thumb.addEventListener('click', () => {
-    const main = document.querySelector('[data-gallery-main]');
-    const src = thumb.querySelector('img')?.src;
-    if (main && src) {
-      const mainImg = main.querySelector('img');
-      if (mainImg) mainImg.src = src;
-    }
-    document.querySelectorAll('[data-gallery-thumb]').forEach(t => t.classList.remove('active'));
-    thumb.classList.add('active');
-  });
-});
-
 // FAQ page accordion (question opens/closes like the product page gallery FAQ)
 function closeFaqPageItem(item) {
   const body = item.querySelector('.faq-page-body');

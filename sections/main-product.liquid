@@ -5,8 +5,14 @@
       <!-- Gallery -->
       <div class="product-gallery">
         <div class="product-gallery-main" data-gallery-main>
-          {%- if product.featured_media -%}
-            <img src="{{ product.featured_media | image_url: width: 1200 }}" alt="{{ product.featured_media.alt | escape }}">
+          {%- if product.media.size > 0 -%}
+            <div class="gallery-track" data-gallery-track>
+              {%- for media in product.media -%}
+                <div class="gallery-slide">
+                  <img src="{{ media | image_url: width: 1600 }}" alt="{{ media.alt | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+                </div>
+              {%- endfor -%}
+            </div>
           {%- else -%}
             <div class="product-gallery-placeholder">
               <div class="pgp-inner">
@@ -19,6 +25,15 @@
 
           {%- if section.settings.image_badge != blank -%}
             <div class="gallery-badge">{{ section.settings.image_badge }}</div>
+          {%- endif -%}
+
+          {%- if product.media.size > 1 -%}
+            <button type="button" class="gallery-arrow gallery-arrow--prev" data-gallery-prev aria-label="Previous image">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <button type="button" class="gallery-arrow gallery-arrow--next" data-gallery-next aria-label="Next image">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
           {%- endif -%}
         </div>
 
@@ -288,7 +303,8 @@
                         <span class="vc-title">{{ months }} Month Supply</span>
                         <span class="vc-pill" data-vc-pill {% if discount_percent == 0 %}style="display:none;"{% endif %}>{{ discount_percent }}% off</span>
                       </div>
-                      <span class="vc-meta vc-meta--italic">{{ packs }} x 30 Pack{% if packs > 1 %}s{% endif %}</span>
+                      <span class="vc-meta vc-meta--italic">{{ packs }} x 30 Strips</span>
+                      <span class="vc-shipping" data-vc-shipping>FREE Shipping</span>
                     </div>
 
                     <div class="vc-pricing">
@@ -474,6 +490,9 @@
       pillEl.style.display = pct > 0 ? '' : 'none';
     }
 
+    const shippingEl = card.querySelector('[data-vc-shipping]');
+    if (shippingEl) shippingEl.style.display = isSubscribed() ? '' : 'none';
+
     return { price, compare };
   }
 
@@ -541,6 +560,47 @@
 
   refreshAllPricing();
 
+  // Gallery: thumbnail clicks + prev/next arrows slide the track (all full-size images are already in the DOM, so switching never re-loads or blurs)
+  const galleryTrack = document.querySelector('[data-gallery-track]');
+  const galleryThumbs = Array.from(document.querySelectorAll('[data-gallery-thumb]'));
+  const galleryPrevBtn = document.querySelector('[data-gallery-prev]');
+  const galleryNextBtn = document.querySelector('[data-gallery-next]');
+
+  function updateGalleryArrows(index) {
+    if (galleryPrevBtn) galleryPrevBtn.disabled = index <= 0;
+    if (galleryNextBtn) galleryNextBtn.disabled = index >= galleryThumbs.length - 1;
+  }
+
+  function showGalleryIndex(index) {
+    if (!galleryTrack || !galleryThumbs.length) return;
+    const thumb = galleryThumbs[index];
+    if (!thumb) return;
+    galleryTrack.style.transform = `translateX(-${index * 100}%)`;
+    galleryThumbs.forEach(t => t.classList.remove('active'));
+    thumb.classList.add('active');
+    updateGalleryArrows(index);
+  }
+
+  galleryThumbs.forEach((thumb, index) => {
+    thumb.addEventListener('click', () => showGalleryIndex(index));
+  });
+
+  function currentGalleryIndex() {
+    const active = galleryThumbs.findIndex(t => t.classList.contains('active'));
+    return active === -1 ? 0 : active;
+  }
+
+  galleryPrevBtn?.addEventListener('click', () => {
+    const next = currentGalleryIndex() - 1;
+    if (next >= 0) showGalleryIndex(next);
+  });
+  galleryNextBtn?.addEventListener('click', () => {
+    const next = currentGalleryIndex() + 1;
+    if (next < galleryThumbs.length) showGalleryIndex(next);
+  });
+
+  updateGalleryArrows(currentGalleryIndex());
+
   document.querySelectorAll('[data-gallery-faq] .gallery-faq-summary').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.gallery-faq-item');
@@ -573,8 +633,8 @@
     { "type": "text", "id": "rating_text", "label": "Rating text", "default": "4.9 · 2,847 reviews" },
     { "type": "text", "id": "badge_text", "label": "Award badge", "default": "#1 Mouth Tape" },
     { "type": "text", "id": "tagline", "label": "Tagline", "default": "The last sleep upgrade you'll ever need." },
-    { "type": "textarea", "id": "bullets", "label": "Feature bullets (one per line)", "default": "Reduced snoring & deeper sleep every night\nMore energy, sharper focus every morning\nStronger jaw & enhanced facial structure" },
-    { "type": "text", "id": "image_badge", "label": "Image overlay badge", "default": "From $0.67/night" },
+    { "type": "textarea", "id": "bullets", "label": "Feature bullets (one per line)", "default": "Stronger jaw & enhanced facial structure\nReduced snoring & deeper sleep every night\nMore energy, sharper focus every morning" },
+    { "type": "text", "id": "image_badge", "label": "Image overlay badge" },
     { "type": "header", "content": "CTA & notes" },
     { "type": "text", "id": "cta_suffix", "label": "Button text suffix (after em dash)", "default": "Try Risk-Free" },
     { "type": "text", "id": "subscribe_note", "label": "Subscribe & save note", "default": "Save an extra 15% with Auto-Refills — pause or cancel anytime" },
