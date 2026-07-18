@@ -653,6 +653,7 @@ a { color: inherit; text-decoration: none; }
 }
 .benefit:hover { transform: translateY(-4px); background: var(--section-accent, var(--midnight)); }
 .benefit:hover .benefit-icon { color: var(--section-card-bg, var(--gold)); }
+.benefit:hover h4 { color: #ffffff; }
 .benefit:hover p { color: rgba(255, 255, 255, 0.75); }
 .benefit-icon {
   position: absolute;
@@ -663,7 +664,7 @@ a { color: inherit; text-decoration: none; }
   transition: color 0.3s;
 }
 .benefit-icon svg { width: 100%; height: 100%; display: block; }
-.benefit h4 { font-family: var(--font-serif); font-weight: 500; font-size: 22px; letter-spacing: -0.01em; margin-bottom: 8px; padding-right: 42px; }
+.benefit h4 { font-family: var(--font-serif); font-weight: 500; font-size: 22px; letter-spacing: -0.01em; margin-bottom: 8px; padding-right: 42px; transition: color 0.3s; }
 .benefit p { font-size: 14.5px; color: var(--section-muted, var(--muted)); transition: color 0.3s; padding-right: 8px; }
 
 /* ---------- How ---------- */
