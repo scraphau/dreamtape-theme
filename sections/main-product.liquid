@@ -6,7 +6,7 @@
       <div class="product-gallery">
         <div class="product-gallery-main" data-gallery-main>
           {%- if product.featured_media -%}
-            <img src="{{ product.featured_media | image_url: width: 1200 }}" alt="{{ product.featured_media.alt | escape }}" data-gallery-img>
+            <img src="{{ product.featured_media | image_url: width: 1600 }}" alt="{{ product.featured_media.alt | escape }}" data-gallery-img>
           {%- else -%}
             <div class="product-gallery-placeholder">
               <div class="pgp-inner">
@@ -34,7 +34,7 @@
         {%- if product.media.size > 1 -%}
           <div class="product-thumbs">
             {%- for media in product.media -%}
-              <div class="product-thumb {% if forloop.first %}active{% endif %}" data-gallery-thumb data-full-src="{{ media | image_url: width: 1200 }}" data-alt="{{ media.alt | escape }}">
+              <div class="product-thumb {% if forloop.first %}active{% endif %}" data-gallery-thumb data-full-src="{{ media | image_url: width: 1600 }}" data-alt="{{ media.alt | escape }}">
                 <img src="{{ media | image_url: width: 200 }}" alt="">
               </div>
             {%- endfor -%}
@@ -571,6 +571,11 @@
 
   galleryThumbs.forEach((thumb, index) => {
     thumb.addEventListener('click', () => showGalleryIndex(index));
+    // Preload the full-size image so switching to it is instant and sharp, not blurry mid-load
+    if (thumb.dataset.fullSrc) {
+      const preload = new Image();
+      preload.src = thumb.dataset.fullSrc;
+    }
   });
 
   function currentGalleryIndex() {
