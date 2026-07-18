@@ -1036,7 +1036,7 @@ a { color: inherit; text-decoration: none; }
 
 /* ---------- Product page ---------- */
 .product-page { padding: 56px 0 100px; background: var(--section-bg, var(--paper)); color: var(--section-text, var(--midnight)); }
-.product-layout { display: grid; grid-template-columns: 0.9fr 1.1fr; gap: 72px; align-items: start; }
+.product-layout { display: grid; grid-template-columns: 0.78fr 1.22fr; gap: 88px; align-items: start; }
 
 /* Gallery */
 .product-gallery { position: sticky; top: 90px; }
