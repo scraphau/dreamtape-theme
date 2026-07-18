@@ -5,8 +5,14 @@
       <!-- Gallery -->
       <div class="product-gallery">
         <div class="product-gallery-main" data-gallery-main>
-          {%- if product.featured_media -%}
-            <img src="{{ product.featured_media | image_url: width: 1600 }}" alt="{{ product.featured_media.alt | escape }}" data-gallery-img>
+          {%- if product.media.size > 0 -%}
+            <div class="gallery-track" data-gallery-track>
+              {%- for media in product.media -%}
+                <div class="gallery-slide">
+                  <img src="{{ media | image_url: width: 1600 }}" alt="{{ media.alt | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
+                </div>
+              {%- endfor -%}
+            </div>
           {%- else -%}
             <div class="product-gallery-placeholder">
               <div class="pgp-inner">
@@ -34,7 +40,7 @@
         {%- if product.media.size > 1 -%}
           <div class="product-thumbs">
             {%- for media in product.media -%}
-              <div class="product-thumb {% if forloop.first %}active{% endif %}" data-gallery-thumb data-full-src="{{ media | image_url: width: 1600 }}" data-alt="{{ media.alt | escape }}">
+              <div class="product-thumb {% if forloop.first %}active{% endif %}" data-gallery-thumb>
                 <img src="{{ media | image_url: width: 200 }}" alt="">
               </div>
             {%- endfor -%}
@@ -554,28 +560,21 @@
 
   refreshAllPricing();
 
-  // Gallery: thumbnail clicks + prev/next arrows
-  const galleryMain = document.querySelector('[data-gallery-main]');
-  const galleryImg = galleryMain?.querySelector('[data-gallery-img]');
+  // Gallery: thumbnail clicks + prev/next arrows slide the track (all full-size images are already in the DOM, so switching never re-loads or blurs)
+  const galleryTrack = document.querySelector('[data-gallery-track]');
   const galleryThumbs = Array.from(document.querySelectorAll('[data-gallery-thumb]'));
 
   function showGalleryIndex(index) {
-    if (!galleryImg || !galleryThumbs.length) return;
+    if (!galleryTrack || !galleryThumbs.length) return;
     const thumb = galleryThumbs[index];
     if (!thumb) return;
-    galleryImg.src = thumb.dataset.fullSrc;
-    galleryImg.alt = thumb.dataset.alt || '';
+    galleryTrack.style.transform = `translateX(-${index * 100}%)`;
     galleryThumbs.forEach(t => t.classList.remove('active'));
     thumb.classList.add('active');
   }
 
   galleryThumbs.forEach((thumb, index) => {
     thumb.addEventListener('click', () => showGalleryIndex(index));
-    // Preload the full-size image so switching to it is instant and sharp, not blurry mid-load
-    if (thumb.dataset.fullSrc) {
-      const preload = new Image();
-      preload.src = thumb.dataset.fullSrc;
-    }
   });
 
   function currentGalleryIndex() {
