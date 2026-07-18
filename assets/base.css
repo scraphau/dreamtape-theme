@@ -1217,6 +1217,7 @@ a { color: inherit; text-decoration: none; }
 }
 .vc-meta { display: block; font-size: 12px; color: var(--section-muted, var(--muted)); }
 .vc-meta--italic { font-style: italic; }
+.vc-shipping { display: block; font-size: 12px; font-weight: 700; color: #1a7f37; margin-top: 2px; }
 
 .vc-pricing { display: flex; flex-direction: row; align-items: center; gap: 8px; flex-shrink: 0; }
 .vc-price { font-family: var(--font-serif); font-size: 18px; font-weight: 600; color: var(--section-text, var(--midnight)); }
