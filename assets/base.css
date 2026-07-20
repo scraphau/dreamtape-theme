@@ -1246,7 +1246,7 @@ a { color: inherit; text-decoration: none; }
 .vc-compare { font-size: 13px; color: var(--section-muted, var(--muted)); text-decoration: line-through; }
 
 /* Price row */
-.product-price-row { display: flex; align-items: center; gap: 10px; margin: 16px 0; flex-wrap: wrap; }
+.product-price-row { display: flex; align-items: center; gap: 16px; margin: 16px 0; flex-wrap: wrap; }
 .product-price-current { font-family: var(--font-serif); font-size: 34px; font-weight: 400; letter-spacing: -0.02em; color: var(--section-text, var(--midnight)); }
 .product-price-current.is-discounted { color: #32cd32; }
 .product-price-compare { font-size: 34px; color: var(--section-text, var(--midnight)); text-decoration: line-through; font-family: var(--font-serif); }
