@@ -241,6 +241,7 @@
                   {%- assign sub_price = '' -%}
                   {%- assign sub_compare = '' -%}
                   {%- assign sub_discount_percent = 0 -%}
+                  {%- assign sub_price_cents = 0 -%}
                   {%- if matched_allocation -%}
                     {%- assign selling_plan_id = matched_allocation.selling_plan.id -%}
                     {%- assign plan_adjustment = matched_allocation.selling_plan.price_adjustments.first -%}
@@ -255,6 +256,7 @@
                       {%- assign sub_price = sub_price_value | money_without_trailing_zeros -%}
                       {%- assign sub_compare = effective_compare | money_without_trailing_zeros -%}
                       {%- assign sub_discount_percent = plan_percent_off -%}
+                      {%- assign sub_price_cents = sub_price_value -%}
                     {%- else -%}
                       {%- comment -%} Fixed-price plan: still compare against effective_compare (the real "was" price) rather than the one-time sale price. {%- endcomment -%}
                       {%- assign sub_compare_basis = variant.price -%}
@@ -267,7 +269,13 @@
                         {%- assign sub_saved = sub_compare_basis | minus: matched_allocation.price -%}
                         {%- assign sub_discount_percent = sub_saved | times: 100 | divided_by: sub_compare_basis -%}
                       {%- endif -%}
+                      {%- assign sub_price_cents = matched_allocation.price -%}
                     {%- endif -%}
+                  {%- endif -%}
+
+                  {%- assign sub_per_strip = '' -%}
+                  {%- if sub_price_cents > 0 -%}
+                    {%- assign sub_per_strip = sub_price_cents | divided_by: strips | money -%}
                   {%- endif -%}
                   {%- if name_percent > 0 -%}
                     {%- assign sub_discount_percent = name_percent -%}
@@ -286,6 +294,7 @@
                     data-sub-compare="{{ sub_compare }}"
                     data-sub-discount="{{ sub_discount_percent }}"
                     data-per-strip="{{ per_strip | money }}"
+                    data-sub-per-strip="{{ sub_per_strip }}"
                     data-selling-plan-id="{{ selling_plan_id }}">
 
                     {%- if is_popular -%}
@@ -303,7 +312,7 @@
                         <span class="vc-title">{{ months }} Month Supply</span>
                         <span class="vc-pill" data-vc-pill {% if discount_percent == 0 %}style="display:none;"{% endif %}>{{ discount_percent }}% off</span>
                       </div>
-                      <span class="vc-meta vc-meta--italic">{{ packs }} x 30 Strips</span>
+                      <span class="vc-meta vc-meta--italic">{{ packs }} x 30 Strips <span class="vc-per-strip" data-vc-per-strip>({{ per_strip | money }} /Per Strip)</span></span>
                       <span class="vc-shipping" data-vc-shipping>FREE Shipping</span>
                     </div>
 
@@ -513,6 +522,12 @@
 
     const shippingEl = card.querySelector('[data-vc-shipping]');
     if (shippingEl) shippingEl.style.display = isSubscribed() ? '' : 'none';
+
+    const perStripEl = card.querySelector('[data-vc-per-strip]');
+    if (perStripEl) {
+      const perStrip = subscribed ? card.dataset.subPerStrip : card.dataset.perStrip;
+      perStripEl.textContent = perStrip ? '(' + perStrip + ' /Per Strip)' : '';
+    }
 
     return { price, compare };
   }
