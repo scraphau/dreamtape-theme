@@ -1256,38 +1256,55 @@ a { color: inherit; text-decoration: none; }
   background: var(--section-accent, var(--midnight)); color: #fff;
 }
 
-/* Subscribe & save toggle */
-.product-subscribe-toggle {
-  display: flex; align-items: flex-start; gap: 12px;
-  border: 1.5px dashed var(--section-accent, var(--midnight));
-  border-radius: 10px;
-  padding: 14px 16px;
-  margin-bottom: 16px;
+/* Purchase options */
+.product-purchase-options { margin-bottom: 16px; }
+.ppo-label {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--section-text, var(--midnight));
+  margin: 0 0 10px;
+}
+.ppo-card {
+  display: flex; align-items: center; gap: 14px;
+  border: 1.5px solid var(--line, #e2e5ec);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
   cursor: pointer;
-  background: var(--section-card-bg, #f5f7fc);
+  background: var(--section-card-bg, #fff);
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
-.product-subscribe-toggle input[type="checkbox"] { position: absolute; opacity: 0; width: 0; height: 0; }
-.pst-check {
-  width: 20px; height: 20px; flex-shrink: 0; margin-top: 1px;
+.ppo-card:last-child { margin-bottom: 0; }
+.ppo-card:has(input:checked) {
+  border-color: var(--section-accent, var(--midnight));
+  background: var(--section-highlight-bg, #f5f7fc);
+  box-shadow: 0 0 0 1px var(--section-accent, var(--midnight));
+}
+.ppo-card input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+.ppo-radio {
+  width: 20px; height: 20px; flex-shrink: 0;
   border: 2px solid var(--section-accent, var(--midnight));
-  border-radius: 5px;
+  border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  transition: background 0.2s;
 }
-.pst-check::after {
-  content: '✓';
-  color: var(--section-card-bg, var(--cream));
-  font-size: 13px; font-weight: 700;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-.product-subscribe-toggle input:checked ~ .pst-check {
+.ppo-radio::after {
+  content: '';
+  width: 10px; height: 10px; border-radius: 50%;
   background: var(--section-accent, var(--midnight));
+  opacity: 0; transform: scale(0.5);
+  transition: opacity 0.15s, transform 0.15s;
 }
-.product-subscribe-toggle input:checked ~ .pst-check::after { opacity: 1; }
-.pst-body { display: flex; flex-direction: column; gap: 2px; }
-.pst-body strong { font-size: 14px; color: var(--section-text, var(--midnight)); }
-.pst-body span { font-size: 12.5px; color: var(--section-muted, var(--muted)); }
+.ppo-card input:checked ~ .ppo-radio::after { opacity: 1; transform: scale(1); }
+.ppo-icon { flex-shrink: 0; display: flex; color: var(--section-accent, var(--midnight)); opacity: 0.85; }
+.ppo-body { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
+.ppo-title { font-size: 15px; font-weight: 600; color: var(--section-text, var(--midnight)); }
+.ppo-desc { font-size: 12.5px; color: var(--section-muted, var(--muted)); line-height: 1.4; }
+.ppo-badge {
+  flex-shrink: 0;
+  font-size: 10.5px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase;
+  color: #2f8f4e; background: #e3f6e6;
+  padding: 5px 11px; border-radius: 100px;
+  white-space: nowrap;
+}
 
 /* Subscribe note */
 .product-subscribe-note {

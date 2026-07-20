@@ -393,16 +393,37 @@
 
           {%- endif -%}
 
-          <!-- Subscribe & save toggle -->
+          <!-- Purchase options -->
           {%- if product.selling_plan_groups.size > 0 -%}
-            <label class="product-subscribe-toggle">
-              <input type="checkbox" data-subscribe-toggle checked>
-              <span class="pst-check"></span>
-              <span class="pst-body">
-                <strong>Turn on Auto-Refills to save more</strong>
-                <span>Adjust your schedule or cancel anytime — no fees, no fuss</span>
-              </span>
-            </label>
+            <div class="product-purchase-options">
+              <p class="ppo-label">Purchase Options</p>
+
+              <label class="ppo-card">
+                <input type="radio" name="purchase_option" data-subscribe-toggle checked>
+                <span class="ppo-radio"></span>
+                <span class="ppo-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                </span>
+                <span class="ppo-body">
+                  <span class="ppo-title">Subscribe &amp; Save</span>
+                  <span class="ppo-desc">Free shipping &middot; Delivered every 30, 90 or 180 days</span>
+                  <span class="ppo-desc">Skip, pause or cancel anytime</span>
+                </span>
+                <span class="ppo-badge">Recommended</span>
+              </label>
+
+              <label class="ppo-card">
+                <input type="radio" name="purchase_option" data-onetime-toggle>
+                <span class="ppo-radio"></span>
+                <span class="ppo-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                </span>
+                <span class="ppo-body">
+                  <span class="ppo-title">One-Time Purchase</span>
+                  <span class="ppo-desc">No automatic deliveries</span>
+                </span>
+              </label>
+            </div>
             <input type="hidden" name="selling_plan" value="" data-selling-plan-input>
           {%- elsif section.settings.subscribe_note != blank -%}
             <div class="product-subscribe-note">
@@ -530,9 +551,9 @@
     syncSellingPlanInput();
   }
 
-  if (subscribeToggle) {
-    subscribeToggle.addEventListener('change', refreshAllPricing);
-  }
+  form?.querySelectorAll('input[name="purchase_option"]').forEach(input => {
+    input.addEventListener('change', refreshAllPricing);
+  });
 
   const singleVariantInput = form?.querySelector('[data-single-variant-selling-plan]');
   if (singleVariantInput) {
