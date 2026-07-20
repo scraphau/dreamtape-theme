@@ -551,12 +551,13 @@
   }
 
   // Update the top price row from a given card (or the single-variant row)
+  // Discount/compare-at only ever shown for Subscribe & Save - one-time purchase always shows a plain price.
   function applyTopPricing(source) {
     if (!source) return;
     const subscribed = isSubscribed() && source.dataset.subPrice;
     const price    = subscribed ? source.dataset.subPrice   : source.dataset.price;
-    const compare  = subscribed ? source.dataset.subCompare : source.dataset.compare;
-    const discount = subscribed ? source.dataset.subDiscount : source.dataset.discount;
+    const compare  = subscribed ? source.dataset.subCompare : '';
+    const discount = subscribed ? source.dataset.subDiscount : 0;
     const hasDiscount = !!compare;
 
     if (curEl) {
