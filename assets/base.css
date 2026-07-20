@@ -1311,7 +1311,15 @@ a { color: inherit; text-decoration: none; }
 .ppo-body { display: flex; flex-direction: column; gap: 3px; flex: 1; min-width: 0; }
 .ppo-title { font-size: 15px; font-weight: 600; color: var(--section-text, var(--midnight)); }
 .ppo-desc { font-size: 12.5px; color: var(--section-muted, var(--muted)); line-height: 1.4; }
-.ppo-perks { display: flex; flex-direction: column; gap: 6px; margin-top: 6px; }
+.ppo-summary { font-size: 12.5px; color: var(--section-muted, var(--muted)); line-height: 1.4; transition: opacity 0.2s; }
+.ppo-card:has(input:checked) .ppo-summary { display: none; }
+.ppo-expand {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+.ppo-card:has(input:checked) .ppo-expand { grid-template-rows: 1fr; }
+.ppo-perks { display: flex; flex-direction: column; gap: 6px; padding-top: 6px; overflow: hidden; }
 .ppo-perk { font-size: 12.5px; color: var(--section-muted, var(--muted)); line-height: 1.4; }
 .ppo-badge {
   flex-shrink: 0;
