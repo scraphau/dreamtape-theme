@@ -606,6 +606,7 @@
         cards.forEach(c => c.classList.remove('active'));
         card.classList.add('active');
         if (input) input.value = card.dataset.variantId;
+        if (subscribeToggle) subscribeToggle.checked = true;
         refreshAllPricing();
       });
     });
