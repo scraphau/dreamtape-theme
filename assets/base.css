@@ -1230,18 +1230,17 @@ a { color: inherit; text-decoration: none; }
 .vc-select { display: flex; align-items: center; }
 
 .vc-body { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
-.vc-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.vc-top { display: flex; align-items: center; gap: 8px; }
 .vc-title { font-family: var(--font-sans); font-size: 15px; font-weight: 700; color: var(--section-text, var(--midnight)); }
+.vc-pill-stack { display: flex; flex-direction: column; align-items: center; gap: 4px; flex-shrink: 0; }
 .vc-pill {
   font-size: 10px; font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase;
   padding: 3px 9px; border-radius: 100px;
   background: var(--section-accent, var(--midnight)); color: #fff;
-  flex-shrink: 0;
 }
-.vc-meta-row { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
 .vc-meta { display: block; font-size: 12px; color: var(--section-muted, var(--muted)); }
 .vc-meta--italic { font-style: italic; }
-.vc-per-strip { flex-shrink: 0; font-style: normal; font-weight: 600; font-size: 12px; color: var(--section-text, var(--midnight)); }
+.vc-per-strip { font-style: normal; font-weight: 600; font-size: 11px; color: var(--section-text, var(--midnight)); white-space: nowrap; }
 .vc-shipping { display: block; font-size: 12px; font-weight: 700; color: #32cd32; margin-top: 2px; }
 
 .vc-pricing { display: flex; flex-direction: row; align-items: center; gap: 8px; flex-shrink: 0; }
