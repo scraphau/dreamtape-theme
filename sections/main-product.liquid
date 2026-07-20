@@ -312,7 +312,10 @@
                         <span class="vc-title">{{ months }} Month Supply</span>
                         <span class="vc-pill" data-vc-pill {% if discount_percent == 0 %}style="display:none;"{% endif %}>{{ discount_percent }}% off</span>
                       </div>
-                      <span class="vc-meta vc-meta--italic">{{ packs }} x 30 Strips <span class="vc-per-strip" data-vc-per-strip>({{ per_strip | money }} /Per Strip)</span></span>
+                      <div class="vc-meta-row">
+                        <span class="vc-meta vc-meta--italic">{{ packs }} x 30 Strips</span>
+                        <span class="vc-per-strip" data-vc-per-strip>({{ per_strip | money }} /Per Strip)</span>
+                      </div>
                       <span class="vc-shipping" data-vc-shipping>FREE Shipping</span>
                     </div>
 
