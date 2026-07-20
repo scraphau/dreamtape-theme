@@ -105,6 +105,8 @@
 
         {%- form 'product', product -%}
 
+          {%- assign first_sub_discount_percent = 0 -%}
+
           {%- if product.variants.size > 1 -%}
 
             {%- assign base_price = 0 -%}
@@ -241,6 +243,7 @@
                   {%- assign sub_price = '' -%}
                   {%- assign sub_compare = '' -%}
                   {%- assign sub_discount_percent = 0 -%}
+                  {%- assign sub_price_cents = 0 -%}
                   {%- if matched_allocation -%}
                     {%- assign selling_plan_id = matched_allocation.selling_plan.id -%}
                     {%- assign plan_adjustment = matched_allocation.selling_plan.price_adjustments.first -%}
@@ -255,6 +258,7 @@
                       {%- assign sub_price = sub_price_value | money_without_trailing_zeros -%}
                       {%- assign sub_compare = effective_compare | money_without_trailing_zeros -%}
                       {%- assign sub_discount_percent = plan_percent_off -%}
+                      {%- assign sub_price_cents = sub_price_value -%}
                     {%- else -%}
                       {%- comment -%} Fixed-price plan: still compare against effective_compare (the real "was" price) rather than the one-time sale price. {%- endcomment -%}
                       {%- assign sub_compare_basis = variant.price -%}
@@ -267,13 +271,22 @@
                         {%- assign sub_saved = sub_compare_basis | minus: matched_allocation.price -%}
                         {%- assign sub_discount_percent = sub_saved | times: 100 | divided_by: sub_compare_basis -%}
                       {%- endif -%}
+                      {%- assign sub_price_cents = matched_allocation.price -%}
                     {%- endif -%}
+                  {%- endif -%}
+
+                  {%- assign sub_per_strip = '' -%}
+                  {%- if sub_price_cents > 0 -%}
+                    {%- assign sub_per_strip = sub_price_cents | divided_by: strips | money -%}
                   {%- endif -%}
                   {%- if name_percent > 0 -%}
                     {%- assign sub_discount_percent = name_percent -%}
                   {%- else -%}
                     {%- comment -%} No literal percentage in the plan name (e.g. fixed-price plan) - round down to the nearest 5 so a slightly-off dollar amount still shows a clean number. {%- endcomment -%}
                     {%- assign sub_discount_percent = sub_discount_percent | divided_by: 5 | times: 5 -%}
+                  {%- endif -%}
+                  {%- if variant.id == first.id -%}
+                    {%- assign first_sub_discount_percent = sub_discount_percent -%}
                   {%- endif -%}
 
                   <button type="button"
@@ -286,6 +299,7 @@
                     data-sub-compare="{{ sub_compare }}"
                     data-sub-discount="{{ sub_discount_percent }}"
                     data-per-strip="{{ per_strip | money }}"
+                    data-sub-per-strip="{{ sub_per_strip }}"
                     data-selling-plan-id="{{ selling_plan_id }}">
 
                     {%- if is_popular -%}
@@ -308,8 +322,11 @@
                     </div>
 
                     <div class="vc-pricing">
-                      <span class="vc-price" data-vc-price>{{ variant.price | money_without_trailing_zeros }}</span>
-                      <span class="vc-compare" data-vc-compare {% unless effective_compare > variant.price %}style="display:none;"{% endunless %}>{{ effective_compare | money_without_trailing_zeros }}</span>
+                      <span class="vc-price-row">
+                        <span class="vc-price" data-vc-price>{{ variant.price | money_without_trailing_zeros }}</span>
+                        <span class="vc-compare" data-vc-compare {% unless effective_compare > variant.price %}style="display:none;"{% endunless %}>{{ effective_compare | money_without_trailing_zeros }}</span>
+                      </span>
+                      <span class="vc-per-strip" data-vc-per-strip>({{ per_strip | money }} /Per Strip)</span>
                     </div>
                   </button>
                 {%- endfor -%}
@@ -372,6 +389,7 @@
                 {%- endif -%}
               {%- endif -%}
             {%- endif -%}
+            {%- assign first_sub_discount_percent = sub_discount_percent -%}
             {%- assign discount_percent = 0 -%}
             {%- if product.compare_at_price > product.price -%}
               {%- assign saved = product.compare_at_price | minus: product.price -%}
@@ -393,16 +411,52 @@
 
           {%- endif -%}
 
-          <!-- Subscribe & save toggle -->
+          <!-- Purchase options -->
           {%- if product.selling_plan_groups.size > 0 -%}
-            <label class="product-subscribe-toggle">
-              <input type="checkbox" data-subscribe-toggle checked>
-              <span class="pst-check"></span>
-              <span class="pst-body">
-                <strong>Turn on Auto-Refills to save more</strong>
-                <span>Adjust your schedule or cancel anytime — no fees, no fuss</span>
-              </span>
-            </label>
+            <div class="product-purchase-options">
+              <p class="ppo-label">Purchase Options</p>
+
+              <label class="ppo-card">
+                <input type="radio" name="purchase_option" data-subscribe-toggle checked>
+                <span class="ppo-radio"></span>
+                <span class="ppo-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                </span>
+                <span class="ppo-body">
+                  <span class="ppo-title">Subscribe &amp; Save</span>
+                  <span class="ppo-summary">Auto-Delivered &middot; Cancel Anytime</span>
+                  <span class="ppo-expand">
+                    <span class="ppo-perks">
+                      <span class="ppo-perk">🪙 Instant <span data-ppo-discount>{{ first_sub_discount_percent }}</span>% Off</span>
+                      <span class="ppo-perk">📦 Delivered every 30, 90 or 180 Days</span>
+                      <span class="ppo-perk">🛡️ 30-Day Risk Free Trial</span>
+                      <span class="ppo-perk">✈️ Free Shipping Australia Wide</span>
+                      <span class="ppo-perk">🌐 30% off shipping to US, CA, NZ, &amp; SG</span>
+                      <span class="ppo-perk">📱 Cancel or Pause Anytime</span>
+                    </span>
+                  </span>
+                </span>
+                <span class="ppo-badge">Recommended</span>
+              </label>
+
+              <label class="ppo-card">
+                <input type="radio" name="purchase_option" data-onetime-toggle>
+                <span class="ppo-radio"></span>
+                <span class="ppo-icon">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                </span>
+                <span class="ppo-body">
+                  <span class="ppo-title">One-Time Purchase</span>
+                  <span class="ppo-summary">No automatic deliveries</span>
+                  <span class="ppo-expand">
+                    <span class="ppo-perks">
+                      <span class="ppo-perk">✓ 30-Day Risk Free Trial.</span>
+                      <span class="ppo-perk">✓ Flat Fee Shipping</span>
+                    </span>
+                  </span>
+                </span>
+              </label>
+            </div>
             <input type="hidden" name="selling_plan" value="" data-selling-plan-input>
           {%- elsif section.settings.subscribe_note != blank -%}
             <div class="product-subscribe-note">
@@ -493,16 +547,23 @@
     const shippingEl = card.querySelector('[data-vc-shipping]');
     if (shippingEl) shippingEl.style.display = isSubscribed() ? '' : 'none';
 
+    const perStripEl = card.querySelector('[data-vc-per-strip]');
+    if (perStripEl) {
+      const perStrip = subscribed ? card.dataset.subPerStrip : card.dataset.perStrip;
+      perStripEl.textContent = perStrip ? '(' + perStrip + ' /Per Strip)' : '';
+    }
+
     return { price, compare };
   }
 
   // Update the top price row from a given card (or the single-variant row)
+  // The "% off" pill is exclusive to Subscribe & Save; the compare-at price still shows for one-time.
   function applyTopPricing(source) {
     if (!source) return;
     const subscribed = isSubscribed() && source.dataset.subPrice;
     const price    = subscribed ? source.dataset.subPrice   : source.dataset.price;
     const compare  = subscribed ? source.dataset.subCompare : source.dataset.compare;
-    const discount = subscribed ? source.dataset.subDiscount : source.dataset.discount;
+    const discount = subscribed ? source.dataset.subDiscount : 0;
     const hasDiscount = !!compare;
 
     if (curEl) {
@@ -517,22 +578,32 @@
     }
   }
 
+  const ppoDiscountEl = form?.querySelector('[data-ppo-discount]');
+  function updatePpoDiscount(source) {
+    if (!ppoDiscountEl || !source) return;
+    ppoDiscountEl.textContent = source.dataset.subDiscount || '0';
+  }
+
   function refreshAllPricing() {
     document.querySelectorAll('.variant-card').forEach(applyCardPricing);
     const activeCard = document.querySelector('.variant-card.active');
     if (activeCard) {
       applyTopPricing(activeCard);
+      updatePpoDiscount(activeCard);
       currentSellingPlanId = activeCard.dataset.sellingPlanId || '';
     } else {
       const priceRow = form?.querySelector('.product-price-row[data-sub-price]');
-      if (priceRow) applyTopPricing(priceRow);
+      if (priceRow) {
+        applyTopPricing(priceRow);
+        updatePpoDiscount(priceRow);
+      }
     }
     syncSellingPlanInput();
   }
 
-  if (subscribeToggle) {
-    subscribeToggle.addEventListener('change', refreshAllPricing);
-  }
+  form?.querySelectorAll('input[name="purchase_option"]').forEach(input => {
+    input.addEventListener('change', refreshAllPricing);
+  });
 
   const singleVariantInput = form?.querySelector('[data-single-variant-selling-plan]');
   if (singleVariantInput) {
@@ -551,9 +622,7 @@
         cards.forEach(c => c.classList.remove('active'));
         card.classList.add('active');
         if (input) input.value = card.dataset.variantId;
-        currentSellingPlanId = card.dataset.sellingPlanId || '';
-        applyTopPricing(card);
-        syncSellingPlanInput();
+        refreshAllPricing();
       });
     });
   });
