@@ -1,0 +1,91 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "rating_text": "Rated 4.9 from 462 reviews",
+        "badge_text": "PREMIUM MOUTH TAPE",
+        "tagline": "The last sleep upgrade you'll ever need.",
+        "bullets": "Supports quieter, deeper sleep\nMore energy, sharper focus every morning\nGentle, skin-friendly overnight hold",
+        "cta_suffix": "Try Risk-Free",
+        "subscribe_note": "Save an extra 15% with Auto-Refills — pause or cancel anytime",
+        "sub_note": "30-night money-back guarantee · Free shipping"
+      }
+    },
+    "benefits": {
+      "type": "benefits",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#dbe5f6",
+        "eyebrow": "One fix. Many wins.",
+        "heading": "<p>A cascade of benefits<br>from <em>one small strip</em>.</p>",
+        "lead": "When you switch from mouth to nose breathing, you unlock better oxygenation, deeper REM, a stronger jawline, and a sharper immune system — naturally and effortlessly."
+      }
+    },
+    "how": {
+      "type": "how-it-works",
+      "settings": {
+        "background_color": "#0e1a3a",
+        "text_color": "#ffffff",
+        "muted_text_color": "#dbe5f6",
+        "accent_color": "#ffffff",
+        "card_background_color": "#ffffff",
+        "eyebrow": "How it works",
+        "heading": "<p>Three steps to <em>your best sleep</em>.</p>"
+      }
+    },
+    "guarantee": {
+      "type": "guarantee",
+      "settings": {
+        "background_color": "#f3f6fb",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "days": "30",
+        "badge_label": "nights<br>risk-free",
+        "eyebrow": "Our promise",
+        "heading": "Sleep on it for 30 nights.",
+        "body": "<p>We're so sure Dreamtape will change your sleep, we offer a 30-night money-back guarantee. If you're not waking up better-rested, send us one email — we'll refund you in full. No questions, no fuss.</p>",
+        "button_text": "Try Dreamtape now",
+        "button_link": ""
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Questions",
+        "heading": "<p>Everything you might<br>be <em>wondering</em>.</p>"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "benefits",
+    "how",
+    "guarantee",
+    "faq"
+  ]
+}
