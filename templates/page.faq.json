@@ -16,8 +16,8 @@
           "type": "qa",
           "settings": {
             "category": "mouth_tape",
-            "question": "What is Dreamtape?",
-            "answer": "<p>Dreamtape mouth tape gently supports nasal breathing while you sleep. A soft, hypoallergenic strip rests across your closed lips, with a small center slit so you can still breathe if needed. Mouth breathing overnight can dry out your airway and disrupt deep sleep, so keeping your lips gently closed helps you settle into quieter, more restful nights.</p>"
+            "question": "What are Dreamtape Sleep Strips?",
+            "answer": "<p>Dreamtape Sleep Strips are a soft, hypoallergenic strip that rests gently across your lips, training your body toward nasal breathing while you sleep. Breathing through your nose overnight filters and humidifies the air, cuts down on snoring, and helps you reach deeper, more restorative sleep, while mouth breathing dries out your airway and leaves you waking up groggy. It takes five seconds to apply, and most people notice the difference by morning.</p>"
           }
         },
         "mouth-use": {
@@ -60,6 +60,126 @@
             "answer": "<p>No. For hygiene and adhesive performance, each Dreamtape strip is single-use.</p>"
           }
         },
+        "mouth-count": {
+          "type": "qa",
+          "settings": {
+            "category": "mouth_tape",
+            "question": "How many strips come in each pack?",
+            "answer": "<p>Each pack gives you a 30-night supply, one gentle strip for every night of the month. Larger packs simply bundle multiple 30-strip packs together so you always have a fresh supply on hand.</p>"
+          }
+        },
+        "mouth-cold": {
+          "type": "qa",
+          "settings": {
+            "category": "mouth_tape",
+            "question": "Can I use it if I have a stuffy nose or cold?",
+            "answer": "<p>We recommend skipping mouth taping on nights when your nose is congested, since the breathing slit still relies on clear nasal airflow. Wait until congestion clears, or check with a healthcare professional if it lingers.</p>"
+          }
+        },
+        "mouth-material": {
+          "type": "qa",
+          "settings": {
+            "category": "mouth_tape",
+            "question": "What is Dreamtape made from?",
+            "answer": "<p>Dreamtape strips use a soft, hypoallergenic, latex-free adhesive designed for sensitive skin, so it holds gently in place all night without irritation.</p>"
+          }
+        },
+        "mouth-cpap": {
+          "type": "qa",
+          "settings": {
+            "category": "mouth_tape",
+            "question": "Can I use it with a CPAP mask?",
+            "answer": "<p>Dreamtape is designed for people who breathe well through their nose without extra equipment. If you use a CPAP or another sleep therapy device, check with your healthcare provider before combining it with mouth tape.</p>"
+          }
+        },
+        "mouth-position": {
+          "type": "qa",
+          "settings": {
+            "category": "mouth_tape",
+            "question": "Does it work if I sleep on my side or stomach?",
+            "answer": "<p>Yes. Dreamtape stays gently in place no matter your sleep position, so it works whether you sleep on your back, side, or stomach.</p>"
+          }
+        },
+        "nose-what": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "What are Dreamtape Nose Strips?",
+            "answer": "<p>Dreamtape Nose Strips are flexible strips worn across the bridge of your nose that gently lift and open your nasal passages, making it easier to breathe through your nose while you sleep.</p>"
+          }
+        },
+        "nose-use": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "How do I use them?",
+            "answer": "<p>Clean and dry the bridge of your nose, then peel a strip from the sheet and press it firmly across the bridge, just above your nostrils. Smooth down the edges so it stays secure through the night.</p>"
+          }
+        },
+        "nose-pair": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "Can I use nose strips with mouth tape?",
+            "answer": "<p>Yes. Many customers use Dreamtape Nose Strips together with Dreamtape mouth tape — the nose strip opens your airway while the mouth tape gently keeps your lips closed, for the most complete nasal-breathing setup.</p>"
+          }
+        },
+        "nose-reuse": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "Are nose strips reusable?",
+            "answer": "<p>No. Each nose strip is designed for single use to keep the adhesive fresh and effective. Use a new strip every night.</p>"
+          }
+        },
+        "nose-skin": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "Will they irritate my skin?",
+            "answer": "<p>Dreamtape Nose Strips use a gentle, hypoallergenic adhesive suited for nightly use. If you have particularly sensitive skin, do a small patch test first and stop use if irritation occurs.</p>"
+          }
+        },
+        "nose-congestion": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "Do they help with congestion?",
+            "answer": "<p>They are designed to widen your nasal passages, not clear congestion from a cold or allergies. If you are congested, they may offer some relief, but a stuffy nose from illness is best treated separately.</p>"
+          }
+        },
+        "nose-remove": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "How do I remove them comfortably?",
+            "answer": "<p>Peel slowly from one edge in the morning, ideally after a warm shower when the adhesive has loosened, for the most comfortable removal.</p>"
+          }
+        },
+        "nose-fit": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "What if it doesn't fit my nose well?",
+            "answer": "<p>Dreamtape Nose Strips are sized to fit most adult noses. Press firmly along the bridge and adjust before it sets — if the fit still feels off, our support team can help you find the right option.</p>"
+          }
+        },
+        "nose-daytime": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "Can I wear them during the day?",
+            "answer": "<p>Yes. Some customers wear them during exercise or other activities that call for extra airflow, not just overnight.</p>"
+          }
+        },
+        "nose-count": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "How many strips come in a pack?",
+            "answer": "<p>Each pack includes a 30-night supply, so you will always have a fresh strip ready to go.</p>"
+          }
+        },
         "general-trial": {
           "type": "qa",
           "settings": {
@@ -99,6 +219,46 @@
             "question": "What payments do you accept?",
             "answer": "<p>Available payment methods are shown at checkout and may include major credit cards and express payment options.</p>"
           }
+        },
+        "general-international": {
+          "type": "qa",
+          "settings": {
+            "category": "general",
+            "question": "Do you ship internationally?",
+            "answer": "<p>Yes. In addition to free shipping across Australia, we ship to the US, Canada, New Zealand, and Singapore, with delivery estimates and any costs shown at checkout.</p>"
+          }
+        },
+        "general-returns": {
+          "type": "qa",
+          "settings": {
+            "category": "general",
+            "question": "Can I return unopened packs?",
+            "answer": "<p>Unopened, unused packs can be returned within 30 days of delivery. Contact our support team and we will walk you through the process.</p>"
+          }
+        },
+        "general-track": {
+          "type": "qa",
+          "settings": {
+            "category": "general",
+            "question": "How do I track my order?",
+            "answer": "<p>Once your order ships, you will receive an email with tracking details so you can follow it right to your door.</p>"
+          }
+        },
+        "general-modify": {
+          "type": "qa",
+          "settings": {
+            "category": "general",
+            "question": "Can I change or cancel my subscription?",
+            "answer": "<p>Yes. Log into your account any time to swap pack sizes, change your delivery date, skip an upcoming order, or cancel altogether — no fees, no phone calls.</p>"
+          }
+        },
+        "general-discount": {
+          "type": "qa",
+          "settings": {
+            "category": "general",
+            "question": "Do you offer a discount for new customers?",
+            "answer": "<p>New customers can save with our Subscribe &amp; Save option, which applies an instant discount at checkout and keeps you stocked automatically.</p>"
+          }
         }
       },
       "block_order": [
@@ -108,11 +268,31 @@
         "mouth-remove",
         "mouth-beard",
         "mouth-reuse",
+        "mouth-count",
+        "mouth-cold",
+        "mouth-material",
+        "mouth-cpap",
+        "mouth-position",
+        "nose-what",
+        "nose-use",
+        "nose-pair",
+        "nose-reuse",
+        "nose-skin",
+        "nose-congestion",
+        "nose-remove",
+        "nose-fit",
+        "nose-daytime",
+        "nose-count",
         "general-trial",
         "general-shipping",
         "general-cost",
         "general-subscribe",
-        "general-payments"
+        "general-payments",
+        "general-international",
+        "general-returns",
+        "general-track",
+        "general-modify",
+        "general-discount"
       ],
       "settings": {
         "background_color": "#ffffff",
@@ -131,25 +311,9 @@
         "support_button": "Get help",
         "support_link": "/pages/contact"
       }
-    },
-    "final-cta": {
-      "type": "final-cta",
-      "settings": {
-        "background_color": "#0e1a3a",
-        "text_color": "#0e1a3a",
-        "muted_text_color": "#dbe5f6",
-        "accent_color": "#ffffff",
-        "card_background_color": "#ffffff",
-        "eyebrow": "Better nights start here",
-        "heading": "<p>Make every night <em>count</em>.</p>",
-        "body": "Start building a calmer breathing routine with Dreamtape.",
-        "button_text": "Shop Dreamtape",
-        "button_link": "/collections/all"
-      }
     }
   },
   "order": [
-    "faq-page",
-    "final-cta"
+    "faq-page"
   ]
 }

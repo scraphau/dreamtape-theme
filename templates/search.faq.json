@@ -131,25 +131,9 @@
         "support_button": "Get help",
         "support_link": "/pages/contact"
       }
-    },
-    "final-cta": {
-      "type": "final-cta",
-      "settings": {
-        "background_color": "#0e1a3a",
-        "text_color": "#ffffff",
-        "muted_text_color": "#dbe5f6",
-        "accent_color": "#ffffff",
-        "card_background_color": "#1b2d5a",
-        "eyebrow": "Better nights start here",
-        "heading": "<p>Make every night <em>count</em>.</p>",
-        "body": "Start building a calmer breathing routine with Dreamtape.",
-        "button_text": "Shop Dreamtape",
-        "button_link": "/collections/all"
-      }
     }
   },
   "order": [
-    "faq-page",
-    "final-cta"
+    "faq-page"
   ]
 }
