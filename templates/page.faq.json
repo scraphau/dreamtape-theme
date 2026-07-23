@@ -100,6 +100,86 @@
             "answer": "<p>Yes. Dreamtape stays gently in place no matter your sleep position, so it works whether you sleep on your back, side, or stomach.</p>"
           }
         },
+        "nose-what": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "What are Dreamtape Nose Strips?",
+            "answer": "<p>Dreamtape Nose Strips are flexible strips worn across the bridge of your nose that gently lift and open your nasal passages, making it easier to breathe through your nose while you sleep.</p>"
+          }
+        },
+        "nose-use": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "How do I use them?",
+            "answer": "<p>Clean and dry the bridge of your nose, then peel a strip from the sheet and press it firmly across the bridge, just above your nostrils. Smooth down the edges so it stays secure through the night.</p>"
+          }
+        },
+        "nose-pair": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "Can I use nose strips with mouth tape?",
+            "answer": "<p>Yes. Many customers use Dreamtape Nose Strips together with Dreamtape mouth tape — the nose strip opens your airway while the mouth tape gently keeps your lips closed, for the most complete nasal-breathing setup.</p>"
+          }
+        },
+        "nose-reuse": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "Are nose strips reusable?",
+            "answer": "<p>No. Each nose strip is designed for single use to keep the adhesive fresh and effective. Use a new strip every night.</p>"
+          }
+        },
+        "nose-skin": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "Will they irritate my skin?",
+            "answer": "<p>Dreamtape Nose Strips use a gentle, hypoallergenic adhesive suited for nightly use. If you have particularly sensitive skin, do a small patch test first and stop use if irritation occurs.</p>"
+          }
+        },
+        "nose-congestion": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "Do they help with congestion?",
+            "answer": "<p>They are designed to widen your nasal passages, not clear congestion from a cold or allergies. If you are congested, they may offer some relief, but a stuffy nose from illness is best treated separately.</p>"
+          }
+        },
+        "nose-remove": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "How do I remove them comfortably?",
+            "answer": "<p>Peel slowly from one edge in the morning, ideally after a warm shower when the adhesive has loosened, for the most comfortable removal.</p>"
+          }
+        },
+        "nose-fit": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "What if it doesn't fit my nose well?",
+            "answer": "<p>Dreamtape Nose Strips are sized to fit most adult noses. Press firmly along the bridge and adjust before it sets — if the fit still feels off, our support team can help you find the right option.</p>"
+          }
+        },
+        "nose-daytime": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "Can I wear them during the day?",
+            "answer": "<p>Yes. Some customers wear them during exercise or other activities that call for extra airflow, not just overnight.</p>"
+          }
+        },
+        "nose-count": {
+          "type": "qa",
+          "settings": {
+            "category": "nose_strips",
+            "question": "How many strips come in a pack?",
+            "answer": "<p>Each pack includes a 30-night supply, so you will always have a fresh strip ready to go.</p>"
+          }
+        },
         "general-trial": {
           "type": "qa",
           "settings": {
@@ -193,6 +273,16 @@
         "mouth-material",
         "mouth-cpap",
         "mouth-position",
+        "nose-what",
+        "nose-use",
+        "nose-pair",
+        "nose-reuse",
+        "nose-skin",
+        "nose-congestion",
+        "nose-remove",
+        "nose-fit",
+        "nose-daytime",
+        "nose-count",
         "general-trial",
         "general-shipping",
         "general-cost",
