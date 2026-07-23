@@ -3,7 +3,7 @@
     "hero":       { "type": "hero",
                     "settings": {
                       "button_text": "Shop Dreamtape",
-                      "button_link": "/products/dreamtape-mouth-tape",
+                      "button_link": "/products/mouth-tape",
                       "meta_top": "From $0.67 per night",
                       "meta_bottom": "30-night risk-free trial"
                     }
@@ -17,8 +17,7 @@
     "timeline":   { "type": "product-timeline" },
     "comparison": { "type": "product-comparison" },
     "guarantee":  { "type": "guarantee" },
-    "faq":        { "type": "faq" },
-    "cta":        { "type": "final-cta" }
+    "faq":        { "type": "faq" }
   },
   "order": [
     "hero",
@@ -31,7 +30,6 @@
     "timeline",
     "comparison",
     "guarantee",
-    "faq",
-    "cta"
+    "faq"
   ]
 }

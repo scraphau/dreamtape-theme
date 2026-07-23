@@ -11,6 +11,21 @@
   "type": "footer",
   "name": "Footer group",
   "sections": {
+    "global-final-cta": {
+      "type": "final-cta",
+      "settings": {
+        "background_color": "#0e1a3a",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#dbe5f6",
+        "accent_color": "#ffffff",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Your next chapter",
+        "heading": "<p>Wake up to a<br/><em>healthier you</em>.</p>",
+        "body": "You spend a third of your life asleep. Make it count.",
+        "button_text": "Try Dreamtape now",
+        "button_link": "shopify://products/mouth-tape"
+      }
+    },
     "footer": {
       "type": "footer",
       "settings": {
@@ -28,6 +43,7 @@
     }
   },
   "order": [
+    "global-final-cta",
     "footer"
   ]
 }
