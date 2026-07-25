@@ -43,6 +43,12 @@
 
     {% sections 'footer-group' %}
 
+    <script>
+      window.themeRoutes = {
+        cartAddUrl: {{ routes.cart_add_url | json }},
+        cartUrl: {{ routes.cart_url | json }}
+      };
+    </script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
   </body>
 </html>
