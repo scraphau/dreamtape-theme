@@ -1,3 +1,18 @@
+{%- assign show_final_cta = false -%}
+{%- case template.name -%}
+  {%- when 'index' -%}
+    {%- assign show_final_cta = true -%}
+  {%- when 'product' -%}
+    {%- if template.suffix == blank or template.suffix == 'mouth-tape' -%}
+      {%- assign show_final_cta = true -%}
+    {%- endif -%}
+  {%- when 'page' -%}
+    {%- if template.suffix == 'contact' or template.suffix == 'faq' -%}
+      {%- assign show_final_cta = true -%}
+    {%- endif -%}
+{%- endcase -%}
+
+{%- if show_final_cta -%}
 <section class="final-cta" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="final-inner">
@@ -14,6 +29,7 @@
     </div>
   </div>
 </section>
+{%- endif -%}
 
 {% schema %}
 {

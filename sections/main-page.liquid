@@ -1,6 +1,8 @@
 <section class="page-template" style="{% render 'section-color-vars', section: section %}">
+  {%- assign legal_page_handles = 'terms-conditions,privacy-policy,refund-policy' | split: ',' -%}
+  {%- assign is_legal_page = legal_page_handles contains page.handle -%}
   <div class="container">
-    <div class="page-header">
+    <div class="page-header{% if is_legal_page %} page-header--compact{% endif %}">
       <h1>{{ page.title }}</h1>
     </div>
     <div class="page-content rte">

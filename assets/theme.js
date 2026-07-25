@@ -1,3 +1,50 @@
+// Add to cart via AJAX so the customer stays on the current page instead of being sent to checkout
+document.querySelectorAll('#product-add-form').forEach(form => {
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const submitBtn = form.querySelector('.btn-atc');
+    const originalText = submitBtn?.textContent;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Adding…';
+    }
+
+    try {
+      const cartAddUrl = window.themeRoutes?.cartAddUrl || '/cart/add.js';
+      const response = await fetch(cartAddUrl, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form)
+      });
+
+      const result = await response.json();
+      if (!response.ok) throw new Error(result?.description || 'Add to cart failed');
+
+      const cartResponse = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
+      const cart = await cartResponse.json();
+      document.querySelectorAll('.cart-count').forEach(el => {
+        el.textContent = cart.item_count;
+      });
+
+      if (submitBtn) {
+        submitBtn.textContent = 'Added ✓';
+        setTimeout(() => {
+          submitBtn.textContent = originalText;
+          submitBtn.disabled = false;
+        }, 1500);
+      }
+    } catch (err) {
+      console.error(err);
+      if (submitBtn) {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }
+      alert('Sorry, we couldn\'t add that to your cart. Please try again.');
+    }
+  });
+});
+
 // Mobile menu
 document.addEventListener('click', (e) => {
   if (e.target.matches('[data-menu-open]')) {
