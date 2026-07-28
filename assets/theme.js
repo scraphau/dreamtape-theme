@@ -23,9 +23,8 @@ document.querySelectorAll('#product-add-form').forEach(form => {
 
       const cartResponse = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
       const cart = await cartResponse.json();
-      document.querySelectorAll('.cart-count').forEach(el => {
-        el.textContent = cart.item_count;
-      });
+      renderCartDrawer(cart);
+      openCartDrawer();
 
       if (submitBtn) {
         submitBtn.textContent = 'Added ✓';
@@ -43,6 +42,137 @@ document.querySelectorAll('#product-add-form').forEach(form => {
       alert('Sorry, we couldn\'t add that to your cart. Please try again.');
     }
   });
+});
+
+// Cart drawer
+function formatMoney(cents) {
+  const amount = cents / 100;
+  const currency = window.themeRoutes?.cartCurrency || 'USD';
+  const hasDecimal = amount % 1 !== 0;
+  try {
+    return new Intl.NumberFormat(undefined, {
+      style: 'currency',
+      currency,
+      minimumFractionDigits: hasDecimal ? 2 : 0,
+      maximumFractionDigits: hasDecimal ? 2 : 0
+    }).format(amount);
+  } catch (err) {
+    return `$${amount.toFixed(hasDecimal ? 2 : 0)}`;
+  }
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str || '';
+  return div.innerHTML;
+}
+
+function resizeCartImage(url, width) {
+  if (!url) return url;
+  return url + (url.includes('?') ? '&' : '?') + `width=${width}`;
+}
+
+function renderCartDrawer(cart) {
+  const itemsEl = document.getElementById('cartDrawerItems');
+  const footerEl = document.getElementById('cartDrawerFooter');
+  if (!itemsEl) return;
+
+  if (!cart.items.length) {
+    itemsEl.innerHTML = `
+      <div class="cart-drawer-empty">
+        <p>Your cart is empty.</p>
+        <a href="/products/mouth-tape" class="btn-primary btn-dark" data-cart-close>Shop Dreamtape <span class="arrow">→</span></a>
+      </div>`;
+    if (footerEl) footerEl.hidden = true;
+  } else {
+    itemsEl.innerHTML = cart.items.map(item => `
+      <div class="cart-drawer-item" data-line-key="${item.key}">
+        <a href="${item.url}">
+          ${item.image
+            ? `<img src="${resizeCartImage(item.image, 200)}" alt="${escapeHtml(item.product_title)}">`
+            : `<div class="cart-drawer-item-placeholder">◐</div>`}
+        </a>
+        <div class="cart-drawer-item-info">
+          <h3><a href="${item.url}">${escapeHtml(item.product_title)}</a></h3>
+          ${item.variant_title && item.variant_title !== 'Default Title' ? `<p class="cart-drawer-item-variant">${escapeHtml(item.variant_title)}</p>` : ''}
+          <div class="cart-drawer-item-qty">
+            <button type="button" data-cart-qty-decrease aria-label="Decrease quantity">&minus;</button>
+            <span data-cart-qty-value>${item.quantity}</span>
+            <button type="button" data-cart-qty-increase aria-label="Increase quantity">+</button>
+          </div>
+        </div>
+        <div class="cart-drawer-item-side">
+          <p class="cart-drawer-item-price">${formatMoney(item.final_line_price)}</p>
+          <button type="button" class="cart-drawer-item-remove" data-cart-remove aria-label="Remove ${escapeHtml(item.product_title)}">Remove</button>
+        </div>
+      </div>`).join('');
+    if (footerEl) {
+      footerEl.hidden = false;
+      const totalEl = footerEl.querySelector('.cart-drawer-total-value');
+      if (totalEl) totalEl.textContent = formatMoney(cart.total_price);
+    }
+  }
+
+  document.querySelectorAll('.cart-count').forEach(el => {
+    el.textContent = cart.item_count;
+  });
+}
+
+function openCartDrawer() {
+  document.getElementById('cartDrawer')?.classList.add('open');
+  document.getElementById('cartDrawerBackdrop')?.classList.add('open');
+  document.documentElement.classList.add('cart-open');
+}
+
+function closeCartDrawer() {
+  document.getElementById('cartDrawer')?.classList.remove('open');
+  document.getElementById('cartDrawerBackdrop')?.classList.remove('open');
+  document.documentElement.classList.remove('cart-open');
+}
+
+document.addEventListener('click', (e) => {
+  if (e.target.closest('[data-cart-open]')) {
+    e.preventDefault();
+    openCartDrawer();
+  }
+  if (e.target.closest('[data-cart-close]')) {
+    closeCartDrawer();
+  }
+});
+
+document.addEventListener('click', async (e) => {
+  const decreaseBtn = e.target.closest('[data-cart-qty-decrease]');
+  const increaseBtn = e.target.closest('[data-cart-qty-increase]');
+  const removeBtn = e.target.closest('[data-cart-remove]');
+  if (!decreaseBtn && !increaseBtn && !removeBtn) return;
+
+  const itemEl = e.target.closest('.cart-drawer-item');
+  if (!itemEl) return;
+
+  const key = itemEl.dataset.lineKey;
+  let quantity;
+  if (removeBtn) {
+    quantity = 0;
+  } else {
+    const qtyEl = itemEl.querySelector('[data-cart-qty-value]');
+    const current = parseInt(qtyEl?.textContent, 10) || 0;
+    quantity = increaseBtn ? current + 1 : Math.max(0, current - 1);
+  }
+
+  try {
+    const cartChangeUrl = window.themeRoutes?.cartChangeUrl || '/cart/change.js';
+    const response = await fetch(cartChangeUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ id: key, quantity })
+    });
+    const cart = await response.json();
+    if (!response.ok) throw new Error(cart?.description || 'Could not update cart');
+    renderCartDrawer(cart);
+  } catch (err) {
+    console.error(err);
+    alert('Sorry, we couldn\'t update your cart. Please try again.');
+  }
 });
 
 // Mobile menu

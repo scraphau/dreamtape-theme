@@ -46,7 +46,9 @@
     <script>
       window.themeRoutes = {
         cartAddUrl: {{ routes.cart_add_url | json }},
-        cartUrl: {{ routes.cart_url | json }}
+        cartUrl: {{ routes.cart_url | json }},
+        cartChangeUrl: {{ routes.cart_change_url | json }},
+        cartCurrency: {{ cart.currency.iso_code | json }}
       };
     </script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
