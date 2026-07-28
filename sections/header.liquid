@@ -46,7 +46,7 @@
       {%- if section.settings.cta_text != blank -%}
         <a href="{{ section.settings.cta_link }}" class="btn-shop">{{ section.settings.cta_text }}</a>
       {%- endif -%}
-      <a href="{{ routes.cart_url }}" class="cart-btn" aria-label="Cart">
+      <a href="{{ routes.cart_url }}" class="cart-btn" aria-label="Cart" data-cart-open>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         <span class="cart-count">{{ cart.item_count }}</span>
       </a>
@@ -80,6 +80,56 @@
       </a>
     {%- endunless -%}
   {%- endif -%}
+</div>
+
+<div class="cart-drawer-backdrop" id="cartDrawerBackdrop" data-cart-close></div>
+<div class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Your cart">
+  <div class="cart-drawer-header">
+    <h2>Your cart</h2>
+    <button class="close-btn" data-cart-close aria-label="Close cart">&times;</button>
+  </div>
+  <div class="cart-drawer-items" id="cartDrawerItems">
+    {%- if cart.item_count > 0 -%}
+      {%- for item in cart.items -%}
+        <div class="cart-drawer-item" data-line-key="{{ item.key }}">
+          <a href="{{ item.url }}">
+            {%- if item.image -%}
+              <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}">
+            {%- else -%}
+              <div class="cart-drawer-item-placeholder">◐</div>
+            {%- endif -%}
+          </a>
+          <div class="cart-drawer-item-info">
+            <h3><a href="{{ item.url }}">{{ item.product.title }}</a></h3>
+            {%- if item.variant.title != 'Default Title' -%}
+              <p class="cart-drawer-item-variant">{{ item.variant.title }}</p>
+            {%- endif -%}
+            <div class="cart-drawer-item-qty">
+              <button type="button" data-cart-qty-decrease aria-label="Decrease quantity">&minus;</button>
+              <span data-cart-qty-value>{{ item.quantity }}</span>
+              <button type="button" data-cart-qty-increase aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+          <div class="cart-drawer-item-side">
+            <p class="cart-drawer-item-price">{{ item.final_line_price | money_without_trailing_zeros }}</p>
+            <button type="button" class="cart-drawer-item-remove" data-cart-remove aria-label="Remove {{ item.product.title | escape }}">Remove</button>
+          </div>
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      <div class="cart-drawer-empty">
+        <p>Your cart is empty.</p>
+        <a href="/products/mouth-tape" class="btn-primary btn-dark" data-cart-close>Shop Dreamtape <span class="arrow">→</span></a>
+      </div>
+    {%- endif -%}
+  </div>
+  <div class="cart-drawer-footer" id="cartDrawerFooter" {% if cart.item_count == 0 %}hidden{% endif %}>
+    <div class="cart-drawer-total">
+      <span>Subtotal</span>
+      <span class="cart-drawer-total-value">{{ cart.total_price | money_without_trailing_zeros }}</span>
+    </div>
+    <a href="/checkout" class="btn-primary btn-dark btn-large cart-drawer-checkout">Checkout <span class="arrow">→</span></a>
+  </div>
 </div>
 
 {% schema %}
