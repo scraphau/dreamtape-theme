@@ -698,9 +698,12 @@
 
     cards.forEach(applyCardPricing);
 
+    const loopContainer = form?.querySelector('.loop-subscription-container');
+
     cards.forEach(card => {
       card.addEventListener('click', () => {
         const wasSubscribed = isSubscribed();
+        if (wasSubscribed) loopContainer?.classList.add('loop-no-transition');
 
         cards.forEach(c => c.classList.remove('active'));
         card.classList.add('active');
@@ -731,6 +734,14 @@
             }
             syncLoopSellingPlanForCard(card);
             refreshAllPricing();
+
+            // Re-enable transitions only after the corrected state has
+            // actually painted, so the correction itself doesn't animate.
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                loopContainer?.classList.remove('loop-no-transition');
+              });
+            });
           }, 50);
         }
       });

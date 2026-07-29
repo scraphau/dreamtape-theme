@@ -80,6 +80,14 @@
   background: #32cd32 !important;
 }
 
+/* Applied briefly while the theme corrects Loop's own reset-to-default
+   behavior after a pack change, so that automatic correction doesn't
+   itself flash the box closed-then-open. */
+.loop-no-transition,
+.loop-no-transition * {
+  transition: none !important;
+}
+
 .loop-custom-icon {
   flex-shrink: 0;
   display: flex;
