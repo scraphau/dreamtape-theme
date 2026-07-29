@@ -610,8 +610,13 @@
 
   function updateLoopPerksDiscount(source) {
     if (!source) return;
-    const discountEl = form?.querySelector('.loop-custom-discount');
-    if (discountEl) discountEl.textContent = source.dataset.subDiscount || '0';
+    // Every variant's subscription group gets its own perks block (only the
+    // active one is visible at a time), so update them all rather than just
+    // the first one in DOM order - otherwise switching packs could keep
+    // showing whichever variant happened to render first.
+    form?.querySelectorAll('.loop-custom-discount').forEach(discountEl => {
+      discountEl.textContent = source.dataset.subDiscount || '0';
+    });
   }
 
   function refreshAllPricing() {
