@@ -88,6 +88,14 @@
     0 0 32px 6px color-mix(in srgb, #32cd32 30%, transparent);
 }
 
+/* This theme's pack-size cards ("Choose your supply") already imply a
+   delivery frequency (1/3/6 months), so Loop's own frequency dropdown would
+   just duplicate that choice. It's hidden here and kept in sync with the
+   active pack card via JS instead of shown to the shopper. */
+.loop-subscription-group-selling-plans-container {
+  display: none !important;
+}
+
 .loop-purchase-options-label {
   font-family: var(--font-sans) !important;
   font-size: 12px !important;
