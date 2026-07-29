@@ -1,0 +1,86 @@
+<div style="
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100%;
+  padding:40vh 0;
+">
+    <div class="loop_loader" id="loopLoader">
+
+    </div>
+</div>
+<script>
+    window.addEventListener('DOMContentLoaded', function () {
+        let intervalId = setInterval(() => {
+            const loopBundleContainerId = document.querySelector('.loop');
+            if (loopBundleContainerId) {
+                loopBundleContainerId.style.display = 'none';
+            }
+            let loopCpBody = document.querySelector('.loop-customer-portal-body');
+            let loopBundleBody = document.querySelector('.loop-bundle-header-wrapper');
+            if (loopCpBody || loopBundleBody) {
+                clearInterval(intervalId);
+                document.querySelectorAll('.loop_loader').forEach(el => {
+                    el.style.display = 'none';
+                    el.parentElement.style.height = '0';
+                    el.parentElement.style.minHeight = '0';
+                    el.parentElement.style.padding = '0';
+                    loopBundleContainerId.style.display = 'block';
+                });
+            }
+        }, 200);
+    });
+    window.addEventListener('load', function () {
+        setTimeout(() => {
+            document.querySelectorAll('.loop_loader').forEach(el => {
+                el.style.display = 'none';
+                el.parentElement.style.height = '0';
+                el.parentElement.style.minHeight = '0';
+                el.parentElement.style.padding = '0';
+            });
+            const loopBundleContainerId = document.querySelector('.loop');
+            if (loopBundleContainerId) {
+                loopBundleContainerId.style.display = 'block';
+            }
+        }, 5000)
+    });
+</script>
+<style>
+    div {
+        .skeleton {
+            display: none;
+        }
+    }
+
+    .loop_loader {
+        border: 5px solid #f3f3f3;
+        -webkit-animation: spin 1s linear infinite;
+        animation: spin 1s linear infinite;
+        border-top: 5px solid #555;
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+        0% {
+            -webkit-transform: rotate(0deg);
+        }
+
+        100% {
+            -webkit-transform: rotate(360deg);
+        }
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>

@@ -31,6 +31,52 @@
         "card_1_sub": "30 strips"
       }
     },
+    "trust": {
+      "type": "trust-badges",
+      "blocks": {
+        "badge_trial": {
+          "type": "badge",
+          "settings": {
+            "icon": "target",
+            "text": "30 Day Risk-Free Trial"
+          }
+        },
+        "badge_safe": {
+          "type": "badge",
+          "settings": {
+            "icon": "feather",
+            "text": "100% Safe & Comfy"
+          }
+        },
+        "badge_science": {
+          "type": "badge",
+          "settings": {
+            "icon": "atom",
+            "text": "Backed by Science"
+          }
+        },
+        "badge_shipping": {
+          "type": "badge",
+          "settings": {
+            "icon": "plane",
+            "text": "Free AU Shipping with Subscriptions"
+          }
+        }
+      },
+      "block_order": [
+        "badge_trial",
+        "badge_safe",
+        "badge_science",
+        "badge_shipping"
+      ],
+      "settings": {
+        "background_color": "#0e1a3a",
+        "text_color": "#ffffff",
+        "muted_text_color": "#dbe5f6",
+        "accent_color": "#ffffff",
+        "card_background_color": "#0e1a3a"
+      }
+    },
     "wakeup": {
       "type": "wakeup-stat",
       "settings": {
@@ -42,7 +88,7 @@
         "eyebrow": "WAKE UP CALL",
         "heading": "<p>61% of adults sleep with their <em>mouth open</em>.</p>",
         "body": "<p>Open-mouth sleep dries out your airway, fragments deep sleep, and can soften your jawline over time.</p><p>Dreamtape trains your lips to stay gently closed, so you breathe the way you're built to — through your nose.</p>",
-        "meta_text": "From $0.59 per night",
+        "meta_text": "From $0.58 per night",
         "button_text": "Get Dreamtape",
         "button_link": "shopify://products/mouth-tape",
         "trial_text": "30-Day Risk-Free Trial"
@@ -166,6 +212,7 @@
   },
   "order": [
     "hero",
+    "trust",
     "wakeup",
     "products",
     "benefits",
