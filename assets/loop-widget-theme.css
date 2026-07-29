@@ -165,9 +165,9 @@
     0 0 32px 6px color-mix(in srgb, var(--section-accent, var(--midnight)) 30%, transparent);
 }
 
-/* Subscribe & Save is the recommended option, so it always carries the
-   green highlight rather than only when actively checked. */
-.loop-subscription-group {
+/* Subscribe & Save pops with the green highlight only once the shopper
+   actually selects it, same click-to-glow behavior as the old design. */
+.loop-subscription-group:has(.loop-subscription-group-radio:checked) {
   border-color: transparent !important;
   background: color-mix(in srgb, #32cd32 8%, var(--section-card-bg, #fff));
   box-shadow:
