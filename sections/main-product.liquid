@@ -700,6 +700,8 @@
 
     cards.forEach(card => {
       card.addEventListener('click', () => {
+        const wasSubscribed = isSubscribed();
+
         cards.forEach(c => c.classList.remove('active'));
         card.classList.add('active');
         if (input) {
@@ -711,6 +713,26 @@
         }
         syncLoopSellingPlanForCard(card);
         refreshAllPricing();
+
+        // Loop's own MutationObserver reacts to the variant change above by
+        // re-running its init, which resets the purchase option back to its
+        // configured default (one-time, in this store's case) - silently
+        // dropping the shopper's Subscribe & Save choice. Restore it once
+        // that reset has actually run (it happens synchronously inside the
+        // MutationObserver's microtask, so a deferred macrotask is enough
+        // to run after it).
+        if (wasSubscribed) {
+          setTimeout(() => {
+            const newSubscribeRadio = document.querySelector(
+              '#loop-product-variant-' + card.dataset.variantId + ' .loop-subscription-group-radio'
+            );
+            if (newSubscribeRadio && !newSubscribeRadio.checked) {
+              newSubscribeRadio.click();
+            }
+            syncLoopSellingPlanForCard(card);
+            refreshAllPricing();
+          }, 50);
+        }
       });
     });
   });
