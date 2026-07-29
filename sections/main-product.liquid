@@ -622,9 +622,17 @@
     const select = document.querySelector(
       '#loop-product-variant-' + variantId + ' .loop-selling-plan-selector'
     );
-    if (!select || select.value === planId) return;
-    select.value = planId;
-    select.dispatchEvent(new Event('change', { bubbles: true }));
+    if (select && select.value !== planId) {
+      select.value = planId;
+      select.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    // Loop's own group-selection handling can silently reset the actual
+    // submitted plan back to the group's first (cheapest) allocation,
+    // independent of what the select above already shows correctly - so
+    // the real hidden field checkout reads from is always force-set here
+    // too, not just left to Loop's change-event handling.
+    const hiddenInput = form?.querySelector('input[name="selling_plan"]');
+    if (hiddenInput) hiddenInput.value = planId;
   }
 
   // Loop's widget loads asynchronously, so poll briefly until its plan
