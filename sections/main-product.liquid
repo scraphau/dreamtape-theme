@@ -698,6 +698,16 @@
             refreshAllPricing();
           });
         }
+
+        // Loop's own group-selection handler resets its (hidden) frequency
+        // dropdown back to its first option via an internal setTimeout(...,
+        // 300), which runs after the sync above and would otherwise silently
+        // send every pack back to the cheapest ("every month") plan at
+        // checkout. Re-apply the correct plan once that has had time to run.
+        setTimeout(() => {
+          syncLoopSellingPlanForCard(card);
+          refreshAllPricing();
+        }, 400);
       });
     });
   });
