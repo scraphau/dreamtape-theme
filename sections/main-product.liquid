@@ -577,6 +577,11 @@
         badge.className = 'loop-custom-badge';
         badge.textContent = 'Recommended';
         textWrap.appendChild(badge);
+
+        const summary = document.createElement('span');
+        summary.className = 'loop-custom-summary';
+        summary.innerHTML = 'Auto-Delivered \u{B7} Cancel Anytime';
+        textWrap.appendChild(summary);
       }
       const perks = document.createElement('div');
       perks.className = 'loop-custom-perks';

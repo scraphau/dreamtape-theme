@@ -120,6 +120,13 @@
   gap: 6px;
 }
 
+/* Inside Subscribe & Save, the summary line sits in the same text column as
+   the label (radio + icon already offset it), so it needs no extra indent. */
+.loop-subscription-group-text .loop-custom-summary {
+  padding-left: 0;
+  margin-top: 2px;
+}
+
 .loop-subscription-group-border-top,
 .loop-subscription-group-border-bottom {
   border-top: 1.5px solid var(--line, #e2e5ec) !important;
@@ -150,9 +157,7 @@
 
 /* Highlight the option the shopper currently has selected, same treatment as
    the old .ppo-card:has(input:checked) state. */
-.loop-one-time-purchase-option:has(.loop-one-time-purchase-option-radio:checked),
-.loop-subscription-group:has(.loop-subscription-group-radio:checked),
-.loop-selected-selling-plan-group {
+.loop-one-time-purchase-option:has(.loop-one-time-purchase-option-radio:checked) {
   border-color: transparent !important;
   background: var(--section-highlight-bg, #f5f7fc);
   box-shadow:
@@ -160,12 +165,30 @@
     0 0 32px 6px color-mix(in srgb, var(--section-accent, var(--midnight)) 30%, transparent);
 }
 
-.loop-subscription-group:has(.loop-subscription-group-radio:checked),
-.loop-subscription-group.loop-selected-selling-plan-group {
+/* Subscribe & Save is the recommended option, so it always carries the
+   green highlight rather than only when actively checked. */
+.loop-subscription-group {
+  border-color: transparent !important;
   background: color-mix(in srgb, #32cd32 8%, var(--section-card-bg, #fff));
   box-shadow:
     0 0 0 2px color-mix(in srgb, #32cd32 35%, transparent),
     0 0 32px 6px color-mix(in srgb, #32cd32 30%, transparent);
+}
+
+/* One-Time Purchase, and the pack cards' selected state, still use the
+   generic loop-selected-selling-plan-group treatment Loop's JS applies. */
+.loop-selected-selling-plan-group:not(.loop-subscription-group) {
+  border-color: transparent !important;
+  background: var(--section-highlight-bg, #f5f7fc);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--section-accent, var(--midnight)) 25%, transparent),
+    0 0 32px 6px color-mix(in srgb, var(--section-accent, var(--midnight)) 30%, transparent);
+}
+
+/* Put One-Time Purchase first and Subscribe & Save second, regardless of
+   which order Loop's own "display one-time at bottom" setting produces. */
+.loop-one-time-purchase-option-position {
+  order: -1;
 }
 
 /* This theme's pack-size cards ("Choose your supply") already imply a
