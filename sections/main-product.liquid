@@ -649,22 +649,6 @@
     select.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
-  // Loop's own "display one-time purchase at bottom" setting can move the
-  // one-time option after the subscription groups in the DOM. CSS `order`
-  // isn't reliable here (Loop's fieldset isn't guaranteed to still be the
-  // flex container by the time this runs), so force it first for real by
-  // physically moving whichever wrapper holds the one-time markup.
-  function moveOneTimePurchaseFirst() {
-    const fieldset = form?.querySelector('#loop-selling-plan-fieldset');
-    if (!fieldset || fieldset.dataset.reordered) return;
-    const wraps = fieldset.querySelectorAll('.loop-one-time-purchase-option-position');
-    const oneTimeWrap = Array.from(wraps).find(el => el.querySelector('.loop-one-time-purchase-option'));
-    const firstVariantBlock = fieldset.querySelector('[id^="loop-product-variant-"]');
-    if (!oneTimeWrap || !firstVariantBlock) return;
-    fieldset.dataset.reordered = 'true';
-    fieldset.insertBefore(oneTimeWrap, firstVariantBlock);
-  }
-
   // Loop's widget loads asynchronously, so poll briefly until its plan
   // selector for the active pack actually exists before syncing it.
   (function waitForLoopWidgetReady(attemptsLeft) {
@@ -675,7 +659,6 @@
       '#loop-product-variant-' + card.dataset.variantId + ' .loop-selling-plan-selector'
     );
     if (select) {
-      moveOneTimePurchaseFirst();
       syncLoopSellingPlanForCard(card);
     } else if (attemptsLeft > 0) {
       setTimeout(() => waitForLoopWidgetReady(attemptsLeft - 1), 150);
@@ -698,12 +681,22 @@
 
     cards.forEach(applyCardPricing);
 
-    const loopContainer = form?.querySelector('.loop-subscription-container');
-
     cards.forEach(card => {
       card.addEventListener('click', () => {
         const wasSubscribed = isSubscribed();
-        if (wasSubscribed) loopContainer?.classList.add('loop-no-transition');
+
+        // Loop's own variant-change handling always re-selects its
+        // configured default purchase option (one-time, in this store),
+        // which was dropping the shopper's Subscribe & Save choice and
+        // visibly flashing through the one-time state on the way back.
+        // Flipping this flag makes Loop choose Subscribe & Save as *its*
+        // default for this transition, so it never touches one-time at all
+        // - nothing to flash, nothing to correct after the fact.
+        let restoreDefaultFlag = false;
+        if (wasSubscribed && window.loopPropsUI && !window.loopPropsUI.byDefaultChooseSubscriptionOption) {
+          window.loopPropsUI.byDefaultChooseSubscriptionOption = true;
+          restoreDefaultFlag = true;
+        }
 
         cards.forEach(c => c.classList.remove('active'));
         card.classList.add('active');
@@ -717,34 +710,14 @@
         syncLoopSellingPlanForCard(card);
         refreshAllPricing();
 
-        // Loop's own MutationObserver reacts to the variant change above by
-        // re-running its init, which resets the purchase option back to its
-        // configured default (one-time, in this store's case) - silently
-        // dropping the shopper's Subscribe & Save choice. That reset runs
-        // inside a MutationObserver callback, which the browser executes as
-        // a microtask before the next paint. Queuing this fix as a second
-        // microtask (rather than setTimeout, which waits for a full paint
-        // first) lets it run in that same microtask flush, right after
-        // Loop's reset and before anything is ever drawn to the screen -
-        // so the shopper never sees the incorrect one-time state at all.
-        if (wasSubscribed) {
+        if (restoreDefaultFlag) {
+          // Restore the flag after Loop's reset has used it, so future
+          // page loads and pack switches that start from one-time still
+          // default to one-time as configured.
           queueMicrotask(() => {
-            const newSubscribeRadio = document.querySelector(
-              '#loop-product-variant-' + card.dataset.variantId + ' .loop-subscription-group-radio'
-            );
-            if (newSubscribeRadio && !newSubscribeRadio.checked) {
-              newSubscribeRadio.click();
-            }
+            window.loopPropsUI.byDefaultChooseSubscriptionOption = false;
             syncLoopSellingPlanForCard(card);
             refreshAllPricing();
-
-            // Re-enable transitions only after the corrected state has
-            // actually painted, so the correction itself doesn't animate.
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                loopContainer?.classList.remove('loop-no-transition');
-              });
-            });
           });
         }
       });

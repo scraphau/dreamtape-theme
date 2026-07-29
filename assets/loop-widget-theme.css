@@ -80,14 +80,6 @@
   background: #32cd32 !important;
 }
 
-/* Applied briefly while the theme corrects Loop's own reset-to-default
-   behavior after a pack change, so that automatic correction doesn't
-   itself flash the box closed-then-open. */
-.loop-no-transition,
-.loop-no-transition * {
-  transition: none !important;
-}
-
 .loop-custom-icon {
   flex-shrink: 0;
   display: flex;
@@ -219,12 +211,6 @@
   box-shadow:
     0 0 0 2px color-mix(in srgb, var(--section-accent, var(--midnight)) 25%, transparent),
     0 0 32px 6px color-mix(in srgb, var(--section-accent, var(--midnight)) 30%, transparent);
-}
-
-/* Put One-Time Purchase first and Subscribe & Save second, regardless of
-   which order Loop's own "display one-time at bottom" setting produces. */
-.loop-one-time-purchase-option-position {
-  order: -1;
 }
 
 /* This theme's pack-size cards ("Choose your supply") already imply a
