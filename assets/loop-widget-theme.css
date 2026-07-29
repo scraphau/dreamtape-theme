@@ -23,6 +23,7 @@
   background: var(--section-card-bg, #fff);
   transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
   flex-wrap: wrap !important;
+  cursor: pointer;
 }
 
 /* The old design showed no per-option price row (price lives in the main
