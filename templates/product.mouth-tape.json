@@ -70,47 +70,47 @@
     "trust": {
       "type": "trust-badges",
       "blocks": {
+        "badge_trial": {
+          "type": "badge",
+          "settings": {
+            "icon": "target",
+            "text": "30 Day Risk-Free Trial"
+          }
+        },
         "badge_safe": {
           "type": "badge",
           "settings": {
-            "icon": "cloud",
-            "text": "100% Safe & Comfortable"
+            "icon": "feather",
+            "text": "100% Safe & Comfy"
           }
         },
         "badge_science": {
           "type": "badge",
           "settings": {
-            "icon": "chart",
-            "text": "Science Backed Benefits"
-          }
-        },
-        "badge_guarantee": {
-          "type": "badge",
-          "settings": {
-            "icon": "badge-check",
-            "text": "30-Day Money Back Guarantee"
+            "icon": "atom",
+            "text": "Backed by Science"
           }
         },
         "badge_shipping": {
           "type": "badge",
           "settings": {
             "icon": "plane",
-            "text": "FREE Shipping With Subscriptions"
+            "text": "Free AU Shipping*"
           }
         }
       },
       "block_order": [
+        "badge_trial",
         "badge_safe",
         "badge_science",
-        "badge_guarantee",
         "badge_shipping"
       ],
       "settings": {
-        "background_color": "#5a6580",
+        "background_color": "#0e1a3a",
         "text_color": "#ffffff",
         "muted_text_color": "#dbe5f6",
         "accent_color": "#ffffff",
-        "card_background_color": "#5a6580"
+        "card_background_color": "#0e1a3a"
       }
     },
     "benefits": {

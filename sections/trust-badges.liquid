@@ -4,20 +4,26 @@
       {%- for block in section.blocks -%}
         <div class="trust-item" {{ block.shopify_attributes }}>
           {%- case block.settings.icon -%}
-            {%- when 'cloud' -%}
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h.79a4.5 4.5 0 1 1 0 9z"/></svg>
-            {%- when 'chart' -%}
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
-            {%- when 'badge-check' -%}
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="8.5 12.5 11 15 15.5 9.5"/></svg>
+            {%- when 'target' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1"/></svg>
+            {%- when 'feather' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z"/><line x1="16" y1="8" x2="2" y2="22"/><line x1="17.5" y1="15" x2="9" y2="15"/></svg>
+            {%- when 'atom' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><path d="M20.2 20.2c2.04-2.03.02-7.36-4.5-11.9-4.54-4.52-9.87-6.54-11.9-4.5-2.04 2.03-.02 7.36 4.5 11.9 4.54 4.52 9.87 6.54 11.9 4.5Z"/><path d="M15.7 15.7c4.52-4.54 6.54-9.87 4.5-11.9-2.03-2.04-7.36-.02-11.9 4.5-4.52 4.54-6.54 9.87-4.5 11.9 2.03 2.04 7.36.02 11.9-4.5Z"/></svg>
             {%- when 'plane' -%}
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9 22 2Z"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13"/><path d="M22 2 15 22 11 13 2 9 22 2Z"/></svg>
+            {%- when 'cloud' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h.79a4.5 4.5 0 1 1 0 9z"/></svg>
+            {%- when 'chart' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+            {%- when 'badge-check' -%}
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="8.5 12.5 11 15 15.5 9.5"/></svg>
             {%- when 'shield' -%}
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/></svg>
             {%- when 'check' -%}
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg>
             {%- when 'truck' -%}
-              <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           {%- endcase -%}
           <span>{{ block.settings.text }}</span>
         </div>
@@ -39,7 +45,7 @@
       "type": "color",
       "id": "background_color",
       "label": "Background color",
-      "default": "#5a6580"
+      "default": "#0e1a3a"
     },
     {
       "type": "color",
@@ -63,7 +69,7 @@
       "type": "color",
       "id": "card_background_color",
       "label": "Card background color",
-      "default": "#5a6580"
+      "default": "#0e1a3a"
     }
   ],
   "blocks": [
@@ -77,6 +83,22 @@
           "label": "Icon",
           "options": [
             {
+              "value": "target",
+              "label": "Target"
+            },
+            {
+              "value": "feather",
+              "label": "Feather"
+            },
+            {
+              "value": "atom",
+              "label": "Atom"
+            },
+            {
+              "value": "plane",
+              "label": "Plane"
+            },
+            {
               "value": "cloud",
               "label": "Cloud"
             },
@@ -87,10 +109,6 @@
             {
               "value": "badge-check",
               "label": "Verified badge"
-            },
-            {
-              "value": "plane",
-              "label": "Plane"
             },
             {
               "value": "shield",
@@ -105,13 +123,13 @@
               "label": "Truck"
             }
           ],
-          "default": "cloud"
+          "default": "target"
         },
         {
           "type": "text",
           "id": "text",
           "label": "Text",
-          "default": "100% Safe & Comfortable"
+          "default": "30 Day Risk-Free Trial"
         }
       ]
     }
@@ -123,29 +141,29 @@
         {
           "type": "badge",
           "settings": {
-            "icon": "cloud",
-            "text": "100% Safe & Comfortable"
+            "icon": "target",
+            "text": "30 Day Risk-Free Trial"
           }
         },
         {
           "type": "badge",
           "settings": {
-            "icon": "chart",
-            "text": "Science Backed Benefits"
+            "icon": "feather",
+            "text": "100% Safe & Comfy"
           }
         },
         {
           "type": "badge",
           "settings": {
-            "icon": "badge-check",
-            "text": "30-Day Money Back Guarantee"
+            "icon": "atom",
+            "text": "Backed by Science"
           }
         },
         {
           "type": "badge",
           "settings": {
             "icon": "plane",
-            "text": "FREE Shipping With Subscriptions"
+            "text": "Free AU Shipping*"
           }
         }
       ]
