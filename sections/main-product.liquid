@@ -548,6 +548,16 @@
     const bagIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`;
     const refreshIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>`;
 
+    function addExpandingPerks(parent, html) {
+      const expand = document.createElement('div');
+      expand.className = 'loop-custom-expand';
+      const perks = document.createElement('div');
+      perks.className = 'loop-custom-perks';
+      perks.innerHTML = html;
+      expand.appendChild(perks);
+      parent.appendChild(expand);
+    }
+
     if (oneTime) {
       const label = oneTime.querySelector('.loop-one-time-purchase-option-label');
       if (label) {
@@ -561,6 +571,10 @@
         summary.textContent = 'No automatic deliveries';
         label.after(summary);
       }
+      addExpandingPerks(oneTime, `
+        <span>\u{2713} 30-Day Risk Free Trial.</span>
+        <span>\u{2713} Flat Fee Shipping</span>
+      `);
     }
 
     subGroups.forEach(group => {
@@ -583,17 +597,14 @@
         summary.innerHTML = 'Auto-Delivered \u{B7} Cancel Anytime';
         textWrap.appendChild(summary);
       }
-      const perks = document.createElement('div');
-      perks.className = 'loop-custom-perks';
-      perks.innerHTML = `
+      addExpandingPerks(group, `
         <span>\u{1FA99} Instant <span class="loop-custom-discount">{{ first_sub_discount_percent }}</span>% Off</span>
         <span>\u{1F4E6} Delivered every 30, 90 or 180 Days</span>
         <span>\u{1F6E1}\u{FE0F} 30-Day Risk Free Trial</span>
         <span>\u{2708}\u{FE0F} Free Shipping Australia Wide</span>
         <span>\u{1F310} 30% off shipping to US, CA, NZ, &amp; SG</span>
         <span>\u{1F4F1} Cancel or Pause Anytime</span>
-      `;
-      group.appendChild(perks);
+      `);
     });
   }
 
@@ -638,6 +649,22 @@
     select.dispatchEvent(new Event('change', { bubbles: true }));
   }
 
+  // Loop's own "display one-time purchase at bottom" setting can move the
+  // one-time option after the subscription groups in the DOM. CSS `order`
+  // isn't reliable here (Loop's fieldset isn't guaranteed to still be the
+  // flex container by the time this runs), so force it first for real by
+  // physically moving whichever wrapper holds the one-time markup.
+  function moveOneTimePurchaseFirst() {
+    const fieldset = form?.querySelector('#loop-selling-plan-fieldset');
+    if (!fieldset || fieldset.dataset.reordered) return;
+    const wraps = fieldset.querySelectorAll('.loop-one-time-purchase-option-position');
+    const oneTimeWrap = Array.from(wraps).find(el => el.querySelector('.loop-one-time-purchase-option'));
+    const firstVariantBlock = fieldset.querySelector('[id^="loop-product-variant-"]');
+    if (!oneTimeWrap || !firstVariantBlock) return;
+    fieldset.dataset.reordered = 'true';
+    fieldset.insertBefore(oneTimeWrap, firstVariantBlock);
+  }
+
   // Loop's widget loads asynchronously, so poll briefly until its plan
   // selector for the active pack actually exists before syncing it.
   (function waitForLoopWidgetReady(attemptsLeft) {
@@ -648,6 +675,7 @@
       '#loop-product-variant-' + card.dataset.variantId + ' .loop-selling-plan-selector'
     );
     if (select) {
+      moveOneTimePurchaseFirst();
       syncLoopSellingPlanForCard(card);
     } else if (attemptsLeft > 0) {
       setTimeout(() => waitForLoopWidgetReady(attemptsLeft - 1), 150);

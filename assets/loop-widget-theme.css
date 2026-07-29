@@ -103,7 +103,6 @@
   font-family: var(--font-sans);
 }
 
-.loop-custom-perks,
 .loop-custom-summary {
   flex-basis: 100%;
   font-family: var(--font-sans);
@@ -112,12 +111,40 @@
   line-height: 1.4;
   padding-left: 36px;
   margin-top: 6px;
+  transition: opacity 0.2s;
+}
+
+/* Collapsed by default; expands open only once the option is selected,
+   same accordion technique as the old design's .ppo-expand. */
+.loop-custom-expand {
+  flex-basis: 100%;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.35s ease;
+}
+.loop-one-time-purchase-option:has(.loop-one-time-purchase-option-radio:checked) .loop-custom-expand,
+.loop-subscription-group:has(.loop-subscription-group-radio:checked) .loop-custom-expand {
+  grid-template-rows: 1fr;
 }
 
 .loop-custom-perks {
   display: flex;
   flex-direction: column;
   gap: 6px;
+  overflow: hidden;
+  padding-left: 36px;
+  padding-top: 6px;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  color: var(--section-muted, var(--muted));
+  line-height: 1.4;
+}
+
+/* Hide the summary line once the option is selected, replaced by the
+   expanded perks list above. */
+.loop-one-time-purchase-option:has(.loop-one-time-purchase-option-radio:checked) .loop-custom-summary,
+.loop-subscription-group:has(.loop-subscription-group-radio:checked) .loop-custom-summary {
+  display: none;
 }
 
 /* Inside Subscribe & Save, the summary line sits in the same text column as
