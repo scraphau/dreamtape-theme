@@ -1,3 +1,7 @@
+{{ 'loop-widget.css' | asset_url | stylesheet_tag }}
+{{ 'loop-widget-theme.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'loop-widget.js' | asset_url }}" defer></script>
+
 <section id="product-form" class="product-page" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="product-layout">
@@ -411,53 +415,9 @@
 
           {%- endif -%}
 
-          <!-- Purchase options -->
+          <!-- Purchase options (powered by Loop Subscriptions) -->
           {%- if product.selling_plan_groups.size > 0 -%}
-            <div class="product-purchase-options">
-              <p class="ppo-label">Purchase Options</p>
-
-              <label class="ppo-card">
-                <input type="radio" name="purchase_option" data-subscribe-toggle checked>
-                <span class="ppo-radio"></span>
-                <span class="ppo-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
-                </span>
-                <span class="ppo-body">
-                  <span class="ppo-title">Subscribe &amp; Save</span>
-                  <span class="ppo-summary">Auto-Delivered &middot; Cancel Anytime</span>
-                  <span class="ppo-expand">
-                    <span class="ppo-perks">
-                      <span class="ppo-perk">🪙 Instant <span data-ppo-discount>{{ first_sub_discount_percent }}</span>% Off</span>
-                      <span class="ppo-perk">📦 Delivered every 30, 90 or 180 Days</span>
-                      <span class="ppo-perk">🛡️ 30-Day Risk Free Trial</span>
-                      <span class="ppo-perk">✈️ Free Shipping Australia Wide</span>
-                      <span class="ppo-perk">🌐 30% off shipping to US, CA, NZ, &amp; SG</span>
-                      <span class="ppo-perk">📱 Cancel or Pause Anytime</span>
-                    </span>
-                  </span>
-                </span>
-                <span class="ppo-badge">Recommended</span>
-              </label>
-
-              <label class="ppo-card">
-                <input type="radio" name="purchase_option" data-onetime-toggle>
-                <span class="ppo-radio"></span>
-                <span class="ppo-icon">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-                </span>
-                <span class="ppo-body">
-                  <span class="ppo-title">One-Time Purchase</span>
-                  <span class="ppo-summary">No automatic deliveries</span>
-                  <span class="ppo-expand">
-                    <span class="ppo-perks">
-                      <span class="ppo-perk">✓ 30-Day Risk Free Trial.</span>
-                      <span class="ppo-perk">✓ Flat Fee Shipping</span>
-                    </span>
-                  </span>
-                </span>
-              </label>
-            </div>
-            <input type="hidden" name="selling_plan" value="" data-selling-plan-input>
+            {% render 'loop-subscriptions', type: 'product-widget', product: product %}
           {%- elsif section.settings.subscribe_note != blank -%}
             <div class="product-subscribe-note">
               <span class="psn-icon">🔄</span>
@@ -507,20 +467,15 @@
 <script>
 (function(){
   const form = document.getElementById('product-form');
-  const subscribeToggle = form?.querySelector('[data-subscribe-toggle]');
-  const sellingPlanInput = form?.querySelector('[data-selling-plan-input]');
   const curEl = form?.querySelector('[data-current-price]');
   const cmpEl = form?.querySelector('[data-compare-price]');
   const pillTopEl = form?.querySelector('[data-price-pill]');
-  let currentSellingPlanId = '';
 
+  // Loop's widget renders its own one-time/subscribe radios asynchronously
+  // (after its JS SDK finishes loading), so purchase mode is read live from
+  // the DOM rather than cached in a variable.
   function isSubscribed() {
-    return !!(subscribeToggle && subscribeToggle.checked);
-  }
-
-  function syncSellingPlanInput() {
-    if (!sellingPlanInput) return;
-    sellingPlanInput.value = isSubscribed() ? currentSellingPlanId : '';
+    return !!form?.querySelector('.loop-subscription-group-radio:checked');
   }
 
   // Update a card's own displayed price/discount pill for the current mode
@@ -578,37 +533,25 @@
     }
   }
 
-  const ppoDiscountEl = form?.querySelector('[data-ppo-discount]');
-  function updatePpoDiscount(source) {
-    if (!ppoDiscountEl || !source) return;
-    ppoDiscountEl.textContent = source.dataset.subDiscount || '0';
-  }
-
   function refreshAllPricing() {
     document.querySelectorAll('.variant-card').forEach(applyCardPricing);
     const activeCard = document.querySelector('.variant-card.active');
     if (activeCard) {
       applyTopPricing(activeCard);
-      updatePpoDiscount(activeCard);
-      currentSellingPlanId = activeCard.dataset.sellingPlanId || '';
     } else {
       const priceRow = form?.querySelector('.product-price-row[data-sub-price]');
-      if (priceRow) {
-        applyTopPricing(priceRow);
-        updatePpoDiscount(priceRow);
-      }
+      if (priceRow) applyTopPricing(priceRow);
     }
-    syncSellingPlanInput();
   }
 
-  form?.querySelectorAll('input[name="purchase_option"]').forEach(input => {
-    input.addEventListener('change', refreshAllPricing);
+  // Loop's radios/selects are injected into the DOM after its widget loads,
+  // so listen via delegation on the form rather than binding to elements
+  // that don't exist yet.
+  form?.addEventListener('change', (event) => {
+    if (event.target.closest('.loop-selling-plan-fieldset')) {
+      refreshAllPricing();
+    }
   });
-
-  const singleVariantInput = form?.querySelector('[data-single-variant-selling-plan]');
-  if (singleVariantInput) {
-    currentSellingPlanId = singleVariantInput.dataset.singleVariantSellingPlan || '';
-  }
 
   document.querySelectorAll('[data-variant-picker]').forEach(picker => {
     const frm   = picker.closest('form');
@@ -621,7 +564,13 @@
       card.addEventListener('click', () => {
         cards.forEach(c => c.classList.remove('active'));
         card.classList.add('active');
-        if (input) input.value = card.dataset.variantId;
+        if (input) {
+          input.value = card.dataset.variantId;
+          // Loop's widget watches this input via a MutationObserver on
+          // attribute changes to know when the shopper picks a different
+          // pack, so the attribute (not just the DOM property) must change.
+          input.setAttribute('value', card.dataset.variantId);
+        }
         refreshAllPricing();
       });
     });

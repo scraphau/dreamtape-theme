@@ -1,0 +1,99 @@
+/* Restyles the Loop Subscriptions widget (loop-widget.css) to match this theme's
+   Purchase Options card look. Loaded after loop-widget.css so these rules win. */
+
+.loop-subscription-container {
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.loop-selling-plan-fieldset {
+  border: none !important;
+  border-radius: 0 !important;
+  overflow: visible !important;
+  margin: 0 !important;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.loop-one-time-purchase-option,
+.loop-subscription-group {
+  border: 1.5px solid var(--line, #e2e5ec) !important;
+  border-radius: 12px !important;
+  background: var(--section-card-bg, #fff);
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+
+.loop-subscription-group-border-top,
+.loop-subscription-group-border-bottom {
+  border-top: 1.5px solid var(--line, #e2e5ec) !important;
+  border-bottom: 1.5px solid var(--line, #e2e5ec) !important;
+}
+
+.loop-one-time-purchase-option-radio,
+.loop-subscription-group-radio {
+  accent-color: var(--section-accent, var(--midnight));
+}
+
+.loop-one-time-purchase-option-label,
+.loop-subscription-group-label,
+.loop-one-time-purchase-option-price-amount,
+.loop-subscription-group-price-amount {
+  font-family: var(--font-sans) !important;
+  color: var(--section-text, var(--midnight)) !important;
+}
+
+.loop-one-time-purchase-option-price-quantity,
+.loop-subscription-group-price-quantity,
+.loop-selling-plan-selector-description {
+  font-family: var(--font-sans) !important;
+  color: var(--section-muted, var(--muted)) !important;
+}
+
+.loop-subscription-group-discount-badge {
+  font-family: var(--font-sans);
+  font-size: 10.5px !important;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #2f8f4e !important;
+  background: #e3f6e6 !important;
+  padding: 5px 11px !important;
+}
+
+.loop-selling-plan-selector {
+  font-family: var(--font-sans) !important;
+  border-radius: 8px !important;
+  border-color: var(--line, #c3d0d9) !important;
+  color: var(--section-text, var(--midnight)) !important;
+}
+
+/* Highlight the option the shopper currently has selected, same treatment as
+   the old .ppo-card:has(input:checked) state. */
+.loop-one-time-purchase-option:has(.loop-one-time-purchase-option-radio:checked),
+.loop-subscription-group:has(.loop-subscription-group-radio:checked),
+.loop-selected-selling-plan-group {
+  border-color: transparent !important;
+  background: var(--section-highlight-bg, #f5f7fc);
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--section-accent, var(--midnight)) 25%, transparent),
+    0 0 32px 6px color-mix(in srgb, var(--section-accent, var(--midnight)) 30%, transparent);
+}
+
+.loop-subscription-group:has(.loop-subscription-group-radio:checked),
+.loop-subscription-group.loop-selected-selling-plan-group {
+  background: color-mix(in srgb, #32cd32 8%, var(--section-card-bg, #fff));
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, #32cd32 35%, transparent),
+    0 0 32px 6px color-mix(in srgb, #32cd32 30%, transparent);
+}
+
+.loop-purchase-options-label {
+  font-family: var(--font-sans) !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--section-text, var(--midnight)) !important;
+  margin: 0 0 10px !important;
+}
