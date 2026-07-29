@@ -67,6 +67,52 @@
         "sub_note": "30-night money-back guarantee · Free shipping over $79"
       }
     },
+    "trust": {
+      "type": "trust-badges",
+      "blocks": {
+        "badge_safe": {
+          "type": "badge",
+          "settings": {
+            "icon": "cloud",
+            "text": "100% Safe & Comfortable"
+          }
+        },
+        "badge_science": {
+          "type": "badge",
+          "settings": {
+            "icon": "chart",
+            "text": "Science Backed Benefits"
+          }
+        },
+        "badge_guarantee": {
+          "type": "badge",
+          "settings": {
+            "icon": "badge-check",
+            "text": "30-Day Money Back Guarantee"
+          }
+        },
+        "badge_shipping": {
+          "type": "badge",
+          "settings": {
+            "icon": "plane",
+            "text": "FREE Shipping With Subscriptions"
+          }
+        }
+      },
+      "block_order": [
+        "badge_safe",
+        "badge_science",
+        "badge_guarantee",
+        "badge_shipping"
+      ],
+      "settings": {
+        "background_color": "#5a6580",
+        "text_color": "#ffffff",
+        "muted_text_color": "#dbe5f6",
+        "accent_color": "#ffffff",
+        "card_background_color": "#5a6580"
+      }
+    },
     "benefits": {
       "type": "benefits",
       "settings": {
@@ -176,6 +222,7 @@
   },
   "order": [
     "main",
+    "trust",
     "benefits",
     "how",
     "guarantee",
