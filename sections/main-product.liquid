@@ -533,16 +533,87 @@
     }
   }
 
+  // Loop's widget markup has no icons, badge, or perks copy — that content
+  // is layered on top here (rather than editing Loop's own snippet files,
+  // per their "do not modify" notice) to match the original design.
+  function decorateLoopPurchaseOptions() {
+    const container = form?.querySelector('.loop-subscription-container');
+    if (!container || container.dataset.decorated) return;
+
+    const oneTime = container.querySelector('.loop-one-time-purchase-option');
+    const subGroups = container.querySelectorAll('.loop-subscription-group');
+    if (!oneTime && !subGroups.length) return;
+    container.dataset.decorated = 'true';
+
+    const bagIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`;
+    const refreshIcon = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6"/><path d="M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>`;
+
+    if (oneTime) {
+      const label = oneTime.querySelector('.loop-one-time-purchase-option-label');
+      if (label) {
+        const icon = document.createElement('span');
+        icon.className = 'loop-custom-icon';
+        icon.innerHTML = bagIcon;
+        label.before(icon);
+
+        const summary = document.createElement('span');
+        summary.className = 'loop-custom-summary';
+        summary.textContent = 'No automatic deliveries';
+        label.after(summary);
+      }
+    }
+
+    subGroups.forEach(group => {
+      const label = group.querySelector('.loop-subscription-group-label');
+      const textWrap = group.querySelector('.loop-subscription-group-text');
+      if (label) {
+        const icon = document.createElement('span');
+        icon.className = 'loop-custom-icon';
+        icon.innerHTML = refreshIcon;
+        label.before(icon);
+      }
+      if (textWrap) {
+        const badge = document.createElement('span');
+        badge.className = 'loop-custom-badge';
+        badge.textContent = 'Recommended';
+        textWrap.appendChild(badge);
+      }
+      const perks = document.createElement('div');
+      perks.className = 'loop-custom-perks';
+      perks.innerHTML = `
+        <span>\u{1FA99} Instant <span class="loop-custom-discount">{{ first_sub_discount_percent }}</span>% Off</span>
+        <span>\u{1F4E6} Delivered every 30, 90 or 180 Days</span>
+        <span>\u{1F6E1}\u{FE0F} 30-Day Risk Free Trial</span>
+        <span>\u{2708}\u{FE0F} Free Shipping Australia Wide</span>
+        <span>\u{1F310} 30% off shipping to US, CA, NZ, &amp; SG</span>
+        <span>\u{1F4F1} Cancel or Pause Anytime</span>
+      `;
+      group.appendChild(perks);
+    });
+  }
+
+  function updateLoopPerksDiscount(source) {
+    if (!source) return;
+    const discountEl = form?.querySelector('.loop-custom-discount');
+    if (discountEl) discountEl.textContent = source.dataset.subDiscount || '0';
+  }
+
   function refreshAllPricing() {
     document.querySelectorAll('.variant-card').forEach(applyCardPricing);
     const activeCard = document.querySelector('.variant-card.active');
     if (activeCard) {
       applyTopPricing(activeCard);
+      updateLoopPerksDiscount(activeCard);
     } else {
       const priceRow = form?.querySelector('.product-price-row[data-sub-price]');
-      if (priceRow) applyTopPricing(priceRow);
+      if (priceRow) {
+        applyTopPricing(priceRow);
+        updateLoopPerksDiscount(priceRow);
+      }
     }
   }
+
+  decorateLoopPurchaseOptions();
 
   // Loop's own "delivery frequency" dropdown is hidden (see
   // loop-widget-theme.css) since the pack cards above already pick a

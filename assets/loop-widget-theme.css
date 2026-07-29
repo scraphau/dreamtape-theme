@@ -22,17 +22,108 @@
   border-radius: 12px !important;
   background: var(--section-card-bg, #fff);
   transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+  flex-wrap: wrap !important;
+}
+
+/* The old design showed no per-option price row (price lives in the main
+   price row above, driven by the pack cards) - hide Loop's own. */
+.loop-one-time-purchase-option-price-container,
+.loop-subscription-group-price-container {
+  display: none !important;
+}
+
+/* Loop's own discount badge is replaced by the custom perks list below, to
+   match the original design's copy instead of an auto-generated "Save $x". */
+.loop-subscription-group-discount-badge,
+.loop-subscription-group-discount-badge-onetime {
+  display: none !important;
+}
+
+.loop-one-time-purchase-option-radio,
+.loop-subscription-group-radio {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  width: 22px !important;
+  height: 22px !important;
+  min-height: 22px !important;
+  border: 2px solid var(--section-accent, var(--midnight)) !important;
+  border-radius: 50% !important;
+  background: transparent !important;
+  position: relative !important;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.loop-one-time-purchase-option-radio::after,
+.loop-subscription-group-radio::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--section-accent, var(--midnight));
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 0.15s, transform 0.15s, background 0.2s;
+}
+.loop-one-time-purchase-option-radio:checked::after,
+.loop-subscription-group-radio:checked::after {
+  opacity: 1;
+  transform: scale(1);
+}
+.loop-subscription-group-radio:checked {
+  border-color: #32cd32 !important;
+}
+.loop-subscription-group-radio:checked::after {
+  background: #32cd32 !important;
+}
+
+.loop-custom-icon {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  color: var(--section-accent, var(--midnight));
+  opacity: 0.85;
+  margin-right: 14px;
+}
+
+.loop-custom-badge {
+  flex-shrink: 0;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #2f8f4e;
+  background: #e3f6e6;
+  padding: 5px 11px;
+  border-radius: 100px;
+  white-space: nowrap;
+  margin-left: auto;
+  font-family: var(--font-sans);
+}
+
+.loop-custom-perks,
+.loop-custom-summary {
+  flex-basis: 100%;
+  font-family: var(--font-sans);
+  font-size: 12.5px;
+  color: var(--section-muted, var(--muted));
+  line-height: 1.4;
+  padding-left: 36px;
+  margin-top: 6px;
+}
+
+.loop-custom-perks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .loop-subscription-group-border-top,
 .loop-subscription-group-border-bottom {
   border-top: 1.5px solid var(--line, #e2e5ec) !important;
   border-bottom: 1.5px solid var(--line, #e2e5ec) !important;
-}
-
-.loop-one-time-purchase-option-radio,
-.loop-subscription-group-radio {
-  accent-color: var(--section-accent, var(--midnight));
 }
 
 .loop-one-time-purchase-option-label,
@@ -48,17 +139,6 @@
 .loop-selling-plan-selector-description {
   font-family: var(--font-sans) !important;
   color: var(--section-muted, var(--muted)) !important;
-}
-
-.loop-subscription-group-discount-badge {
-  font-family: var(--font-sans);
-  font-size: 10.5px !important;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
-  color: #2f8f4e !important;
-  background: #e3f6e6 !important;
-  padding: 5px 11px !important;
 }
 
 .loop-selling-plan-selector {
