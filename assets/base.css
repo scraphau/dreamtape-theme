@@ -1,17 +1,23 @@
 /* ---------- Tokens ---------- */
+/* Shopify only runs Liquid in .css.liquid assets, never in a plain .css one,
+   so the {{ settings.* }} tags that used to sit here reached the browser as
+   literal text - every colour token was an invalid value, and anything using
+   one silently fell back to transparent or inherited. The palette defaults
+   live here as real CSS; layout/theme.liquid re-emits them from the theme
+   settings so they stay merchant-configurable. */
 :root {
-  --midnight: {{ settings.color_midnight | default: '#0e1a3a' }};
-  --midnight-2: {{ settings.color_midnight_2 | default: '#1b2d5a' }};
-  --midnight-deep: {{ settings.color_midnight_deep | default: '#07102a' }};
-  --cream: {{ settings.color_cream | default: '#ffffff' }};
-  --cream-warm: {{ settings.color_light_background | default: '#f3f6fb' }};
-  --paper: {{ settings.color_paper | default: '#ffffff' }};
-  --gold: {{ settings.color_gold | default: '#ffffff' }};
-  --gold-deep: {{ settings.color_accent | default: '#0e1a3a' }};
+  --midnight: #0e1a3a;
+  --midnight-2: #1b2d5a;
+  --midnight-deep: #07102a;
+  --cream: #ffffff;
+  --cream-warm: #f3f6fb;
+  --paper: #ffffff;
+  --gold: #ffffff;
+  --gold-deep: #0e1a3a;
   --blush: #eaf0fb;
   --mist: #dbe5f6;
-  --ink: {{ settings.color_text | default: '#0a1432' }};
-  --muted: {{ settings.color_muted | default: '#5a6580' }};
+  --ink: #0a1432;
+  --muted: #5a6580;
   --line: rgba(14, 26, 58, 0.14);
   --shadow-soft: 0 20px 60px -20px rgba(14, 26, 58, 0.16);
   --shadow-deep: 0 30px 80px -30px rgba(14, 26, 58, 0.34);

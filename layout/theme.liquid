@@ -30,6 +30,26 @@
     {{ content_for_header }}
 
     {{ 'base.css' | asset_url | stylesheet_tag }}
+
+    {%- comment -%}
+      base.css is a plain .css asset, so Shopify never runs Liquid inside it -
+      the colour settings have to be emitted here to reach the browser at all.
+      These override the defaults baked into base.css's :root block.
+    {%- endcomment -%}
+    <style>
+      :root {
+        --midnight: {{ settings.color_midnight | default: '#0e1a3a' }};
+        --midnight-2: {{ settings.color_midnight_2 | default: '#1b2d5a' }};
+        --midnight-deep: {{ settings.color_midnight_deep | default: '#07102a' }};
+        --cream: {{ settings.color_cream | default: '#ffffff' }};
+        --cream-warm: {{ settings.color_light_background | default: '#f3f6fb' }};
+        --paper: {{ settings.color_paper | default: '#ffffff' }};
+        --gold: {{ settings.color_gold | default: '#ffffff' }};
+        --gold-deep: {{ settings.color_accent | default: '#0e1a3a' }};
+        --ink: {{ settings.color_text | default: '#0a1432' }};
+        --muted: {{ settings.color_muted | default: '#5a6580' }};
+      }
+    </style>
   </head>
 
   <body class="template-{{ template | replace: '.', '-' | handle }}">
