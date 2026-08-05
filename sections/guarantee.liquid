@@ -14,7 +14,7 @@
         <h2 class="section-title">{{ section.settings.heading }}</h2>
         <div>{{ section.settings.body }}</div>
         {%- if section.settings.button_text != blank -%}
-          <a href="{{ section.settings.button_link }}" class="btn-primary btn-dark">
+          <a href="{% render 'shop-link', link: section.settings.button_link %}" class="btn-primary btn-dark">
             {{ section.settings.button_text }} <span class="arrow">→</span>
           </a>
         {%- endif -%}

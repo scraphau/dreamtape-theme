@@ -2,9 +2,15 @@
   <div class="container">
     <h1>Your cart</h1>
 
-    {%- if cart.item_count > 0 -%}
+    {%- comment -%} Protection is surfaced above the checkout button instead, so it never appears as a removable line. {%- endcomment -%}
+    {%- assign protection_variant_id = all_products['shipping-protection'].variants.first.id -%}
+    {%- assign shoppable_items = cart.items -%}
+    {%- if protection_variant_id != blank -%}
+      {%- assign shoppable_items = cart.items | reject: 'variant_id', protection_variant_id -%}
+    {%- endif -%}
+    {%- if shoppable_items.size > 0 -%}
       {%- form 'cart', cart -%}
-        {%- for item in cart.items -%}
+        {%- for item in shoppable_items -%}
           <div class="cart-item">
             <a href="{{ item.url }}">
               {%- if item.image -%}
@@ -18,26 +24,30 @@
               {%- if item.variant.title != 'Default Title' -%}
                 <p>{{ item.variant.title }}</p>
               {%- endif -%}
+              {%- comment -%} Without this, a subscription line is indistinguishable from a one-time one until checkout. {%- endcomment -%}
+              {%- if item.selling_plan_allocation -%}
+                <p class="cart-drawer-item-plan">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+              {%- endif -%}
               <p style="margin-top:6px;font-family:var(--font-serif);font-size:17px;color:var(--midnight);">{{ item.final_line_price | money_without_trailing_zeros }}</p>
             </div>
             <div class="cart-qty">
               <a href="{{ item.url_to_remove }}" style="font-size:13px;color:var(--muted);">Remove</a>
             </div>
             <div>
-              <input type="number" name="updates[]" value="{{ item.quantity }}" min="0" style="width:60px;padding:8px;border:1px solid var(--line);border-radius:8px;font-family:inherit;text-align:center;">
+              {%- comment -%} Keyed rather than positional, since the protection line is filtered out of this loop and a bare updates[] would shift every quantity onto the wrong line. {%- endcomment -%}
+              <input type="number" name="updates[{{ item.key }}]" value="{{ item.quantity }}" min="0" style="width:60px;padding:8px;border:1px solid var(--line);border-radius:8px;font-family:inherit;text-align:center;">
             </div>
           </div>
         {%- endfor -%}
 
-        <div class="cart-total">
-          <span>Subtotal</span>
-          <span class="cart-total-value">{{ cart.total_price | money_without_trailing_zeros }}</span>
-        </div>
+        {% render 'shipping-protection-row' %}
 
         <div style="display:flex;gap:14px;flex-wrap:wrap;margin-top:20px;">
           <button type="submit" name="update" class="btn-secondary">Update cart</button>
-          <button type="submit" name="checkout" class="btn-primary btn-dark btn-large" style="flex:1;justify-content:center;">
-            Checkout <span class="arrow">→</span>
+          <button type="submit" name="checkout" class="btn-primary btn-dark btn-large cart-drawer-checkout" style="flex:1;">
+            <span>Checkout</span>
+            <span class="cart-drawer-checkout-dot" aria-hidden="true">&bull;</span>
+            <span class="cart-total-value" data-total-cents="{{ cart.total_price }}">{{ cart.total_price | money_without_trailing_zeros }}</span>
           </button>
         </div>
       {%- endform -%}

@@ -1,0 +1,22 @@
+{%- comment -%}
+  Destination for a "shop now" style CTA.
+
+  Sections leave their link setting blank more often than not (the theme
+  editor writes an empty string), which renders href="" and just reloads
+  whatever page the shopper is on. Falling back here keeps every shop button
+  pointed at the product form: an in-page anchor when the product page is
+  already open, the product page itself otherwise.
+
+  Usage: {% render 'shop-link', link: section.settings.button_link %}
+{%- endcomment -%}
+{%- liquid
+  assign shop_link = link
+  if shop_link == blank
+    if product != blank
+      assign shop_link = '#product-form'
+    else
+      assign shop_link = '/products/mouth-tape'
+    endif
+  endif
+  echo shop_link
+-%}

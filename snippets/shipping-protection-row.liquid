@@ -1,0 +1,61 @@
+{%- comment -%}
+  Shipping protection opt-in shown above the checkout button.
+
+  The switch adds or removes the matching cart line; theme.js records the
+  choice as a cart attribute so it survives page loads and isn't undone by
+  the sync that adds protection alongside a shopper's first item.
+
+  Renders nothing when the shop has no `shipping-protection` product, so the
+  footer degrades to just the checkout button.
+{%- endcomment -%}
+{%- assign protection_product = all_products['shipping-protection'] -%}
+{%- assign protection_variant = protection_product.variants.first -%}
+{%- if protection_variant != blank -%}
+  {%- assign protection_in_cart = false -%}
+  {%- for item in cart.items -%}
+    {%- if item.variant_id == protection_variant.id -%}
+      {%- assign protection_in_cart = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
+  <div
+    class="cart-protection"
+    data-cart-protection
+    data-variant-id="{{ protection_variant.id }}"
+    data-price="{{ protection_variant.price }}"
+  >
+    {%- comment -%} The product's own image, with the shield as a fallback if it has none. {%- endcomment -%}
+    {%- if protection_product.featured_image -%}
+      <img
+        class="cart-protection-icon"
+        src="{{ protection_product.featured_image | image_url: width: 144 }}"
+        alt=""
+        width="48"
+        height="48"
+        loading="lazy"
+      >
+    {%- else -%}
+      <span class="cart-protection-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8.6 7.5 10 4.3-1.4 7.5-5.4 7.5-10v-6z"/>
+          <polyline points="8.6 11.8 11.2 14.4 15.6 9.6"/>
+        </svg>
+      </span>
+    {%- endif -%}
+    <div class="cart-protection-text">
+      <span class="cart-protection-title">
+        Shipping Protection
+        <span class="cart-protection-price">{{ protection_variant.price | money_without_trailing_zeros }}</span>
+      </span>
+      <span class="cart-protection-desc">Protect your order from damage, loss, or theft during shipping.</span>
+    </div>
+    <button
+      type="button"
+      class="cart-protection-toggle"
+      role="switch"
+      aria-checked="{% if protection_in_cart %}true{% else %}false{% endif %}"
+      aria-label="Add shipping protection to this order"
+      data-cart-protection-toggle
+    ></button>
+  </div>
+{%- endif -%}

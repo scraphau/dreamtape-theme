@@ -23,7 +23,7 @@ document.querySelectorAll('#product-add-form').forEach(form => {
 
       const cartResponse = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
       const cart = await cartResponse.json();
-      renderCartDrawer(cart);
+      await refreshCart(cart);
       openCartDrawer();
 
       if (submitBtn) {
@@ -72,12 +72,178 @@ function resizeCartImage(url, width) {
   return url + (url.includes('?') ? '&' : '?') + `width=${width}`;
 }
 
+// Shipping protection is on by default: its line item is added alongside the
+// first real item, held at quantity 1, and cleared again once nothing else is
+// left. It's shown as a switch in the cart footer (see
+// shipping-protection-row.liquid), never as a removable line.
+//
+// Opting out is recorded as a cart attribute rather than inferred from the
+// line being absent — otherwise the auto-add would put it straight back on
+// the next cart update.
+const shippingProtectionVariantId = window.themeShippingProtectionVariantId || null;
+const PROTECTION_ATTRIBUTE = 'shipping_protection';
+
+function shoppableCartItems(cart) {
+  if (!shippingProtectionVariantId) return cart.items;
+  return cart.items.filter(item => item.variant_id !== shippingProtectionVariantId);
+}
+
+function protectionDeclined(cart) {
+  return cart.attributes?.[PROTECTION_ATTRIBUTE] === 'declined';
+}
+
+async function syncShippingProtection(cart) {
+  if (!shippingProtectionVariantId) return cart;
+
+  const protectionLine = cart.items.find(item => item.variant_id === shippingProtectionVariantId);
+  const wanted = shoppableCartItems(cart).length > 0 && !protectionDeclined(cart);
+  const wantedQuantity = wanted ? 1 : 0;
+  if ((protectionLine?.quantity || 0) === wantedQuantity) return cart;
+
+  // A protection line that can't be synced shouldn't stop the cart from
+  // rendering — the shopper still sees their items and can check out.
+  try {
+    if (protectionLine) {
+      const cartChangeUrl = window.themeRoutes?.cartChangeUrl || '/cart/change.js';
+      const response = await fetch(cartChangeUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ id: protectionLine.key, quantity: wantedQuantity })
+      });
+      return response.ok ? await response.json() : cart;
+    }
+
+    const cartAddUrl = window.themeRoutes?.cartAddUrl || '/cart/add.js';
+    const response = await fetch(cartAddUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ id: shippingProtectionVariantId, quantity: 1 })
+    });
+    if (!response.ok) return cart;
+    // cart/add.js returns the added line, not the cart, so totals need a re-read.
+    const refreshed = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
+    return refreshed.ok ? await refreshed.json() : cart;
+  } catch (err) {
+    console.error(err);
+    return cart;
+  }
+}
+
+// Free-shipping nudge standing in for the drawer title. Only the copy and the
+// bar drop out on an empty cart — the close button shares this row and has to
+// stay reachable.
+function renderShippingPromo(cart) {
+  const promo = document.querySelector('[data-cart-promo]');
+  if (!promo) return;
+
+  const items = shoppableCartItems(cart);
+  const unlocked = items.some(item => item.selling_plan_allocation);
+  promo.dataset.state = unlocked ? 'unlocked' : 'upgrade';
+
+  const copy = promo.querySelector('[data-cart-promo-copy]');
+  if (copy) copy.hidden = !items.length;
+
+  const track = promo.querySelector('[data-cart-promo-track]');
+  if (track) track.hidden = !items.length;
+
+  const line = promo.querySelector('[data-cart-promo-line]');
+  if (line) {
+    line.innerHTML = unlocked
+      ? 'You&rsquo;ve unlocked <strong>FREE SHIPPING</strong>'
+      : 'Upgrade to a subscription for <strong>FREE AU SHIPPING</strong>';
+  }
+
+  const sub = promo.querySelector('[data-cart-promo-sub]');
+  if (sub) sub.hidden = !unlocked;
+
+  const fill = promo.querySelector('[data-cart-promo-fill]');
+  if (fill) fill.style.width = unlocked ? '100%' : '55%';
+}
+
+function renderProtectionToggle(cart) {
+  const toggle = document.querySelector('[data-cart-protection-toggle]');
+  if (!toggle || !shippingProtectionVariantId) return;
+  const on = cart.items.some(item => item.variant_id === shippingProtectionVariantId);
+  toggle.setAttribute('aria-checked', on ? 'true' : 'false');
+}
+
+async function refreshCart(cart) {
+  const synced = await syncShippingProtection(cart);
+  renderCartDrawer(synced);
+  renderProtectionToggle(synced);
+}
+
+// Nudge the displayed total by a known amount without waiting for the server,
+// so the switch and the checkout button move together on click.
+function adjustCartTotalBy(deltaCents) {
+  document.querySelectorAll('.cart-drawer-total-value, .cart-total-value').forEach(el => {
+    const current = Number(el.dataset.totalCents);
+    if (!Number.isFinite(current)) return;
+    const next = Math.max(0, current + deltaCents);
+    el.dataset.totalCents = next;
+    el.textContent = formatMoney(next);
+  });
+}
+
+// Each click supersedes any request still in flight, so a fast double-tap
+// settles on the last state the shopper chose rather than whichever response
+// happens to land last.
+let protectionRequestId = 0;
+
+document.addEventListener('click', async (e) => {
+  const toggle = e.target.closest('[data-cart-protection-toggle]');
+  if (!toggle) return;
+
+  const row = toggle.closest('[data-cart-protection]');
+  const priceCents = Number(row?.dataset.price) || 0;
+  const turningOn = toggle.getAttribute('aria-checked') !== 'true';
+
+  // Applied up front rather than after the round trip: the switch stays live
+  // (never disabled) and the total moves with it, so the change reads as
+  // instant even though the cart update is still in flight.
+  toggle.setAttribute('aria-checked', turningOn ? 'true' : 'false');
+  adjustCartTotalBy(turningOn ? priceCents : -priceCents);
+
+  const requestId = ++protectionRequestId;
+  try {
+    // One request, not three: /cart/update.js takes the opt-out attribute and
+    // the line quantity together, keyed by variant id.
+    const cartUpdateUrl = window.themeRoutes?.cartUpdateUrl || '/cart/update.js';
+    const response = await fetch(cartUpdateUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        attributes: { [PROTECTION_ATTRIBUTE]: turningOn ? 'accepted' : 'declined' },
+        updates: { [shippingProtectionVariantId]: turningOn ? 1 : 0 }
+      })
+    });
+    const cart = await response.json();
+    if (!response.ok) throw new Error(cart?.description || 'Could not update shipping protection');
+    if (requestId !== protectionRequestId) return;
+
+    renderCartDrawer(cart);
+    renderProtectionToggle(cart);
+    // The cart page prints its own totals server-side, so it needs a reload
+    // to reflect the added or removed line.
+    if (document.body.classList.contains('template-cart')) window.location.reload();
+  } catch (err) {
+    if (requestId !== protectionRequestId) return;
+    console.error(err);
+    toggle.setAttribute('aria-checked', turningOn ? 'false' : 'true');
+    adjustCartTotalBy(turningOn ? -priceCents : priceCents);
+    alert('Sorry, we couldn\'t update shipping protection. Please try again.');
+  }
+});
+
 function renderCartDrawer(cart) {
   const itemsEl = document.getElementById('cartDrawerItems');
   const footerEl = document.getElementById('cartDrawerFooter');
   if (!itemsEl) return;
 
-  if (!cart.items.length) {
+  const items = shoppableCartItems(cart);
+  itemsEl.classList.toggle('is-empty', !items.length);
+
+  if (!items.length) {
     itemsEl.innerHTML = `
       <div class="cart-drawer-empty">
         <p>Your cart is empty.</p>
@@ -85,7 +251,7 @@ function renderCartDrawer(cart) {
       </div>`;
     if (footerEl) footerEl.hidden = true;
   } else {
-    itemsEl.innerHTML = cart.items.map(item => `
+    itemsEl.innerHTML = items.map(item => `
       <div class="cart-drawer-item" data-line-key="${item.key}">
         <a href="${item.url}">
           ${item.image
@@ -95,6 +261,7 @@ function renderCartDrawer(cart) {
         <div class="cart-drawer-item-info">
           <h3><a href="${item.url}">${escapeHtml(item.product_title)}</a></h3>
           ${item.variant_title && item.variant_title !== 'Default Title' ? `<p class="cart-drawer-item-variant">${escapeHtml(item.variant_title)}</p>` : ''}
+          ${item.selling_plan_allocation ? `<p class="cart-drawer-item-plan">${escapeHtml(item.selling_plan_allocation.selling_plan.name)}</p>` : ''}
           <div class="cart-drawer-item-qty">
             <button type="button" data-cart-qty-decrease aria-label="Decrease quantity">&minus;</button>
             <span data-cart-qty-value>${item.quantity}</span>
@@ -109,13 +276,19 @@ function renderCartDrawer(cart) {
     if (footerEl) {
       footerEl.hidden = false;
       const totalEl = footerEl.querySelector('.cart-drawer-total-value');
-      if (totalEl) totalEl.textContent = formatMoney(cart.total_price);
+      if (totalEl) {
+        totalEl.textContent = formatMoney(cart.total_price);
+        // Basis for the optimistic adjustment when the protection switch flips.
+        totalEl.dataset.totalCents = cart.total_price;
+      }
     }
   }
 
   document.querySelectorAll('.cart-count').forEach(el => {
-    el.textContent = cart.item_count;
+    el.textContent = items.reduce((total, item) => total + item.quantity, 0);
   });
+
+  renderShippingPromo(cart);
 }
 
 function openCartDrawer() {
@@ -168,12 +341,35 @@ document.addEventListener('click', async (e) => {
     });
     const cart = await response.json();
     if (!response.ok) throw new Error(cart?.description || 'Could not update cart');
-    renderCartDrawer(cart);
+    await refreshCart(cart);
   } catch (err) {
     console.error(err);
     alert('Sorry, we couldn\'t update your cart. Please try again.');
   }
 });
+
+// The cart can arrive out of sync from an earlier visit (protection missing,
+// or left behind after the last real item was removed), so reconcile it once
+// on load. The cart page renders its totals server-side, so it needs a reload
+// when the reconcile actually changed something.
+if (shippingProtectionVariantId) {
+  (async () => {
+    try {
+      const response = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
+      if (!response.ok) return;
+      const cart = await response.json();
+      const synced = await syncShippingProtection(cart);
+      if (synced.item_count !== cart.item_count && document.body.classList.contains('template-cart')) {
+        window.location.reload();
+        return;
+      }
+      renderCartDrawer(synced);
+      renderProtectionToggle(synced);
+    } catch (err) {
+      console.error(err);
+    }
+  })();
+}
 
 // Mobile menu
 document.addEventListener('click', (e) => {

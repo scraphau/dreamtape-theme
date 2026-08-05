@@ -1,17 +1,23 @@
 /* ---------- Tokens ---------- */
+/* Shopify only runs Liquid in .css.liquid assets, never in a plain .css one,
+   so the settings tags that used to sit here reached the browser as
+   literal text - every colour token was an invalid value, and anything using
+   one silently fell back to transparent or inherited. The palette defaults
+   live here as real CSS; layout/theme.liquid re-emits them from the theme
+   settings so they stay merchant-configurable. */
 :root {
-  --midnight: {{ settings.color_midnight | default: '#0e1a3a' }};
-  --midnight-2: {{ settings.color_midnight_2 | default: '#1b2d5a' }};
-  --midnight-deep: {{ settings.color_midnight_deep | default: '#07102a' }};
-  --cream: {{ settings.color_cream | default: '#ffffff' }};
-  --cream-warm: {{ settings.color_light_background | default: '#f3f6fb' }};
-  --paper: {{ settings.color_paper | default: '#ffffff' }};
-  --gold: {{ settings.color_gold | default: '#ffffff' }};
-  --gold-deep: {{ settings.color_accent | default: '#0e1a3a' }};
+  --midnight: #0e1a3a;
+  --midnight-2: #1b2d5a;
+  --midnight-deep: #07102a;
+  --cream: #ffffff;
+  --cream-warm: #f3f6fb;
+  --paper: #ffffff;
+  --gold: #ffffff;
+  --gold-deep: #0e1a3a;
   --blush: #eaf0fb;
   --mist: #dbe5f6;
-  --ink: {{ settings.color_text | default: '#0a1432' }};
-  --muted: {{ settings.color_muted | default: '#5a6580' }};
+  --ink: #0a1432;
+  --muted: #5a6580;
   --line: rgba(14, 26, 58, 0.14);
   --shadow-soft: 0 20px 60px -20px rgba(14, 26, 58, 0.16);
   --shadow-deep: 0 30px 80px -30px rgba(14, 26, 58, 0.34);
@@ -301,23 +307,20 @@ a { color: inherit; text-decoration: none; }
 }
 .cart-drawer.open { transform: translateX(0); }
 .cart-drawer-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 28px 28px 20px;
+  padding: 18px 20px 16px;
   border-bottom: 1px solid var(--line);
-}
-.cart-drawer-header h2 {
-  font-family: var(--font-serif);
-  font-weight: 400;
-  font-size: 26px;
-  letter-spacing: -0.02em;
 }
 .cart-drawer .close-btn { position: static; }
 .cart-drawer-items {
   flex: 1;
   overflow-y: auto;
   padding: 0 28px;
+}
+/* Empty state sits in the middle of the drawer rather than up under the header */
+.cart-drawer-items.is-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .cart-drawer-item {
   display: grid;
@@ -346,6 +349,9 @@ a { color: inherit; text-decoration: none; }
 }
 .cart-drawer-item-info h3 { font-family: var(--font-serif); font-size: 16px; font-weight: 500; margin-bottom: 4px; }
 .cart-drawer-item-variant { font-size: 12px; color: var(--muted); margin-bottom: 10px; }
+/* Selling plan name, so a subscription line reads as one before checkout */
+.cart-drawer-item-variant + .cart-drawer-item-plan { margin-top: -8px; }
+.cart-drawer-item-plan { font-size: 12px; line-height: 1.35; color: var(--muted); margin-bottom: 10px; }
 .cart-drawer-item-qty {
   display: inline-flex;
   align-items: center;
@@ -375,7 +381,7 @@ a { color: inherit; text-decoration: none; }
   text-decoration: underline;
   padding: 0;
 }
-.cart-drawer-empty { text-align: center; padding: 60px 0; }
+.cart-drawer-empty { text-align: center; padding: 0 0 40px; }
 .cart-drawer-empty p { font-size: 16px; color: var(--muted); margin-bottom: 24px; }
 .cart-drawer-footer {
   padding: 20px 28px 28px;
@@ -389,7 +395,127 @@ a { color: inherit; text-decoration: none; }
   font-size: 20px;
   margin-bottom: 16px;
 }
-.cart-drawer-checkout { width: 100%; justify-content: center; }
+/* Pinned to the brand navy rather than the section vars: the drawer sits
+   outside any section, and on the cart page the surrounding section can
+   recolour it — the checkout CTA should read the same in both.
+   Qualified with .btn-primary because the shared button rules are declared
+   further down this file and would otherwise win the cascade on order. */
+.btn-primary.cart-drawer-checkout {
+  width: 100%;
+  justify-content: center;
+  gap: 12px;
+  /* Overrides btn-large's 20px, which made the bar taller than the row above it. */
+  padding: 14px 24px;
+  font-size: 16px;
+  border-radius: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--midnight);
+  color: #ffffff;
+  border-color: var(--midnight);
+}
+.btn-primary.cart-drawer-checkout:hover {
+  background: var(--midnight-2);
+  border-color: var(--midnight-2);
+  color: #ffffff;
+}
+.cart-drawer-checkout-dot { font-size: 0.7em; line-height: 1; opacity: 0.8; }
+
+/* Free-shipping nudge, standing in for the drawer title (see
+   cart-shipping-promo.liquid). The close button shares this row, so the copy
+   is padded away from it to stay optically centred. */
+.cart-promo-head { display: flex; align-items: flex-start; gap: 12px; }
+.cart-promo-copy { flex: 1; min-width: 0; text-align: center; padding-left: 28px; }
+.cart-promo-copy[hidden] { display: none; }
+.cart-promo-line { font-size: 14px; line-height: 1.4; color: var(--midnight); }
+.cart-promo-line strong { font-weight: 700; }
+.cart-promo-sub { font-size: 13px; line-height: 1.4; color: var(--midnight); }
+.cart-promo-sub[hidden] { display: none; }
+.cart-promo-track[hidden] { display: none; }
+.cart-promo-track {
+  margin-top: 12px;
+  height: 10px;
+  border-radius: 100px;
+  background: #e3e7ee;
+  overflow: hidden;
+}
+.cart-promo-fill {
+  display: block;
+  height: 100%;
+  border-radius: 100px;
+  background: #22c55e;
+  transition: width 0.35s ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  .cart-promo-fill { transition: none; }
+}
+
+/* Shipping protection opt-in (see shipping-protection-row.liquid) */
+.cart-protection {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.cart-protection-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+}
+img.cart-protection-icon { object-fit: contain; }
+/* Tile only backs the fallback shield — a product photo brings its own. */
+span.cart-protection-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #ffffff;
+  color: var(--midnight);
+}
+.cart-protection-icon svg { width: 26px; height: 26px; }
+.cart-protection-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.cart-protection-title {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--midnight);
+}
+.cart-protection-price { font-weight: 700; }
+.cart-protection-desc { font-size: 13px; line-height: 1.35; color: var(--muted); }
+
+.cart-protection-toggle {
+  flex-shrink: 0;
+  position: relative;
+  width: 56px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 100px;
+  background: #c7cede;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.cart-protection-toggle[aria-checked="true"] { background: #22c55e; }
+.cart-protection-toggle::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(14, 26, 58, 0.25);
+  transition: transform 0.2s ease;
+}
+.cart-protection-toggle[aria-checked="true"]::after { transform: translateX(24px); }
+.cart-protection-toggle:focus-visible { outline: 2px solid var(--midnight); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  .cart-protection-toggle, .cart-protection-toggle::after { transition: none; }
+}
 
 /* ---------- Hero ---------- */
 .hero {

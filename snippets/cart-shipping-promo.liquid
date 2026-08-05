@@ -1,0 +1,37 @@
+{%- comment -%}
+  Drawer header: a free-shipping nudge in place of a title.
+
+  Two states, driven by whether any line carries a selling plan — a prompt to
+  upgrade, and the unlocked confirmation. theme.js re-applies the copy and bar
+  width after every cart change (see renderShippingPromo), so the two variants
+  are defined here and only swapped there.
+
+  The close button lives here rather than in a separate title row, and stays
+  put when the cart is empty — only the copy and the bar drop out.
+
+  Expects `has_subscription` and `shoppable_items` from the caller.
+{%- endcomment -%}
+<div class="cart-drawer-header" data-cart-promo data-state="{% if has_subscription %}unlocked{% else %}upgrade{% endif %}">
+  <div class="cart-promo-head">
+    <div class="cart-promo-copy" data-cart-promo-copy {% if shoppable_items.size == 0 %}hidden{% endif %}>
+      <p class="cart-promo-line" data-cart-promo-line>
+        {%- if has_subscription -%}
+          You've unlocked <strong>FREE SHIPPING</strong>
+        {%- else -%}
+          Upgrade to a subscription for <strong>FREE AU SHIPPING</strong>
+        {%- endif -%}
+      </p>
+      <p class="cart-promo-sub" data-cart-promo-sub {% unless has_subscription %}hidden{% endunless %}>
+        Your first subscription order ships free!
+      </p>
+    </div>
+    <button class="close-btn" data-cart-close aria-label="Close cart">&times;</button>
+  </div>
+  <div class="cart-promo-track" data-cart-promo-track {% if shoppable_items.size == 0 %}hidden{% endif %}>
+    <span
+      class="cart-promo-fill"
+      data-cart-promo-fill
+      style="width: {% if has_subscription %}100{% else %}55{% endif %}%;"
+    ></span>
+  </div>
+</div>
