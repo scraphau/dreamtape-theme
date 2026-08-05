@@ -47,7 +47,7 @@
           <button type="submit" name="checkout" class="btn-primary btn-dark btn-large cart-drawer-checkout" style="flex:1;">
             <span>Checkout</span>
             <span class="cart-drawer-checkout-dot" aria-hidden="true">&bull;</span>
-            <span class="cart-total-value">{{ cart.total_price | money_without_trailing_zeros }}</span>
+            <span class="cart-total-value" data-total-cents="{{ cart.total_price }}">{{ cart.total_price | money_without_trailing_zeros }}</span>
           </button>
         </div>
       {%- endform -%}

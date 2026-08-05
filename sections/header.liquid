@@ -146,7 +146,7 @@
     <a href="/checkout" class="btn-primary btn-dark btn-large cart-drawer-checkout">
       <span>Checkout</span>
       <span class="cart-drawer-checkout-dot" aria-hidden="true">&bull;</span>
-      <span class="cart-drawer-total-value">{{ cart.total_price | money_without_trailing_zeros }}</span>
+      <span class="cart-drawer-total-value" data-total-cents="{{ cart.total_price }}">{{ cart.total_price | money_without_trailing_zeros }}</span>
     </a>
   </div>
 </div>

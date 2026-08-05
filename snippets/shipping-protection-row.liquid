@@ -18,7 +18,12 @@
       {%- break -%}
     {%- endif -%}
   {%- endfor -%}
-  <div class="cart-protection" data-cart-protection data-variant-id="{{ protection_variant.id }}">
+  <div
+    class="cart-protection"
+    data-cart-protection
+    data-variant-id="{{ protection_variant.id }}"
+    data-price="{{ protection_variant.price }}"
+  >
     {%- comment -%} The product's own image, with the shield as a fallback if it has none. {%- endcomment -%}
     {%- if protection_product.featured_image -%}
       <img

@@ -142,37 +142,65 @@ async function refreshCart(cart) {
   renderProtectionToggle(synced);
 }
 
+// Nudge the displayed total by a known amount without waiting for the server,
+// so the switch and the checkout button move together on click.
+function adjustCartTotalBy(deltaCents) {
+  document.querySelectorAll('.cart-drawer-total-value, .cart-total-value').forEach(el => {
+    const current = Number(el.dataset.totalCents);
+    if (!Number.isFinite(current)) return;
+    const next = Math.max(0, current + deltaCents);
+    el.dataset.totalCents = next;
+    el.textContent = formatMoney(next);
+  });
+}
+
+// Each click supersedes any request still in flight, so a fast double-tap
+// settles on the last state the shopper chose rather than whichever response
+// happens to land last.
+let protectionRequestId = 0;
+
 document.addEventListener('click', async (e) => {
   const toggle = e.target.closest('[data-cart-protection-toggle]');
-  if (!toggle || toggle.disabled) return;
+  if (!toggle) return;
 
+  const row = toggle.closest('[data-cart-protection]');
+  const priceCents = Number(row?.dataset.price) || 0;
   const turningOn = toggle.getAttribute('aria-checked') !== 'true';
-  // Flip straight away so the switch feels responsive, then reconcile with
-  // whatever the cart actually reports once the round trip finishes.
-  toggle.setAttribute('aria-checked', turningOn ? 'true' : 'false');
-  toggle.disabled = true;
 
+  // Applied up front rather than after the round trip: the switch stays live
+  // (never disabled) and the total moves with it, so the change reads as
+  // instant even though the cart update is still in flight.
+  toggle.setAttribute('aria-checked', turningOn ? 'true' : 'false');
+  adjustCartTotalBy(turningOn ? priceCents : -priceCents);
+
+  const requestId = ++protectionRequestId;
   try {
+    // One request, not three: /cart/update.js takes the opt-out attribute and
+    // the line quantity together, keyed by variant id.
     const cartUpdateUrl = window.themeRoutes?.cartUpdateUrl || '/cart/update.js';
     const response = await fetch(cartUpdateUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
       body: JSON.stringify({
-        attributes: { [PROTECTION_ATTRIBUTE]: turningOn ? 'accepted' : 'declined' }
+        attributes: { [PROTECTION_ATTRIBUTE]: turningOn ? 'accepted' : 'declined' },
+        updates: { [shippingProtectionVariantId]: turningOn ? 1 : 0 }
       })
     });
     const cart = await response.json();
     if (!response.ok) throw new Error(cart?.description || 'Could not update shipping protection');
-    await refreshCart(cart);
+    if (requestId !== protectionRequestId) return;
+
+    renderCartDrawer(cart);
+    renderProtectionToggle(cart);
     // The cart page prints its own totals server-side, so it needs a reload
     // to reflect the added or removed line.
     if (document.body.classList.contains('template-cart')) window.location.reload();
   } catch (err) {
+    if (requestId !== protectionRequestId) return;
     console.error(err);
     toggle.setAttribute('aria-checked', turningOn ? 'false' : 'true');
+    adjustCartTotalBy(turningOn ? -priceCents : priceCents);
     alert('Sorry, we couldn\'t update shipping protection. Please try again.');
-  } finally {
-    toggle.disabled = false;
   }
 });
 
@@ -216,7 +244,11 @@ function renderCartDrawer(cart) {
     if (footerEl) {
       footerEl.hidden = false;
       const totalEl = footerEl.querySelector('.cart-drawer-total-value');
-      if (totalEl) totalEl.textContent = formatMoney(cart.total_price);
+      if (totalEl) {
+        totalEl.textContent = formatMoney(cart.total_price);
+        // Basis for the optimistic adjustment when the protection switch flips.
+        totalEl.dataset.totalCents = cart.total_price;
+      }
     }
   }
 
