@@ -12,7 +12,7 @@
       <h1 class="hero-title">{{ section.settings.heading }}</h1>
       <p class="hero-sub">{{ section.settings.subheading }}</p>
       <div class="hero-cta">
-        <a href="{{ section.settings.button_link }}" class="btn-primary">
+        <a href="{% render 'shop-link', link: section.settings.button_link %}" class="btn-primary">
           {{ section.settings.button_text }} <span class="arrow">→</span>
         </a>
         {%- if section.settings.meta_top != blank -%}

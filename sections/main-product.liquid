@@ -444,6 +444,78 @@
   const cmpEl = form?.querySelector('[data-compare-price]');
   const pillTopEl = form?.querySelector('[data-price-pill]');
 
+  // Every "Shop now" CTA links to the bare product URL, and this page is
+  // meant to land on the 3-month pack (see the matching Liquid default
+  // above). Loop's widget picks its own variant from ?variant=, falling back
+  // to the first available one, so it would otherwise show the 1-month
+  // group's plans next to a 3-month card. Writing the rendered default into
+  // the URL keeps both in agreement and makes the landing state shareable.
+  // This runs during parse, before Loop's deferred script reads the URL.
+  // An explicit ?variant= from the shopper is never overridden.
+  (function syncVariantParamToRenderedDefault() {
+    const activeCard = form?.querySelector('.variant-card.active');
+    if (!activeCard || !activeCard.dataset.variantId) return;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get('variant')) return;
+    url.searchParams.set('variant', activeCard.dataset.variantId);
+    history.replaceState(history.state, '', url);
+  })();
+
+  // Loop's remotely-configured default purchase option for this store is
+  // one-time. Shoppers arrive here from "Shop now" CTAs that promise the
+  // subscription pricing, so the flag is forced on before Loop reads it -
+  // its config object is assigned by the deferred widget script, hence the
+  // accessor rather than a plain assignment.
+  //
+  // Loop re-reads the same flag on every later variant change, so the
+  // override is released as soon as it has been applied once. After that a
+  // shopper who deliberately switches to one-time stays on one-time when
+  // they change packs, and the pack-switch handler below re-arms the flag
+  // only while they are already subscribed.
+  (function defaultToSubscribeAndSave() {
+    let forced = true;
+    let stored = window.loopPropsUI;
+    function withSubscriptionDefault(value) {
+      if (forced && value && typeof value === 'object') {
+        value.byDefaultChooseSubscriptionOption = true;
+      }
+      return value;
+    }
+    stored = withSubscriptionDefault(stored);
+    Object.defineProperty(window, 'loopPropsUI', {
+      configurable: true,
+      get() { return stored; },
+      set(value) { stored = withSubscriptionDefault(value); }
+    });
+
+    (function releaseOnceApplied(attemptsLeft) {
+      if (isSubscribed()) {
+        forced = false;
+        if (stored) stored.byDefaultChooseSubscriptionOption = false;
+        // Loop points the subscription at its group's first (cheapest,
+        // monthly) plan and re-applies that through an internal
+        // setTimeout(..., 300), so the pack's own plan is re-asserted now
+        // and again after that has had time to run - same reason as the
+        // pack-switch handler below.
+        const activeCard = document.querySelector('.variant-card.active');
+        syncLoopSellingPlanForCard(activeCard);
+        refreshAllPricing();
+        setTimeout(() => {
+          syncLoopSellingPlanForCard(activeCard);
+          refreshAllPricing();
+        }, 400);
+        return;
+      }
+      if (attemptsLeft > 0) {
+        setTimeout(() => releaseOnceApplied(attemptsLeft - 1), 100);
+      } else {
+        // Loop never selected a subscription (no plans, or its script failed
+        // to load) - stop overriding so nothing is left in a forced state.
+        forced = false;
+      }
+    })(60);
+  })();
+
   // Loop's widget renders its own one-time/subscribe radios asynchronously
   // (after its JS SDK finishes loading), so purchase mode is read live from
   // the DOM rather than cached in a variable.
