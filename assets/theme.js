@@ -23,7 +23,7 @@ document.querySelectorAll('#product-add-form').forEach(form => {
 
       const cartResponse = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
       const cart = await cartResponse.json();
-      renderCartDrawer(cart);
+      await refreshCart(cart);
       openCartDrawer();
 
       if (submitBtn) {
@@ -72,12 +72,66 @@ function resizeCartImage(url, width) {
   return url + (url.includes('?') ? '&' : '?') + `width=${width}`;
 }
 
+// Shipping protection is included on every order rather than opted into, so
+// its line item is kept in the cart automatically: added alongside the first
+// real item, held at quantity 1, and cleared again once nothing else is left.
+// It's shown in the cart footer (see shipping-protection-row.liquid), never
+// as a removable line.
+const shippingProtectionVariantId = window.themeShippingProtectionVariantId || null;
+
+function shoppableCartItems(cart) {
+  if (!shippingProtectionVariantId) return cart.items;
+  return cart.items.filter(item => item.variant_id !== shippingProtectionVariantId);
+}
+
+async function syncShippingProtection(cart) {
+  if (!shippingProtectionVariantId) return cart;
+
+  const protectionLine = cart.items.find(item => item.variant_id === shippingProtectionVariantId);
+  const wantedQuantity = shoppableCartItems(cart).length ? 1 : 0;
+  if ((protectionLine?.quantity || 0) === wantedQuantity) return cart;
+
+  // A protection line that can't be synced shouldn't stop the cart from
+  // rendering — the shopper still sees their items and can check out.
+  try {
+    if (protectionLine) {
+      const cartChangeUrl = window.themeRoutes?.cartChangeUrl || '/cart/change.js';
+      const response = await fetch(cartChangeUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ id: protectionLine.key, quantity: wantedQuantity })
+      });
+      return response.ok ? await response.json() : cart;
+    }
+
+    const cartAddUrl = window.themeRoutes?.cartAddUrl || '/cart/add.js';
+    const response = await fetch(cartAddUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ id: shippingProtectionVariantId, quantity: 1 })
+    });
+    if (!response.ok) return cart;
+    // cart/add.js returns the added line, not the cart, so totals need a re-read.
+    const refreshed = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
+    return refreshed.ok ? await refreshed.json() : cart;
+  } catch (err) {
+    console.error(err);
+    return cart;
+  }
+}
+
+async function refreshCart(cart) {
+  renderCartDrawer(await syncShippingProtection(cart));
+}
+
 function renderCartDrawer(cart) {
   const itemsEl = document.getElementById('cartDrawerItems');
   const footerEl = document.getElementById('cartDrawerFooter');
   if (!itemsEl) return;
 
-  if (!cart.items.length) {
+  const items = shoppableCartItems(cart);
+
+  if (!items.length) {
     itemsEl.innerHTML = `
       <div class="cart-drawer-empty">
         <p>Your cart is empty.</p>
@@ -85,7 +139,7 @@ function renderCartDrawer(cart) {
       </div>`;
     if (footerEl) footerEl.hidden = true;
   } else {
-    itemsEl.innerHTML = cart.items.map(item => `
+    itemsEl.innerHTML = items.map(item => `
       <div class="cart-drawer-item" data-line-key="${item.key}">
         <a href="${item.url}">
           ${item.image
@@ -114,7 +168,7 @@ function renderCartDrawer(cart) {
   }
 
   document.querySelectorAll('.cart-count').forEach(el => {
-    el.textContent = cart.item_count;
+    el.textContent = items.reduce((total, item) => total + item.quantity, 0);
   });
 }
 
@@ -168,12 +222,34 @@ document.addEventListener('click', async (e) => {
     });
     const cart = await response.json();
     if (!response.ok) throw new Error(cart?.description || 'Could not update cart');
-    renderCartDrawer(cart);
+    await refreshCart(cart);
   } catch (err) {
     console.error(err);
     alert('Sorry, we couldn\'t update your cart. Please try again.');
   }
 });
+
+// The cart can arrive out of sync from an earlier visit (protection missing,
+// or left behind after the last real item was removed), so reconcile it once
+// on load. The cart page renders its totals server-side, so it needs a reload
+// when the reconcile actually changed something.
+if (shippingProtectionVariantId) {
+  (async () => {
+    try {
+      const response = await fetch('/cart.js', { headers: { Accept: 'application/json' } });
+      if (!response.ok) return;
+      const cart = await response.json();
+      const synced = await syncShippingProtection(cart);
+      if (synced.item_count !== cart.item_count && document.body.classList.contains('template-cart')) {
+        window.location.reload();
+        return;
+      }
+      renderCartDrawer(synced);
+    } catch (err) {
+      console.error(err);
+    }
+  })();
+}
 
 // Mobile menu
 document.addEventListener('click', (e) => {

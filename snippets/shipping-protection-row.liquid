@@ -1,0 +1,31 @@
+{%- comment -%}
+  Shipping protection line shown above the checkout button.
+
+  Protection is included on every order rather than opted into, so this is
+  deliberately not a control: the pill is a static indicator (not a checkbox
+  or button), which keeps assistive tech from announcing a switch that can't
+  be operated. theme.js keeps the matching line item in the cart in sync.
+
+  Renders nothing when the shop has no `shipping-protection` product, so the
+  footer degrades to just the checkout button.
+{%- endcomment -%}
+{%- assign protection_product = all_products['shipping-protection'] -%}
+{%- assign protection_variant = protection_product.variants.first -%}
+{%- if protection_variant != blank -%}
+  <div class="cart-protection" data-cart-protection data-variant-id="{{ protection_variant.id }}">
+    <span class="cart-protection-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 2.5 4.5 5.5v6c0 4.6 3.2 8.6 7.5 10 4.3-1.4 7.5-5.4 7.5-10v-6z"/>
+        <polyline points="8.6 11.8 11.2 14.4 15.6 9.6"/>
+      </svg>
+    </span>
+    <div class="cart-protection-text">
+      <span class="cart-protection-title">
+        Shipping Protection
+        <span class="cart-protection-price">{{ protection_variant.price | money_without_trailing_zeros }}</span>
+      </span>
+      <span class="cart-protection-desc">Protect your order from damage, loss, or theft during shipping.</span>
+    </div>
+    <span class="cart-protection-pill" role="img" aria-label="Included on every order"></span>
+  </div>
+{%- endif -%}

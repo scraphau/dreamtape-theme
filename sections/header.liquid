@@ -1,3 +1,17 @@
+{%- comment -%}
+  Shipping protection rides along on every order as its own cart line, but it
+  is surfaced in the cart footer rather than as a removable item — so it is
+  filtered out of the item list and the cart count everywhere below.
+{%- endcomment -%}
+{%- assign protection_variant_id = all_products['shipping-protection'].variants.first.id -%}
+{%- assign shoppable_items = cart.items -%}
+{%- if protection_variant_id != blank -%}
+  {%- assign shoppable_items = cart.items | reject: 'variant_id', protection_variant_id -%}
+{%- endif -%}
+{%- assign shoppable_count = 0 -%}
+{%- for item in shoppable_items -%}
+  {%- assign shoppable_count = shoppable_count | plus: item.quantity -%}
+{%- endfor -%}
 <header class="header" style="{% render 'section-color-vars', section: section %}">
   <div class="header-inner">
     <button class="hamburger" aria-label="Open menu" data-menu-open>
@@ -48,7 +62,7 @@
       {%- endif -%}
       <a href="{{ routes.cart_url }}" class="cart-btn" aria-label="Cart" data-cart-open>
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-        <span class="cart-count">{{ cart.item_count }}</span>
+        <span class="cart-count">{{ shoppable_count }}</span>
       </a>
     </div>
   </div>
@@ -89,8 +103,8 @@
     <button class="close-btn" data-cart-close aria-label="Close cart">&times;</button>
   </div>
   <div class="cart-drawer-items" id="cartDrawerItems">
-    {%- if cart.item_count > 0 -%}
-      {%- for item in cart.items -%}
+    {%- if shoppable_items.size > 0 -%}
+      {%- for item in shoppable_items -%}
         <div class="cart-drawer-item" data-line-key="{{ item.key }}">
           <a href="{{ item.url }}">
             {%- if item.image -%}
@@ -123,12 +137,13 @@
       </div>
     {%- endif -%}
   </div>
-  <div class="cart-drawer-footer" id="cartDrawerFooter" {% if cart.item_count == 0 %}hidden{% endif %}>
-    <div class="cart-drawer-total">
-      <span>Subtotal</span>
+  <div class="cart-drawer-footer" id="cartDrawerFooter" {% if shoppable_items.size == 0 %}hidden{% endif %}>
+    {% render 'shipping-protection-row' %}
+    <a href="/checkout" class="btn-primary btn-dark btn-large cart-drawer-checkout">
+      <span>Checkout</span>
+      <span class="cart-drawer-checkout-dot" aria-hidden="true">&bull;</span>
       <span class="cart-drawer-total-value">{{ cart.total_price | money_without_trailing_zeros }}</span>
-    </div>
-    <a href="/checkout" class="btn-primary btn-dark btn-large cart-drawer-checkout">Checkout <span class="arrow">→</span></a>
+    </a>
   </div>
 </div>
 

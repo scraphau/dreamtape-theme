@@ -50,6 +50,8 @@
         cartChangeUrl: {{ routes.cart_change_url | json }},
         cartCurrency: {{ cart.currency.iso_code | json }}
       };
+      {%- comment -%} null when the shop has no shipping-protection product, which turns the sync in theme.js off. {%- endcomment -%}
+      window.themeShippingProtectionVariantId = {{ all_products['shipping-protection'].variants.first.id | json }};
     </script>
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
   </body>
