@@ -1,6 +1,6 @@
 /* ---------- Tokens ---------- */
 /* Shopify only runs Liquid in .css.liquid assets, never in a plain .css one,
-   so the {{ settings.* }} tags that used to sit here reached the browser as
+   so the settings tags that used to sit here reached the browser as
    literal text - every colour token was an invalid value, and anything using
    one silently fell back to transparent or inherited. The palette defaults
    live here as real CSS; layout/theme.liquid re-emits them from the theme
