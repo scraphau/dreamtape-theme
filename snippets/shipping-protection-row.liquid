@@ -1,10 +1,9 @@
 {%- comment -%}
-  Shipping protection line shown above the checkout button.
+  Shipping protection opt-in shown above the checkout button.
 
-  Protection is included on every order rather than opted into, so this is
-  deliberately not a control: the pill is a static indicator (not a checkbox
-  or button), which keeps assistive tech from announcing a switch that can't
-  be operated. theme.js keeps the matching line item in the cart in sync.
+  The switch adds or removes the matching cart line; theme.js records the
+  choice as a cart attribute so it survives page loads and isn't undone by
+  the sync that adds protection alongside a shopper's first item.
 
   Renders nothing when the shop has no `shipping-protection` product, so the
   footer degrades to just the checkout button.
@@ -12,6 +11,13 @@
 {%- assign protection_product = all_products['shipping-protection'] -%}
 {%- assign protection_variant = protection_product.variants.first -%}
 {%- if protection_variant != blank -%}
+  {%- assign protection_in_cart = false -%}
+  {%- for item in cart.items -%}
+    {%- if item.variant_id == protection_variant.id -%}
+      {%- assign protection_in_cart = true -%}
+      {%- break -%}
+    {%- endif -%}
+  {%- endfor -%}
   <div class="cart-protection" data-cart-protection data-variant-id="{{ protection_variant.id }}">
     {%- comment -%} The product's own image, with the shield as a fallback if it has none. {%- endcomment -%}
     {%- if protection_product.featured_image -%}
@@ -38,6 +44,13 @@
       </span>
       <span class="cart-protection-desc">Protect your order from damage, loss, or theft during shipping.</span>
     </div>
-    <span class="cart-protection-pill" role="img" aria-label="Included on every order"></span>
+    <button
+      type="button"
+      class="cart-protection-toggle"
+      role="switch"
+      aria-checked="{% if protection_in_cart %}true{% else %}false{% endif %}"
+      aria-label="Add shipping protection to this order"
+      data-cart-protection-toggle
+    ></button>
   </div>
 {%- endif -%}

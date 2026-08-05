@@ -72,23 +72,32 @@ function resizeCartImage(url, width) {
   return url + (url.includes('?') ? '&' : '?') + `width=${width}`;
 }
 
-// Shipping protection is included on every order rather than opted into, so
-// its line item is kept in the cart automatically: added alongside the first
-// real item, held at quantity 1, and cleared again once nothing else is left.
-// It's shown in the cart footer (see shipping-protection-row.liquid), never
-// as a removable line.
+// Shipping protection is on by default: its line item is added alongside the
+// first real item, held at quantity 1, and cleared again once nothing else is
+// left. It's shown as a switch in the cart footer (see
+// shipping-protection-row.liquid), never as a removable line.
+//
+// Opting out is recorded as a cart attribute rather than inferred from the
+// line being absent — otherwise the auto-add would put it straight back on
+// the next cart update.
 const shippingProtectionVariantId = window.themeShippingProtectionVariantId || null;
+const PROTECTION_ATTRIBUTE = 'shipping_protection';
 
 function shoppableCartItems(cart) {
   if (!shippingProtectionVariantId) return cart.items;
   return cart.items.filter(item => item.variant_id !== shippingProtectionVariantId);
 }
 
+function protectionDeclined(cart) {
+  return cart.attributes?.[PROTECTION_ATTRIBUTE] === 'declined';
+}
+
 async function syncShippingProtection(cart) {
   if (!shippingProtectionVariantId) return cart;
 
   const protectionLine = cart.items.find(item => item.variant_id === shippingProtectionVariantId);
-  const wantedQuantity = shoppableCartItems(cart).length ? 1 : 0;
+  const wanted = shoppableCartItems(cart).length > 0 && !protectionDeclined(cart);
+  const wantedQuantity = wanted ? 1 : 0;
   if ((protectionLine?.quantity || 0) === wantedQuantity) return cart;
 
   // A protection line that can't be synced shouldn't stop the cart from
@@ -120,9 +129,52 @@ async function syncShippingProtection(cart) {
   }
 }
 
-async function refreshCart(cart) {
-  renderCartDrawer(await syncShippingProtection(cart));
+function renderProtectionToggle(cart) {
+  const toggle = document.querySelector('[data-cart-protection-toggle]');
+  if (!toggle || !shippingProtectionVariantId) return;
+  const on = cart.items.some(item => item.variant_id === shippingProtectionVariantId);
+  toggle.setAttribute('aria-checked', on ? 'true' : 'false');
 }
+
+async function refreshCart(cart) {
+  const synced = await syncShippingProtection(cart);
+  renderCartDrawer(synced);
+  renderProtectionToggle(synced);
+}
+
+document.addEventListener('click', async (e) => {
+  const toggle = e.target.closest('[data-cart-protection-toggle]');
+  if (!toggle || toggle.disabled) return;
+
+  const turningOn = toggle.getAttribute('aria-checked') !== 'true';
+  // Flip straight away so the switch feels responsive, then reconcile with
+  // whatever the cart actually reports once the round trip finishes.
+  toggle.setAttribute('aria-checked', turningOn ? 'true' : 'false');
+  toggle.disabled = true;
+
+  try {
+    const cartUpdateUrl = window.themeRoutes?.cartUpdateUrl || '/cart/update.js';
+    const response = await fetch(cartUpdateUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({
+        attributes: { [PROTECTION_ATTRIBUTE]: turningOn ? 'accepted' : 'declined' }
+      })
+    });
+    const cart = await response.json();
+    if (!response.ok) throw new Error(cart?.description || 'Could not update shipping protection');
+    await refreshCart(cart);
+    // The cart page prints its own totals server-side, so it needs a reload
+    // to reflect the added or removed line.
+    if (document.body.classList.contains('template-cart')) window.location.reload();
+  } catch (err) {
+    console.error(err);
+    toggle.setAttribute('aria-checked', turningOn ? 'false' : 'true');
+    alert('Sorry, we couldn\'t update shipping protection. Please try again.');
+  } finally {
+    toggle.disabled = false;
+  }
+});
 
 function renderCartDrawer(cart) {
   const itemsEl = document.getElementById('cartDrawerItems');
@@ -246,6 +298,7 @@ if (shippingProtectionVariantId) {
         return;
       }
       renderCartDrawer(synced);
+      renderProtectionToggle(synced);
     } catch (err) {
       console.error(err);
     }

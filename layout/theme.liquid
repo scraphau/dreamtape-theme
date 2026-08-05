@@ -68,6 +68,7 @@
         cartAddUrl: {{ routes.cart_add_url | json }},
         cartUrl: {{ routes.cart_url | json }},
         cartChangeUrl: {{ routes.cart_change_url | json }},
+        cartUpdateUrl: {{ routes.cart_update_url | json }},
         cartCurrency: {{ cart.currency.iso_code | json }}
       };
       {%- comment -%} null when the shop has no shipping-protection product, which turns the sync in theme.js off. {%- endcomment -%}
