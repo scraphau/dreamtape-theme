@@ -24,6 +24,10 @@
               {%- if item.variant.title != 'Default Title' -%}
                 <p>{{ item.variant.title }}</p>
               {%- endif -%}
+              {%- comment -%} Without this, a subscription line is indistinguishable from a one-time one until checkout. {%- endcomment -%}
+              {%- if item.selling_plan_allocation -%}
+                <p class="cart-drawer-item-plan">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+              {%- endif -%}
               <p style="margin-top:6px;font-family:var(--font-serif);font-size:17px;color:var(--midnight);">{{ item.final_line_price | money_without_trailing_zeros }}</p>
             </div>
             <div class="cart-qty">

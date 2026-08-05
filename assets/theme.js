@@ -149,6 +149,7 @@ function renderCartDrawer(cart) {
         <div class="cart-drawer-item-info">
           <h3><a href="${item.url}">${escapeHtml(item.product_title)}</a></h3>
           ${item.variant_title && item.variant_title !== 'Default Title' ? `<p class="cart-drawer-item-variant">${escapeHtml(item.variant_title)}</p>` : ''}
+          ${item.selling_plan_allocation ? `<p class="cart-drawer-item-plan">${escapeHtml(item.selling_plan_allocation.selling_plan.name)}</p>` : ''}
           <div class="cart-drawer-item-qty">
             <button type="button" data-cart-qty-decrease aria-label="Decrease quantity">&minus;</button>
             <span data-cart-qty-value>${item.quantity}</span>

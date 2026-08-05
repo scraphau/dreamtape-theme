@@ -118,6 +118,10 @@
             {%- if item.variant.title != 'Default Title' -%}
               <p class="cart-drawer-item-variant">{{ item.variant.title }}</p>
             {%- endif -%}
+            {%- comment -%} Without this, a subscription line is indistinguishable from a one-time one until checkout. {%- endcomment -%}
+            {%- if item.selling_plan_allocation -%}
+              <p class="cart-drawer-item-plan">{{ item.selling_plan_allocation.selling_plan.name }}</p>
+            {%- endif -%}
             <div class="cart-drawer-item-qty">
               <button type="button" data-cart-qty-decrease aria-label="Decrease quantity">&minus;</button>
               <span data-cart-qty-value>{{ item.quantity }}</span>
