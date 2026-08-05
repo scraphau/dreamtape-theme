@@ -392,6 +392,15 @@ a { color: inherit; text-decoration: none; }
   font-size: 20px;
   margin-bottom: 16px;
 }
+/* Pinned to the brand navy rather than the section vars: the drawer sits
+   outside any section, and on the cart page the surrounding section can
+   recolour it — the checkout CTA should read the same in both. */
+.cart-drawer-checkout,
+.cart-drawer-checkout:hover {
+  background: var(--midnight);
+  color: #ffffff;
+  border-color: var(--midnight);
+}
 .cart-drawer-checkout {
   width: 100%;
   justify-content: center;
@@ -401,6 +410,7 @@ a { color: inherit; text-decoration: none; }
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
+.cart-drawer-checkout:hover { background: var(--midnight-2); border-color: var(--midnight-2); }
 .cart-drawer-checkout-dot { font-size: 0.7em; line-height: 1; opacity: 0.8; }
 
 /* Shipping protection: included on every order, so the pill is a static
