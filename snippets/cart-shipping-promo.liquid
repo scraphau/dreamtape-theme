@@ -1,0 +1,42 @@
+{%- comment -%}
+  Free-shipping nudge at the top of the cart drawer.
+
+  Two states, driven by whether any line has a selling plan: a prompt to
+  upgrade, and the unlocked confirmation. theme.js re-applies both after cart
+  updates, so the copy and the bar width live in one place here and are only
+  swapped there — see renderShippingPromo.
+
+  Expects `has_subscription` and `shoppable_items` to be assigned by the
+  caller.
+{%- endcomment -%}
+<div
+  class="cart-promo"
+  data-cart-promo
+  data-state="{% if has_subscription %}unlocked{% else %}upgrade{% endif %}"
+  {% if shoppable_items.size == 0 %}hidden{% endif %}
+>
+  <div class="cart-promo-head">
+    <div class="cart-promo-copy">
+      <p class="cart-promo-line" data-cart-promo-line>
+        {%- if has_subscription -%}
+          You've unlocked <strong>FREE SHIPPING</strong>
+        {%- else -%}
+          Upgrade to a subscription for <strong>FREE AU SHIPPING</strong>
+        {%- endif -%}
+      </p>
+      <p class="cart-promo-sub" data-cart-promo-sub {% unless has_subscription %}hidden{% endunless %}>
+        Your first subscription order ships free!
+      </p>
+    </div>
+    <button type="button" class="cart-promo-close" data-cart-promo-dismiss aria-label="Dismiss">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </button>
+  </div>
+  <div class="cart-promo-track">
+    <span
+      class="cart-promo-fill"
+      data-cart-promo-fill
+      style="width: {% if has_subscription %}100{% else %}55{% endif %}%;"
+    ></span>
+  </div>
+</div>

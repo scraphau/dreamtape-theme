@@ -129,6 +129,61 @@ async function syncShippingProtection(cart) {
   }
 }
 
+// Free-shipping nudge at the top of the drawer. Dismissal is remembered per
+// state, so closing the "upgrade" prompt doesn't also swallow the unlocked
+// confirmation once the shopper actually subscribes.
+function promoDismissedState() {
+  try {
+    return sessionStorage.getItem('cartPromoDismissed');
+  } catch (err) {
+    return null;
+  }
+}
+
+function renderShippingPromo(cart) {
+  const promo = document.querySelector('[data-cart-promo]');
+  if (!promo) return;
+
+  const items = shoppableCartItems(cart);
+  const unlocked = items.some(item => item.selling_plan_allocation);
+  const state = unlocked ? 'unlocked' : 'upgrade';
+
+  promo.dataset.state = state;
+  promo.hidden = !items.length || promoDismissedState() === state;
+
+  const line = promo.querySelector('[data-cart-promo-line]');
+  if (line) {
+    line.innerHTML = unlocked
+      ? 'You&rsquo;ve unlocked <strong>FREE SHIPPING</strong>'
+      : 'Upgrade to a subscription for <strong>FREE AU SHIPPING</strong>';
+  }
+
+  const sub = promo.querySelector('[data-cart-promo-sub]');
+  if (sub) sub.hidden = !unlocked;
+
+  const fill = promo.querySelector('[data-cart-promo-fill]');
+  if (fill) fill.style.width = unlocked ? '100%' : '55%';
+}
+
+// The bar is rendered server-side, so a dismissal from earlier in the session
+// has to be re-applied on load — renderCartDrawer only runs after a change.
+(function applyPromoDismissal() {
+  const promo = document.querySelector('[data-cart-promo]');
+  if (promo && promoDismissedState() === promo.dataset.state) promo.hidden = true;
+})();
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('[data-cart-promo-dismiss]')) return;
+  const promo = document.querySelector('[data-cart-promo]');
+  if (!promo) return;
+  promo.hidden = true;
+  try {
+    sessionStorage.setItem('cartPromoDismissed', promo.dataset.state || 'upgrade');
+  } catch (err) {
+    // Private browsing can refuse storage; the bar still closes for this view.
+  }
+});
+
 function renderProtectionToggle(cart) {
   const toggle = document.querySelector('[data-cart-protection-toggle]');
   if (!toggle || !shippingProtectionVariantId) return;
@@ -255,6 +310,8 @@ function renderCartDrawer(cart) {
   document.querySelectorAll('.cart-count').forEach(el => {
     el.textContent = items.reduce((total, item) => total + item.quantity, 0);
   });
+
+  renderShippingPromo(cart);
 }
 
 function openCartDrawer() {
