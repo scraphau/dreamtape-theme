@@ -129,27 +129,22 @@ async function syncShippingProtection(cart) {
   }
 }
 
-// Free-shipping nudge at the top of the drawer. Dismissal is remembered per
-// state, so closing the "upgrade" prompt doesn't also swallow the unlocked
-// confirmation once the shopper actually subscribes.
-function promoDismissedState() {
-  try {
-    return sessionStorage.getItem('cartPromoDismissed');
-  } catch (err) {
-    return null;
-  }
-}
-
+// Free-shipping nudge standing in for the drawer title. Only the copy and the
+// bar drop out on an empty cart — the close button shares this row and has to
+// stay reachable.
 function renderShippingPromo(cart) {
   const promo = document.querySelector('[data-cart-promo]');
   if (!promo) return;
 
   const items = shoppableCartItems(cart);
   const unlocked = items.some(item => item.selling_plan_allocation);
-  const state = unlocked ? 'unlocked' : 'upgrade';
+  promo.dataset.state = unlocked ? 'unlocked' : 'upgrade';
 
-  promo.dataset.state = state;
-  promo.hidden = !items.length || promoDismissedState() === state;
+  const copy = promo.querySelector('[data-cart-promo-copy]');
+  if (copy) copy.hidden = !items.length;
+
+  const track = promo.querySelector('[data-cart-promo-track]');
+  if (track) track.hidden = !items.length;
 
   const line = promo.querySelector('[data-cart-promo-line]');
   if (line) {
@@ -164,25 +159,6 @@ function renderShippingPromo(cart) {
   const fill = promo.querySelector('[data-cart-promo-fill]');
   if (fill) fill.style.width = unlocked ? '100%' : '55%';
 }
-
-// The bar is rendered server-side, so a dismissal from earlier in the session
-// has to be re-applied on load — renderCartDrawer only runs after a change.
-(function applyPromoDismissal() {
-  const promo = document.querySelector('[data-cart-promo]');
-  if (promo && promoDismissedState() === promo.dataset.state) promo.hidden = true;
-})();
-
-document.addEventListener('click', (e) => {
-  if (!e.target.closest('[data-cart-promo-dismiss]')) return;
-  const promo = document.querySelector('[data-cart-promo]');
-  if (!promo) return;
-  promo.hidden = true;
-  try {
-    sessionStorage.setItem('cartPromoDismissed', promo.dataset.state || 'upgrade');
-  } catch (err) {
-    // Private browsing can refuse storage; the bar still closes for this view.
-  }
-});
 
 function renderProtectionToggle(cart) {
   const toggle = document.querySelector('[data-cart-protection-toggle]');
@@ -265,6 +241,7 @@ function renderCartDrawer(cart) {
   if (!itemsEl) return;
 
   const items = shoppableCartItems(cart);
+  itemsEl.classList.toggle('is-empty', !items.length);
 
   if (!items.length) {
     itemsEl.innerHTML = `

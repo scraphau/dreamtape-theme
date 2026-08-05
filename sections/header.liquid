@@ -98,10 +98,6 @@
 
 <div class="cart-drawer-backdrop" id="cartDrawerBackdrop" data-cart-close></div>
 <div class="cart-drawer" id="cartDrawer" role="dialog" aria-modal="true" aria-label="Your cart">
-  <div class="cart-drawer-header">
-    <h2>Your cart</h2>
-    <button class="close-btn" data-cart-close aria-label="Close cart">&times;</button>
-  </div>
   {%- assign has_subscription = false -%}
   {%- for item in shoppable_items -%}
     {%- if item.selling_plan_allocation -%}
@@ -110,7 +106,7 @@
     {%- endif -%}
   {%- endfor -%}
   {% render 'cart-shipping-promo', has_subscription: has_subscription, shoppable_items: shoppable_items %}
-  <div class="cart-drawer-items" id="cartDrawerItems">
+  <div class="cart-drawer-items {% if shoppable_items.size == 0 %}is-empty{% endif %}" id="cartDrawerItems">
     {%- if shoppable_items.size > 0 -%}
       {%- for item in shoppable_items -%}
         <div class="cart-drawer-item" data-line-key="{{ item.key }}">
