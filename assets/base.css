@@ -27,7 +27,14 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-html { scroll-behavior: smooth; overflow-x: hidden; width: 100%; }
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  width: 100%;
+  /* Stops iOS inflating body copy when the phone is turned to landscape. */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
 html.menu-open, html.menu-open body { overflow: hidden; height: 100%; }
 html.cart-open, html.cart-open body { overflow: hidden; height: 100%; }
 
@@ -189,6 +196,14 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   text-decoration: none;
 }
+/* The icon is only 20px square, which is well under a comfortable thumb
+   target. The hit area is grown with a pseudo-element rather than padding so
+   the header layout and the badge position stay exactly where they are. */
+.cart-btn::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+}
 .cart-count {
   position: absolute;
   top: -6px;
@@ -213,6 +228,14 @@ a { color: inherit; text-decoration: none; }
   gap: 4px;
   cursor: pointer;
   padding: 6px;
+  position: relative;
+}
+/* Same reasoning as .cart-btn::after — a 34x26 button is too small to tap
+   reliably. Out of flow, so it never becomes a fourth bar in the stack. */
+.hamburger::after {
+  content: '';
+  position: absolute;
+  inset: -9px;
 }
 .hamburger span {
   display: block;
@@ -252,6 +275,8 @@ a { color: inherit; text-decoration: none; }
   transform: translateX(-100%);
   transition: transform 0.4s ease;
   overflow-y: auto;
+  /* Keeps the last link clear of the home indicator on a gesture-bar phone. */
+  padding-bottom: calc(40px + env(safe-area-inset-bottom));
   box-shadow: 8px 0 40px rgba(7, 16, 42, 0.15);
 }
 .mobile-menu.open { transform: translateX(0); }
@@ -275,6 +300,13 @@ a { color: inherit; text-decoration: none; }
   font-size: 30px;
   cursor: pointer;
   line-height: 1;
+}
+/* The glyph is only 18px wide. Grown into a thumb-sized target without
+   moving it — both close buttons are already positioned elements. */
+.close-btn::after {
+  content: '';
+  position: absolute;
+  inset: -13px;
 }
 
 /* ---------- Cart drawer ---------- */
@@ -310,7 +342,9 @@ a { color: inherit; text-decoration: none; }
   padding: 18px 20px 16px;
   border-bottom: 1px solid var(--line);
 }
-.cart-drawer .close-btn { position: static; }
+/* relative, not static, so .close-btn::after's grown hit area resolves
+   against the button itself rather than the drawer. */
+.cart-drawer .close-btn { position: relative; }
 .cart-drawer-items {
   flex: 1;
   overflow-y: auto;
@@ -373,6 +407,7 @@ a { color: inherit; text-decoration: none; }
 .cart-drawer-item-side { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
 .cart-drawer-item-price { font-family: var(--font-serif); font-size: 15px; white-space: nowrap; }
 .cart-drawer-item-remove {
+  position: relative;
   background: none;
   border: none;
   cursor: pointer;
@@ -381,10 +416,17 @@ a { color: inherit; text-decoration: none; }
   text-decoration: underline;
   padding: 0;
 }
+.cart-drawer-item-remove::after {
+  content: '';
+  position: absolute;
+  inset: -12px -8px;
+}
 .cart-drawer-empty { text-align: center; padding: 0 0 40px; }
 .cart-drawer-empty p { font-size: 16px; color: var(--muted); margin-bottom: 24px; }
 .cart-drawer-footer {
   padding: 20px 28px 28px;
+  /* Lifts the checkout button clear of the home indicator. */
+  padding-bottom: calc(28px + env(safe-area-inset-bottom));
   border-top: 1px solid var(--line);
 }
 .cart-drawer-total {
@@ -889,7 +931,9 @@ span.cart-protection-icon {
 .benefit {
   position: relative;
   padding: 32px 32px 28px;
-  height: 200px;
+  /* min-height, not height: grid rows already equalise these, and a longer
+     title or body would otherwise be clipped rather than grow the card. */
+  min-height: 200px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -1689,7 +1733,6 @@ span.cart-protection-icon {
     grid-template-columns: 1fr;
     gap: 40px;
   }
-  .product-trust-grid { grid-template-columns: 1fr 1fr; }
   .faq-page-hero {
     grid-template-columns: 1fr;
     gap: 28px;
@@ -1711,11 +1754,24 @@ span.cart-protection-icon {
   .badge-num { font-size: 64px; }
 }
 @media (max-width: 640px) {
+  /* One gutter for the whole phone layout. .header-inner and .hero-inner
+     carry their own padding, so without these two they sat 8px further in
+     than every section below them and the left edge visibly stepped. */
   .container { padding: 0 20px; }
+  .header-inner { padding: 14px 20px; }
+  .hero-inner { padding: 0 20px; }
+  .logo-image { width: 138px; }
+
   .btn-shop { display: none; }
-  .announcement { font-size: 10px; letter-spacing: 0.08em; }
+  .announcement { font-size: 11px; letter-spacing: 0.1em; }
   .announcement-message { padding: 8px 10px; }
-  .hero { padding: 60px 0 80px; }
+  .hero { padding: 48px 0 64px; }
+
+  /* Section headings sat 64px clear of their content — most of a phone
+     screen's worth of gap before anything appeared. */
+  .section-head { margin-bottom: 32px; }
+  .section-lead { font-size: 15.5px; margin-top: 14px; }
+
   .faq-page {
     padding: 42px 0 80px;
   }
@@ -1739,8 +1795,13 @@ span.cart-protection-icon {
     min-width: 0;
     padding: 12px 8px;
     font-size: 14px;
-    white-space: nowrap;
+    /* Wrapping, not nowrap: the row has no horizontal scroll at this width,
+       so a fourth category or a longer label used to push past the screen
+       edge instead of taking a second line. */
+    white-space: normal;
+    line-height: 1.2;
   }
+  .faq-page-hero h1 { font-size: 44px; }
   .faq-page-item summary {
     min-height: 68px;
     font-size: 19px;
@@ -1765,10 +1826,9 @@ span.cart-protection-icon {
     justify-content: center;
     width: 100%;
   }
-  .product-grid, .benefits-grid, .how-grid, .testimonial-grid, .variant-options { grid-template-columns: 1fr; }
-  .trust-grid { justify-content: center; }
-  .wakeup, .products, .benefits, .how, .testimonials, .guarantee, .faq { padding: 80px 0; }
-  .final-cta { padding: 100px 0; }
+  .product-grid, .benefits-grid, .how-grid, .testimonial-grid { grid-template-columns: 1fr; }
+  .wakeup, .products, .benefits, .how, .testimonials, .guarantee, .faq { padding: 64px 0; }
+  .final-cta { padding: 72px 0; }
   .footer { padding: 36px 0 20px; }
   .footer-top { grid-template-columns: 1fr; gap: 4px; padding-bottom: 16px; }
   .footer-bottom { flex-direction: column; gap: 10px; text-align: center; padding-top: 18px; font-size: 12px; }
@@ -1782,18 +1842,230 @@ span.cart-protection-icon {
   .footer-chevron { display: flex; width: 28px; height: 28px; }
   .footer-col-links { padding: 2px 0 14px; }
   .footer-accordion:last-of-type { border-bottom: 1px solid rgba(255, 255, 255, 0.14); }
-  .footer-col a { font-size: 13px; padding: 5px 0; }
+  /* 10px of padding either side of a 20px line puts every footer link at a
+     40px row — the smallest comfortable thumb target. */
+  .footer-col a { font-size: 13px; padding: 10px 0; }
+  .footer-links { gap: 20px; }
+  .footer-links a { padding: 9px 0; }
   .disclaimer { font-size: 11px; margin-top: 14px; }
-  .hero-cta { flex-direction: column; align-items: flex-start; }
+
+  /* ----- Calls to action -----
+     Every primary CTA runs the full column width. A 214px pill floating in a
+     335px row is the clearest tell that a desktop layout has been squeezed
+     onto a phone, and it costs the button most of its thumb target. */
+  .hero-cta { flex-direction: column; align-items: stretch; gap: 18px; margin-bottom: 36px; }
+  .hero-cta .btn-primary,
+  .hero-cta .btn-secondary,
+  .wakeup-footer .btn-primary,
+  .guarantee-text .btn-primary,
+  .final-inner .btn-primary,
+  .comparison-cta .btn-primary,
+  .cart-empty .btn-primary,
+  .cart-drawer-empty .btn-primary {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+  .hero-meta { text-align: center; }
+  .btn-large { padding: 17px 28px; font-size: 16px; }
+
+  /* ----- Trust badges -----
+     Four nowrap items in a space-between flex row landed as a ragged,
+     centred four-line stack. A two-column grid with wrapping labels lines
+     the icons up and halves the height. */
+  .trust { padding: 18px 0; }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 16px;
+    justify-content: stretch;
+    /* The flex rule above centres items; in a grid that leaves a one-line
+       badge sitting 4px below the two-line badge beside it. */
+    align-items: start;
+  }
+  .trust-item {
+    white-space: normal;
+    align-items: flex-start;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+  .trust-item svg { margin-top: 1px; }
+
   .stat-number { font-size: 100px; }
   .percent { font-size: 44px; }
   .hero-card-1 { left: 0; }
   .hero-card-2 { right: 0; }
+  .hero-title { margin-bottom: 20px; }
+  .hero-sub { font-size: 16.5px; margin-bottom: 28px; }
+  .hero-quote { padding: 18px 20px; }
+  .hero-quote p { font-size: 15.5px; }
   .stat-card { padding: 44px 32px; }
+
+  /* The featured card is an only child, and justify-items:center let it
+     shrink to its content — a 209px card adrift in a 335px row. */
+  .product-grid--centered .product-card { width: 100%; }
+  .product-body { padding: 8px 22px 22px; }
+
+  .benefit { min-height: 0; padding: 24px 24px 22px; }
+  .benefit h4 { font-size: 20px; }
+  .benefits-grid { gap: 14px; }
+  .how-step { padding: 28px 0; }
+  .how-step h3 { font-size: 26px; }
+  .how-grid { gap: 0; }
+  .testimonial { padding: 28px 24px; }
+  .testimonial p { font-size: 17px; }
+  .guarantee-inner { gap: 32px; }
+  .guarantee-text p { font-size: 16px; }
+  .wakeup-head { margin-bottom: 32px; }
+  .wakeup-body p { font-size: 16px; }
+
+  /* ----- Page and collection templates ----- */
+  .page-template { padding: 48px 0 64px; }
+  .page-template .page-header { margin-bottom: 36px; }
+  .page-content { font-size: 16px; }
+  .page-content h2 { font-size: 26px; margin: 34px 0 14px; }
+  .page-content h3 { font-size: 19px; margin: 24px 0 12px; }
+  .collection-page { padding: 40px 0 64px; }
+  .collection-header { margin-bottom: 36px; }
+  .collection-header p { font-size: 15.5px; }
+
+  /* ----- Product page ----- */
+  .product-page { padding: 32px 0 64px; }
+  .product-layout { gap: 32px; }
   .product-title { font-size: 32px; }
-  .product-trust-grid { grid-template-columns: 1fr; }
-  .cart-item { grid-template-columns: 80px 1fr; gap: 14px; }
+  .product-gallery-main { border-radius: 16px; }
+  /* 9.5px was the smallest type anywhere in the theme. */
+  .product-award-badge { font-size: 10.5px; }
+  /* Desktop padding left the middle column at 139px on a 375px screen.
+     Trimming the sides and the gaps buys it back about 30px, which is what
+     lets the pack name sit on one line below. */
+  .variant-card {
+    grid-template-columns: 22px 1fr auto;
+    gap: 12px;
+    padding: 20px 16px 18px;
+    min-height: 0;
+  }
+  .vc-radio { width: 18px; height: 18px; }
+  /* The pack name and the "% off" pill share a ~168px column on a phone,
+     which is just short of fitting — "1 Month Supply" squeezed in and the
+     longer names broke across three lines, so the three cards came out at
+     different heights. Giving the name its own line and dropping the pill
+     beneath it keeps every card identical at any phone width. */
+  .vc-top { flex-wrap: wrap; gap: 3px 6px; }
+  .vc-title { font-size: 14.5px; flex: 0 0 100%; }
+  .vc-pill { padding: 3px 8px; }
+  .vc-price { font-size: 17px; }
+  .product-price-current, .product-price-compare { font-size: 30px; }
+  .product-bullets li { font-size: 14px; }
+  .btn-atc { padding: 18px 24px; }
+
+  /* ----- Cart page ----- */
+  .cart-page { padding: 40px 0 64px; }
+  .cart-page h1 { font-size: 34px; margin-bottom: 24px; }
+  /* Four children in a two-column grid put "Remove" underneath the
+     thumbnail, orphaned from the line it belonged to. Pinning the image to
+     a full-height first column keeps the quantity box and Remove together
+     on one row beneath the product details. */
+  .cart-item {
+    grid-template-columns: 80px 1fr;
+    column-gap: 14px;
+    row-gap: 12px;
+    align-items: start;
+  }
+  .cart-item > a:first-child { grid-column: 1; grid-row: 1 / span 2; }
+  .cart-item-info { grid-column: 2; grid-row: 1; }
+  .cart-item > div:last-child { grid-column: 2; grid-row: 2; justify-self: start; }
+  .cart-item .cart-qty { grid-column: 2; grid-row: 2; justify-self: end; align-self: center; }
+  /* "Remove" is 13px text sitting on its own — grown to a tappable row
+     without pushing the quantity box off the line. */
+  .cart-item .cart-qty a { position: relative; }
+  .cart-item .cart-qty a::after { content: ''; position: absolute; inset: -11px -10px; }
   .cart-item img { width: 80px; height: 80px; }
+  .cart-item-info h3 { font-size: 17px; }
+  .cart-total { padding: 24px 0; font-size: 20px; }
+  .cart-empty { padding: 48px 0; }
+
+  /* ----- Drawers ----- */
+  .cart-drawer-items { padding: 0 20px; }
+  .cart-drawer-footer { padding-left: 20px; padding-right: 20px; }
+  .cart-drawer-item { grid-template-columns: 64px 1fr auto; gap: 12px; }
+  .cart-drawer-item img,
+  .cart-drawer-item-placeholder { width: 64px; height: 64px; }
+  .cart-drawer-item-qty button { padding: 8px 4px; }
+  .mobile-menu { font-size: 20px; padding-left: 24px; padding-right: 24px; }
+}
+
+/* A tapped element keeps its :hover state on a touchscreen until something
+   else is tapped, so cards and buttons that invert on hover were sticking in
+   the inverted state after a tap — a pressed "Add to cart" stayed an outline
+   button, and a tapped benefit card stayed navy. Desktop is untouched. */
+@media (hover: none) and (pointer: coarse) {
+  .btn-primary:hover,
+  .btn-dark:hover,
+  .btn-atc:hover,
+  .btn-shop:hover {
+    background: var(--section-accent, var(--midnight));
+    color: var(--section-card-bg, var(--cream));
+    border-color: transparent;
+    transform: none;
+    box-shadow: none;
+  }
+  .btn-atc:hover { border-color: var(--section-accent, var(--midnight)); }
+  .btn-light:hover {
+    background: var(--section-card-bg, var(--cream));
+    color: var(--midnight);
+    border-color: transparent;
+    transform: none;
+  }
+  .btn-secondary:hover {
+    background: transparent;
+    color: var(--section-accent, var(--midnight));
+  }
+  .product-card:hover,
+  .product-feature:hover,
+  .benefit:hover {
+    transform: none;
+    box-shadow: 0 4px 14px rgba(14, 26, 58, 0.06);
+  }
+  .product-card:hover, .product-feature:hover { box-shadow: none; }
+  .benefit:hover { background: var(--section-card-bg, var(--mist, #dbe5f6)); }
+  .benefit:hover .benefit-icon { color: var(--section-accent, var(--gold-deep)); }
+  .benefit:hover h4 { color: inherit; }
+  .benefit:hover p { color: var(--section-muted, var(--muted)); }
+  .product-card .btn-dark:hover {
+    background: var(--section-accent, var(--midnight));
+    color: var(--section-card-bg, var(--cream));
+  }
+  .faq-tab:hover:not(.active) {
+    background: var(--section-card-bg, var(--paper));
+    border-color: var(--line);
+    color: var(--section-text, var(--midnight));
+  }
+  .variant-card:hover:not(.active) { border-color: var(--line); }
+  .social a:hover {
+    background: transparent;
+    border-color: rgba(255, 255, 255, 0.2);
+    color: var(--section-text, var(--cream));
+  }
+  .product-press-logos span:hover { opacity: 0.45; }
+  .footer-col a:hover { color: var(--section-muted, rgba(255, 255, 255, 0.7)); }
+}
+
+/* iOS zooms the whole page in when a focused field's text is under 16px.
+   Every form control in the theme was between 13px and 15px. The contact
+   form's fields are set from that section's own inline <style>, which always
+   wins over this file, so they're raised there instead. */
+@media (max-width: 767px) {
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="search"],
+  input[type="number"],
+  input[type="password"],
+  select,
+  textarea {
+    font-size: 16px;
+  }
 }
 
 /* ---------- Product press bar ---------- */
