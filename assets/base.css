@@ -1738,7 +1738,23 @@ span.cart-protection-icon {
     gap: 28px;
     align-items: start;
   }
-  .product-gallery { position: static; }
+  /* Once the two columns stack, the gallery's FAQ accordions land between
+     the photos and the buy box — on a phone that's ~220px of questions to
+     scroll past before the price is even visible. display:contents lifts the
+     gallery's children into .product-layout so the accordions can be ordered
+     after the purchase block, giving photos → purchase → FAQ. It also drops
+     the gallery's own box, which is what the sticky reset used to do. The
+     desktop grid keeps the gallery intact and sticky, so none of this
+     applies there. Spacing moves onto the children because a single row-gap
+     can't give the photo/thumbnail pair one gap and the stacked blocks
+     another. */
+  .product-gallery { display: contents; }
+  .product-layout { gap: 0; }
+  .product-gallery-main { margin-bottom: 12px; }
+  .product-thumbs { margin-bottom: 0; }
+  .product-info { margin-top: 24px; }
+  .gallery-faq { order: 1; margin-top: 36px; }
+
   .hero-visual { height: 400px; }
   .product-grid, .benefits-grid, .how-grid, .testimonial-grid { grid-template-columns: 1fr 1fr; }
   .trust-grid { justify-content: center; }
@@ -1931,7 +1947,6 @@ span.cart-protection-icon {
 
   /* ----- Product page ----- */
   .product-page { padding: 32px 0 64px; }
-  .product-layout { gap: 32px; }
   .product-title { font-size: 32px; }
   .product-gallery-main { border-radius: 16px; }
   /* 9.5px was the smallest type anywhere in the theme. */
