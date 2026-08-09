@@ -273,6 +273,19 @@
     .contact-fields { grid-template-columns: 1fr; }
     .contact-faq-cta-inner { flex-direction: column; align-items: flex-start; }
   }
+
+  @media (max-width: 640px) {
+    .contact-page { padding: 40px 0 64px; }
+    .contact-layout { gap: 36px; }
+    .contact-card { padding: 24px 20px; }
+    /* 16px, or iOS zooms the page in the moment a field takes focus. */
+    .contact-field input,
+    .contact-field textarea { font-size: 16px; }
+    .contact-field textarea { min-height: 120px; }
+    .contact-faq-cta { margin-top: 48px; padding-top: 40px; }
+    .contact-faq-cta-inner { gap: 22px; }
+    .contact-faq-cta-inner .btn-primary { width: 100%; justify-content: center; }
+  }
 </style>
 
 {% schema %}
