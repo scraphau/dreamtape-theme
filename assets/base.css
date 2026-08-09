@@ -1842,7 +1842,7 @@ span.cart-protection-icon {
     justify-content: center;
     width: 100%;
   }
-  .product-grid, .benefits-grid, .how-grid, .testimonial-grid { grid-template-columns: 1fr; }
+  .product-grid, .testimonial-grid { grid-template-columns: 1fr; }
   .wakeup, .products, .benefits, .how, .testimonials, .guarantee, .faq { padding: 64px 0; }
   .final-cta { padding: 72px 0; }
   .footer { padding: 36px 0 20px; }
@@ -1915,6 +1915,10 @@ span.cart-protection-icon {
   .hero-sub { font-size: 16.5px; margin-bottom: 28px; }
   .hero-quote { padding: 18px 20px; }
   .hero-quote p { font-size: 15.5px; }
+  /* 400px of photo plus the copy above it ran the hero to 1093px — nearly
+     one and a half screens before the first section. */
+  .hero-inner { gap: 28px; }
+  .hero-visual { height: 320px; }
   .stat-card { padding: 44px 32px; }
 
   /* The featured card is an only child, and justify-items:center let it
@@ -1922,12 +1926,60 @@ span.cart-protection-icon {
   .product-grid--centered .product-card { width: 100%; }
   .product-body { padding: 8px 22px 22px; }
 
-  .benefit { min-height: 0; padding: 24px 24px 22px; }
-  .benefit h4 { font-size: 20px; }
-  .benefits-grid { gap: 14px; }
-  .how-step { padding: 28px 0; }
-  .how-step h3 { font-size: 26px; }
-  .how-grid { gap: 0; }
+  /* ----- Benefits: two up -----
+     Respire runs these two to a row on a phone. Stacked one-up they ran to
+     1378px — the same six items take about half that side by side, and the
+     section stops being a scroll marathon. The icon comes out of its
+     absolute top-right corner and sits above the title, because there's no
+     room for it alongside one in a 160px card. */
+  .benefits-grid { grid-template-columns: 1fr 1fr; gap: 14px; }
+  .benefit {
+    min-height: 0;
+    padding: 18px 16px 20px;
+    justify-content: flex-start;
+    border-radius: 18px;
+  }
+  .benefit-icon {
+    position: static;
+    width: 26px;
+    height: 26px;
+    margin-bottom: 10px;
+  }
+  .benefit h4 {
+    font-size: 15.5px;
+    line-height: 1.2;
+    padding-right: 0;
+    margin-bottom: 6px;
+  }
+  .benefit p { font-size: 12.5px; line-height: 1.45; padding-right: 0; }
+
+  /* ----- How it works: swipe row -----
+     Three full-width steps stacked to 880px. Respire puts the equivalent on
+     a swipeable row, so the section costs one screen instead of three. The
+     cards stop at 78% so the next one peeks in and the row reads as
+     scrollable; the negative margin lets it bleed to the screen edge while
+     the first card still lines up with the 20px gutter. */
+  .how-grid {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 -20px;
+    padding: 0 20px;
+    /* Snapping ignores padding, so without this the row rests with the first
+       card flush against the screen edge instead of on the gutter. */
+    scroll-padding-left: 20px;
+  }
+  .how-grid::-webkit-scrollbar { display: none; }
+  .how-step {
+    flex: 0 0 78%;
+    scroll-snap-align: start;
+    padding: 24px 0 28px;
+  }
+  .how-step h3 { font-size: 24px; }
+  .step-num { margin-bottom: 16px; }
   .testimonial { padding: 28px 24px; }
   .testimonial p { font-size: 17px; }
   .guarantee-inner { gap: 32px; }
@@ -2439,8 +2491,18 @@ span.cart-protection-icon {
   .product-timeline-section, .product-comparison-section { padding: 72px 0; }
   .timeline-item summary { font-size: 18px; }
   .timeline-body { padding-left: 0; }
-  .comparison-table-wrap { border-radius: 10px; }
-  .comparison-table th, .comparison-table td { padding: 12px 14px; font-size: 13px; }
+  .comparison-table-wrap {
+    border-radius: 10px;
+    /* The wrap clips with overflow:hidden for its rounded corners, so on a
+       320px screen the last column was cut off with no way to reach it —
+       on a table whose whole job is the side-by-side comparison. Tighter
+       cells make it fit on most phones; the scroll is the safety net for
+       the narrowest ones and for longer column labels. overflow-y stays
+       hidden, inherited from the shorthand above. */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .comparison-table th, .comparison-table td { padding: 12px 9px; font-size: 12.5px; }
   .product-press-logos { gap: 20px; }
   .product-press-logos span { font-size: 15px; }
 }
