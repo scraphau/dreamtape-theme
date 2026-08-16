@@ -420,9 +420,26 @@
             </div>
           {%- endif -%}
 
+          {%- comment -%}
+            Pre-order notice. Sits directly above the button rather than in the
+            trust row below it, so it's read before the click, not after.
+          {%- endcomment -%}
+          {%- if section.settings.preorder_enabled and product.available -%}
+            <div class="product-preorder">
+              <span class="preorder-badge">{{ section.settings.preorder_badge }}</span>
+              {%- if section.settings.preorder_text != blank -%}
+                <span class="preorder-text">{{ section.settings.preorder_text }}</span>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
           <button type="submit" class="btn-atc" {% unless product.available %}disabled{% endunless %}>
             {%- if product.available -%}
-              Add to Cart — {{ section.settings.cta_suffix }}
+              {%- if section.settings.preorder_enabled -%}
+                {{ section.settings.preorder_badge }} — {{ section.settings.cta_suffix }}
+              {%- else -%}
+                Add to Cart — {{ section.settings.cta_suffix }}
+              {%- endif -%}
             {%- else -%}
               Sold out
             {%- endif -%}
@@ -450,7 +467,12 @@
           </div>
           <div class="ptr-item">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            <span>Ships in 1–2 Days</span>
+            {%- comment -%}
+              Has to follow the pre-order switch. Leaving "Ships in 1–2 Days"
+              under a pre-order button would promise a dispatch time the order
+              can't be filled in.
+            {%- endcomment -%}
+            <span>{% if section.settings.preorder_enabled %}{{ section.settings.preorder_ships_label }}{% else %}Ships in 1–2 Days{% endif %}</span>
           </div>
         </div>
 
@@ -894,7 +916,12 @@
     { "type": "header", "content": "CTA & notes" },
     { "type": "text", "id": "cta_suffix", "label": "Button text suffix (after em dash)", "default": "Try Risk-Free" },
     { "type": "text", "id": "subscribe_note", "label": "Subscribe & save note", "default": "Save an extra 15% with Auto-Refills — pause or cancel anytime" },
-    { "type": "text", "id": "sub_note", "label": "Below button note", "default": "30-night money-back guarantee · Free shipping" }
+    { "type": "text", "id": "sub_note", "label": "Below button note", "default": "30-night money-back guarantee · Free shipping" },
+    { "type": "header", "content": "Pre-order" },
+    { "type": "checkbox", "id": "preorder_enabled", "label": "Sell this product as a pre-order", "info": "Adds a notice above the button, relabels the button, and replaces the \"Ships in 1–2 Days\" badge. The variant also needs \"Continue selling when out of stock\" ticked in the product's inventory settings, or the button stays disabled.", "default": false },
+    { "type": "text", "id": "preorder_badge", "label": "Pre-order label", "default": "Pre-order" },
+    { "type": "text", "id": "preorder_text", "label": "Pre-order explanation", "info": "Shown next to the label, above the button. Say when you expect to ship.", "default": "Ordering now reserves yours from the first batch. You're charged today and we'll email you a dispatch date as soon as stock lands." },
+    { "type": "text", "id": "preorder_ships_label", "label": "Shipping badge (replaces \"Ships in 1–2 Days\")", "default": "Ships when stock lands" }
   ],
   "blocks": [
     {
