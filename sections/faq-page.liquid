@@ -1,4 +1,4 @@
-<section class="faq-page" style="{% render 'section-color-vars', section: section %}">
+<section class="faq-page" style="{% render 'section-color-vars', section: section %} --faq-bubble: {{ section.settings.bubble_color | default: '#dbe5f6' }};">
   <div class="container">
     <nav class="faq-breadcrumb" aria-label="Breadcrumb">
       <a href="{{ routes.root_url }}">Home</a>
@@ -7,6 +7,12 @@
     </nav>
 
     <div class="faq-page-hero">
+      {%- comment -%}
+        Decorative only — soft colour behind the headline so the top of the
+        page isn't a flat white band. Sits under the text and takes no space.
+      {%- endcomment -%}
+      <span class="faq-hero-bubble" aria-hidden="true"></span>
+      <span class="faq-hero-bubble faq-hero-bubble-sm" aria-hidden="true"></span>
       <div>
         {%- if section.settings.eyebrow != blank -%}
           <span class="eyebrow">{{ section.settings.eyebrow }}</span>
@@ -132,6 +138,13 @@
       "id": "card_background_color",
       "label": "Card background color",
       "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "bubble_color",
+      "label": "Header bubble color",
+      "info": "Soft colour behind the page heading. Match it to the background to hide it.",
+      "default": "#dbe5f6"
     },
     {
       "type": "text",

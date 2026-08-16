@@ -195,10 +195,27 @@
                     {%- assign discount_percent = discount_percent | divided_by: 5 | times: 5 -%}
                   {%- endif -%}
 
-                  {%- comment -%} Match the selling plan tier to this pack size (e.g. "every 3 months" plan for the 3-month pack) rather than always taking the first available plan. {%- endcomment -%}
+                  {%- comment -%}
+                    Match the selling plan tier to this pack size (e.g. "every 3
+                    months" plan for the 3-month pack) rather than always taking
+                    the first available plan.
+
+                    Matched against the plan's option values as well as its name,
+                    with hyphens flattened to spaces: a plan called "6-month
+                    subscription", or one whose name carries no interval at all
+                    and only says "Delivery every / 6 Months" in its options,
+                    both used to miss the plain "6 month" test and drop through
+                    to the fallback below - which is the cheapest plan in the
+                    group, usually the monthly one. That put a 6 month supply on
+                    a 1 month refill.
+                  {%- endcomment -%}
                   {%- assign matched_allocation = blank -%}
                   {%- for alloc in variant.selling_plan_allocations -%}
-                    {%- assign plan_name = alloc.selling_plan.name | downcase -%}
+                    {%- assign plan_haystack = alloc.selling_plan.name -%}
+                    {%- for plan_option in alloc.selling_plan.options -%}
+                      {%- assign plan_haystack = plan_haystack | append: ' ' | append: plan_option.value -%}
+                    {%- endfor -%}
+                    {%- assign plan_name = plan_haystack | downcase | replace: '-', ' ' | replace: '_', ' ' -%}
                     {%- assign is_match = false -%}
                     {%- if packs == 3 and plan_name contains '3 month' -%}
                       {%- assign is_match = true -%}
@@ -328,8 +345,13 @@
 
             {%- assign single_variant = product.selected_or_first_available_variant -%}
             {%- assign matched_allocation = blank -%}
+            {%- comment -%} Same normalisation as the multi-variant matcher above. {%- endcomment -%}
             {%- for alloc in single_variant.selling_plan_allocations -%}
-              {%- assign plan_name = alloc.selling_plan.name | downcase -%}
+              {%- assign plan_haystack = alloc.selling_plan.name -%}
+              {%- for plan_option in alloc.selling_plan.options -%}
+                {%- assign plan_haystack = plan_haystack | append: ' ' | append: plan_option.value -%}
+              {%- endfor -%}
+              {%- assign plan_name = plan_haystack | downcase | replace: '-', ' ' | replace: '_', ' ' -%}
               {%- if plan_name contains 'month' -%}
                 {%- unless plan_name contains '3 month' or plan_name contains '6 month' -%}
                   {%- if matched_allocation == blank -%}
@@ -398,9 +420,26 @@
             </div>
           {%- endif -%}
 
+          {%- comment -%}
+            Pre-order notice. Sits directly above the button rather than in the
+            trust row below it, so it's read before the click, not after.
+          {%- endcomment -%}
+          {%- if section.settings.preorder_enabled and product.available -%}
+            <div class="product-preorder">
+              <span class="preorder-badge">{{ section.settings.preorder_badge }}</span>
+              {%- if section.settings.preorder_text != blank -%}
+                <span class="preorder-text">{{ section.settings.preorder_text }}</span>
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+
           <button type="submit" class="btn-atc" {% unless product.available %}disabled{% endunless %}>
             {%- if product.available -%}
-              Add to Cart — {{ section.settings.cta_suffix }}
+              {%- if section.settings.preorder_enabled -%}
+                {{ section.settings.preorder_badge }} — {{ section.settings.cta_suffix }}
+              {%- else -%}
+                Add to Cart — {{ section.settings.cta_suffix }}
+              {%- endif -%}
             {%- else -%}
               Sold out
             {%- endif -%}
@@ -428,7 +467,12 @@
           </div>
           <div class="ptr-item">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            <span>Ships in 1–2 Days</span>
+            {%- comment -%}
+              Has to follow the pre-order switch. Leaving "Ships in 1–2 Days"
+              under a pre-order button would promise a dispatch time the order
+              can't be filled in.
+            {%- endcomment -%}
+            <span>{% if section.settings.preorder_enabled %}{{ section.settings.preorder_ships_label }}{% else %}Ships in 1–2 Days{% endif %}</span>
           </div>
         </div>
 
@@ -872,7 +916,12 @@
     { "type": "header", "content": "CTA & notes" },
     { "type": "text", "id": "cta_suffix", "label": "Button text suffix (after em dash)", "default": "Try Risk-Free" },
     { "type": "text", "id": "subscribe_note", "label": "Subscribe & save note", "default": "Save an extra 15% with Auto-Refills — pause or cancel anytime" },
-    { "type": "text", "id": "sub_note", "label": "Below button note", "default": "30-night money-back guarantee · Free shipping" }
+    { "type": "text", "id": "sub_note", "label": "Below button note", "default": "30-night money-back guarantee · Free shipping" },
+    { "type": "header", "content": "Pre-order" },
+    { "type": "checkbox", "id": "preorder_enabled", "label": "Sell this product as a pre-order", "info": "Adds a notice above the button, relabels the button, and replaces the \"Ships in 1–2 Days\" badge. The variant also needs \"Continue selling when out of stock\" ticked in the product's inventory settings, or the button stays disabled.", "default": false },
+    { "type": "text", "id": "preorder_badge", "label": "Pre-order label", "default": "Pre-order" },
+    { "type": "text", "id": "preorder_text", "label": "Pre-order explanation", "info": "Shown next to the label, above the button. Say when you expect to ship.", "default": "Ordering now reserves yours from the first batch. You're charged today and we'll email you a dispatch date as soon as stock lands." },
+    { "type": "text", "id": "preorder_ships_label", "label": "Shipping badge (replaces \"Ships in 1–2 Days\")", "default": "Ships when stock lands" }
   ],
   "blocks": [
     {

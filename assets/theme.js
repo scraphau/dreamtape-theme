@@ -92,11 +92,37 @@ function protectionDeclined(cart) {
   return cart.attributes?.[PROTECTION_ATTRIBUTE] === 'declined';
 }
 
+// Clearing an attribute means sending it back as an empty string.
+async function clearProtectionOptOut(cart) {
+  try {
+    const cartUpdateUrl = window.themeRoutes?.cartUpdateUrl || '/cart/update.js';
+    const response = await fetch(cartUpdateUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ attributes: { [PROTECTION_ATTRIBUTE]: '' } })
+    });
+    return response.ok ? await response.json() : cart;
+  } catch (err) {
+    console.error(err);
+    return cart;
+  }
+}
+
 async function syncShippingProtection(cart) {
   if (!shippingProtectionVariantId) return cart;
 
+  const hasShoppableItems = shoppableCartItems(cart).length > 0;
+
+  // An opt-out belongs to the order it was made on. The attribute rides the
+  // cart cookie for a couple of weeks, so without this a shopper who declined
+  // once would come back to a cart that quietly starts unprotected. Once
+  // they've emptied the cart, the next order goes back to the default.
+  if (!hasShoppableItems && protectionDeclined(cart)) {
+    cart = await clearProtectionOptOut(cart);
+  }
+
   const protectionLine = cart.items.find(item => item.variant_id === shippingProtectionVariantId);
-  const wanted = shoppableCartItems(cart).length > 0 && !protectionDeclined(cart);
+  const wanted = hasShoppableItems && !protectionDeclined(cart);
   const wantedQuantity = wanted ? 1 : 0;
   if ((protectionLine?.quantity || 0) === wantedQuantity) return cart;
 
@@ -152,9 +178,6 @@ function renderShippingPromo(cart) {
       ? 'You&rsquo;ve unlocked <strong>FREE SHIPPING</strong>'
       : 'Upgrade to a subscription for <strong>FREE AU SHIPPING</strong>';
   }
-
-  const sub = promo.querySelector('[data-cart-promo-sub]');
-  if (sub) sub.hidden = !unlocked;
 
   const fill = promo.querySelector('[data-cart-promo-fill]');
   if (fill) fill.style.width = unlocked ? '100%' : '55%';

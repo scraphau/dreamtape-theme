@@ -59,12 +59,12 @@
         "card_background_color": "#ffffff",
         "rating_text": "Rated 4.9 from 462 reviews",
         "badge_text": "PREMIUM NOSE STRIPS",
-        "tagline": "The last sleep upgrade you'll ever need.",
-        "bullets": "Supports quieter, deeper sleep\nMore energy, sharper focus every morning\nGentle, skin-friendly overnight hold",
+        "tagline": "Open the airway you're already breathing through.",
+        "bullets": "Opens blocked nasal passages instantly\nQuieter nights with noticeably less snoring\nEasier nose breathing, even when congested",
         "image_badge": "",
         "cta_suffix": "Try Risk-Free",
-        "subscribe_note": "Save an extra 15% with Auto-Refills — pause or cancel anytime",
-        "sub_note": "30-night money-back guarantee · Free shipping",
+        "subscribe_note": "Save up to an extra 20% with Auto-Refills — pause or cancel anytime",
+        "sub_note": "30-night money-back guarantee · Free shipping over $79",
         "preorder_enabled": true
       }
     },
@@ -117,18 +117,46 @@
     "benefits": {
       "type": "benefits",
       "settings": {
-        "background_color": "#F3F6FB",
+        "background_color": "#f3f6fb",
         "text_color": "#0e1a3a",
         "muted_text_color": "#5a6580",
         "accent_color": "#0e1a3a",
         "card_background_color": "#dbe5f6",
         "eyebrow": "One fix. Many wins.",
         "heading": "<p>A cascade of benefits<br/>from <em>one small strip</em>.</p>",
-        "lead": "When you switch from mouth to nose breathing, you unlock better oxygenation, deeper REM, a stronger jawline, and a sharper immune system — naturally and effortlessly."
+        "lead": "Open up the nasal passage and everything downstream gets easier — quieter nights, better oxygenation, deeper REM, and mornings that don't start foggy."
       }
     },
     "how": {
       "type": "how-it-works",
+      "blocks": {
+        "step_peel": {
+          "type": "step",
+          "settings": {
+            "title": "Peel a strip",
+            "body": "Each strip is pre-cut and ready in seconds. Easy to apply, even in the dark."
+          }
+        },
+        "step_place": {
+          "type": "step",
+          "settings": {
+            "title": "Place across your nose",
+            "body": "Centre it on the bridge, just above the flare of your nostrils, and press the ends down on clean, dry skin."
+          }
+        },
+        "step_breathe": {
+          "type": "step",
+          "settings": {
+            "title": "Drift off",
+            "body": "The spring band holds your airway open all night long. Wake up rested, refreshed, and ready."
+          }
+        }
+      },
+      "block_order": [
+        "step_peel",
+        "step_place",
+        "step_breathe"
+      ],
       "settings": {
         "background_color": "#0e1a3a",
         "text_color": "#ffffff",
@@ -151,7 +179,7 @@
         "badge_label": "nights<br>risk-free",
         "eyebrow": "Our promise",
         "heading": "Sleep on it for 30 nights.",
-        "body": "<p>We're so sure Dreamtape will change your sleep, we offer a 30-night money-back guarantee. If you're not waking up better-rested, send us one email — we'll refund you in full. No questions, no fuss.</p>",
+        "body": "<p>We're so sure Dreamtape Nose Strips will change your sleep, we offer a 30-night money-back guarantee. If you're not breathing easier and waking up better-rested, send us one email — we'll refund you in full. No questions, no fuss.</p>",
         "button_text": "Try Dreamtape now",
         "button_link": ""
       }

@@ -27,8 +27,8 @@
         "meta_bottom": "30-night risk-free trial",
         "quote_text": "Absolutely love this! I wake up before my alarm now.",
         "quote_author": "Jessie M., verified customer",
-        "card_1_title": "Mouth Tape",
-        "card_1_sub": "30 strips"
+        "card_1_title": "",
+        "card_1_sub": ""
       }
     },
     "trust": {
@@ -170,11 +170,11 @@
         "benefit_AMN3kf"
       ],
       "settings": {
-        "background_color": "#ffffff",
-        "text_color": "#0e1a3a",
-        "muted_text_color": "#5a6580",
-        "accent_color": "#0e1a3a",
-        "card_background_color": "#dbe5f6",
+        "background_color": "#0e1a3a",
+        "text_color": "#ffffff",
+        "muted_text_color": "#dbe5f6",
+        "accent_color": "#ffffff",
+        "card_background_color": "#1b2d5a",
         "eyebrow": "One fix. Many wins.",
         "heading": "<p>A cascade of benefits<br/>from <em>one small strip</em>.</p>",
         "lead": "When you switch from mouth to nose breathing, you unlock better oxygenation, deeper REM, a stronger jawline, and a sharper immune system — naturally and effortlessly."
@@ -208,15 +208,173 @@
         "button_text": "Try Dreamtape now",
         "button_link": "shopify://products/mouth-tape"
       }
+    },
+    "problem": {
+      "type": "product-problem",
+      "settings": {
+        "background_color": "#f3f6fb",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "The overnight habit nobody mentions",
+        "heading": "Your mouth falls open. Everything else follows.",
+        "intro": "Nobody chooses to breathe through their mouth at night — it just happens once the jaw relaxes. The knock-on effects are the part you actually notice.",
+        "problems": "Snoring loud enough to wake the room\nA dry, sticky mouth at 3am\nEight hours in bed that feel like five\nMornings that need two coffees to start\nA partner drifting toward the spare room",
+        "solutions": "Quieter nights for both of you\nWaking without the dry mouth\nLonger stretches of unbroken sleep\nMornings that start on the first alarm\nA habit that holds once it sets in",
+        "stat_number": "30",
+        "stat_label": "nights to try it — refunded in full if it isn't for you",
+        "cta_text": "Shop Dreamtape"
+      }
+    },
+    "features": {
+      "type": "product-features",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Why Dreamtape",
+        "heading": "Made to be [em]forgotten[/em] by morning",
+        "subheading": "The whole design brief was to stay out of your way — comfortable enough to ignore, secure enough to last the night.",
+        "feature_1_icon": "💋",
+        "feature_1_label": "Lip & moustache friendly",
+        "feature_2_icon": "🌬️",
+        "feature_2_label": "Breathable — never a full seal",
+        "feature_3_icon": "🌙",
+        "feature_3_label": "Holds all night, no reapplying",
+        "feature_4_icon": "✂️",
+        "feature_4_label": "Pre-cut, ready in seconds",
+        "feature_5_icon": "🧴",
+        "feature_5_label": "Comes away without the sting",
+        "feature_6_icon": "🧪",
+        "feature_6_label": "Hypoallergenic adhesive",
+        "feature_7_icon": "🧳",
+        "feature_7_label": "Flat pack, fits any toiletry bag",
+        "feature_8_icon": "♻️",
+        "feature_8_label": "Single-use, for hygiene",
+        "price_note": "From $0.58 per night."
+      }
+    },
+    "timeline": {
+      "type": "product-timeline",
+      "settings": {
+        "background_color": "#f3f6fb",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "What to expect",
+        "heading": "The first month, night by night",
+        "item_1_label": "Night 1 — It feels odd, then it doesn't",
+        "item_1_body": "The strip is the only thing you'll think about for the first ten minutes. Most people forget it's there well before they fall asleep, and the first thing they notice is waking up without a dry mouth.",
+        "item_2_label": "Night 3 — Your partner notices first",
+        "item_2_body": "Snoring is usually the earliest change anyone comments on, and it's rarely the person wearing the tape who spots it. If someone shares a room with you, ask them at the end of the week.",
+        "item_3_label": "Week 1 — The habit starts setting",
+        "item_3_body": "Applying it stops being a decision and becomes part of brushing your teeth. This is also where people who quit tend to quit, so it's worth pushing through the first few awkward nights.",
+        "item_4_label": "Week 2 — Mornings get easier",
+        "item_4_body": "Less broken sleep tends to show up as the alarm feeling less brutal rather than as anything dramatic. Subtle, but it's the change most people say they would miss.",
+        "item_5_label": "Week 4 — Decision time",
+        "item_5_body": "You are near the end of the 30 nights, and you will know by now. If it hasn't done anything for you, one email gets your money back — that is the whole reason the trial runs this long.",
+        "item_6_label": "Beyond — Nasal breathing by default",
+        "item_6_body": "Plenty of people keep taping every night. Others drift toward nose breathing on their own and reach for it when travel, a cold, or a bad week knocks the habit loose."
+      }
+    },
+    "comparison": {
+      "type": "product-comparison",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Not all tape is the same",
+        "heading": "Built for lips, not for parcels",
+        "col_us": "Dreamtape",
+        "col_them": "Generic tape",
+        "rows": "Adhesive formulated for facial skin\nBreathable weave — air still gets through\nPre-cut to shape, no scissors at bedtime\nHolds through the night without re-sticking\nPeels away without the morning sting\nBeard and moustache friendly\nSized for lips instead of guesswork",
+        "cta_text": "Shop Dreamtape",
+        "cta_url": "/products/mouth-tape"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "faq_what": {
+          "type": "qa",
+          "settings": {
+            "question": "What exactly is Dreamtape?",
+            "answer": "<p>A soft, hypoallergenic strip that rests across your closed lips overnight so your body defaults to breathing through your nose. It is made from breathable fabric, so it never seals you shut — it just removes the gap that lets your mouth drift open once your jaw relaxes.</p>"
+          }
+        },
+        "faq_nose": {
+          "type": "qa",
+          "settings": {
+            "question": "What is the difference between the tape and the nose strips?",
+            "answer": "<p>They solve two halves of the same problem. Nose strips open the airway by lifting the sides of your nose outward; the tape keeps you breathing through it by stopping your mouth falling open. Each works on its own, and most people who use both say the combination feels noticeably easier.</p>"
+          }
+        },
+        "faq_safe": {
+          "type": "qa",
+          "settings": {
+            "question": "Is it safe?",
+            "answer": "<p>Dreamtape is made for healthy adults who can breathe comfortably through their nose. If you have sleep apnea, blocked nasal passages, or any ongoing breathing concern, speak with a healthcare professional before using it.</p>"
+          }
+        },
+        "faq_start": {
+          "type": "qa",
+          "settings": {
+            "question": "How long before I notice anything?",
+            "answer": "<p>Most people notice waking with a less dry mouth from the first night, and partners tend to comment on snoring within the first week. The bigger changes settle in over two to four weeks, as nasal breathing becomes the default.</p>"
+          }
+        },
+        "faq_sub": {
+          "type": "qa",
+          "settings": {
+            "question": "How does Subscribe &amp; Save work?",
+            "answer": "<p>Pick a refill every 30, 90 or 180 days and a fresh pack ships automatically at a lower price, with free shipping Australia wide. Everything is managed from your account, where you can skip, reschedule, pause or cancel at any time — there is no lock-in.</p>"
+          }
+        },
+        "faq_trial": {
+          "type": "qa",
+          "settings": {
+            "question": "What if it does not work for me?",
+            "answer": "<p>Sleep on it for up to 30 nights. If you are not waking up better rested, send us one email and we will refund you in full — no questions, and nothing to send back.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_what",
+        "faq_nose",
+        "faq_safe",
+        "faq_start",
+        "faq_sub",
+        "faq_trial"
+      ],
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Questions",
+        "heading": "<p>Everything you might<br>be <em>wondering</em>.</p>"
+      }
     }
   },
   "order": [
     "hero",
     "trust",
+    "problem",
     "wakeup",
-    "products",
     "benefits",
+    "products",
+    "features",
     "how",
-    "guarantee"
+    "timeline",
+    "comparison",
+    "guarantee",
+    "faq"
   ]
 }

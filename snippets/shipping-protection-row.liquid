@@ -11,13 +11,16 @@
 {%- assign protection_product = all_products['shipping-protection'] -%}
 {%- assign protection_variant = protection_product.variants.first -%}
 {%- if protection_variant != blank -%}
-  {%- assign protection_in_cart = false -%}
-  {%- for item in cart.items -%}
-    {%- if item.variant_id == protection_variant.id -%}
-      {%- assign protection_in_cart = true -%}
-      {%- break -%}
-    {%- endif -%}
-  {%- endfor -%}
+  {%- comment -%}
+    Drawn from the opt-out attribute rather than from whether the line is in the
+    cart yet. On a fresh page load the line is added by theme.js a moment after
+    the markup renders, so keying off the line showed the switch off and then
+    flipped it on — reading as a default of off.
+  {%- endcomment -%}
+  {%- assign protection_on = true -%}
+  {%- if cart.attributes.shipping_protection == 'declined' -%}
+    {%- assign protection_on = false -%}
+  {%- endif -%}
   <div
     class="cart-protection"
     data-cart-protection
@@ -53,7 +56,7 @@
       type="button"
       class="cart-protection-toggle"
       role="switch"
-      aria-checked="{% if protection_in_cart %}true{% else %}false{% endif %}"
+      aria-checked="{% if protection_on %}true{% else %}false{% endif %}"
       aria-label="Add shipping protection to this order"
       data-cart-protection-toggle
     ></button>
