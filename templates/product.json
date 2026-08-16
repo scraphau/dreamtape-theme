@@ -27,6 +27,52 @@
         "sub_note": "30-night money-back guarantee · Free shipping"
       }
     },
+    "trust": {
+      "type": "trust-badges",
+      "blocks": {
+        "badge_trial": {
+          "type": "badge",
+          "settings": {
+            "icon": "target",
+            "text": "30 Day Risk-Free Trial"
+          }
+        },
+        "badge_safe": {
+          "type": "badge",
+          "settings": {
+            "icon": "feather",
+            "text": "100% Safe & Comfy"
+          }
+        },
+        "badge_science": {
+          "type": "badge",
+          "settings": {
+            "icon": "atom",
+            "text": "Backed by Science"
+          }
+        },
+        "badge_shipping": {
+          "type": "badge",
+          "settings": {
+            "icon": "plane",
+            "text": "Free AU Shipping with Subscriptions"
+          }
+        }
+      },
+      "block_order": [
+        "badge_trial",
+        "badge_safe",
+        "badge_science",
+        "badge_shipping"
+      ],
+      "settings": {
+        "background_color": "#0e1a3a",
+        "text_color": "#ffffff",
+        "muted_text_color": "#dbe5f6",
+        "accent_color": "#ffffff",
+        "card_background_color": "#0e1a3a"
+      }
+    },
     "benefits": {
       "type": "benefits",
       "settings": {
@@ -84,6 +130,7 @@
   },
   "order": [
     "main",
+    "trust",
     "benefits",
     "how",
     "guarantee",
