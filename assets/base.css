@@ -1053,6 +1053,9 @@ span.cart-protection-icon {
   background: var(--section-bg, var(--paper));
   color: var(--section-text, var(--midnight));
   padding: 72px 0 112px;
+  /* clip, not hidden: the header bubble hangs past the container on narrow
+     screens, and hidden would make this a scroll container. */
+  overflow-x: clip;
 }
 .faq-breadcrumb {
   display: flex;
@@ -1067,6 +1070,7 @@ span.cart-protection-icon {
   font-weight: 600;
 }
 .faq-page-hero {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 0.95fr) minmax(320px, 0.72fr);
   gap: 72px;
@@ -1074,6 +1078,35 @@ span.cart-protection-icon {
   padding-bottom: 56px;
   border-bottom: 1px solid var(--line);
 }
+/* Decorative wash behind the headline. Absolute, so it never becomes a grid
+   track.
+   closest-side, and no border-radius: the gradient has to reach full
+   transparency exactly at the element's edge. Sized any other way it still
+   has colour left when it gets there, and the box clips it into a visible
+   arc across the page. */
+.faq-hero-bubble {
+  position: absolute;
+  z-index: 0;
+  top: -132px;
+  left: -150px;
+  width: min(480px, 62%);
+  aspect-ratio: 1;
+  background: radial-gradient(circle closest-side, var(--faq-bubble, #dbe5f6), transparent);
+  pointer-events: none;
+}
+/* Second, smaller wash under the right column. Kept low and tight to the
+   corner so it reads as depth behind the divider rather than a disc laid
+   over the intro copy. */
+.faq-hero-bubble-sm {
+  top: auto;
+  bottom: -56px;
+  left: auto;
+  right: -104px;
+  width: min(280px, 26%);
+  opacity: 0.7;
+}
+/* Both columns ride above the wash. */
+.faq-page-hero > div { position: relative; z-index: 1; }
 .faq-page-hero h1 {
   font-family: var(--font-serif);
   font-weight: 400;
@@ -1800,6 +1833,14 @@ span.cart-protection-icon {
   .faq-page-hero {
     padding-bottom: 34px;
   }
+  /* Tighter and further off-canvas once the columns stack, so it stays a
+     wash behind the heading rather than a disc floating over the intro. */
+  .faq-hero-bubble {
+    top: -76px;
+    left: -96px;
+    width: min(330px, 88%);
+  }
+  .faq-hero-bubble-sm { display: none; }
   .faq-page-intro {
     font-size: 15.5px;
   }
