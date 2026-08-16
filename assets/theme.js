@@ -179,9 +179,6 @@ function renderShippingPromo(cart) {
       : 'Upgrade to a subscription for <strong>FREE AU SHIPPING</strong>';
   }
 
-  const sub = promo.querySelector('[data-cart-promo-sub]');
-  if (sub) sub.hidden = !unlocked;
-
   const fill = promo.querySelector('[data-cart-promo-fill]');
   if (fill) fill.style.width = unlocked ? '100%' : '55%';
 }
