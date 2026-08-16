@@ -11,6 +11,46 @@
   "sections": {
     "main": {
       "type": "main-product",
+      "blocks": {
+        "gallery_faq_works": {
+          "type": "gallery_faq",
+          "settings": {
+            "icon": "tape",
+            "question": "How do Dreamtape Nose Strips work?",
+            "answer": "<p>Each strip has a flexible spring band that sits across the bridge of your nose. As it tries to straighten back out, it gently lifts the sides of your nose open, widening the nasal passage underneath. That means less resistance on every breath, so air moves more easily even if you're a little congested. There's nothing medicated about it — the effect is purely mechanical, and it starts the moment you put one on.</p>"
+          }
+        },
+        "gallery_faq_trial": {
+          "type": "gallery_faq",
+          "settings": {
+            "icon": "shield",
+            "question": "What happens during my 30-night trial?",
+            "answer": "<p>Sleep on it for up to 30 nights. If you're not breathing and sleeping better, send us one email and we'll refund you in full — no questions asked. We give you the full month because everyone's nose is a little different, and it can take a few nights to find the placement that feels best on your face.</p>"
+          }
+        },
+        "gallery_faq_refills": {
+          "type": "gallery_faq",
+          "settings": {
+            "icon": "refresh",
+            "question": "How does the subscription work?",
+            "answer": "<p>Choose Subscribe &amp; Save and a fresh pack will automatically ship every 30, 90, or 180 days, at a discounted price, so you never run out. Subscribe and Save for FREE shipping Australia wide. You can pick the schedule that matches how you sleep, and everything is managed from your account, where you can see upcoming orders, swap dates, or skip, pause, or cancel at any time.</p>"
+          }
+        },
+        "gallery_faq_cancel": {
+          "type": "gallery_faq",
+          "settings": {
+            "icon": "check",
+            "question": "Can I pause or cancel anytime?",
+            "answer": "<p>Yes — there's no lock-in. Skip a shipment, change your frequency, or cancel whenever you like from your account, with no fees and no phone calls required. Most changes take effect immediately, and if you ever run into an issue our support team is happy to sort it out over email.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "gallery_faq_works",
+        "gallery_faq_trial",
+        "gallery_faq_refills",
+        "gallery_faq_cancel"
+      ],
       "settings": {
         "background_color": "#ffffff",
         "text_color": "#0e1a3a",
