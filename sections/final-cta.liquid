@@ -3,7 +3,7 @@
   {%- when 'index' -%}
     {%- assign show_final_cta = true -%}
   {%- when 'product' -%}
-    {%- if template.suffix == blank or template.suffix == 'mouth-tape' -%}
+    {%- if template.suffix == blank or template.suffix == 'mouth-tape' or template.suffix == 'nose-strips' -%}
       {%- assign show_final_cta = true -%}
     {%- endif -%}
   {%- when 'page' -%}
