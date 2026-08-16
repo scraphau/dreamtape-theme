@@ -117,6 +117,58 @@
     },
     "faq": {
       "type": "faq",
+      "blocks": {
+        "faq_what": {
+          "type": "qa",
+          "settings": {
+            "question": "What are Dreamtape Nose Strips?",
+            "answer": "<p>Dreamtape Nose Strips are drug-free adhesive strips that sit across the bridge of your nose and gently hold your nasal passages open while you sleep. A flexible spring band does the work, lifting the sides of your nose outward so there's less resistance on every breath. They're a simple way to make nasal breathing easier, especially on nights when you feel a bit stuffy.</p>"
+          }
+        },
+        "faq_use": {
+          "type": "qa",
+          "settings": {
+            "question": "How do I use them?",
+            "answer": "<p>Start with clean, dry skin — skip moisturiser or oil on your nose beforehand. Peel one strip from the liner, centre it on the bridge of your nose just above the flare of your nostrils, and press the ends down firmly for a few seconds. In the morning, loosen it with warm water and peel it off slowly from one end.</p>"
+          }
+        },
+        "faq_safe": {
+          "type": "qa",
+          "settings": {
+            "question": "Are nose strips safe?",
+            "answer": "<p>Yes — they're drug-free and work purely mechanically, so there's nothing absorbed into your body. If you have sensitive skin, a skin condition on your nose, sleep apnea, or any ongoing breathing concern, speak with a healthcare professional before use.</p>"
+          }
+        },
+        "faq_tape": {
+          "type": "qa",
+          "settings": {
+            "question": "Can I use them with Dreamtape mouth tape?",
+            "answer": "<p>They're designed to work together. Nose strips open the airway you're breathing through, and mouth tape keeps you breathing through it — most customers who use both say the combination feels noticeably easier than either one on its own.</p>"
+          }
+        },
+        "faq_remove": {
+          "type": "qa",
+          "settings": {
+            "question": "Will it hurt to remove?",
+            "answer": "<p>No. Wash your face or run warm water over the strip first to soften the adhesive, then peel slowly from one end toward the centre. Taking it off dry and fast is the only thing that tends to feel harsh.</p>"
+          }
+        },
+        "faq_reusable": {
+          "type": "qa",
+          "settings": {
+            "question": "Are the strips reusable?",
+            "answer": "<p>No. For hygiene and adhesive performance, each Dreamtape Nose Strip is single-use.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "faq_what",
+        "faq_use",
+        "faq_safe",
+        "faq_tape",
+        "faq_remove",
+        "faq_reusable"
+      ],
       "settings": {
         "background_color": "#ffffff",
         "text_color": "#0e1a3a",
