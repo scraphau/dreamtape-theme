@@ -434,8 +434,14 @@ const io = new IntersectionObserver((entries) => {
 }, {threshold: 0.12});
 document.querySelectorAll('.section-head, .product-card, .benefit, .how-step, .testimonial, .wakeup-inner, .guarantee-inner, .faq-item').forEach(el => {
   el.classList.add('reveal');
-  io.observe(el);
 });
+
+// Observe by class, not by that selector list. Several sections ship `reveal`
+// in their own markup - the timeline items, the comparison table, the feature
+// tiles, both halves of the problem section - on elements the list above never
+// matched. They inherited the class's opacity: 0 and nothing ever added `in`,
+// so they sat invisible in the DOM.
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
 // Variant picker for product page
 document.querySelectorAll('[data-variant-picker]').forEach(picker => {
