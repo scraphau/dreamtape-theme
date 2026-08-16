@@ -43,7 +43,7 @@
           "type": "nav_link",
           "settings": {
             "label": "Nose Strips",
-            "link": "/products/nose-strips"
+            "link": "shopify://products/dreamtape-nose-strips"
           }
         },
         "nav-contact": {
