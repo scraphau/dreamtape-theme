@@ -195,10 +195,27 @@
                     {%- assign discount_percent = discount_percent | divided_by: 5 | times: 5 -%}
                   {%- endif -%}
 
-                  {%- comment -%} Match the selling plan tier to this pack size (e.g. "every 3 months" plan for the 3-month pack) rather than always taking the first available plan. {%- endcomment -%}
+                  {%- comment -%}
+                    Match the selling plan tier to this pack size (e.g. "every 3
+                    months" plan for the 3-month pack) rather than always taking
+                    the first available plan.
+
+                    Matched against the plan's option values as well as its name,
+                    with hyphens flattened to spaces: a plan called "6-month
+                    subscription", or one whose name carries no interval at all
+                    and only says "Delivery every / 6 Months" in its options,
+                    both used to miss the plain "6 month" test and drop through
+                    to the fallback below - which is the cheapest plan in the
+                    group, usually the monthly one. That put a 6 month supply on
+                    a 1 month refill.
+                  {%- endcomment -%}
                   {%- assign matched_allocation = blank -%}
                   {%- for alloc in variant.selling_plan_allocations -%}
-                    {%- assign plan_name = alloc.selling_plan.name | downcase -%}
+                    {%- assign plan_haystack = alloc.selling_plan.name -%}
+                    {%- for plan_option in alloc.selling_plan.options -%}
+                      {%- assign plan_haystack = plan_haystack | append: ' ' | append: plan_option.value -%}
+                    {%- endfor -%}
+                    {%- assign plan_name = plan_haystack | downcase | replace: '-', ' ' | replace: '_', ' ' -%}
                     {%- assign is_match = false -%}
                     {%- if packs == 3 and plan_name contains '3 month' -%}
                       {%- assign is_match = true -%}
@@ -328,8 +345,13 @@
 
             {%- assign single_variant = product.selected_or_first_available_variant -%}
             {%- assign matched_allocation = blank -%}
+            {%- comment -%} Same normalisation as the multi-variant matcher above. {%- endcomment -%}
             {%- for alloc in single_variant.selling_plan_allocations -%}
-              {%- assign plan_name = alloc.selling_plan.name | downcase -%}
+              {%- assign plan_haystack = alloc.selling_plan.name -%}
+              {%- for plan_option in alloc.selling_plan.options -%}
+                {%- assign plan_haystack = plan_haystack | append: ' ' | append: plan_option.value -%}
+              {%- endfor -%}
+              {%- assign plan_name = plan_haystack | downcase | replace: '-', ' ' | replace: '_', ' ' -%}
               {%- if plan_name contains 'month' -%}
                 {%- unless plan_name contains '3 month' or plan_name contains '6 month' -%}
                   {%- if matched_allocation == blank -%}
