@@ -18,14 +18,9 @@
         "accent_color": "#0e1a3a",
         "card_background_color": "#ffffff"
       }
-    },
-    "17803939891426fbd4": {
-      "type": "_blocks",
-      "settings": {}
     }
   },
   "order": [
-    "main",
-    "17803939891426fbd4"
+    "main"
   ]
 }

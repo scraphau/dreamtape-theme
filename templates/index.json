@@ -208,47 +208,6 @@
         "button_text": "Try Dreamtape now",
         "button_link": "shopify://products/mouth-tape"
       }
-    },
-    "timeline": {
-      "type": "product-timeline",
-      "settings": {
-        "background_color": "#f3f6fb",
-        "text_color": "#0e1a3a",
-        "muted_text_color": "#5a6580",
-        "accent_color": "#0e1a3a",
-        "card_background_color": "#ffffff",
-        "eyebrow": "What to expect",
-        "heading": "The first month, night by night",
-        "item_1_label": "Night 1 — It feels odd, then it doesn't",
-        "item_1_body": "The strip is the only thing you'll think about for the first ten minutes. Most people forget it's there well before they fall asleep, and the first thing they notice is waking up without a dry mouth.",
-        "item_2_label": "Night 3 — Your partner notices first",
-        "item_2_body": "Snoring is usually the earliest change anyone comments on, and it's rarely the person wearing the tape who spots it. If someone shares a room with you, ask them at the end of the week.",
-        "item_3_label": "Week 1 — The habit starts setting",
-        "item_3_body": "Applying it stops being a decision and becomes part of brushing your teeth. This is also where people who quit tend to quit, so it's worth pushing through the first few awkward nights.",
-        "item_4_label": "Week 2 — Mornings get easier",
-        "item_4_body": "Less broken sleep tends to show up as the alarm feeling less brutal rather than as anything dramatic. Subtle, but it's the change most people say they would miss.",
-        "item_5_label": "Week 4 — Decision time",
-        "item_5_body": "You are near the end of the 30 nights, and you will know by now. If it hasn't done anything for you, one email gets your money back — that is the whole reason the trial runs this long.",
-        "item_6_label": "Beyond — Nasal breathing by default",
-        "item_6_body": "Plenty of people keep taping every night. Others drift toward nose breathing on their own and reach for it when travel, a cold, or a bad week knocks the habit loose."
-      }
-    },
-    "comparison": {
-      "type": "product-comparison",
-      "settings": {
-        "background_color": "#ffffff",
-        "text_color": "#0e1a3a",
-        "muted_text_color": "#5a6580",
-        "accent_color": "#0e1a3a",
-        "card_background_color": "#ffffff",
-        "eyebrow": "Not all tape is the same",
-        "heading": "Built for lips, not for parcels",
-        "col_us": "Dreamtape",
-        "col_them": "Generic tape",
-        "rows": "Adhesive formulated for facial skin\nBreathable weave — air still gets through\nPre-cut to shape, no scissors at bedtime\nHolds through the night without re-sticking\nPeels away without the morning sting\nBeard and moustache friendly\nSized for lips instead of guesswork",
-        "cta_text": "Shop Dreamtape",
-        "cta_url": "/products/mouth-tape"
-      }
     }
   },
   "order": [
@@ -258,8 +217,6 @@
     "products",
     "benefits",
     "how",
-    "timeline",
-    "comparison",
     "guarantee"
   ]
 }
