@@ -1,0 +1,69 @@
+<section class="account-page">
+  <div class="container">
+    <div class="page-header">
+      <h1>Your account</h1>
+      <p>{{ customer.email }}</p>
+    </div>
+
+    <div class="account-layout">
+      <div class="account-main">
+        {%- comment -%}
+          The subscription portal link. This snippet already existed in the
+          theme but was rendered nowhere, so subscribers had no way in.
+        {%- endcomment -%}
+        {% render 'customer-portal-link-v2' %}
+
+        <h2>Order history</h2>
+        {%- paginate customer.orders by 20 -%}
+          {%- if customer.orders.size > 0 -%}
+            <div class="order-table-wrap">
+              <table class="order-table">
+                <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th>Date</th>
+                    <th>Payment</th>
+                    <th>Fulfilment</th>
+                    <th>Total</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {%- for order in customer.orders -%}
+                    <tr>
+                      <td><a href="{{ order.customer_url }}">{{ order.name }}</a></td>
+                      <td>{{ order.created_at | date: '%d %b %Y' }}</td>
+                      <td>{{ order.financial_status_label }}</td>
+                      <td>{{ order.fulfillment_status_label }}</td>
+                      <td>{{ order.total_price | money }}</td>
+                    </tr>
+                  {%- endfor -%}
+                </tbody>
+              </table>
+            </div>
+          {%- else -%}
+            <p class="account-empty">You haven't placed an order yet.</p>
+          {%- endif -%}
+
+          {%- if paginate.pages > 1 -%}
+            <nav class="search-pagination" aria-label="Pagination">
+              {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr; {{ 'general.pagination.previous' | t }}</a>{%- endif -%}
+              <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+              {%- if paginate.next -%}<a href="{{ paginate.next.url }}">{{ 'general.pagination.next' | t }} &rarr;</a>{%- endif -%}
+            </nav>
+          {%- endif -%}
+        {%- endpaginate -%}
+      </div>
+
+      <aside class="account-side">
+        <h2>Default address</h2>
+        {%- if customer.default_address -%}
+          <address>{{ customer.default_address | format_address }}</address>
+        {%- else -%}
+          <p class="account-empty">No address saved yet.</p>
+        {%- endif -%}
+        <a href="{{ routes.account_addresses_url }}" class="btn-primary btn-dark">Manage addresses</a>
+        <a href="{{ routes.account_logout_url }}" class="account-link">Sign out</a>
+      </aside>
+    </div>
+  </div>
+</section>

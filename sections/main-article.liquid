@@ -1,0 +1,113 @@
+{%- comment -%}
+  Single article. Comments render only when the blog has them switched on in
+  admin, so this works either way.
+{%- endcomment -%}
+<article class="article-page" style="{% render 'section-color-vars', section: section %}">
+  <div class="container container--narrow">
+    <nav class="faq-breadcrumb" aria-label="Breadcrumb">
+      <a href="{{ routes.root_url }}">Home</a>
+      <span>/</span>
+      <a href="{{ blog.url }}">{{ blog.title }}</a>
+    </nav>
+
+    <header class="article-header">
+      <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+        {{ article.published_at | date: '%d %B %Y' }}
+      </time>
+      <h1>{{ article.title }}</h1>
+      {%- if section.settings.show_author and article.author != blank -%}
+        <p class="article-author">By {{ article.author }}</p>
+      {%- endif -%}
+    </header>
+
+    {%- if article.image -%}
+      <div class="article-hero">
+        <img
+          src="{{ article.image | image_url: width: 1400 }}"
+          alt="{{ article.image.alt | default: article.title | escape }}"
+          loading="eager"
+          width="1400"
+          height="875"
+        >
+      </div>
+    {%- endif -%}
+
+    <div class="article-content rte">
+      {{ article.content }}
+    </div>
+
+    {%- if article.tags.size > 0 -%}
+      <ul class="article-tags">
+        {%- for tag in article.tags -%}
+          <li><a href="{{ blog.url }}/tagged/{{ tag | handleize }}">{{ tag }}</a></li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+
+    <div class="article-foot">
+      <a href="{{ blog.url }}" class="btn-primary btn-dark">&larr; All articles</a>
+    </div>
+
+    {%- if blog.comments_enabled? -%}
+      <div class="article-comments">
+        <h2>Comments</h2>
+
+        {%- if article.comments_count > 0 -%}
+          {%- paginate article.comments by 20 -%}
+            <ul class="comment-list">
+              {%- for comment in article.comments -%}
+                <li class="comment">
+                  <p class="comment-meta">{{ comment.author }} &middot; {{ comment.created_at | date: '%d %B %Y' }}</p>
+                  <div class="comment-body rte">{{ comment.content }}</div>
+                </li>
+              {%- endfor -%}
+            </ul>
+            {%- if paginate.pages > 1 -%}
+              <nav class="search-pagination" aria-label="Comment pagination">
+                {%- if paginate.previous -%}<a href="{{ paginate.previous.url }}">&larr; {{ 'general.pagination.previous' | t }}</a>{%- endif -%}
+                <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+                {%- if paginate.next -%}<a href="{{ paginate.next.url }}">{{ 'general.pagination.next' | t }} &rarr;</a>{%- endif -%}
+              </nav>
+            {%- endif -%}
+          {%- endpaginate -%}
+        {%- endif -%}
+
+        {%- form 'new_comment', article -%}
+          {%- if form.errors -%}
+            <p class="form-error">Please check the fields below and try again.</p>
+          {%- endif -%}
+          {%- if form.posted_successfully? -%}
+            <p class="form-success">Thanks — your comment has been submitted.</p>
+          {%- endif -%}
+
+          <div class="comment-form-grid">
+            <label for="comment-author">Name</label>
+            <input type="text" id="comment-author" name="comment[author]" value="{{ form.author }}" required>
+
+            <label for="comment-email">Email</label>
+            <input type="email" id="comment-email" name="comment[email]" value="{{ form.email }}" required>
+
+            <label for="comment-body">Comment</label>
+            <textarea id="comment-body" name="comment[body]" rows="5" required>{{ form.body }}</textarea>
+          </div>
+          <button type="submit" class="btn-primary btn-dark">Post comment</button>
+        {%- endform -%}
+      </div>
+    {%- endif -%}
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Article",
+  "settings": [
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#0e1a3a" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#5a6580" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0e1a3a" },
+    { "type": "color", "id": "card_background_color", "label": "Card background color", "default": "#ffffff" },
+    { "type": "checkbox", "id": "show_author", "label": "Show author", "default": false }
+  ]
+}
+{% endschema %}

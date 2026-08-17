@@ -1,0 +1,84 @@
+{%- comment -%}
+  Blog listing. Every Shopify store ships with a "News" blog, so this URL is
+  reachable whether or not anyone has published to it - there was no template
+  for it before.
+{%- endcomment -%}
+<section class="blog-page" style="{% render 'section-color-vars', section: section %}">
+  <div class="container">
+    <div class="page-header">
+      <h1>{{ blog.title | default: 'Journal' }}</h1>
+      {%- if section.settings.intro != blank -%}
+        <p class="blog-intro">{{ section.settings.intro }}</p>
+      {%- endif -%}
+    </div>
+
+    {%- if current_tags -%}
+      <p class="blog-tag-note">
+        Tagged &ldquo;{{ current_tags | join: ', ' }}&rdquo; &middot;
+        <a href="{{ blog.url }}">show all</a>
+      </p>
+    {%- endif -%}
+
+    {%- paginate blog.articles by 12 -%}
+      {%- if blog.articles.size > 0 -%}
+        <div class="article-grid">
+          {%- for article in blog.articles -%}
+            <article class="article-card">
+              <a href="{{ article.url }}" class="article-card-link">
+                {%- if article.image -%}
+                  <div class="article-card-image">
+                    <img
+                      src="{{ article.image | image_url: width: 800 }}"
+                      alt="{{ article.image.alt | default: article.title | escape }}"
+                      loading="lazy"
+                      width="800"
+                      height="500"
+                    >
+                  </div>
+                {%- endif -%}
+                <div class="article-card-body">
+                  <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+                    {{ article.published_at | date: '%d %B %Y' }}
+                  </time>
+                  <h2>{{ article.title }}</h2>
+                  <p>{{ article.excerpt_or_content | strip_html | truncatewords: 26 }}</p>
+                  <span class="article-card-more">Read more &rarr;</span>
+                </div>
+              </a>
+            </article>
+          {%- endfor -%}
+        </div>
+      {%- else -%}
+        <p class="blog-empty">{{ section.settings.empty_text }}</p>
+      {%- endif -%}
+
+      {%- if paginate.pages > 1 -%}
+        <nav class="search-pagination" aria-label="Pagination">
+          {%- if paginate.previous -%}
+            <a href="{{ paginate.previous.url }}">&larr; {{ 'general.pagination.previous' | t }}</a>
+          {%- endif -%}
+          <span>Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
+          {%- if paginate.next -%}
+            <a href="{{ paginate.next.url }}">{{ 'general.pagination.next' | t }} &rarr;</a>
+          {%- endif -%}
+        </nav>
+      {%- endif -%}
+    {%- endpaginate -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Blog",
+  "settings": [
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#0e1a3a" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#5a6580" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0e1a3a" },
+    { "type": "color", "id": "card_background_color", "label": "Card background color", "default": "#ffffff" },
+    { "type": "textarea", "id": "intro", "label": "Intro", "default": "Notes on sleep, breathing, and the small habits that make a night worth having." },
+    { "type": "text", "id": "empty_text", "label": "Empty state text", "default": "Nothing published here yet - check back soon." }
+  ]
+}
+{% endschema %}

@@ -1,16 +1,14 @@
 {
   "sections": {
     "main": {
-      "type": "main-search",
+      "type": "main-article",
       "settings": {
         "background_color": "#ffffff",
         "text_color": "#0e1a3a",
         "muted_text_color": "#5a6580",
         "accent_color": "#0e1a3a",
         "card_background_color": "#ffffff",
-        "heading_results": "Search results",
-        "heading_empty": "Search",
-        "no_results_text": "Nothing matched that. Try a shorter phrase, or check the FAQ - most questions about how the tape works are answered there."
+        "show_author": false
       }
     }
   },

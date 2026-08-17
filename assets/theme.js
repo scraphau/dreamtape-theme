@@ -1,3 +1,35 @@
+// Scroll reveal.
+//
+// Deliberately first in the file. Everything it touches is hidden by CSS until
+// this runs, so anything that throws above it takes visible content down with
+// it. Nothing here depends on the rest of the file.
+(function scrollReveal() {
+  const revealed = () =>
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
+
+  // No observer, no scroll positions to track - just show everything.
+  if (!('IntersectionObserver' in window)) return revealed();
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.section-head, .product-card, .benefit, .how-step, .testimonial, .wakeup-inner, .guarantee-inner, .faq-item')
+    .forEach(el => el.classList.add('reveal'));
+
+  // Observed by class, not by that selector list. Several sections ship
+  // `reveal` in their own markup - the timeline items, the comparison table,
+  // the feature tiles, both halves of the problem section - on elements the
+  // list above never matched. They inherited the class's opacity: 0 and
+  // nothing ever added `in`, so they sat invisible in the DOM.
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+
 // Add to cart via AJAX so the customer stays on the current page instead of being sent to checkout
 document.querySelectorAll('#product-add-form').forEach(form => {
   form.addEventListener('submit', async (e) => {
@@ -422,26 +454,6 @@ document.querySelectorAll('a[href^="#"]').forEach(a => {
     }
   });
 });
-
-// Scroll reveal
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('in');
-      io.unobserve(e.target);
-    }
-  });
-}, {threshold: 0.12});
-document.querySelectorAll('.section-head, .product-card, .benefit, .how-step, .testimonial, .wakeup-inner, .guarantee-inner, .faq-item').forEach(el => {
-  el.classList.add('reveal');
-});
-
-// Observe by class, not by that selector list. Several sections ship `reveal`
-// in their own markup - the timeline items, the comparison table, the feature
-// tiles, both halves of the problem section - on elements the list above never
-// matched. They inherited the class's opacity: 0 and nothing ever added `in`,
-// so they sat invisible in the DOM.
-document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
 // Variant picker for product page
 document.querySelectorAll('[data-variant-picker]').forEach(picker => {

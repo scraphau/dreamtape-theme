@@ -1,0 +1,61 @@
+<section class="account-page">
+  <div class="container">
+    <div class="page-header">
+      <h1>Order {{ order.name }}</h1>
+      <p>Placed {{ order.created_at | date: '%d %B %Y' }}</p>
+    </div>
+
+    {%- if order.cancelled -%}
+      <p class="form-error">This order was cancelled on {{ order.cancelled_at | date: '%d %B %Y' }}.</p>
+    {%- endif -%}
+
+    <div class="order-table-wrap">
+      <table class="order-table">
+        <thead>
+          <tr><th>Item</th><th>Price</th><th>Qty</th><th>Total</th></tr>
+        </thead>
+        <tbody>
+          {%- for line in order.line_items -%}
+            <tr>
+              <td>
+                {{ line.title }}
+                {%- if line.selling_plan_allocation -%}
+                  <span class="order-line-plan">{{ line.selling_plan_allocation.selling_plan.name }}</span>
+                {%- endif -%}
+              </td>
+              <td>{{ line.price | money }}</td>
+              <td>{{ line.quantity }}</td>
+              <td>{{ line.line_price | money }}</td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+        <tfoot>
+          <tr><td colspan="3">Subtotal</td><td>{{ order.line_items_subtotal_price | money }}</td></tr>
+          {%- for discount in order.cart_level_discount_applications -%}
+            <tr><td colspan="3">{{ discount.title }}</td><td>&minus;{{ discount.total_allocated_amount | money }}</td></tr>
+          {%- endfor -%}
+          {%- for shipping in order.shipping_methods -%}
+            <tr><td colspan="3">Shipping ({{ shipping.title }})</td><td>{{ shipping.price | money }}</td></tr>
+          {%- endfor -%}
+          {%- for tax in order.tax_lines -%}
+            <tr><td colspan="3">Tax ({{ tax.title }} {{ tax.rate_percentage }}%)</td><td>{{ tax.price | money }}</td></tr>
+          {%- endfor -%}
+          <tr class="order-total-row"><td colspan="3">Total</td><td>{{ order.total_price | money }} {{ order.currency }}</td></tr>
+        </tfoot>
+      </table>
+    </div>
+
+    <div class="order-addresses">
+      <div>
+        <h2>Shipping address</h2>
+        <address>{{ order.shipping_address | format_address }}</address>
+      </div>
+      <div>
+        <h2>Billing address</h2>
+        <address>{{ order.billing_address | format_address }}</address>
+      </div>
+    </div>
+
+    <a href="{{ routes.account_url }}" class="btn-primary btn-dark">&larr; Back to account</a>
+  </div>
+</section>

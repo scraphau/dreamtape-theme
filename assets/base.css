@@ -1801,9 +1801,187 @@ span.cart-protection-icon {
 .cart-total { display: flex; justify-content: space-between; align-items: center; padding: 30px 0; font-family: var(--font-serif); font-size: 24px; }
 .cart-total .cart-total-value { font-weight: 500; }
 
-/* ---------- Reveal animation ---------- */
-.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
-.reveal.in { opacity: 1; transform: translateY(0); }
+/* ---------- 404, search, blog, account, password ----------
+   These pages share one set of primitives: a narrow container, a card, and a
+   plain form stack. Kept together rather than spread through the file. */
+.container--narrow { max-width: 640px; }
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 28px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: none;
+  color: var(--midnight);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.25s ease;
+}
+.btn-outline:hover { border-color: var(--midnight); }
+
+.form-error, .form-success {
+  margin: 0 0 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.form-error { background: #fdecec; color: #8c2b2b; }
+.form-success { background: #e9f6ee; color: #1f6b40; }
+/* Shopify's default_errors filter emits this list. */
+.errors { margin: 0 0 16px; padding: 12px 14px 12px 32px; border-radius: 10px; background: #fdecec; color: #8c2b2b; font-size: 14px; }
+
+/* 404 */
+.notfound { background: var(--section-bg, var(--paper)); color: var(--section-text, var(--midnight)); padding: 96px 0 120px; }
+.notfound-inner { max-width: 560px; margin: 0 auto; text-align: center; }
+.notfound-code { display: block; font-family: var(--font-serif); font-size: 84px; line-height: 1; color: var(--mist); margin-bottom: 12px; }
+.notfound-inner h1 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(32px, 5vw, 46px); line-height: 1.08; letter-spacing: -0.02em; }
+.notfound-body { margin-top: 16px; color: var(--section-muted, var(--muted)); font-size: 16px; line-height: 1.6; }
+.notfound-actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; align-items: center; margin-top: 28px; }
+.notfound-link { font-size: 14px; font-weight: 600; color: var(--section-accent, var(--midnight)); border-bottom: 1px solid currentColor; }
+
+/* Search */
+.search-page { background: var(--section-bg, var(--paper)); color: var(--section-text, var(--midnight)); padding: 72px 0 112px; }
+.search-header { max-width: 620px; margin: 0 auto 48px; text-align: center; }
+.search-header h1 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(34px, 5vw, 52px); letter-spacing: -0.03em; }
+.notfound-search, .search-form { display: flex; gap: 10px; margin-top: 22px; }
+.notfound-search input, .search-form input {
+  flex: 1; min-width: 0; padding: 14px 18px; border: 1px solid var(--line);
+  border-radius: 100px; font-family: inherit; font-size: 15px; color: var(--midnight); background: var(--paper);
+}
+.notfound-search input:focus, .search-form input:focus { outline: none; border-color: var(--midnight); }
+.notfound-search button, .search-form button {
+  padding: 14px 26px; border: none; border-radius: 100px; background: var(--midnight);
+  color: #fff; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer;
+}
+.search-count { margin-top: 16px; font-size: 14px; color: var(--section-muted, var(--muted)); }
+.search-empty { text-align: center; max-width: 520px; margin: 0 auto; }
+.search-empty p { margin-bottom: 22px; color: var(--section-muted, var(--muted)); line-height: 1.6; }
+.search-pages { margin-top: 56px; }
+.search-pages-title { font-family: var(--font-serif); font-weight: 400; font-size: 26px; margin-bottom: 18px; }
+.search-pages ul { list-style: none; }
+.search-pages li { padding: 18px 0; border-top: 1px solid var(--line); }
+.search-pages li a { font-size: 17px; font-weight: 600; color: var(--midnight); }
+.search-pages li p { margin-top: 6px; font-size: 14.5px; line-height: 1.55; color: var(--section-muted, var(--muted)); }
+.search-pagination { display: flex; gap: 20px; justify-content: center; align-items: center; margin-top: 48px; font-size: 14px; color: var(--section-muted, var(--muted)); }
+.search-pagination a { color: var(--midnight); font-weight: 600; }
+
+/* Blog */
+.blog-page, .article-page { background: var(--section-bg, var(--paper)); color: var(--section-text, var(--midnight)); padding: 72px 0 112px; }
+.blog-intro { margin-top: 14px; color: var(--section-muted, var(--muted)); font-size: 17px; line-height: 1.6; }
+.blog-tag-note { margin-bottom: 24px; font-size: 14px; color: var(--section-muted, var(--muted)); }
+.blog-empty, .account-empty { color: var(--section-muted, var(--muted)); font-size: 15px; }
+.article-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 36px; }
+.article-card-link { display: block; color: inherit; }
+.article-card-image { overflow: hidden; border-radius: 16px; aspect-ratio: 16 / 10; }
+.article-card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+.article-card-link:hover .article-card-image img { transform: scale(1.04); }
+.article-card-body time { display: block; margin: 16px 0 8px; font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--section-muted, var(--muted)); }
+.article-card-body h2 { font-family: var(--font-serif); font-weight: 400; font-size: 24px; line-height: 1.2; }
+.article-card-body p { margin-top: 10px; font-size: 15px; line-height: 1.6; color: var(--section-muted, var(--muted)); }
+.article-card-more { display: inline-block; margin-top: 12px; font-size: 14px; font-weight: 600; }
+
+/* Article */
+.article-header { margin: 34px 0 28px; text-align: center; }
+.article-header time { font-size: 12.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--section-muted, var(--muted)); }
+.article-header h1 { margin-top: 12px; font-family: var(--font-serif); font-weight: 400; font-size: clamp(34px, 5vw, 54px); line-height: 1.05; letter-spacing: -0.03em; }
+.article-author { margin-top: 12px; font-size: 14px; color: var(--section-muted, var(--muted)); }
+.article-hero { border-radius: 18px; overflow: hidden; margin-bottom: 36px; }
+.article-hero img { width: 100%; height: auto; display: block; }
+.article-content { font-size: 17px; line-height: 1.75; }
+.article-content h2 { font-family: var(--font-serif); font-weight: 400; font-size: 30px; margin: 36px 0 14px; }
+.article-content h3 { font-size: 20px; font-weight: 600; margin: 28px 0 10px; }
+.article-content p { margin-bottom: 18px; }
+.article-content ul, .article-content ol { margin: 0 0 18px 22px; }
+.article-content li { margin-bottom: 8px; }
+.article-content img { max-width: 100%; height: auto; border-radius: 12px; }
+.article-content a { color: var(--midnight); border-bottom: 1px solid currentColor; }
+.article-tags { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 30px 0; }
+.article-tags a { display: inline-block; padding: 6px 14px; border: 1px solid var(--line); border-radius: 100px; font-size: 13px; color: var(--section-muted, var(--muted)); }
+.article-foot { margin: 36px 0; }
+.article-comments { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--line); }
+.article-comments h2 { font-family: var(--font-serif); font-weight: 400; font-size: 28px; margin-bottom: 20px; }
+.comment-list { list-style: none; margin-bottom: 36px; }
+.comment { padding: 18px 0; border-bottom: 1px solid var(--line); }
+.comment-meta { font-size: 13px; color: var(--section-muted, var(--muted)); margin-bottom: 6px; }
+.comment-form-grid { display: flex; flex-direction: column; margin-bottom: 18px; }
+
+/* Account + password shared form stack */
+.account-page { background: var(--paper); color: var(--midnight); padding: 72px 0 112px; }
+.account-card { padding: 34px; border: 1px solid var(--line); border-radius: 18px; background: var(--paper); }
+.account-card h1 { font-family: var(--font-serif); font-weight: 400; font-size: 34px; margin-bottom: 8px; }
+.account-card h2 { font-family: var(--font-serif); font-weight: 400; font-size: 22px; margin-bottom: 14px; }
+.account-intro { margin-bottom: 22px; font-size: 15px; line-height: 1.6; color: var(--muted); }
+.account-card label, .comment-form-grid label, .password-page label {
+  display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; letter-spacing: 0.02em;
+}
+.account-card input, .comment-form-grid input, .comment-form-grid textarea {
+  width: 100%; padding: 13px 16px; margin-bottom: 18px; border: 1px solid var(--line);
+  border-radius: 12px; font-family: inherit; font-size: 15px; color: var(--midnight); background: var(--paper);
+}
+.account-card input:focus, .comment-form-grid input:focus, .comment-form-grid textarea:focus { outline: none; border-color: var(--midnight); }
+.account-alt { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 14px; color: var(--muted); }
+.account-alt a { color: var(--midnight); font-weight: 600; border-bottom: 1px solid currentColor; }
+.account-link { display: inline-block; margin-top: 10px; padding: 0; border: none; background: none; font-family: inherit; font-size: 14px; font-weight: 600; color: var(--midnight); text-decoration: underline; cursor: pointer; }
+.account-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 48px; align-items: start; }
+.account-main h2 { font-family: var(--font-serif); font-weight: 400; font-size: 26px; margin: 8px 0 18px; }
+.account-side { padding: 26px; border: 1px solid var(--line); border-radius: 18px; }
+.account-side h2 { font-family: var(--font-serif); font-weight: 400; font-size: 20px; margin-bottom: 12px; }
+.account-side address { font-style: normal; font-size: 14.5px; line-height: 1.6; color: var(--muted); margin-bottom: 18px; }
+.order-table-wrap { overflow-x: auto; }
+.order-table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.order-table th { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line); font-size: 12.5px; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); }
+.order-table td { padding: 14px; border-bottom: 1px solid var(--line); }
+.order-table tfoot td { border-bottom: none; color: var(--muted); }
+.order-total-row td { font-weight: 700; color: var(--midnight); font-size: 16px; }
+.order-line-plan { display: block; margin-top: 4px; font-size: 12.5px; color: var(--muted); }
+.order-addresses { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 32px; margin: 40px 0; }
+.order-addresses address { font-style: normal; line-height: 1.6; color: var(--muted); }
+.address-list { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin: 28px 0; }
+.address-item { padding: 20px; border: 1px solid var(--line); border-radius: 14px; }
+.address-item address { font-style: normal; line-height: 1.6; font-size: 14.5px; }
+.address-default { display: inline-block; margin-bottom: 10px; padding: 4px 10px; border-radius: 100px; background: var(--mist); font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+.giftcard-card { text-align: center; }
+.giftcard-amount { font-family: var(--font-serif); font-size: 56px; line-height: 1; margin: 10px 0 6px; }
+.giftcard-code { margin: 22px 0 8px; padding: 16px; border: 1px dashed var(--line); border-radius: 12px; font-size: 20px; letter-spacing: 0.12em; font-weight: 600; }
+
+/* Password page */
+.password-page { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: var(--cream-warm); color: var(--midnight); }
+.password-inner { width: 100%; max-width: 460px; text-align: center; }
+.password-logo { width: 190px; height: auto; margin-bottom: 34px; }
+.password-inner h1 { font-family: var(--font-serif); font-weight: 400; font-size: clamp(28px, 5vw, 38px); line-height: 1.1; letter-spacing: -0.02em; }
+.password-body { margin: 16px 0 26px; font-size: 15.5px; line-height: 1.6; color: var(--muted); }
+.password-signup-row { display: flex; gap: 10px; }
+.password-signup-row input { flex: 1; min-width: 0; padding: 14px 18px; border: 1px solid var(--line); border-radius: 100px; font-family: inherit; font-size: 15px; background: var(--paper); color: var(--midnight); }
+.password-signup-row input:focus { outline: none; border-color: var(--midnight); }
+.password-enter { margin-top: 34px; padding-top: 26px; border-top: 1px solid var(--line); text-align: left; }
+.password-footer { margin-top: 34px; font-size: 12.5px; color: var(--muted); }
+
+@media (max-width: 768px) {
+  .account-layout { grid-template-columns: 1fr; gap: 32px; }
+  .notfound { padding: 64px 0 88px; }
+  .search-page, .blog-page, .article-page, .account-page { padding: 48px 0 80px; }
+  .notfound-search, .search-form, .password-signup-row { flex-direction: column; }
+  .notfound-search button, .search-form button { width: 100%; }
+}
+
+/* ---------- Reveal animation ----------
+   Scoped to .js, which theme.liquid sets on <html> before paint. Unscoped,
+   this rule hides content on nothing more than a JavaScript failure: every
+   .reveal element starts invisible and only script makes it visible again, so
+   one error anywhere earlier in theme.js blanks whole sections of the page.
+   Failing visible costs an animation; failing hidden costs the content. */
+.js .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.js .reveal.in { opacity: 1; transform: translateY(0); }
+/* Nothing should animate in for someone who asked for no motion - and if the
+   observer never runs for them, they still need to see the content. */
+@media (prefers-reduced-motion: reduce) {
+  .js .reveal { opacity: 1; transform: none; transition: none; }
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 980px) {

@@ -1,0 +1,21 @@
+<section class="account-page">
+  <div class="container container--narrow">
+    <div class="account-card">
+      <h1>Activate your account</h1>
+      <p class="account-intro">Set a password to finish setting up your account.</p>
+
+      {%- form 'activate_customer_password' -%}
+        {{ form.errors | default_errors }}
+
+        <label for="activate-password">Password</label>
+        <input type="password" id="activate-password" name="customer[password]" autocomplete="new-password" required>
+
+        <label for="activate-password-confirm">Confirm password</label>
+        <input type="password" id="activate-password-confirm" name="customer[password_confirmation]" autocomplete="new-password" required>
+
+        <button type="submit" class="btn-primary btn-dark btn-full">Activate account</button>
+        <button type="submit" name="decline" class="account-link">Decline invitation</button>
+      {%- endform -%}
+    </div>
+  </div>
+</section>

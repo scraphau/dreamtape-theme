@@ -3,6 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {%- comment -%}
+      Marks that scripting is available, before anything paints. The reveal
+      animation hides its elements only under this class, so if this script
+      never runs the content stays visible instead of disappearing.
+    {%- endcomment -%}
+    <script>document.documentElement.classList.add('js');</script>
     <meta name="theme-color" content="{{ settings.color_midnight }}">
     <link rel="canonical" href="{{ canonical_url }}">
 
