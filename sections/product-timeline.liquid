@@ -5,22 +5,19 @@
       <h2 class="section-title">{{ section.settings.heading | replace: '[em]', '<em>' | replace: '[/em]', '</em>' }}</h2>
     </div>
 
+    {%- comment -%}
+      Each setting passed by name rather than built as a string and looked up
+      with section.settings[key]. Dynamic lookup on a settings drop is the one
+      unusual construct in this section, and this page needs to be dependable
+      more than it needs to be terse.
+    {%- endcomment -%}
     <div class="product-timeline-list">
-      {%- for i in (1..6) -%}
-        {%- assign label_key = 'item_' | append: i | append: '_label' -%}
-        {%- assign body_key = 'item_' | append: i | append: '_body' -%}
-        {%- assign label = section.settings[label_key] -%}
-        {%- assign body = section.settings[body_key] -%}
-        {%- if label != blank -%}
-          <details class="timeline-item reveal">
-            <summary>
-              <span class="timeline-marker">{{ i }}</span>
-              {{ label }}
-            </summary>
-            <div class="timeline-body">{{ body }}</div>
-          </details>
-        {%- endif -%}
-      {%- endfor -%}
+      {% render 'timeline-item', index: 1, label: section.settings.item_1_label, body: section.settings.item_1_body %}
+      {% render 'timeline-item', index: 2, label: section.settings.item_2_label, body: section.settings.item_2_body %}
+      {% render 'timeline-item', index: 3, label: section.settings.item_3_label, body: section.settings.item_3_body %}
+      {% render 'timeline-item', index: 4, label: section.settings.item_4_label, body: section.settings.item_4_body %}
+      {% render 'timeline-item', index: 5, label: section.settings.item_5_label, body: section.settings.item_5_body %}
+      {% render 'timeline-item', index: 6, label: section.settings.item_6_label, body: section.settings.item_6_body %}
     </div>
   </div>
 </section>

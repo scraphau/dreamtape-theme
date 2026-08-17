@@ -1,0 +1,15 @@
+{%- comment -%}
+  One row of the benefits timeline. Expects `index`, `label` and `body`.
+
+  Exists so the section can pass each setting by name instead of building
+  setting keys as strings and looking them up dynamically.
+{%- endcomment -%}
+{%- if label != blank -%}
+  <details class="timeline-item reveal">
+    <summary>
+      <span class="timeline-marker">{{ index }}</span>
+      {{ label }}
+    </summary>
+    <div class="timeline-body">{{ body }}</div>
+  </details>
+{%- endif -%}
