@@ -143,8 +143,10 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   justify-content: center;
   gap: 36px;
-  font-size: 14.5px;
-  font-weight: 500;
+  /* One step up from 14.5/500. The wordmark is 172px wide, which left the nav
+     reading thinner than everything around it. */
+  font-size: 15px;
+  font-weight: 600;
 }
 .nav-desktop a {
   color: var(--section-text, var(--midnight));
