@@ -252,6 +252,32 @@
         "button_text": "Try Dreamtape now",
         "button_link": "shopify://products/mouth-tape"
       }
+    },
+    "newsletter_popup": {
+      "type": "newsletter-popup",
+      "settings": {
+        "enabled": true,
+        "delay": 5,
+        "eyebrow": "Sleep Better. Live Better.",
+        "heading": "Unlock 10% Off Your First Order",
+        "body": "",
+        "placeholder": "Enter your email address",
+        "button_text": "GET MY 10% OFF",
+        "decline_text": "",
+        "tags": "newsletter,popup",
+        "fine_print": "One use per customer. Not valid with subscription discounts.",
+        "tab_icon": "🎁",
+        "tab_text": "10% off your first order",
+        "tab_dismiss_label": "Dismiss this offer",
+        "success_heading": "You are on the list.",
+        "success_body": "Here is your code, and it is on its way to your inbox too.",
+        "discount_code": "WELCOME10",
+        "success_button": "Start shopping",
+        "modal_background": "#1b2d5a",
+        "modal_text": "#ffffff",
+        "button_background": "#dbe5f6",
+        "button_text_color": "#0e1a3a"
+      }
     }
   },
   "order": [
@@ -262,6 +288,7 @@
     "benefits",
     "how",
     "testimonials_kKy4f9",
-    "guarantee"
+    "guarantee",
+    "newsletter_popup"
   ]
 }

@@ -99,8 +99,9 @@
         // without clearing site data. This is the way back in.
         var force = window.location.search.indexOf('popup=1') !== -1;
 
-        // Never in the theme editor - it would cover the thing being edited.
-        if (!force && window.Shopify && window.Shopify.designMode) return;
+        // In the theme editor, open it every time and record nothing. Bailing
+        // out here is why it looked like nothing was happening while editing.
+        var inEditor = !!(window.Shopify && window.Shopify.designMode);
 
         var SHOWN = 'dt_np_shown';      // popup has had its one automatic opening
         var DISMISSED = 'dt_np_done';   // tab dismissed, or signed up - over for good
@@ -174,7 +175,7 @@
 
         // Straight open, no delay, nothing recorded - so a preview does not
         // count as the visitor's one showing.
-        if (force) return openPopup(false);
+        if (force || inEditor) return openPopup(false);
 
         if (store(DISMISSED)) return;
 
@@ -226,6 +227,9 @@
     { "type": "textarea", "id": "success_body", "label": "Body", "default": "Here is your code, and it is on its way to your inbox too." },
     { "type": "text", "id": "discount_code", "label": "Discount code", "info": "Create this code in Discounts first. Leave blank to show no code.", "default": "SLEEP10" },
     { "type": "text", "id": "success_button", "label": "Button text", "default": "Start shopping" }
+  ],
+  "presets": [
+    { "name": "Newsletter popup" }
   ]
 }
 {% endschema %}
