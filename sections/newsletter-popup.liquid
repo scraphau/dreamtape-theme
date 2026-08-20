@@ -16,10 +16,10 @@
   <div
     class="np-overlay"
     data-newsletter-popup
-    data-delay="{{ section.settings.delay | default: 5 }}"
+    data-delay="{{ section.settings.delay | default: 8 }}"
     hidden
   >
-    <div class="np-modal" role="dialog" aria-modal="true" aria-labelledby="np-title" style="--np-bg: {{ section.settings.modal_background | default: '#1b2d5a' }}; --np-text: {{ section.settings.modal_text | default: '#ffffff' }}; --np-btn: {{ section.settings.button_background | default: '#dbe5f6' }}; --np-btn-text: {{ section.settings.button_text_color | default: '#0e1a3a' }};">
+    <div class="np-modal" role="dialog" aria-modal="true" aria-labelledby="np-title" style="{% render 'section-color-vars', section: section %}">
       <button type="button" class="np-close" data-np-close aria-label="Close">&times;</button>
 
       {%- if section.settings.eyebrow != blank -%}
@@ -33,7 +33,7 @@
           {%- if section.settings.discount_code != blank -%}
             <p class="np-code">{{ section.settings.discount_code }}</p>
           {%- endif -%}
-          <button type="button" class="np-submit" data-np-close>{{ section.settings.success_button }}</button>
+          <button type="button" class="btn-primary btn-dark btn-full" data-np-close>{{ section.settings.success_button }}</button>
         {%- else -%}
           <h2 id="np-title" class="np-title">{{ section.settings.heading }}</h2>
           {%- if section.settings.body != blank -%}
@@ -50,7 +50,7 @@
             autocomplete="email"
             required
           >
-          <button type="submit" class="np-submit">{{ section.settings.button_text }}</button>
+          <button type="submit" class="btn-primary btn-dark btn-full">{{ section.settings.button_text }}</button>
 
           {%- if form.errors -%}
             <p class="np-error">{{ form.errors.messages['email'] | default: 'That email address does not look right.' }}</p>
@@ -93,18 +93,12 @@
         var tab = document.querySelector('[data-np-tab]');
         if (!overlay) return;
 
-        // ?popup=1 forces it open and ignores every suppression rule. Once a
-        // visitor has seen or dismissed this, nothing brings it back on its
-        // own - by design - which makes it impossible to check your own work
-        // without clearing site data. This is the way back in.
-        var force = window.location.search.indexOf('popup=1') !== -1;
-
         // Never in the theme editor - it would cover the thing being edited.
-        if (!force && window.Shopify && window.Shopify.designMode) return;
+        if (window.Shopify && window.Shopify.designMode) return;
 
         var SHOWN = 'dt_np_shown';      // popup has had its one automatic opening
         var DISMISSED = 'dt_np_done';   // tab dismissed, or signed up - over for good
-        var delay = (parseInt(overlay.dataset.delay, 10) || 5) * 1000;
+        var delay = (parseInt(overlay.dataset.delay, 10) || 8) * 1000;
         var opener = null;
 
         function store(key) {
@@ -121,13 +115,13 @@
           if (tab) tab.hidden = true;
         }
 
-        function openPopup(persist) {
+        function openPopup() {
           if (!overlay.hidden) return;
           opener = document.activeElement;
           overlay.hidden = false;
           hideTab();
           document.documentElement.classList.add('np-open');
-          if (persist !== false) remember(SHOWN);
+          remember(SHOWN);
           var close = overlay.querySelector('[data-np-close]');
           if (close) close.focus();
         }
@@ -172,10 +166,6 @@
           return;
         }
 
-        // Straight open, no delay, nothing recorded - so a preview does not
-        // count as the visitor's one showing.
-        if (force) return openPopup(false);
-
         if (store(DISMISSED)) return;
 
         // Already had its opening on an earlier page - tab only, no interruption.
@@ -202,19 +192,20 @@
   "name": "Newsletter popup",
   "settings": [
     { "type": "checkbox", "id": "enabled", "label": "Show the popup", "default": true },
-    { "type": "range", "id": "delay", "min": 2, "max": 30, "step": 1, "unit": "s", "label": "Show after", "default": 5 },
+    { "type": "range", "id": "delay", "min": 2, "max": 30, "step": 1, "unit": "s", "label": "Show after", "default": 8 },
     { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "modal_background", "label": "Popup background", "default": "#1b2d5a" },
-    { "type": "color", "id": "modal_text", "label": "Popup text", "default": "#ffffff" },
-    { "type": "color", "id": "button_background", "label": "Button background", "default": "#dbe5f6" },
-    { "type": "color", "id": "button_text_color", "label": "Button text", "default": "#0e1a3a" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#ffffff" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#0e1a3a" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#5a6580" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0e1a3a" },
+    { "type": "color", "id": "card_background_color", "label": "Card background color", "default": "#ffffff" },
     { "type": "header", "content": "Content" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Sleep Better. Live Better." },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Unlock 10% Off Your First Order" },
-    { "type": "textarea", "id": "body", "label": "Body", "info": "Leave blank for the tighter layout.", "default": "" },
-    { "type": "text", "id": "placeholder", "label": "Field placeholder", "default": "Enter your email address" },
-    { "type": "text", "id": "button_text", "label": "Button text", "default": "GET MY 10% OFF" },
-    { "type": "text", "id": "decline_text", "label": "Decline link", "info": "Blank hides it - the X still closes the popup.", "default": "" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Before you go" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "10% off your first order." },
+    { "type": "textarea", "id": "body", "label": "Body", "default": "Join the list for 10% off, plus the occasional note on sleep worth reading. No spam, unsubscribe anytime." },
+    { "type": "text", "id": "placeholder", "label": "Field placeholder", "default": "your@email.com" },
+    { "type": "text", "id": "button_text", "label": "Button text", "default": "Send my code" },
+    { "type": "text", "id": "decline_text", "label": "Decline link", "default": "No thanks, I sleep fine" },
     { "type": "text", "id": "tags", "label": "Tag added to the contact", "info": "Lets you find these signups later in Customers.", "default": "newsletter,popup" },
     { "type": "text", "id": "fine_print", "label": "Fine print", "default": "One use per customer. Not valid with subscription discounts." },
     { "type": "header", "content": "Collapsed tab", "info": "Shown in the bottom left after the popup is closed. Dismissing it stops both for good." },
