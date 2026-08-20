@@ -16,7 +16,7 @@
   <div
     class="np-overlay"
     data-newsletter-popup
-    data-delay="{{ section.settings.delay | default: 8 }}"
+    data-delay="{{ section.settings.delay | default: 5 }}"
     hidden
   >
     <div class="np-modal" role="dialog" aria-modal="true" aria-labelledby="np-title" style="--np-bg: {{ section.settings.modal_background }}; --np-text: {{ section.settings.modal_text }}; --np-btn: {{ section.settings.button_background }}; --np-btn-text: {{ section.settings.button_text_color }};">
@@ -98,7 +98,7 @@
 
         var SHOWN = 'dt_np_shown';      // popup has had its one automatic opening
         var DISMISSED = 'dt_np_done';   // tab dismissed, or signed up - over for good
-        var delay = (parseInt(overlay.dataset.delay, 10) || 8) * 1000;
+        var delay = (parseInt(overlay.dataset.delay, 10) || 5) * 1000;
         var opener = null;
 
         function store(key) {
@@ -192,7 +192,7 @@
   "name": "Newsletter popup",
   "settings": [
     { "type": "checkbox", "id": "enabled", "label": "Show the popup", "default": true },
-    { "type": "range", "id": "delay", "min": 2, "max": 30, "step": 1, "unit": "s", "label": "Show after", "default": 8 },
+    { "type": "range", "id": "delay", "min": 2, "max": 30, "step": 1, "unit": "s", "label": "Show after", "default": 5 },
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "modal_background", "label": "Popup background", "default": "#1b2d5a" },
     { "type": "color", "id": "modal_text", "label": "Popup text", "default": "#ffffff" },
