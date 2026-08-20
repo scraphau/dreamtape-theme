@@ -93,8 +93,14 @@
         var tab = document.querySelector('[data-np-tab]');
         if (!overlay) return;
 
+        // ?popup=1 forces it open and ignores every suppression rule. Once a
+        // visitor has seen or dismissed this, nothing brings it back on its
+        // own - by design - which makes it impossible to check your own work
+        // without clearing site data. This is the way back in.
+        var force = window.location.search.indexOf('popup=1') !== -1;
+
         // Never in the theme editor - it would cover the thing being edited.
-        if (window.Shopify && window.Shopify.designMode) return;
+        if (!force && window.Shopify && window.Shopify.designMode) return;
 
         var SHOWN = 'dt_np_shown';      // popup has had its one automatic opening
         var DISMISSED = 'dt_np_done';   // tab dismissed, or signed up - over for good
@@ -115,13 +121,13 @@
           if (tab) tab.hidden = true;
         }
 
-        function openPopup() {
+        function openPopup(persist) {
           if (!overlay.hidden) return;
           opener = document.activeElement;
           overlay.hidden = false;
           hideTab();
           document.documentElement.classList.add('np-open');
-          remember(SHOWN);
+          if (persist !== false) remember(SHOWN);
           var close = overlay.querySelector('[data-np-close]');
           if (close) close.focus();
         }
@@ -165,6 +171,10 @@
           overlay.addEventListener('click', hideTab);
           return;
         }
+
+        // Straight open, no delay, nothing recorded - so a preview does not
+        // count as the visitor's one showing.
+        if (force) return openPopup(false);
 
         if (store(DISMISSED)) return;
 
