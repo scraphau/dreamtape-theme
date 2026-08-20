@@ -192,23 +192,6 @@
         "heading": "<p>Three steps to <em>your best sleep</em>.</p>"
       }
     },
-    "guarantee": {
-      "type": "guarantee",
-      "settings": {
-        "background_color": "#dbe5f6",
-        "text_color": "#0e1a3a",
-        "muted_text_color": "#5a6580",
-        "accent_color": "#0e1a3a",
-        "card_background_color": "#ffffff",
-        "days": "30",
-        "badge_label": "nights<br>risk-free",
-        "eyebrow": "Our promise",
-        "heading": "Sleep on it for 30 nights.",
-        "body": "<p>We're so sure Dreamtape will change your sleep, we offer a 30-night money-back guarantee. If you're not waking up better-rested, send us one email — we'll refund you in full. No questions, no fuss.</p>",
-        "button_text": "Try Dreamtape now",
-        "button_link": "shopify://products/mouth-tape"
-      }
-    },
     "testimonials_kKy4f9": {
       "type": "testimonials",
       "blocks": {
@@ -216,7 +199,7 @@
           "type": "testimonial",
           "settings": {
             "quote": "Dreamtape has been a lifesaver. I switched to a subscription because I never want to run out — my husband actually thanks me for it.",
-            "author": "Laura P.",
+            "author": "Bella T.",
             "author_meta": "Verified customer"
           }
         },
@@ -224,7 +207,7 @@
           "type": "testimonial",
           "settings": {
             "quote": "I've tried every snoring fix on the market. Nothing comes close to this. My wife is happier, and I'm getting the best sleep I've had in years.",
-            "author": "Mark S.",
+            "author": "Tom C.",
             "author_meta": "Verified customer"
           }
         },
@@ -232,7 +215,7 @@
           "type": "testimonial",
           "settings": {
             "quote": "I was sceptical, but I took the chance. No more dry mouth. No more grogginess. I genuinely wake up feeling like a different person.",
-            "author": "Sabrina C.",
+            "author": "Sally F.",
             "author_meta": "Verified customer"
           }
         }
@@ -252,6 +235,23 @@
         "eyebrow": "Real Dreamtape sleepers",
         "heading": "<p>You'll want to <em>stock up</em>.</p>"
       }
+    },
+    "guarantee": {
+      "type": "guarantee",
+      "settings": {
+        "background_color": "#dbe5f6",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "days": "30",
+        "badge_label": "nights<br>risk-free",
+        "eyebrow": "Our promise",
+        "heading": "Sleep on it for 30 nights.",
+        "body": "<p>We're so sure Dreamtape will change your sleep, we offer a 30-night money-back guarantee. If you're not waking up better-rested, send us one email — we'll refund you in full. No questions, no fuss.</p>",
+        "button_text": "Try Dreamtape now",
+        "button_link": "shopify://products/mouth-tape"
+      }
     }
   },
   "order": [
@@ -261,7 +261,7 @@
     "products",
     "benefits",
     "how",
-    "guarantee",
-    "testimonials_kKy4f9"
+    "testimonials_kKy4f9",
+    "guarantee"
   ]
 }
