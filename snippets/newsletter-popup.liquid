@@ -1,9 +1,11 @@
 {%- comment -%}
   Email capture popup, plus the small tab it collapses into.
 
-  Rendered statically from theme.liquid with a section tag, not added to a JSON
-  template. It therefore needs no preset and touches no template file, so the
-  home page cannot be affected by it.
+  A snippet, not a section. Shopify validates section files and refused this
+  one - the storefront reported "'newsletter-popup' is not a valid section
+  type" on every page while the file sat happily in the repo. Snippets carry no
+  schema, so there is nothing to reject. Its settings live in Theme settings
+  instead, under Newsletter popup.
 
   Behaviour: the popup opens once. Closing it - by any route - collapses it to a
   tab in the bottom left, which reopens it on click. Dismissing that tab ends it
@@ -12,58 +14,58 @@
   Uses Shopify's own customer form, so addresses land in Customers as marketing
   contacts with no app involved.
 {%- endcomment -%}
-{%- if section.settings.enabled -%}
+{%- if settings.np_enabled -%}
   <div
     class="np-overlay"
     data-newsletter-popup
-    data-delay="{{ section.settings.delay | default: 5 }}"
+    data-delay="{{ settings.np_delay | default: 8 }}"
     hidden
   >
-    <div class="np-modal" role="dialog" aria-modal="true" aria-labelledby="np-title" style="--np-bg: {{ section.settings.modal_background }}; --np-text: {{ section.settings.modal_text }}; --np-btn: {{ section.settings.button_background }}; --np-btn-text: {{ section.settings.button_text_color }};">
+    <div class="np-modal" role="dialog" aria-modal="true" aria-labelledby="np-title" style="--np-bg: {{ settings.np_modal_background }}; --np-text: {{ settings.np_modal_text }}; --np-btn: {{ settings.np_button_background }}; --np-btn-text: {{ settings.np_button_text_color }};">
       <button type="button" class="np-close" data-np-close aria-label="Close">&times;</button>
 
-      {%- if section.settings.eyebrow != blank -%}
-        <span class="np-eyebrow">{{ section.settings.eyebrow }}</span>
+      {%- if settings.np_eyebrow != blank -%}
+        <span class="np-eyebrow">{{ settings.np_eyebrow }}</span>
       {%- endif -%}
 
       {%- form 'customer', class: 'np-form' -%}
         {%- if form.posted_successfully? -%}
-          <h2 id="np-title" class="np-title">{{ section.settings.success_heading }}</h2>
-          <p class="np-text">{{ section.settings.success_body }}</p>
-          {%- if section.settings.discount_code != blank -%}
-            <p class="np-code">{{ section.settings.discount_code }}</p>
+          <h2 id="np-title" class="np-title">{{ settings.np_success_heading }}</h2>
+          <p class="np-text">{{ settings.np_success_body }}</p>
+          {%- if settings.np_discount_code != blank -%}
+            <p class="np-code">{{ settings.np_discount_code }}</p>
           {%- endif -%}
-          <button type="button" class="np-submit" data-np-close>{{ section.settings.success_button }}</button>
+          <button type="button" class="np-submit" data-np-close>{{ settings.np_success_button }}</button>
         {%- else -%}
-          <h2 id="np-title" class="np-title">{{ section.settings.heading }}</h2>
-          {%- if section.settings.body != blank -%}
-            <p class="np-text">{{ section.settings.body }}</p>
+          <h2 id="np-title" class="np-title">{{ settings.np_heading }}</h2>
+          {%- if settings.np_body != blank -%}
+            <p class="np-text">{{ settings.np_body }}</p>
           {%- endif -%}
 
-          <input type="hidden" name="contact[tags]" value="{{ section.settings.tags }}">
+          <input type="hidden" name="contact[tags]" value="{{ settings.np_tags }}">
           <label class="visually-hidden" for="np-email">Email</label>
           <input
             type="email"
             id="np-email"
             name="contact[email]"
-            placeholder="{{ section.settings.placeholder }}"
+            placeholder="{{ settings.np_placeholder }}"
             autocomplete="email"
             required
           >
-          <button type="submit" class="np-submit">{{ section.settings.button_text }}</button>
+          <button type="submit" class="np-submit">{{ settings.np_button_text }}</button>
 
           {%- if form.errors -%}
             <p class="np-error">{{ form.errors.messages['email'] | default: 'That email address does not look right.' }}</p>
           {%- endif -%}
 
-          {%- if section.settings.decline_text != blank -%}
-            <button type="button" class="np-decline" data-np-close>{{ section.settings.decline_text }}</button>
+          {%- if settings.np_decline_text != blank -%}
+            <button type="button" class="np-decline" data-np-close>{{ settings.np_decline_text }}</button>
           {%- endif -%}
         {%- endif -%}
       {%- endform -%}
 
-      {%- if section.settings.fine_print != blank -%}
-        <p class="np-fine">{{ section.settings.fine_print }}</p>
+      {%- if settings.np_fine_print != blank -%}
+        <p class="np-fine">{{ settings.np_fine_print }}</p>
       {%- endif -%}
     </div>
   </div>
@@ -75,12 +77,12 @@
   {%- endcomment -%}
   <div class="np-tab" data-np-tab hidden>
     <button type="button" class="np-tab-open" data-np-tab-open>
-      {%- if section.settings.tab_icon != blank -%}
-        <span class="np-tab-icon" aria-hidden="true">{{ section.settings.tab_icon }}</span>
+      {%- if settings.np_tab_icon != blank -%}
+        <span class="np-tab-icon" aria-hidden="true">{{ settings.np_tab_icon }}</span>
       {%- endif -%}
-      <span>{{ section.settings.tab_text }}</span>
+      <span>{{ settings.np_tab_text }}</span>
     </button>
-    <button type="button" class="np-tab-close" data-np-tab-dismiss aria-label="{{ section.settings.tab_dismiss_label }}">&times;</button>
+    <button type="button" class="np-tab-close" data-np-tab-dismiss aria-label="{{ settings.np_tab_dismiss_label }}">&times;</button>
   </div>
 
   <script>
@@ -104,7 +106,7 @@
 
         var SHOWN = 'dt_np_shown';      // popup has had its one automatic opening
         var DISMISSED = 'dt_np_done';   // tab dismissed, or signed up - over for good
-        var delay = (parseInt(overlay.dataset.delay, 10) || 5) * 1000;
+        var delay = (parseInt(overlay.dataset.delay, 10) || 8) * 1000;
         var opener = null;
 
         function store(key) {
@@ -197,35 +199,3 @@
   </script>
 {%- endif -%}
 
-{% schema %}
-{
-  "name": "Newsletter popup",
-  "settings": [
-    { "type": "checkbox", "id": "enabled", "label": "Show the popup", "default": true },
-    { "type": "range", "id": "delay", "min": 2, "max": 30, "step": 1, "unit": "s", "label": "Show after", "default": 5 },
-    { "type": "header", "content": "Colors" },
-    { "type": "color", "id": "modal_background", "label": "Popup background", "default": "#1b2d5a" },
-    { "type": "color", "id": "modal_text", "label": "Popup text", "default": "#ffffff" },
-    { "type": "color", "id": "button_background", "label": "Button background", "default": "#dbe5f6" },
-    { "type": "color", "id": "button_text_color", "label": "Button text", "default": "#0e1a3a" },
-    { "type": "header", "content": "Content" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Sleep Better. Live Better." },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Unlock 10% Off Your First Order" },
-    { "type": "textarea", "id": "body", "label": "Body", "info": "Leave blank for the tighter layout.", "default": "" },
-    { "type": "text", "id": "placeholder", "label": "Field placeholder", "default": "Enter your email address" },
-    { "type": "text", "id": "button_text", "label": "Button text", "default": "GET MY 10% OFF" },
-    { "type": "text", "id": "decline_text", "label": "Decline link", "info": "Blank hides it - the X still closes the popup.", "default": "" },
-    { "type": "text", "id": "tags", "label": "Tag added to the contact", "info": "Lets you find these signups later in Customers.", "default": "newsletter,popup" },
-    { "type": "text", "id": "fine_print", "label": "Fine print", "default": "One use per customer. Not valid with subscription discounts." },
-    { "type": "header", "content": "Collapsed tab", "info": "Shown in the bottom left after the popup is closed. Dismissing it stops both for good." },
-    { "type": "text", "id": "tab_icon", "label": "Tab icon", "default": "🎁" },
-    { "type": "text", "id": "tab_text", "label": "Tab text", "default": "10% off your first order" },
-    { "type": "text", "id": "tab_dismiss_label", "label": "Tab dismiss button label", "info": "Read out by screen readers.", "default": "Dismiss this offer" },
-    { "type": "header", "content": "After signup" },
-    { "type": "text", "id": "success_heading", "label": "Heading", "default": "You are on the list." },
-    { "type": "textarea", "id": "success_body", "label": "Body", "default": "Here is your code, and it is on its way to your inbox too." },
-    { "type": "text", "id": "discount_code", "label": "Discount code", "info": "Create this code in Discounts first. Leave blank to show no code.", "default": "SLEEP10" },
-    { "type": "text", "id": "success_button", "label": "Button text", "default": "Start shopping" }
-  ]
-}
-{% endschema %}

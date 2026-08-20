@@ -46,7 +46,24 @@
         "disabled": false,
         "settings": {}
       }
-    }
+    },
+    "np_enabled": true,
+    "np_delay": 8,
+    "np_eyebrow": "Sleep Better. Live Better.",
+    "np_heading": "Unlock 10% Off Your First Order",
+    "np_body": "",
+    "np_placeholder": "Enter your email address",
+    "np_button_text": "GET MY 10% OFF",
+    "np_decline_text": "",
+    "np_tags": "newsletter,popup",
+    "np_fine_print": "One use per customer. Not valid with subscription discounts.",
+    "np_tab_icon": "🎁",
+    "np_tab_text": "10% off your first order",
+    "np_tab_dismiss_label": "Dismiss this offer",
+    "np_success_heading": "You are on the list.",
+    "np_success_body": "Here is your code, and it is on its way to your inbox too.",
+    "np_discount_code": "WELCOME10",
+    "np_success_button": "Start shopping"
   },
   "presets": {
     "Default": {
