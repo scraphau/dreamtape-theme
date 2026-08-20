@@ -457,11 +457,17 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             <span>30-Night Guarantee</span>
           </div>
-          <div class="ptr-item">
+          {%- comment -%}
+            Subscription-only perks. Hidden in the markup and revealed by
+            renderTrustRow when a subscription is selected, so a script failure
+            leaves them off rather than promising free shipping on a one-time
+            order.
+          {%- endcomment -%}
+          <div class="ptr-item" data-trust-subscription hidden>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
             <span>Free Shipping</span>
           </div>
-          <div class="ptr-item">
+          <div class="ptr-item" data-trust-subscription hidden>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
             <span>Cancel Anytime</span>
           </div>
@@ -708,7 +714,17 @@
     });
   }
 
+  // Free shipping and cancel-anytime are subscription terms. On a one-time
+  // purchase the row is just the guarantee and the dispatch note.
+  function renderTrustRow() {
+    const subscribed = isSubscribed();
+    document.querySelectorAll('[data-trust-subscription]').forEach(el => {
+      el.hidden = !subscribed;
+    });
+  }
+
   function refreshAllPricing() {
+    renderTrustRow();
     document.querySelectorAll('.variant-card').forEach(applyCardPricing);
     const activeCard = document.querySelector('.variant-card.active');
     if (activeCard) {
