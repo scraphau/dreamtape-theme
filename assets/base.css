@@ -1915,6 +1915,57 @@ span.cart-protection-icon {
   .np-title { font-size: 25px; }
 }
 
+/* Collapsed tab, bottom left. Left, not right: the chat launcher lives bottom
+   right and the two would sit on top of each other. */
+.np-tab {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 1150;
+  display: flex;
+  align-items: stretch;
+  border-radius: 100px;
+  background: var(--midnight);
+  color: #fff;
+  box-shadow: 0 12px 34px -10px rgba(7, 16, 42, 0.5);
+  overflow: hidden;
+}
+.np-tab[hidden] { display: none; }
+.np-tab-open {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 8px 11px 18px;
+  border: none;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.np-tab-open:hover { opacity: 0.9; }
+.np-tab-icon { font-size: 15px; line-height: 1; }
+.np-tab-close {
+  padding: 0 15px 0 10px;
+  border: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+  background: none;
+  color: inherit;
+  font-size: 19px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.65;
+}
+.np-tab-close:hover { opacity: 1; }
+@media (max-width: 768px) {
+  .np-tab { left: 12px; bottom: 12px; }
+  .np-tab-open { padding: 10px 6px 10px 14px; font-size: 12.5px; }
+  .np-tab-close { padding: 0 12px 0 8px; }
+}
+
 /* ---------- Reveal animation ---------- */
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
 .reveal.in { opacity: 1; transform: translateY(0); }

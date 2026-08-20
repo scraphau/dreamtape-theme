@@ -1,9 +1,13 @@
 {%- comment -%}
-  Email capture popup.
+  Email capture popup, plus the small tab it collapses into.
 
   Rendered statically from theme.liquid with a section tag, not added to a JSON
   template. It therefore needs no preset and touches no template file, so the
   home page cannot be affected by it.
+
+  Behaviour: the popup opens once. Closing it - by any route - collapses it to a
+  tab in the bottom left, which reopens it on click. Dismissing that tab ends it
+  for good. Signing up ends it for good. Nothing reopens on its own.
 
   Uses Shopify's own customer form, so addresses land in Customers as marketing
   contacts with no app involved.
@@ -13,7 +17,6 @@
     class="np-overlay"
     data-newsletter-popup
     data-delay="{{ section.settings.delay | default: 8 }}"
-    data-days="{{ section.settings.remind_days | default: 30 }}"
     hidden
   >
     <div class="np-modal" role="dialog" aria-modal="true" aria-labelledby="np-title" style="{% render 'section-color-vars', section: section %}">
@@ -65,82 +68,120 @@
     </div>
   </div>
 
+  {%- comment -%}
+    What the popup collapses into. Two separate buttons rather than one nested
+    inside another: reopening and dismissing for good are different decisions
+    and each needs its own hit area.
+  {%- endcomment -%}
+  <div class="np-tab" data-np-tab hidden>
+    <button type="button" class="np-tab-open" data-np-tab-open>
+      {%- if section.settings.tab_icon != blank -%}
+        <span class="np-tab-icon" aria-hidden="true">{{ section.settings.tab_icon }}</span>
+      {%- endif -%}
+      <span>{{ section.settings.tab_text }}</span>
+    </button>
+    <button type="button" class="np-tab-close" data-np-tab-dismiss aria-label="{{ section.settings.tab_dismiss_label }}">&times;</button>
+  </div>
+
   <script>
-    // Self-contained and guarded: if anything here throws, the popup simply
-    // never opens. It is hidden in the markup, so a failure costs the popup,
+    // Self-contained and guarded: if anything here throws, neither the popup
+    // nor the tab ever opens. Both ship hidden, so a failure costs the offer,
     // never the page.
     (function () {
       try {
         var overlay = document.querySelector('[data-newsletter-popup]');
+        var tab = document.querySelector('[data-np-tab]');
         if (!overlay) return;
 
         // Never in the theme editor - it would cover the thing being edited.
         if (window.Shopify && window.Shopify.designMode) return;
 
-        var SEEN = 'dt_np_seen';
-        var DONE = 'dt_np_signed';
-        var days = parseInt(overlay.dataset.days, 10) || 30;
+        var SHOWN = 'dt_np_shown';      // popup has had its one automatic opening
+        var DISMISSED = 'dt_np_done';   // tab dismissed, or signed up - over for good
         var delay = (parseInt(overlay.dataset.delay, 10) || 8) * 1000;
         var opener = null;
 
         function store(key) {
           try { return window.localStorage.getItem(key); } catch (e) { return null; }
         }
-        function remember(key, value) {
-          try { window.localStorage.setItem(key, value); } catch (e) {}
+        function remember(key) {
+          try { window.localStorage.setItem(key, '1'); } catch (e) {}
         }
 
-        function suppressed() {
-          if (store(DONE)) return true;
-          var seen = parseInt(store(SEEN), 10);
-          if (!seen) return false;
-          return (Date.now() - seen) < days * 86400000;
+        function showTab() {
+          if (tab) tab.hidden = false;
+        }
+        function hideTab() {
+          if (tab) tab.hidden = true;
         }
 
-        function open() {
+        function openPopup() {
           if (!overlay.hidden) return;
           opener = document.activeElement;
           overlay.hidden = false;
+          hideTab();
           document.documentElement.classList.add('np-open');
+          remember(SHOWN);
           var close = overlay.querySelector('[data-np-close]');
           if (close) close.focus();
         }
 
-        function close() {
+        // Closing never ends it - it collapses to the tab, which is the only
+        // thing that reopens the popup from here on.
+        function closePopup() {
           overlay.hidden = true;
           document.documentElement.classList.remove('np-open');
-          remember(SEEN, String(Date.now()));
+          showTab();
           if (opener && opener.focus) opener.focus();
         }
 
+        function endForGood() {
+          overlay.hidden = true;
+          document.documentElement.classList.remove('np-open');
+          hideTab();
+          remember(DISMISSED);
+        }
+
         overlay.addEventListener('click', function (e) {
-          if (e.target === overlay || e.target.closest('[data-np-close]')) close();
+          if (e.target === overlay || e.target.closest('[data-np-close]')) closePopup();
         });
         document.addEventListener('keydown', function (e) {
-          if (e.key === 'Escape' && !overlay.hidden) close();
+          if (e.key === 'Escape' && !overlay.hidden) closePopup();
         });
+        if (tab) {
+          tab.addEventListener('click', function (e) {
+            if (e.target.closest('[data-np-tab-dismiss]')) return endForGood();
+            if (e.target.closest('[data-np-tab-open]')) openPopup();
+          });
+        }
 
-        // Signed up: Shopify reloads with this flag, so show the code and
-        // never ask again.
+        // Signed up: Shopify reloads with this flag. Show the code once, and
+        // that is the end of it.
         if (window.location.search.indexOf('customer_posted=true') !== -1) {
-          remember(DONE, '1');
-          open();
+          remember(DISMISSED);
+          overlay.hidden = false;
+          document.documentElement.classList.add('np-open');
+          hideTab();
+          overlay.addEventListener('click', hideTab);
           return;
         }
 
-        if (suppressed()) return;
+        if (store(DISMISSED)) return;
 
-        var timer = setTimeout(open, delay);
+        // Already had its opening on an earlier page - tab only, no interruption.
+        if (store(SHOWN)) return showTab();
+
+        var timer = setTimeout(openPopup, delay);
 
         // Leaving toward the tab bar - last chance, desktop only.
         document.addEventListener('mouseout', function (e) {
           if (!e.relatedTarget && e.clientY <= 0 && window.innerWidth > 768) {
             clearTimeout(timer);
-            open();
+            openPopup();
           }
         });
       } catch (e) {
-        /* popup stays closed */
+        /* popup and tab stay closed */
       }
     })();
   </script>
@@ -152,7 +193,6 @@
   "settings": [
     { "type": "checkbox", "id": "enabled", "label": "Show the popup", "default": true },
     { "type": "range", "id": "delay", "min": 2, "max": 30, "step": 1, "unit": "s", "label": "Show after", "default": 8 },
-    { "type": "range", "id": "remind_days", "min": 1, "max": 90, "step": 1, "unit": "d", "label": "Do not ask again for", "default": 30 },
     { "type": "header", "content": "Colors" },
     { "type": "color", "id": "background_color", "label": "Background color", "default": "#ffffff" },
     { "type": "color", "id": "text_color", "label": "Text color", "default": "#0e1a3a" },
@@ -168,6 +208,10 @@
     { "type": "text", "id": "decline_text", "label": "Decline link", "default": "No thanks, I sleep fine" },
     { "type": "text", "id": "tags", "label": "Tag added to the contact", "info": "Lets you find these signups later in Customers.", "default": "newsletter,popup" },
     { "type": "text", "id": "fine_print", "label": "Fine print", "default": "One use per customer. Not valid with subscription discounts." },
+    { "type": "header", "content": "Collapsed tab", "info": "Shown in the bottom left after the popup is closed. Dismissing it stops both for good." },
+    { "type": "text", "id": "tab_icon", "label": "Tab icon", "default": "🎁" },
+    { "type": "text", "id": "tab_text", "label": "Tab text", "default": "10% off your first order" },
+    { "type": "text", "id": "tab_dismiss_label", "label": "Tab dismiss button label", "info": "Read out by screen readers.", "default": "Dismiss this offer" },
     { "type": "header", "content": "After signup" },
     { "type": "text", "id": "success_heading", "label": "Heading", "default": "You are on the list." },
     { "type": "textarea", "id": "success_body", "label": "Body", "default": "Here is your code, and it is on its way to your inbox too." },
