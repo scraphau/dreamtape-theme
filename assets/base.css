@@ -1801,6 +1801,120 @@ span.cart-protection-icon {
 .cart-total { display: flex; justify-content: space-between; align-items: center; padding: 30px 0; font-family: var(--font-serif); font-size: 24px; }
 .cart-total .cart-total-value { font-weight: 500; }
 
+/* ---------- Newsletter popup (sections/newsletter-popup.liquid) ---------- */
+.np-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(7, 16, 42, 0.55);
+}
+.np-overlay[hidden] { display: none; }
+.np-open { overflow: hidden; }
+.np-modal {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  padding: 44px 40px 32px;
+  border-radius: 20px;
+  background: var(--section-bg, var(--paper));
+  color: var(--section-text, var(--midnight));
+  box-shadow: 0 30px 80px -20px rgba(7, 16, 42, 0.45);
+  text-align: center;
+}
+/* Overrides .close-btn's absolute offsets rather than inheriting them - the
+   same trap that dropped the cart drawer's X into the progress bar. */
+.np-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--section-muted, var(--muted));
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+}
+.np-close:hover { color: var(--section-text, var(--midnight)); }
+.np-eyebrow {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--section-muted, var(--muted));
+}
+.np-title {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-size: clamp(26px, 4vw, 34px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+.np-text {
+  margin: 14px 0 22px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--section-muted, var(--muted));
+}
+.np-form input[type='email'] {
+  width: 100%;
+  padding: 15px 18px;
+  margin-bottom: 12px;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 15px;
+  text-align: center;
+  color: var(--midnight);
+  background: var(--paper);
+}
+.np-form input[type='email']:focus { outline: none; border-color: var(--midnight); }
+.np-error {
+  margin-top: 10px;
+  font-size: 13px;
+  color: #8c2b2b;
+}
+.np-decline {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--section-muted, var(--muted));
+  text-decoration: underline;
+  cursor: pointer;
+}
+.np-code {
+  margin: 18px 0;
+  padding: 14px;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+.np-fine {
+  margin-top: 18px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--section-muted, var(--muted));
+}
+@media (max-width: 768px) {
+  .np-modal { padding: 38px 24px 26px; }
+  .np-title { font-size: 25px; }
+}
+
 /* ---------- Reveal animation ---------- */
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }
 .reveal.in { opacity: 1; transform: translateY(0); }
