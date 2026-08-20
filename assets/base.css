@@ -1050,17 +1050,6 @@ span.cart-protection-icon {
   border: 1px solid var(--line);
   position: relative;
 }
-.testimonial::before {
-  content: '"';
-  position: absolute;
-  top: 14px;
-  right: 28px;
-  font-family: var(--font-serif);
-  font-size: 100px;
-  color: var(--section-accent, var(--midnight));
-  opacity: 0.08;
-  line-height: 1;
-}
 .t-stars { color: var(--section-accent, var(--gold-deep)); font-size: 14px; letter-spacing: 2px; margin-bottom: 18px; }
 .testimonial p {
   font-family: var(--font-serif);
@@ -1072,7 +1061,21 @@ span.cart-protection-icon {
 }
 .t-author { display: flex; flex-direction: column; font-size: 13.5px; }
 .t-author strong { font-weight: 600; }
-.t-author span { color: var(--section-muted, var(--muted)); }
+/* #2f8f4e is the green already used by the RECOMMENDED badge on the product
+   page. Its pale partner (#e3f6e6) is a background tint and would be unreadable
+   as text on white, so the text green is the one that carries across. */
+.t-author span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #2f8f4e;
+  font-weight: 600;
+}
+.t-author span::before {
+  content: '✓';
+  font-size: 11.5px;
+  line-height: 1;
+}
 
 /* ---------- Guarantee ---------- */
 .guarantee { padding: 120px 0; background: var(--section-bg, var(--cream-warm)); color: var(--section-text, var(--midnight)); }
