@@ -19,7 +19,7 @@
     data-delay="{{ section.settings.delay | default: 5 }}"
     hidden
   >
-    <div class="np-modal" role="dialog" aria-modal="true" aria-labelledby="np-title" style="--np-bg: {{ section.settings.modal_background }}; --np-text: {{ section.settings.modal_text }}; --np-btn: {{ section.settings.button_background }}; --np-btn-text: {{ section.settings.button_text_color }};">
+    <div class="np-modal" role="dialog" aria-modal="true" aria-labelledby="np-title" style="--np-bg: {{ section.settings.modal_background | default: '#1b2d5a' }}; --np-text: {{ section.settings.modal_text | default: '#ffffff' }}; --np-btn: {{ section.settings.button_background | default: '#dbe5f6' }}; --np-btn-text: {{ section.settings.button_text_color | default: '#0e1a3a' }};">
       <button type="button" class="np-close" data-np-close aria-label="Close">&times;</button>
 
       {%- if section.settings.eyebrow != blank -%}
