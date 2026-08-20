@@ -25,18 +25,13 @@
         "type": "newsletter-popup",
         "settings": {
           "enabled": true,
-          "delay": 8,
-          "background_color": "#ffffff",
-          "text_color": "#0e1a3a",
-          "muted_text_color": "#5a6580",
-          "accent_color": "#0e1a3a",
-          "card_background_color": "#ffffff",
-          "eyebrow": "Before you go",
-          "heading": "10% off your first order.",
-          "body": "Join the list for 10% off, plus the occasional note on sleep worth reading. No spam, unsubscribe anytime.",
-          "placeholder": "your@email.com",
-          "button_text": "Send my code",
-          "decline_text": "No thanks, I sleep fine",
+          "delay": 5,
+          "eyebrow": "Sleep Better. Live Better.",
+          "heading": "Unlock 10% Off Your First Order",
+          "body": "",
+          "placeholder": "Enter your email address",
+          "button_text": "GET MY 10% OFF",
+          "decline_text": "",
           "tags": "newsletter,popup",
           "fine_print": "One use per customer. Not valid with subscription discounts.",
           "tab_icon": "🎁",
@@ -45,7 +40,11 @@
           "success_heading": "You are on the list.",
           "success_body": "Here is your code, and it is on its way to your inbox too.",
           "discount_code": "WELCOME10",
-          "success_button": "Start shopping"
+          "success_button": "Start shopping",
+          "modal_background": "#1b2d5a",
+          "modal_text": "#ffffff",
+          "button_background": "#dbe5f6",
+          "button_text_color": "#0e1a3a"
         }
       }
     },
