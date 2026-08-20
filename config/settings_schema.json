@@ -82,5 +82,162 @@
         "info": "32x32 PNG recommended"
       }
     ]
+  },
+  {
+    "name": "Newsletter popup",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "np_enabled",
+        "label": "Show the popup",
+        "default": true
+      },
+      {
+        "type": "range",
+        "id": "np_delay",
+        "min": 2,
+        "max": 30,
+        "step": 1,
+        "unit": "s",
+        "label": "Show after",
+        "default": 5
+      },
+      {
+        "type": "header",
+        "content": "Colors"
+      },
+      {
+        "type": "color",
+        "id": "np_modal_background",
+        "label": "Popup background",
+        "default": "#1b2d5a"
+      },
+      {
+        "type": "color",
+        "id": "np_modal_text",
+        "label": "Popup text",
+        "default": "#ffffff"
+      },
+      {
+        "type": "color",
+        "id": "np_button_background",
+        "label": "Button background",
+        "default": "#dbe5f6"
+      },
+      {
+        "type": "color",
+        "id": "np_button_text_color",
+        "label": "Button text",
+        "default": "#0e1a3a"
+      },
+      {
+        "type": "header",
+        "content": "Content"
+      },
+      {
+        "type": "text",
+        "id": "np_eyebrow",
+        "label": "Eyebrow",
+        "default": "Sleep Better. Live Better."
+      },
+      {
+        "type": "text",
+        "id": "np_heading",
+        "label": "Heading",
+        "default": "Unlock 10% Off Your First Order"
+      },
+      {
+        "type": "textarea",
+        "id": "np_body",
+        "label": "Body",
+        "info": "Leave blank for the tighter layout.",
+        "default": ""
+      },
+      {
+        "type": "text",
+        "id": "np_placeholder",
+        "label": "Field placeholder",
+        "default": "Enter your email address"
+      },
+      {
+        "type": "text",
+        "id": "np_button_text",
+        "label": "Button text",
+        "default": "GET MY 10% OFF"
+      },
+      {
+        "type": "text",
+        "id": "np_decline_text",
+        "label": "Decline link",
+        "info": "Blank hides it - the X still closes the popup.",
+        "default": ""
+      },
+      {
+        "type": "text",
+        "id": "np_tags",
+        "label": "Tag added to the contact",
+        "info": "Lets you find these signups later in Customers.",
+        "default": "newsletter,popup"
+      },
+      {
+        "type": "text",
+        "id": "np_fine_print",
+        "label": "Fine print",
+        "default": "One use per customer. Not valid with subscription discounts."
+      },
+      {
+        "type": "header",
+        "content": "Collapsed tab",
+        "info": "Shown in the bottom left after the popup is closed. Dismissing it stops both for good."
+      },
+      {
+        "type": "text",
+        "id": "np_tab_icon",
+        "label": "Tab icon",
+        "default": "🎁"
+      },
+      {
+        "type": "text",
+        "id": "np_tab_text",
+        "label": "Tab text",
+        "default": "10% off your first order"
+      },
+      {
+        "type": "text",
+        "id": "np_tab_dismiss_label",
+        "label": "Tab dismiss button label",
+        "info": "Read out by screen readers.",
+        "default": "Dismiss this offer"
+      },
+      {
+        "type": "header",
+        "content": "After signup"
+      },
+      {
+        "type": "text",
+        "id": "np_success_heading",
+        "label": "Heading",
+        "default": "You are on the list."
+      },
+      {
+        "type": "textarea",
+        "id": "np_success_body",
+        "label": "Body",
+        "default": "Here is your code, and it is on its way to your inbox too."
+      },
+      {
+        "type": "text",
+        "id": "np_discount_code",
+        "label": "Discount code",
+        "info": "Create this code in Discounts first. Leave blank to show no code.",
+        "default": "SLEEP10"
+      },
+      {
+        "type": "text",
+        "id": "np_success_button",
+        "label": "Button text",
+        "default": "Start shopping"
+      }
+    ]
   }
 ]

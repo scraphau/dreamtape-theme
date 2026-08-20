@@ -20,30 +20,6 @@
     "color_text": "#0a1432",
     "color_muted": "#5a6580",
     "favicon": "shopify://shop_images/dt__1_-removebg-preview.png",
-    "sections": {
-      "newsletter-popup": {
-        "type": "newsletter-popup",
-        "settings": {
-          "enabled": true,
-          "delay": 5,
-          "eyebrow": "Sleep Better. Live Better.",
-          "heading": "Unlock 10% Off Your First Order",
-          "body": "",
-          "placeholder": "Enter your email address",
-          "button_text": "GET MY 10% OFF",
-          "decline_text": "",
-          "tags": "newsletter,popup",
-          "fine_print": "One use per customer. Not valid with subscription discounts.",
-          "tab_icon": "🎁",
-          "tab_text": "10% off your first order",
-          "tab_dismiss_label": "Dismiss this offer",
-          "success_heading": "You are on the list.",
-          "success_body": "Here is your code, and it is on its way to your inbox too.",
-          "discount_code": "WELCOME10",
-          "success_button": "Start shopping"
-        }
-      }
-    },
     "content_for_index": [],
     "blocks": {
       "15683396631634586217": {
@@ -65,7 +41,24 @@
           "agent_border_radius": 16
         }
       }
-    }
+    },
+    "np_enabled": true,
+    "np_delay": 5,
+    "np_eyebrow": "Sleep Better. Live Better.",
+    "np_heading": "Unlock 10% Off Your First Order",
+    "np_body": "",
+    "np_placeholder": "Enter your email address",
+    "np_button_text": "GET MY 10% OFF",
+    "np_decline_text": "",
+    "np_tags": "newsletter,popup",
+    "np_fine_print": "One use per customer. Not valid with subscription discounts.",
+    "np_tab_icon": "🎁",
+    "np_tab_text": "10% off your first order",
+    "np_tab_dismiss_label": "Dismiss this offer",
+    "np_success_heading": "You are on the list.",
+    "np_success_body": "Here is your code, and it is on its way to your inbox too.",
+    "np_discount_code": "WELCOME10",
+    "np_success_button": "Start shopping"
   },
   "presets": {
     "Default": {
