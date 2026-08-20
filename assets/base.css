@@ -901,7 +901,22 @@ span.cart-protection-icon {
 }
 
 /* ---------- Products ---------- */
-.products { padding: 120px 0; background: var(--section-bg, var(--cream-warm)); color: var(--section-text, var(--midnight)); }
+/* This section carries one card. At the shared 120px padding, a 64px gap under
+   the heading and a heading up to 60px, it took a full screen to say very
+   little - so the whole block is tightened here rather than in the shared
+   rules, which other sections still need. */
+.products { padding: 72px 0; background: var(--section-bg, var(--cream-warm)); color: var(--section-text, var(--midnight)); }
+.products .section-head { margin-bottom: 34px; }
+.products .section-title { font-size: clamp(30px, 3.6vw, 42px); }
+.products .product-grid--centered:has(.product-card:only-child) { grid-template-columns: minmax(0, 340px); }
+/* The single centred card only: the collection grid keeps its taller crop. */
+.products .product-image { aspect-ratio: 1 / 0.7; padding: 20px 16px 6px; }
+.products .product-body { padding: 6px 24px 24px; }
+.products .product-body h3 { font-size: 21px; }
+@media (max-width: 768px) {
+  .products { padding: 48px 0; }
+  .products .section-head { margin-bottom: 26px; }
+}
 .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
 .product-grid--centered { justify-items: center; }
 .product-grid--centered:has(.product-card:only-child) { grid-template-columns: minmax(0, 380px); justify-content: center; }
