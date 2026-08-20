@@ -100,7 +100,7 @@
         "step": 1,
         "unit": "s",
         "label": "Show after",
-        "default": 5
+        "default": 8
       },
       {
         "type": "header",

@@ -18,7 +18,7 @@
   <div
     class="np-overlay"
     data-newsletter-popup
-    data-delay="{{ settings.np_delay | default: 5 }}"
+    data-delay="{{ settings.np_delay | default: 8 }}"
     hidden
   >
     <div class="np-modal" role="dialog" aria-modal="true" aria-labelledby="np-title" style="--np-bg: {{ settings.np_modal_background }}; --np-text: {{ settings.np_modal_text }}; --np-btn: {{ settings.np_button_background }}; --np-btn-text: {{ settings.np_button_text_color }};">
@@ -106,7 +106,7 @@
 
         var SHOWN = 'dt_np_shown';      // popup has had its one automatic opening
         var DISMISSED = 'dt_np_done';   // tab dismissed, or signed up - over for good
-        var delay = (parseInt(overlay.dataset.delay, 10) || 5) * 1000;
+        var delay = (parseInt(overlay.dataset.delay, 10) || 8) * 1000;
         var opener = null;
 
         function store(key) {
