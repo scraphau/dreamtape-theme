@@ -255,36 +255,6 @@
     },
     "17872183277c51afc9": {
       "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_e073816_dMhpF3": {
-          "type": "ai_gen_block_e073816",
-          "settings": {
-            "trigger_label": "Join our newsletter",
-            "heading": "Stay in the loop",
-            "description": "Get wellness tips, product news and exclusive offers delivered to your inbox.",
-            "email_placeholder": "Enter your email address",
-            "submit_label": "Sign me up",
-            "success_message": "Thanks for subscribing.",
-            "desktop_width_percent": 100,
-            "heading_size": 32,
-            "popup_radius": 12,
-            "button_radius": 6,
-            "input_radius": 6,
-            "popup_background": "#ffffff",
-            "popup_text_color": "#0a1432",
-            "popup_muted_color": "#5a6580",
-            "button_color": "#0e1a3a",
-            "button_hover_color": "#1b2d5a",
-            "button_text_color": "#ffffff",
-            "input_background": "#f3f6fb",
-            "input_border_color": "#aab3c5"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_e073816_dMhpF3"
-      ],
       "settings": {}
     }
   },
