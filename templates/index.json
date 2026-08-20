@@ -192,6 +192,50 @@
         "heading": "<p>Three steps to <em>your best sleep</em>.</p>"
       }
     },
+    "testimonials_kKy4f9": {
+      "type": "testimonials",
+      "blocks": {
+        "testimonial_mHaWXj": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "Dreamtape has been a lifesaver. I switched to a subscription because I never want to run out — my husband actually thanks me for it.",
+            "author": "Bella T.",
+            "author_meta": "Verified customer"
+          }
+        },
+        "testimonial_faVYXB": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I've tried every snoring fix on the market. Nothing comes close to this. My wife is happier, and I'm getting the best sleep I've had in years.",
+            "author": "Tom C.",
+            "author_meta": "Verified customer"
+          }
+        },
+        "testimonial_8nCRtm": {
+          "type": "testimonial",
+          "settings": {
+            "quote": "I was sceptical, but I took the chance. No more dry mouth. No more grogginess. I genuinely wake up feeling like a different person.",
+            "author": "Sally F.",
+            "author_meta": "Verified customer"
+          }
+        }
+      },
+      "block_order": [
+        "testimonial_mHaWXj",
+        "testimonial_faVYXB",
+        "testimonial_8nCRtm"
+      ],
+      "name": "Testimonials",
+      "settings": {
+        "background_color": "#f3f6fb",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Real Dreamtape sleepers",
+        "heading": "<p>You'll want to <em>stock up</em>.</p>"
+      }
+    },
     "guarantee": {
       "type": "guarantee",
       "settings": {
@@ -217,6 +261,7 @@
     "products",
     "benefits",
     "how",
+    "testimonials_kKy4f9",
     "guarantee"
   ]
 }

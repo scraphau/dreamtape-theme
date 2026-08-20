@@ -74,6 +74,9 @@
       {%- comment -%} null when the shop has no shipping-protection product, which turns the sync in theme.js off. {%- endcomment -%}
       window.themeShippingProtectionVariantId = {{ all_products['shipping-protection'].variants.first.id | json }};
     </script>
+    {%- comment -%} Static section: no preset needed, no JSON template touched. {%- endcomment -%}
+    {% section 'newsletter-popup' %}
+
     <script src="{{ 'theme.js' | asset_url }}" defer></script>
   </body>
 </html>

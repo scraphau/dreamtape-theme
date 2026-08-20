@@ -143,8 +143,10 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   justify-content: center;
   gap: 36px;
-  font-size: 14.5px;
-  font-weight: 500;
+  /* One step up from 14.5/500. The wordmark is 172px wide, which left the nav
+     reading thinner than everything around it. */
+  font-size: 15px;
+  font-weight: 600;
 }
 .nav-desktop a {
   color: var(--section-text, var(--midnight));
@@ -899,7 +901,22 @@ span.cart-protection-icon {
 }
 
 /* ---------- Products ---------- */
-.products { padding: 120px 0; background: var(--section-bg, var(--cream-warm)); color: var(--section-text, var(--midnight)); }
+/* This section carries one card. At the shared 120px padding, a 64px gap under
+   the heading and a heading up to 60px, it took a full screen to say very
+   little - so the whole block is tightened here rather than in the shared
+   rules, which other sections still need. */
+.products { padding: 72px 0; background: var(--section-bg, var(--cream-warm)); color: var(--section-text, var(--midnight)); }
+.products .section-head { margin-bottom: 34px; }
+.products .section-title { font-size: clamp(30px, 3.6vw, 42px); }
+.products .product-grid--centered:has(.product-card:only-child) { grid-template-columns: minmax(0, 340px); }
+/* The single centred card only: the collection grid keeps its taller crop. */
+.products .product-image { aspect-ratio: 1 / 0.7; padding: 20px 16px 6px; }
+.products .product-body { padding: 6px 24px 24px; }
+.products .product-body h3 { font-size: 21px; }
+@media (max-width: 768px) {
+  .products { padding: 48px 0; }
+  .products .section-head { margin-bottom: 26px; }
+}
 .product-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
 .product-grid--centered { justify-items: center; }
 .product-grid--centered:has(.product-card:only-child) { grid-template-columns: minmax(0, 380px); justify-content: center; }
@@ -1033,17 +1050,6 @@ span.cart-protection-icon {
   border: 1px solid var(--line);
   position: relative;
 }
-.testimonial::before {
-  content: '"';
-  position: absolute;
-  top: 14px;
-  right: 28px;
-  font-family: var(--font-serif);
-  font-size: 100px;
-  color: var(--section-accent, var(--midnight));
-  opacity: 0.08;
-  line-height: 1;
-}
 .t-stars { color: var(--section-accent, var(--gold-deep)); font-size: 14px; letter-spacing: 2px; margin-bottom: 18px; }
 .testimonial p {
   font-family: var(--font-serif);
@@ -1055,7 +1061,21 @@ span.cart-protection-icon {
 }
 .t-author { display: flex; flex-direction: column; font-size: 13.5px; }
 .t-author strong { font-weight: 600; }
-.t-author span { color: var(--section-muted, var(--muted)); }
+/* #2f8f4e is the green already used by the RECOMMENDED badge on the product
+   page. Its pale partner (#e3f6e6) is a background tint and would be unreadable
+   as text on white, so the text green is the one that carries across. */
+.t-author span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: #2f8f4e;
+  font-weight: 600;
+}
+.t-author span::before {
+  content: '✓';
+  font-size: 11.5px;
+  line-height: 1;
+}
 
 /* ---------- Guarantee ---------- */
 .guarantee { padding: 120px 0; background: var(--section-bg, var(--cream-warm)); color: var(--section-text, var(--midnight)); }
@@ -1742,6 +1762,9 @@ span.cart-protection-icon {
   font-size: 12.5px; font-weight: 500;
   color: var(--section-text, var(--midnight));
 }
+/* display:flex above beats the hidden attribute's UA display:none, so the
+   subscription-only items would stay visible without this. */
+.ptr-item[hidden] { display: none; }
 .ptr-item svg { color: var(--section-accent, var(--midnight)); flex-shrink: 0; opacity: 0.7; }
 
 .product-judgeme-reviews { margin-top: 72px; }
@@ -1800,6 +1823,203 @@ span.cart-protection-icon {
 .cart-qty button { width: 32px; height: 32px; border: 1px solid var(--line); background: var(--section-card-bg, var(--paper)); border-radius: 50%; cursor: pointer; }
 .cart-total { display: flex; justify-content: space-between; align-items: center; padding: 30px 0; font-family: var(--font-serif); font-size: 24px; }
 .cart-total .cart-total-value { font-weight: 500; }
+
+/* ---------- Newsletter popup (sections/newsletter-popup.liquid) ---------- */
+.np-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(7, 16, 42, 0.55);
+}
+.np-overlay[hidden] { display: none; }
+.np-open { overflow: hidden; }
+.np-modal {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  padding: 52px 34px 26px;
+  border-radius: 18px;
+  background: var(--np-bg, var(--midnight-2));
+  color: var(--np-text, #fff);
+  box-shadow: 0 30px 80px -20px rgba(7, 16, 42, 0.55);
+  text-align: center;
+}
+/* Ringed circle in the top corner. Offsets set explicitly rather than
+   inherited from .close-btn, which is positioned for the mobile menu. */
+.np-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--np-text, #fff);
+  border-radius: 50%;
+  background: none;
+  color: var(--np-text, #fff);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.9;
+}
+.np-close:hover { opacity: 1; }
+.np-eyebrow {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--np-text, #fff);
+  opacity: 0.92;
+}
+/* Sans, not the display serif: this layout leans on a heavy, tightly set
+   headline rather than the serif used across the rest of the site. */
+.np-title {
+  font-family: var(--font-sans);
+  font-weight: 700;
+  font-size: clamp(26px, 5.4vw, 32px);
+  line-height: 1.14;
+  letter-spacing: -0.015em;
+  color: var(--np-text, #fff);
+}
+.np-text {
+  margin: 14px 0 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--np-text, #fff);
+  opacity: 0.85;
+}
+.np-form input[type='email'] {
+  width: 100%;
+  padding: 17px 22px;
+  margin: 22px 0 14px;
+  border: none;
+  border-radius: 100px;
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--midnight);
+  background: #fff;
+}
+.np-form input[type='email']::placeholder { color: #8a93a8; }
+.np-form input[type='email']:focus {
+  outline: 2px solid var(--np-btn, var(--mist));
+  outline-offset: 2px;
+}
+.np-submit {
+  display: block;
+  width: 100%;
+  padding: 18px 24px;
+  border: none;
+  border-radius: 100px;
+  background: var(--np-btn, var(--mist));
+  color: var(--np-btn-text, var(--midnight));
+  font-family: inherit;
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: transform 0.15s ease, filter 0.2s ease;
+}
+.np-submit:hover { filter: brightness(0.96); }
+.np-submit:active { transform: translateY(1px); }
+.np-error {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #ffc9c9;
+}
+.np-decline {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--np-text, #fff);
+  opacity: 0.7;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.np-code {
+  margin: 20px 0;
+  padding: 14px;
+  border: 1px dashed var(--np-text, #fff);
+  border-radius: 12px;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--np-text, #fff);
+}
+.np-fine {
+  margin-top: 20px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--np-text, #fff);
+  opacity: 0.62;
+}
+@media (max-width: 768px) {
+  .np-modal { padding: 48px 22px 22px; }
+  .np-submit { padding: 16px 20px; font-size: 15px; }
+}
+
+/* Collapsed tab, bottom left. Left, not right: the chat launcher lives bottom
+   right and the two would sit on top of each other. */
+.np-tab {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 1150;
+  display: flex;
+  align-items: stretch;
+  border-radius: 100px;
+  background: var(--midnight);
+  color: #fff;
+  box-shadow: 0 12px 34px -10px rgba(7, 16, 42, 0.5);
+  overflow: hidden;
+}
+.np-tab[hidden] { display: none; }
+.np-tab-open {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 8px 11px 18px;
+  border: none;
+  background: none;
+  color: inherit;
+  font-family: inherit;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.np-tab-open:hover { opacity: 0.9; }
+.np-tab-icon { font-size: 15px; line-height: 1; }
+.np-tab-close {
+  padding: 0 15px 0 10px;
+  border: none;
+  border-left: 1px solid rgba(255, 255, 255, 0.18);
+  background: none;
+  color: inherit;
+  font-size: 19px;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.65;
+}
+.np-tab-close:hover { opacity: 1; }
+@media (max-width: 768px) {
+  .np-tab { left: 12px; bottom: 12px; }
+  .np-tab-open { padding: 10px 6px 10px 14px; font-size: 12.5px; }
+  .np-tab-close { padding: 0 12px 0 8px; }
+}
 
 /* ---------- Reveal animation ---------- */
 .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.8s ease, transform 0.8s ease; }

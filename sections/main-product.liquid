@@ -451,19 +451,16 @@
 
         {%- endform -%}
 
+        {%- comment -%}
+          Two columns. The always-on pair fills the first row - guarantee left,
+          dispatch right - and the subscription pair sits directly beneath them,
+          so the first row never moves when the purchase type changes.
+        {%- endcomment -%}
         <!-- Trust row -->
         <div class="product-trust-row">
           <div class="ptr-item">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             <span>30-Night Guarantee</span>
-          </div>
-          <div class="ptr-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-            <span>Free Shipping</span>
-          </div>
-          <div class="ptr-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
-            <span>Cancel Anytime</span>
           </div>
           <div class="ptr-item">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
@@ -473,6 +470,19 @@
               can't be filled in.
             {%- endcomment -%}
             <span>{% if section.settings.preorder_enabled %}{{ section.settings.preorder_ships_label }}{% else %}Ships in 1–2 Days{% endif %}</span>
+          </div>
+          {%- comment -%}
+            Second row, subscription only. Hidden in the markup and revealed by
+            renderTrustRow, so a script failure leaves them off rather than
+            promising free shipping on a one-time order.
+          {%- endcomment -%}
+          <div class="ptr-item" data-trust-subscription hidden>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+            <span>Free Shipping</span>
+          </div>
+          <div class="ptr-item" data-trust-subscription hidden>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Cancel Anytime</span>
           </div>
         </div>
 
@@ -708,7 +718,17 @@
     });
   }
 
+  // Free shipping and cancel-anytime are subscription terms. On a one-time
+  // purchase the row is just the guarantee and the dispatch note.
+  function renderTrustRow() {
+    const subscribed = isSubscribed();
+    document.querySelectorAll('[data-trust-subscription]').forEach(el => {
+      el.hidden = !subscribed;
+    });
+  }
+
   function refreshAllPricing() {
+    renderTrustRow();
     document.querySelectorAll('.variant-card').forEach(applyCardPricing);
     const activeCard = document.querySelector('.variant-card.active');
     if (activeCard) {
@@ -916,7 +936,7 @@
     { "type": "header", "content": "CTA & notes" },
     { "type": "text", "id": "cta_suffix", "label": "Button text suffix (after em dash)", "default": "Try Risk-Free" },
     { "type": "text", "id": "subscribe_note", "label": "Subscribe & save note", "default": "Save an extra 15% with Auto-Refills — pause or cancel anytime" },
-    { "type": "text", "id": "sub_note", "label": "Below button note", "default": "30-night money-back guarantee · Free shipping" },
+    { "type": "text", "id": "sub_note", "label": "Below button note", "default": "30-night money-back guarantee · Free AU shipping on subscriptions" },
     { "type": "header", "content": "Pre-order" },
     { "type": "checkbox", "id": "preorder_enabled", "label": "Sell this product as a pre-order", "info": "Adds a notice above the button, relabels the button, and replaces the \"Ships in 1–2 Days\" badge. The variant also needs \"Continue selling when out of stock\" ticked in the product's inventory settings, or the button stays disabled.", "default": false },
     { "type": "text", "id": "preorder_badge", "label": "Pre-order label", "default": "Pre-order" },
