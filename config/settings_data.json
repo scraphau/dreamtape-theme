@@ -40,7 +40,11 @@
           "success_heading": "You are on the list.",
           "success_body": "Here is your code, and it is on its way to your inbox too.",
           "discount_code": "WELCOME10",
-          "success_button": "Start shopping"
+          "success_button": "Start shopping",
+          "modal_background": "#1b2d5a",
+          "modal_text": "#ffffff",
+          "button_background": "#dbe5f6",
+          "button_text_color": "#0e1a3a"
         }
       }
     },
