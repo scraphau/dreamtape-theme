@@ -247,6 +247,23 @@
         "eyebrow": "Questions",
         "heading": "<p>Everything you might<br>be <em>wondering</em>.</p>"
       }
+    },
+    "comparison": {
+      "type": "product-comparison",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Not all strips are the same",
+        "heading": "A spring band, not a sticker",
+        "col_us": "Dreamtape",
+        "col_them": "Generic strips",
+        "rows": "Spring band that actually lifts the nasal wall\nAdhesive formulated for facial skin\nHolds through the night without curling\nComes away with warm water, not a tug\nSits flat enough to sleep on your side\nDrug-free, nothing absorbed\nSized for the bridge instead of one-size-fits-all",
+        "cta_text": "Shop Nose Strips",
+        "cta_url": "shopify://products/dreamtape-nose-strips"
+      }
     }
   },
   "order": [
@@ -254,6 +271,7 @@
     "trust",
     "benefits",
     "how",
+    "comparison",
     "guarantee",
     "faq"
   ]

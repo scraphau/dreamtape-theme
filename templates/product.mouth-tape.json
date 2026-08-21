@@ -219,6 +219,23 @@
         "eyebrow": "Questions",
         "heading": "<p>Everything you might<br>be <em>wondering</em>.</p>"
       }
+    },
+    "comparison": {
+      "type": "product-comparison",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Not all tape is the same",
+        "heading": "Built for lips, not for parcels",
+        "col_us": "Dreamtape",
+        "col_them": "Generic tape",
+        "rows": "Adhesive formulated for facial skin\nBreathable weave, air still gets through\nPre-cut to shape, no scissors at bedtime\nHolds through the night without re-sticking\nPeels away without the morning sting\nBeard and moustache friendly\nSized for lips instead of guesswork",
+        "cta_text": "Shop Dreamtape",
+        "cta_url": "shopify://products/mouth-tape"
+      }
     }
   },
   "order": [
@@ -226,6 +243,7 @@
     "trust",
     "benefits",
     "how",
+    "comparison",
     "guarantee",
     "faq"
   ]
