@@ -26,14 +26,9 @@
         "settings": {
           "enabled": true,
           "delay": 5,
-          "background_color": "#ffffff",
-          "text_color": "#0e1a3a",
-          "muted_text_color": "#5a6580",
-          "accent_color": "#0e1a3a",
-          "card_background_color": "#ffffff",
-          "eyebrow": "",
+          "eyebrow": "Sleep Better. Live Better.",
           "heading": "Get 10% off your first order.",
-          "body": "Sleep Better. Live Better.",
+          "body": "",
           "placeholder": "your@email.com",
           "button_text": "GET MY 10% OFF",
           "decline_text": "",
@@ -45,7 +40,11 @@
           "success_heading": "You are on the list.",
           "success_body": "Here is your code, and it is on its way to your inbox too.",
           "discount_code": "SLEEP10",
-          "success_button": "Start shopping"
+          "success_button": "Start shopping",
+          "modal_background": "#1b2d5a",
+          "modal_text": "#ffffff",
+          "button_background": "#dbe5f6",
+          "button_text_color": "#0e1a3a"
         }
       }
     },
