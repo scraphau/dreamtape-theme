@@ -298,8 +298,7 @@
             "yes_background": "#dcefe7",
             "yes_color": "#146b45",
             "no_background": "#eef1f5",
-            "no_color": "#5a6580",
-            "heading_size": 32
+            "no_color": "#5a6580"
           },
           "blocks": {}
         }
