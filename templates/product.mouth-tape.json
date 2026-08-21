@@ -130,6 +130,46 @@
         "lead": "When you switch from mouth to nose breathing, you unlock better oxygenation, deeper REM, a stronger jawline, and a sharper immune system — naturally and effortlessly."
       }
     },
+    "178728565605aaa050": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_b5d4b99_ynX6Hy": {
+          "type": "ai_gen_block_b5d4b99",
+          "settings": {
+            "eyebrow": "What to expect",
+            "title": "The first month, night by night",
+            "intro": "Most of the change is quiet. Here is roughly how it goes, and when the 30 nights are up you will know either way.",
+            "step_1_label": "Night 1",
+            "step_1_title": "Odd, then forgotten",
+            "step_1_text": "The strip is all you think about for ten minutes, then it disappears. The first thing most people notice is waking without a dry mouth.",
+            "step_2_label": "Nights 2–3",
+            "step_2_title": "Someone else notices",
+            "step_2_text": "Snoring is usually the first change anyone comments on, and rarely by the person wearing the tape. Worth asking whoever shares the room.",
+            "step_3_label": "Week 2",
+            "step_3_title": "It stops being a decision",
+            "step_3_text": "Applying it becomes part of brushing your teeth. Mornings tend to start easier — the alarm feels less brutal rather than anything dramatic.",
+            "step_4_label": "Week 4",
+            "step_4_title": "You will know by now",
+            "step_4_text": "You are near the end of the 30 nights. If it has not done anything for you, one email gets your money back — no questions, nothing to send back.",
+            "alignment": "center",
+            "desktop_width_percent": 100,
+            "vertical_padding": 60,
+            "heading_size": 38,
+            "background_color": "#FFFFFF",
+            "heading_color": "#0e1a3a",
+            "text_color": "#0a1432",
+            "muted_color": "#5a6580",
+            "accent_color": "#0e1a3a",
+            "line_color": "#b8c3d8"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_b5d4b99_ynX6Hy"
+      ],
+      "settings": {}
+    },
     "how": {
       "type": "how-it-works",
       "settings": {
@@ -222,55 +262,15 @@
         "eyebrow": "Questions",
         "heading": "<p>Everything you might<br>be <em>wondering</em>.</p>"
       }
-    },
-    "178728565605aaa050": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_b5d4b99_ynX6Hy": {
-          "type": "ai_gen_block_b5d4b99",
-          "settings": {
-            "eyebrow": "What to expect",
-            "title": "The first month, night by night",
-            "intro": "Most of the change is quiet. Here is roughly how it goes, and when the 30 nights are up you will know either way.",
-            "step_1_label": "Night 1",
-            "step_1_title": "Odd, then forgotten",
-            "step_1_text": "The strip is all you think about for ten minutes, then it disappears. The first thing most people notice is waking without a dry mouth.",
-            "step_2_label": "Nights 2–3",
-            "step_2_title": "Someone else notices",
-            "step_2_text": "Snoring is usually the first change anyone comments on, and rarely by the person wearing the tape. Worth asking whoever shares the room.",
-            "step_3_label": "Week 2",
-            "step_3_title": "It stops being a decision",
-            "step_3_text": "Applying it becomes part of brushing your teeth. Mornings tend to start easier — the alarm feels less brutal rather than anything dramatic.",
-            "step_4_label": "Week 4",
-            "step_4_title": "You will know by now",
-            "step_4_text": "You are near the end of the 30 nights. If it has not done anything for you, one email gets your money back — no questions, nothing to send back.",
-            "alignment": "center",
-            "desktop_width_percent": 100,
-            "vertical_padding": 60,
-            "heading_size": 38,
-            "background_color": "#f3f6fb",
-            "heading_color": "#0e1a3a",
-            "text_color": "#0a1432",
-            "muted_color": "#5a6580",
-            "accent_color": "#0e1a3a",
-            "line_color": "#b8c3d8"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_b5d4b99_ynX6Hy"
-      ],
-      "settings": {}
     }
   },
   "order": [
     "main",
     "trust",
     "benefits",
+    "178728565605aaa050",
     "how",
     "guarantee",
-    "faq",
-    "178728565605aaa050"
+    "faq"
   ]
 }
