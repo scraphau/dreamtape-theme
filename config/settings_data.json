@@ -25,7 +25,7 @@
         "type": "newsletter-popup",
         "settings": {
           "enabled": true,
-          "delay": 8,
+          "delay": 5,
           "background_color": "#ffffff",
           "text_color": "#0e1a3a",
           "muted_text_color": "#5a6580",
