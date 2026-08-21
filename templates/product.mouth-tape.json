@@ -262,6 +262,51 @@
         "eyebrow": "Questions",
         "heading": "<p>Everything you might<br>be <em>wondering</em>.</p>"
       }
+    },
+    "17872864460db9437c": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_7e33fc0_GTcXPP": {
+          "type": "ai_gen_block_7e33fc0",
+          "settings": {
+            "eyebrow": "Why DreamTape",
+            "heading": "A better night starts here",
+            "intro": "See how DreamTape is designed for a more comfortable, considered sleep routine.",
+            "benefit_heading": "Benefit",
+            "brand_heading": "DreamTape",
+            "other_heading": "Other mouth tapes",
+            "benefit_1": "Comfortable, skin-friendly adhesive",
+            "benefit_2": "Designed for easy application and removal",
+            "benefit_3": "Breathable centre opening",
+            "benefit_4": "Premium, minimalist design",
+            "benefit_5": "Made for nightly use",
+            "benefit_6": "Clear usage guidance included",
+            "note": "Always use as directed. Mouth taping may not be suitable for everyone.",
+            "desktop_width_percent": 100,
+            "section_padding": 60,
+            "border_radius": 14,
+            "text_alignment": "center",
+            "background_color": "#f3f6fb",
+            "card_color": "#ffffff",
+            "heading_color": "#0e1a3a",
+            "text_color": "#0a1432",
+            "muted_color": "#5a6580",
+            "accent_color": "#0e1a3a",
+            "border_color": "#d9e0ec",
+            "brand_column_color": "#0e1a3a",
+            "brand_text_color": "#ffffff",
+            "yes_background": "#dcefe7",
+            "yes_color": "#146b45",
+            "no_background": "#eef1f5",
+            "no_color": "#5a6580"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_7e33fc0_GTcXPP"
+      ],
+      "settings": {}
     }
   },
   "order": [
@@ -271,6 +316,7 @@
     "178728565605aaa050",
     "how",
     "guarantee",
-    "faq"
+    "faq",
+    "17872864460db9437c"
   ]
 }
