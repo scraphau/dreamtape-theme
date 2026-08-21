@@ -65,7 +65,10 @@
         "cta_suffix": "Try Risk-Free",
         "subscribe_note": "Save up to an extra 20% with Auto-Refills — pause or cancel anytime",
         "sub_note": "30-night money-back guarantee · Free AU shipping on subscriptions",
-        "preorder_enabled": true
+        "preorder_enabled": true,
+        "preorder_badge": "Pre-order",
+        "preorder_text": "Ordering now reserves yours from the first batch. You're charged today and we'll email you a dispatch date as soon as stock lands.",
+        "preorder_ships_label": "Ships when stock lands"
       }
     },
     "trust": {
@@ -247,6 +250,47 @@
         "eyebrow": "Questions",
         "heading": "<p>Everything you might<br>be <em>wondering</em>.</p>"
       }
+    },
+    "blocks_LewMyi": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_b5d4b99_EfUkmx": {
+          "type": "ai_gen_block_b5d4b99",
+          "settings": {
+            "eyebrow": "Your journey with mouth tape",
+            "title": "A habit that settles in over time",
+            "intro": "Start gently and give your routine time to feel natural. Everyone’s experience is different.",
+            "step_1_label": "Night 1",
+            "step_1_title": "Start gently",
+            "step_1_text": "Get familiar with the feel and focus on a calm bedtime routine.",
+            "step_2_label": "Nights 2–3",
+            "step_2_title": "Find your rhythm",
+            "step_2_text": "Your routine begins to feel more familiar as you settle into it.",
+            "step_3_label": "Week 2",
+            "step_3_title": "Build consistency",
+            "step_3_text": "Keep your evening routine consistent and notice how it feels for you.",
+            "step_4_label": "Week 4",
+            "step_4_title": "Feel settled",
+            "step_4_text": "By now, the habit can feel like a natural part of winding down.",
+            "alignment": "center",
+            "desktop_width_percent": 100,
+            "vertical_padding": 60,
+            "heading_size": 38,
+            "background_color": "#FFFFFF",
+            "heading_color": "#0e1a3a",
+            "text_color": "#0a1432",
+            "muted_color": "#5a6580",
+            "accent_color": "#0e1a3a",
+            "line_color": "#b8c3d8"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_b5d4b99_EfUkmx"
+      ],
+      "name": "Habit settling timeline",
+      "settings": {}
     }
   },
   "order": [
@@ -255,6 +299,7 @@
     "benefits",
     "how",
     "guarantee",
-    "faq"
+    "faq",
+    "blocks_LewMyi"
   ]
 }
