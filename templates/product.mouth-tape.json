@@ -283,7 +283,7 @@
             "benefit_6": "Beard and moustache friendly",
             "note": "Made for healthy adults who can breathe comfortably through the nose. If you have sleep apnea, blocked nasal passages or any ongoing breathing concern, speak with a healthcare professional first.",
             "desktop_width_percent": 100,
-            "section_padding": 60,
+            "section_padding": 44,
             "border_radius": 14,
             "text_alignment": "center",
             "background_color": "#f3f6fb",
@@ -298,7 +298,8 @@
             "yes_background": "#dcefe7",
             "yes_color": "#146b45",
             "no_background": "#eef1f5",
-            "no_color": "#5a6580"
+            "no_color": "#5a6580",
+            "heading_size": 32
           },
           "blocks": {}
         }
