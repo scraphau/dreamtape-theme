@@ -5,22 +5,67 @@
       <h2 class="section-title">{{ section.settings.heading | replace: '[em]', '<em>' | replace: '[/em]', '</em>' }}</h2>
     </div>
 
+    {%- comment -%}
+      Each item written out rather than looped with keys built as strings
+      and read back through section.settings[key]. That lookup is the only
+      unusual construct in this theme, and this is the only section Shopify
+      refuses to list in Add section - verbose beats clever here.
+    {%- endcomment -%}
     <div class="product-timeline-list">
-      {%- for i in (1..6) -%}
-        {%- assign label_key = 'item_' | append: i | append: '_label' -%}
-        {%- assign body_key = 'item_' | append: i | append: '_body' -%}
-        {%- assign label = section.settings[label_key] -%}
-        {%- assign body = section.settings[body_key] -%}
-        {%- if label != blank -%}
-          <details class="timeline-item reveal">
-            <summary>
-              <span class="timeline-marker">{{ i }}</span>
-              {{ label }}
-            </summary>
-            <div class="timeline-body">{{ body }}</div>
-          </details>
-        {%- endif -%}
-      {%- endfor -%}
+      {%- if section.settings.item_1_label != blank -%}
+        <details class="timeline-item reveal">
+          <summary>
+            <span class="timeline-marker">1</span>
+            {{ section.settings.item_1_label }}
+          </summary>
+          <div class="timeline-body">{{ section.settings.item_1_body }}</div>
+        </details>
+      {%- endif -%}
+      {%- if section.settings.item_2_label != blank -%}
+        <details class="timeline-item reveal">
+          <summary>
+            <span class="timeline-marker">2</span>
+            {{ section.settings.item_2_label }}
+          </summary>
+          <div class="timeline-body">{{ section.settings.item_2_body }}</div>
+        </details>
+      {%- endif -%}
+      {%- if section.settings.item_3_label != blank -%}
+        <details class="timeline-item reveal">
+          <summary>
+            <span class="timeline-marker">3</span>
+            {{ section.settings.item_3_label }}
+          </summary>
+          <div class="timeline-body">{{ section.settings.item_3_body }}</div>
+        </details>
+      {%- endif -%}
+      {%- if section.settings.item_4_label != blank -%}
+        <details class="timeline-item reveal">
+          <summary>
+            <span class="timeline-marker">4</span>
+            {{ section.settings.item_4_label }}
+          </summary>
+          <div class="timeline-body">{{ section.settings.item_4_body }}</div>
+        </details>
+      {%- endif -%}
+      {%- if section.settings.item_5_label != blank -%}
+        <details class="timeline-item reveal">
+          <summary>
+            <span class="timeline-marker">5</span>
+            {{ section.settings.item_5_label }}
+          </summary>
+          <div class="timeline-body">{{ section.settings.item_5_body }}</div>
+        </details>
+      {%- endif -%}
+      {%- if section.settings.item_6_label != blank -%}
+        <details class="timeline-item reveal">
+          <summary>
+            <span class="timeline-marker">6</span>
+            {{ section.settings.item_6_label }}
+          </summary>
+          <div class="timeline-body">{{ section.settings.item_6_body }}</div>
+        </details>
+      {%- endif -%}
     </div>
   </div>
 </section>
