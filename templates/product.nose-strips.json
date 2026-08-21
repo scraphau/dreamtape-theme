@@ -247,6 +247,47 @@
         "eyebrow": "Questions",
         "heading": "<p>Everything you might<br>be <em>wondering</em>.</p>"
       }
+    },
+    "timeline": {
+      "type": "product-timeline",
+      "settings": {
+        "background_color": "#f3f6fb",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "What to expect",
+        "heading": "The first month, night by night",
+        "item_1_label": "Night 1 — You feel it open up",
+        "item_1_body": "The lift is immediate, so the first night is usually the most obvious one. Most people notice they are breathing through their nose without having to think about it, and wake up without the dry mouth that comes from drifting open.",
+        "item_2_label": "Night 3 — Placement clicks",
+        "item_2_body": "It takes a couple of nights to find the spot on the bridge that feels best and holds until morning. Slightly higher than feels natural is usually the answer.",
+        "item_3_label": "Week 1 — Quieter nights",
+        "item_3_body": "Less resistance through the nose tends to mean less snoring, and it is rarely the wearer who notices. If you share a room, ask at the end of the week.",
+        "item_4_label": "Week 2 — Congested nights stop derailing you",
+        "item_4_body": "The strip does the same job whether or not you are stuffy, which is when people tend to appreciate it most — a cold no longer means a week of broken sleep.",
+        "item_5_label": "Week 4 — Decision time",
+        "item_5_body": "You are near the end of the 30 nights, and you will know by now. If it hasn't done anything for you, one email gets your money back.",
+        "item_6_label": "Beyond — Better with tape",
+        "item_6_body": "Nose strips open the airway; mouth tape keeps you using it. Most people who end up with both say the combination is noticeably easier than either alone."
+      }
+    },
+    "comparison": {
+      "type": "product-comparison",
+      "settings": {
+        "background_color": "#ffffff",
+        "text_color": "#0e1a3a",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "eyebrow": "Not all strips are the same",
+        "heading": "A spring band, not a sticker",
+        "col_us": "Dreamtape",
+        "col_them": "Generic strips",
+        "rows": "Spring band that actually lifts the nasal wall\nAdhesive formulated for facial skin\nHolds through the night without curling\nComes away with warm water, not a tug\nSits flat enough to sleep on your side\nDrug-free, nothing absorbed\nSized for the bridge instead of one-size-fits-all",
+        "cta_text": "Shop Nose Strips",
+        "cta_url": "shopify://products/dreamtape-nose-strips"
+      }
     }
   },
   "order": [
@@ -254,6 +295,8 @@
     "trust",
     "benefits",
     "how",
+    "timeline",
+    "comparison",
     "guarantee",
     "faq"
   ]
