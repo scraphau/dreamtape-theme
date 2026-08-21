@@ -65,7 +65,10 @@
         "cta_suffix": "Try Risk-Free",
         "subscribe_note": "Save up to an extra 20% with Auto-Refills — pause or cancel anytime",
         "sub_note": "30-night money-back guarantee · Free AU shipping on subscriptions",
-        "preorder_enabled": true
+        "preorder_enabled": true,
+        "preorder_badge": "Pre-order",
+        "preorder_text": "Ordering now reserves yours from the first batch. You're charged today and we'll email you a dispatch date as soon as stock lands.",
+        "preorder_ships_label": "Ships when stock lands"
       }
     },
     "trust": {
@@ -126,6 +129,47 @@
         "heading": "<p>A cascade of benefits<br/>from <em>one small strip</em>.</p>",
         "lead": "Open up the nasal passage and everything downstream gets easier — quieter nights, better oxygenation, deeper REM, and mornings that don't start foggy."
       }
+    },
+    "blocks_LewMyi": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_b5d4b99_EfUkmx": {
+          "type": "ai_gen_block_b5d4b99",
+          "settings": {
+            "eyebrow": "Your journey with mouth tape",
+            "title": "A habit that settles in over time",
+            "intro": "Start gently and give your routine time to feel natural. Everyone’s experience is different.",
+            "step_1_label": "Night 1",
+            "step_1_title": "Start gently",
+            "step_1_text": "Get familiar with the feel and focus on a calm bedtime routine.",
+            "step_2_label": "Nights 2–3",
+            "step_2_title": "Find your rhythm",
+            "step_2_text": "Your routine begins to feel more familiar as you settle into it.",
+            "step_3_label": "Week 2",
+            "step_3_title": "Build consistency",
+            "step_3_text": "Keep your evening routine consistent and notice how it feels for you.",
+            "step_4_label": "Week 4",
+            "step_4_title": "Feel settled",
+            "step_4_text": "By now, the habit can feel like a natural part of winding down.",
+            "alignment": "center",
+            "desktop_width_percent": 100,
+            "vertical_padding": 60,
+            "heading_size": 38,
+            "background_color": "#ffffff",
+            "heading_color": "#0e1a3a",
+            "text_color": "#0a1432",
+            "muted_color": "#5a6580",
+            "accent_color": "#0e1a3a",
+            "line_color": "#b8c3d8"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_b5d4b99_EfUkmx"
+      ],
+      "name": "Habit settling timeline",
+      "settings": {}
     },
     "how": {
       "type": "how-it-works",
@@ -247,12 +291,60 @@
         "eyebrow": "Questions",
         "heading": "<p>Everything you might<br>be <em>wondering</em>.</p>"
       }
+    },
+    "blocks_BBiK9p": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_7e33fc0_nCkGPN": {
+          "type": "ai_gen_block_7e33fc0",
+          "settings": {
+            "eyebrow": "Why DreamTape",
+            "heading": "A better night starts here",
+            "intro": "See how DreamTape is designed for a more comfortable, considered sleep routine.",
+            "benefit_heading": "Benefit",
+            "brand_heading": "DreamTape",
+            "other_heading": "Other mouth tapes",
+            "benefit_1": "Comfortable, skin-friendly adhesive",
+            "benefit_2": "Designed for easy application and removal",
+            "benefit_3": "Breathable centre opening",
+            "benefit_4": "Premium, minimalist design",
+            "benefit_5": "Made for nightly use",
+            "benefit_6": "Clear usage guidance included",
+            "note": "Always use as directed. Mouth taping may not be suitable for everyone.",
+            "desktop_width_percent": 100,
+            "section_padding": 60,
+            "border_radius": 14,
+            "text_alignment": "center",
+            "background_color": "#f3f6fb",
+            "card_color": "#ffffff",
+            "heading_color": "#0e1a3a",
+            "text_color": "#0a1432",
+            "muted_color": "#5a6580",
+            "accent_color": "#0e1a3a",
+            "border_color": "#d9e0ec",
+            "brand_column_color": "#0e1a3a",
+            "brand_text_color": "#ffffff",
+            "yes_background": "#dcefe7",
+            "yes_color": "#146b45",
+            "no_background": "#eef1f5",
+            "no_color": "#5a6580"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_7e33fc0_nCkGPN"
+      ],
+      "name": "Mouth tape comparison",
+      "settings": {}
     }
   },
   "order": [
     "main",
     "trust",
     "benefits",
+    "blocks_LewMyi",
+    "blocks_BBiK9p",
     "how",
     "guarantee",
     "faq"

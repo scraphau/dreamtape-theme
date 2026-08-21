@@ -1,0 +1,279 @@
+{% doc %}
+  @prompt
+    add a mouth tape comparison with 6 benefits (compared with dreamtape vs other mouth tapes)
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-comparison-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: {{ block.settings.section_padding }}px 24px;
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    box-sizing: border-box;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__inner {
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__header {
+    max-width: 680px;
+    margin: 0 auto 32px;
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__eyebrow {
+    margin: 0 0 10px;
+    color: {{ block.settings.accent_color }};
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__title {
+    margin: 0 0 12px;
+    color: {{ block.settings.heading_color }};
+    font-size: clamp(28px, 4vw, 44px);
+    line-height: 1.12;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__intro {
+    margin: 0;
+    color: {{ block.settings.muted_color }};
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table-wrap {
+    overflow-x: auto;
+    padding: 30px 0;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+    background: {{ block.settings.card_color }};
+    border: 1px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table th,
+  .ai-comparison-{{ ai_gen_id }}__table td {
+    padding: 17px 20px;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table tbody td:first-child,
+  .ai-comparison-{{ ai_gen_id }}__table tbody td:nth-child(3) {
+    border-bottom: 1px solid {{ block.settings.border_color }};
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table tbody tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table tr:last-child td {
+    border-bottom: 0;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table th:first-child,
+  .ai-comparison-{{ ai_gen_id }}__table td:first-child {
+    width: 58%;
+    text-align: left;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table thead th {
+    color: {{ block.settings.heading_color }};
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table th:nth-child(2),
+  .ai-comparison-{{ ai_gen_id }}__table td:nth-child(2) {
+    position: relative;
+    background: {{ block.settings.brand_column_color }};
+    border-bottom: 0;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table thead th:nth-child(2) {
+    color: {{ block.settings.brand_text_color }};
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    padding-top: 26px;
+  }
+
+  /* Pseudo-elements extend the column past the table, so it reads as a card
+     laid over the list rather than a shaded column inside it. */
+  .ai-comparison-{{ ai_gen_id }}__table thead th:nth-child(2)::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 30px;
+    background: {{ block.settings.brand_column_color }};
+    border-radius: 18px 18px 0 0;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table tbody tr:last-child td:nth-child(2)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 30px;
+    background: {{ block.settings.brand_column_color }};
+    border-radius: 0 0 18px 18px;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table thead th:nth-child(3) {
+    color: {{ block.settings.muted_color }};
+    font-weight: 600;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table tbody td:first-child {
+    color: {{ block.settings.muted_color }};
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__table tbody td:nth-child(2) {
+    background: {{ block.settings.brand_column_color }};
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__mark {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    font-size: 17px;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__mark--yes {
+    background: {{ block.settings.yes_background }};
+    color: {{ block.settings.yes_color }};
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__mark--no {
+    background: {{ block.settings.no_background }};
+    color: {{ block.settings.no_color }};
+  }
+
+  .ai-comparison-{{ ai_gen_id }}__note {
+    margin: 18px 0 0;
+    color: {{ block.settings.muted_color }};
+    font-size: 12px;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-comparison-{{ ai_gen_id }} {
+      padding-right: 16px;
+      padding-left: 16px;
+    }
+
+    .ai-comparison-{{ ai_gen_id }}__table th,
+    .ai-comparison-{{ ai_gen_id }}__table td {
+      padding: 14px 12px;
+    }
+  }
+{% endstyle %}
+
+<div class="ai-comparison-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-comparison-{{ ai_gen_id }}__inner">
+    <div class="ai-comparison-{{ ai_gen_id }}__header">
+      {% if block.settings.eyebrow != blank %}<p class="ai-comparison-{{ ai_gen_id }}__eyebrow">{{ block.settings.eyebrow | escape }}</p>{% endif %}
+      <h2 class="ai-comparison-{{ ai_gen_id }}__title">{{ block.settings.heading | escape }}</h2>
+      {% if block.settings.intro != blank %}<p class="ai-comparison-{{ ai_gen_id }}__intro">{{ block.settings.intro | escape }}</p>{% endif %}
+    </div>
+
+    <div class="ai-comparison-{{ ai_gen_id }}__table-wrap">
+      <table class="ai-comparison-{{ ai_gen_id }}__table">
+        <thead>
+          <tr>
+            <th scope="col">{{ block.settings.benefit_heading | escape }}</th>
+            <th scope="col">{{ block.settings.brand_heading | escape }}</th>
+            <th scope="col">{{ block.settings.other_heading | escape }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for i in (1..6) %}
+            {% liquid
+              assign benefit_key = 'benefit_' | append: i
+              assign benefit = block.settings[benefit_key]
+            %}
+            <tr>
+              <td>{{ benefit | escape }}</td>
+              <td><span class="ai-comparison-{{ ai_gen_id }}__mark ai-comparison-{{ ai_gen_id }}__mark--yes" aria-label="Yes">✓</span></td>
+              <td><span class="ai-comparison-{{ ai_gen_id }}__mark ai-comparison-{{ ai_gen_id }}__mark--no" aria-label="Not included">—</span></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% if block.settings.note != blank %}<p class="ai-comparison-{{ ai_gen_id }}__note">{{ block.settings.note | escape }}</p>{% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Mouth tape comparison",
+  "settings": [
+    {"type":"header","content":"Content"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Why DreamTape"},
+    {"type":"text","id":"heading","label":"Heading","default":"A better night starts here"},
+    {"type":"textarea","id":"intro","label":"Introduction","default":"See how DreamTape is designed for a more comfortable, considered sleep routine."},
+    {"type":"text","id":"benefit_heading","label":"Benefit heading","default":"Benefit"},
+    {"type":"text","id":"brand_heading","label":"Brand heading","default":"DreamTape"},
+    {"type":"text","id":"other_heading","label":"Other heading","default":"Other mouth tapes"},
+    {"type":"text","id":"benefit_1","label":"Benefit 1","default":"Comfortable, skin-friendly adhesive"},
+    {"type":"text","id":"benefit_2","label":"Benefit 2","default":"Designed for easy application and removal"},
+    {"type":"text","id":"benefit_3","label":"Benefit 3","default":"Breathable centre opening"},
+    {"type":"text","id":"benefit_4","label":"Benefit 4","default":"Premium, minimalist design"},
+    {"type":"text","id":"benefit_5","label":"Benefit 5","default":"Made for nightly use"},
+    {"type":"text","id":"benefit_6","label":"Benefit 6","default":"Clear usage guidance included"},
+    {"type":"textarea","id":"note","label":"Note","default":"Always use as directed. Mouth taping may not be suitable for everyone."},
+    {"type":"header","content":"Layout"},
+    {"type":"range","id":"desktop_width_percent","label":"Desktop width","min":50,"max":100,"step":5,"unit":"%","default":100},
+    {"type":"range","id":"section_padding","label":"Section padding","min":20,"max":100,"step":5,"unit":"px","default":60},
+    {"type":"range","id":"border_radius","label":"Corner radius","min":0,"max":30,"step":2,"unit":"px","default":14},
+    {"type":"select","id":"text_alignment","label":"Text alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"}],"default":"center"},
+    {"type":"header","content":"Colors"},
+    {"type":"color","id":"background_color","label":"Background","default":"#f3f6fb"},
+    {"type":"color","id":"card_color","label":"Card","default":"#ffffff"},
+    {"type":"color","id":"heading_color","label":"Heading","default":"#0e1a3a"},
+    {"type":"color","id":"text_color","label":"Text","default":"#0a1432"},
+    {"type":"color","id":"muted_color","label":"Muted text","default":"#5a6580"},
+    {"type":"color","id":"accent_color","label":"Accent","default":"#0e1a3a"},
+    {"type":"color","id":"border_color","label":"Borders","default":"#d9e0ec"},
+    {"type":"color","id":"brand_column_color","label":"Brand column","default":"#0e1a3a"},
+    {"type":"color","id":"brand_text_color","label":"Brand text","default":"#ffffff"},
+    {"type":"color","id":"yes_background","label":"Included background","default":"#dcefe7"},
+    {"type":"color","id":"yes_color","label":"Included icon","default":"#146b45"},
+    {"type":"color","id":"no_background","label":"Other background","default":"#eef1f5"},
+    {"type":"color","id":"no_color","label":"Other icon","default":"#5a6580"}
+  ],
+  "presets": [{"name":"Mouth tape comparison"}],
+  "tag": null,
+  "class": "mouth-tape-comparison-block"
+}
+{% endschema %}
