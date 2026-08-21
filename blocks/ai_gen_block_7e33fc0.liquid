@@ -24,7 +24,7 @@
 
   .ai-comparison-{{ ai_gen_id }}__header {
     max-width: 680px;
-    margin: 0 auto 22px;
+    margin: 0 auto 32px;
     text-align: {{ block.settings.text_alignment }};
   }
 
@@ -41,21 +41,19 @@
     margin: 0 0 12px;
     color: {{ block.settings.heading_color }};
     font-size: clamp(28px, 4vw, 44px);
-    font-family: var(--font-serif, Georgia, serif);
-    font-weight: 400;
-    line-height: 1.1;
+    line-height: 1.12;
   }
 
   .ai-comparison-{{ ai_gen_id }}__intro {
     margin: 0;
     color: {{ block.settings.muted_color }};
-    font-size: 15px;
-    line-height: 1.55;
+    font-size: 16px;
+    line-height: 1.6;
   }
 
   .ai-comparison-{{ ai_gen_id }}__table-wrap {
     overflow-x: auto;
-    padding: 22px 0;
+    padding: 30px 0;
   }
 
   .ai-comparison-{{ ai_gen_id }}__table {
@@ -71,7 +69,7 @@
 
   .ai-comparison-{{ ai_gen_id }}__table th,
   .ai-comparison-{{ ai_gen_id }}__table td {
-    padding: 12px 20px;
+    padding: 17px 20px;
     text-align: center;
     vertical-align: middle;
   }
@@ -111,10 +109,10 @@
 
   .ai-comparison-{{ ai_gen_id }}__table thead th:nth-child(2) {
     color: {{ block.settings.brand_text_color }};
-    font-size: 19px;
+    font-size: 21px;
     font-weight: 700;
     letter-spacing: -0.01em;
-    padding-top: 20px;
+    padding-top: 26px;
   }
 
   /* Pseudo-elements extend the column past the table, so it reads as a card
@@ -125,7 +123,7 @@
     left: 0;
     right: 0;
     bottom: 100%;
-    height: 22px;
+    height: 30px;
     background: {{ block.settings.brand_column_color }};
     border-radius: 18px 18px 0 0;
   }
@@ -136,7 +134,7 @@
     left: 0;
     right: 0;
     top: 100%;
-    height: 22px;
+    height: 30px;
     background: {{ block.settings.brand_column_color }};
     border-radius: 0 0 18px 18px;
   }
@@ -236,4 +234,46 @@
   </div>
 </div>
 
-{% schema %}{"name": "Mouth tape comparison", "settings": [{"type": "header", "content": "Content"}, {"type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Why DreamTape"}, {"type": "text", "id": "heading", "label": "Heading", "default": "A better night starts here"}, {"type": "textarea", "id": "intro", "label": "Introduction", "default": "See how DreamTape is designed for a more comfortable, considered sleep routine."}, {"type": "text", "id": "benefit_heading", "label": "Benefit heading", "default": "Benefit"}, {"type": "text", "id": "brand_heading", "label": "Brand heading", "default": "DreamTape"}, {"type": "text", "id": "other_heading", "label": "Other heading", "default": "Other mouth tapes"}, {"type": "text", "id": "benefit_1", "label": "Benefit 1", "default": "Comfortable, skin-friendly adhesive"}, {"type": "text", "id": "benefit_2", "label": "Benefit 2", "default": "Designed for easy application and removal"}, {"type": "text", "id": "benefit_3", "label": "Benefit 3", "default": "Breathable centre opening"}, {"type": "text", "id": "benefit_4", "label": "Benefit 4", "default": "Premium, minimalist design"}, {"type": "text", "id": "benefit_5", "label": "Benefit 5", "default": "Made for nightly use"}, {"type": "text", "id": "benefit_6", "label": "Benefit 6", "default": "Clear usage guidance included"}, {"type": "textarea", "id": "note", "label": "Note", "default": "Always use as directed. Mouth taping may not be suitable for everyone."}, {"type": "header", "content": "Layout"}, {"type": "range", "id": "desktop_width_percent", "label": "Desktop width", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100}, {"type": "range", "id": "section_padding", "label": "Section padding", "min": 20, "max": 100, "step": 5, "unit": "px", "default": 44}, {"type": "range", "id": "border_radius", "label": "Corner radius", "min": 0, "max": 30, "step": 2, "unit": "px", "default": 14}, {"type": "select", "id": "text_alignment", "label": "Text alignment", "options": [{"value": "left", "label": "Left"}, {"value": "center", "label": "Center"}], "default": "center"}, {"type": "header", "content": "Colors"}, {"type": "color", "id": "background_color", "label": "Background", "default": "#f3f6fb"}, {"type": "color", "id": "card_color", "label": "Card", "default": "#ffffff"}, {"type": "color", "id": "heading_color", "label": "Heading", "default": "#0e1a3a"}, {"type": "color", "id": "text_color", "label": "Text", "default": "#0a1432"}, {"type": "color", "id": "muted_color", "label": "Muted text", "default": "#5a6580"}, {"type": "color", "id": "accent_color", "label": "Accent", "default": "#0e1a3a"}, {"type": "color", "id": "border_color", "label": "Borders", "default": "#d9e0ec"}, {"type": "color", "id": "brand_column_color", "label": "Brand column", "default": "#0e1a3a"}, {"type": "color", "id": "brand_text_color", "label": "Brand text", "default": "#ffffff"}, {"type": "color", "id": "yes_background", "label": "Included background", "default": "#dcefe7"}, {"type": "color", "id": "yes_color", "label": "Included icon", "default": "#146b45"}, {"type": "color", "id": "no_background", "label": "Other background", "default": "#eef1f5"}, {"type": "color", "id": "no_color", "label": "Other icon", "default": "#5a6580"}], "presets": [{"name": "Mouth tape comparison"}], "tag": null, "class": "mouth-tape-comparison-block"}{% endschema %}
+{% schema %}
+{
+  "name": "Mouth tape comparison",
+  "settings": [
+    {"type":"header","content":"Content"},
+    {"type":"text","id":"eyebrow","label":"Eyebrow","default":"Why DreamTape"},
+    {"type":"text","id":"heading","label":"Heading","default":"A better night starts here"},
+    {"type":"textarea","id":"intro","label":"Introduction","default":"See how DreamTape is designed for a more comfortable, considered sleep routine."},
+    {"type":"text","id":"benefit_heading","label":"Benefit heading","default":"Benefit"},
+    {"type":"text","id":"brand_heading","label":"Brand heading","default":"DreamTape"},
+    {"type":"text","id":"other_heading","label":"Other heading","default":"Other mouth tapes"},
+    {"type":"text","id":"benefit_1","label":"Benefit 1","default":"Comfortable, skin-friendly adhesive"},
+    {"type":"text","id":"benefit_2","label":"Benefit 2","default":"Designed for easy application and removal"},
+    {"type":"text","id":"benefit_3","label":"Benefit 3","default":"Breathable centre opening"},
+    {"type":"text","id":"benefit_4","label":"Benefit 4","default":"Premium, minimalist design"},
+    {"type":"text","id":"benefit_5","label":"Benefit 5","default":"Made for nightly use"},
+    {"type":"text","id":"benefit_6","label":"Benefit 6","default":"Clear usage guidance included"},
+    {"type":"textarea","id":"note","label":"Note","default":"Always use as directed. Mouth taping may not be suitable for everyone."},
+    {"type":"header","content":"Layout"},
+    {"type":"range","id":"desktop_width_percent","label":"Desktop width","min":50,"max":100,"step":5,"unit":"%","default":100},
+    {"type":"range","id":"section_padding","label":"Section padding","min":20,"max":100,"step":5,"unit":"px","default":60},
+    {"type":"range","id":"border_radius","label":"Corner radius","min":0,"max":30,"step":2,"unit":"px","default":14},
+    {"type":"select","id":"text_alignment","label":"Text alignment","options":[{"value":"left","label":"Left"},{"value":"center","label":"Center"}],"default":"center"},
+    {"type":"header","content":"Colors"},
+    {"type":"color","id":"background_color","label":"Background","default":"#f3f6fb"},
+    {"type":"color","id":"card_color","label":"Card","default":"#ffffff"},
+    {"type":"color","id":"heading_color","label":"Heading","default":"#0e1a3a"},
+    {"type":"color","id":"text_color","label":"Text","default":"#0a1432"},
+    {"type":"color","id":"muted_color","label":"Muted text","default":"#5a6580"},
+    {"type":"color","id":"accent_color","label":"Accent","default":"#0e1a3a"},
+    {"type":"color","id":"border_color","label":"Borders","default":"#d9e0ec"},
+    {"type":"color","id":"brand_column_color","label":"Brand column","default":"#0e1a3a"},
+    {"type":"color","id":"brand_text_color","label":"Brand text","default":"#ffffff"},
+    {"type":"color","id":"yes_background","label":"Included background","default":"#dcefe7"},
+    {"type":"color","id":"yes_color","label":"Included icon","default":"#146b45"},
+    {"type":"color","id":"no_background","label":"Other background","default":"#eef1f5"},
+    {"type":"color","id":"no_color","label":"Other icon","default":"#5a6580"}
+  ],
+  "presets": [{"name":"Mouth tape comparison"}],
+  "tag": null,
+  "class": "mouth-tape-comparison-block"
+}
+{% endschema %}

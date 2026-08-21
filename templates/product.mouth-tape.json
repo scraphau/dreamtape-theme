@@ -155,7 +155,7 @@
             "desktop_width_percent": 100,
             "vertical_padding": 60,
             "heading_size": 38,
-            "background_color": "#FFFFFF",
+            "background_color": "#ffffff",
             "heading_color": "#0e1a3a",
             "text_color": "#0a1432",
             "muted_color": "#5a6580",
@@ -167,6 +167,51 @@
       },
       "block_order": [
         "ai_gen_block_b5d4b99_ynX6Hy"
+      ],
+      "settings": {}
+    },
+    "17872864460db9437c": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_7e33fc0_GTcXPP": {
+          "type": "ai_gen_block_7e33fc0",
+          "settings": {
+            "eyebrow": "Not all tape is the same",
+            "heading": "Built for lips, not for parcels",
+            "intro": "Most mouth tape is repurposed from something else. Dreamtape was drawn for the job.",
+            "benefit_heading": "",
+            "brand_heading": "Dreamtape",
+            "other_heading": "Generic tape",
+            "benefit_1": "Adhesive formulated for facial skin",
+            "benefit_2": "Breathable centre, never a full seal",
+            "benefit_3": "Pre-cut to shape, no scissors at bedtime",
+            "benefit_4": "Holds all night without re-sticking",
+            "benefit_5": "Peels away without the morning sting",
+            "benefit_6": "Beard and moustache friendly",
+            "note": "Made for healthy adults who can breathe comfortably through the nose. If you have sleep apnea, blocked nasal passages or any ongoing breathing concern, speak with a healthcare professional first.",
+            "desktop_width_percent": 100,
+            "section_padding": 60,
+            "border_radius": 14,
+            "text_alignment": "center",
+            "background_color": "#f3f6fb",
+            "card_color": "#ffffff",
+            "heading_color": "#0e1a3a",
+            "text_color": "#0a1432",
+            "muted_color": "#5a6580",
+            "accent_color": "#0e1a3a",
+            "border_color": "#d9e0ec",
+            "brand_column_color": "#0e1a3a",
+            "brand_text_color": "#ffffff",
+            "yes_background": "#dcefe7",
+            "yes_color": "#146b45",
+            "no_background": "#eef1f5",
+            "no_color": "#5a6580"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_7e33fc0_GTcXPP"
       ],
       "settings": {}
     },
@@ -262,51 +307,6 @@
         "eyebrow": "Questions",
         "heading": "<p>Everything you might<br>be <em>wondering</em>.</p>"
       }
-    },
-    "17872864460db9437c": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_7e33fc0_GTcXPP": {
-          "type": "ai_gen_block_7e33fc0",
-          "settings": {
-            "eyebrow": "Not all tape is the same",
-            "heading": "Built for lips, not for parcels",
-            "intro": "Most mouth tape is repurposed from something else. Dreamtape was drawn for the job.",
-            "benefit_heading": "",
-            "brand_heading": "Dreamtape",
-            "other_heading": "Generic tape",
-            "benefit_1": "Adhesive formulated for facial skin",
-            "benefit_2": "Breathable centre, never a full seal",
-            "benefit_3": "Pre-cut to shape, no scissors at bedtime",
-            "benefit_4": "Holds all night without re-sticking",
-            "benefit_5": "Peels away without the morning sting",
-            "benefit_6": "Beard and moustache friendly",
-            "note": "Made for healthy adults who can breathe comfortably through the nose. If you have sleep apnea, blocked nasal passages or any ongoing breathing concern, speak with a healthcare professional first.",
-            "desktop_width_percent": 100,
-            "section_padding": 44,
-            "border_radius": 14,
-            "text_alignment": "center",
-            "background_color": "#f3f6fb",
-            "card_color": "#ffffff",
-            "heading_color": "#0e1a3a",
-            "text_color": "#0a1432",
-            "muted_color": "#5a6580",
-            "accent_color": "#0e1a3a",
-            "border_color": "#d9e0ec",
-            "brand_column_color": "#0e1a3a",
-            "brand_text_color": "#ffffff",
-            "yes_background": "#dcefe7",
-            "yes_color": "#146b45",
-            "no_background": "#eef1f5",
-            "no_color": "#5a6580"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_7e33fc0_GTcXPP"
-      ],
-      "settings": {}
     }
   },
   "order": [
@@ -314,9 +314,9 @@
     "trust",
     "benefits",
     "178728565605aaa050",
+    "17872864460db9437c",
     "how",
     "guarantee",
-    "faq",
-    "17872864460db9437c"
+    "faq"
   ]
 }
