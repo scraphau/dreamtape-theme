@@ -45,14 +45,44 @@ document.querySelectorAll('#product-add-form').forEach(form => {
 });
 
 // Cart drawer
+// Mirrors Liquid's money_without_trailing_zeros: the shop's own currency format
+// with .00 dropped. It has to be the shop's format rather than Intl's, because
+// Intl formats by the reader's browser language - an American browser writes
+// AUD as "A$210" on a page where Liquid has already written "$210", so the same
+// price changed appearance the moment the cart re-rendered.
+function groupedAmount(cents, decimals, thousands, decimalMark) {
+  const [whole, fraction] = (cents / 100).toFixed(decimals).split('.');
+  const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, thousands);
+  return fraction ? grouped + decimalMark + fraction : grouped;
+}
+
 function formatMoney(cents) {
-  const amount = cents / 100;
-  const currency = window.themeRoutes?.cartCurrency || 'USD';
-  const hasDecimal = amount % 1 !== 0;
+  const rounded = Math.round(cents);
+  const hasDecimal = rounded % 100 !== 0;
+  const format = window.themeRoutes?.moneyFormat;
+
+  if (format && format.includes('{{')) {
+    return format.replace(/\{\{\s*(\w+)\s*\}\}/, (match, placeholder) => {
+      switch (placeholder) {
+        case 'amount_no_decimals': return groupedAmount(rounded, 0, ',', '.');
+        case 'amount_with_comma_separator': return groupedAmount(rounded, hasDecimal ? 2 : 0, '.', ',');
+        case 'amount_no_decimals_with_comma_separator': return groupedAmount(rounded, 0, '.', ',');
+        case 'amount_with_apostrophe_separator': return groupedAmount(rounded, hasDecimal ? 2 : 0, "'", '.');
+        case 'amount_no_decimals_with_space_separator': return groupedAmount(rounded, 0, ' ', ',');
+        case 'amount_with_space_separator': return groupedAmount(rounded, hasDecimal ? 2 : 0, ' ', ',');
+        case 'amount_with_period_and_space_separator': return groupedAmount(rounded, hasDecimal ? 2 : 0, ' ', '.');
+        default: return groupedAmount(rounded, hasDecimal ? 2 : 0, ',', '.');
+      }
+    });
+  }
+
+  // No format from the server: fall back to Intl, which at least gets the
+  // currency right even if the prefix may not match Liquid's.
+  const amount = rounded / 100;
   try {
     return new Intl.NumberFormat(undefined, {
       style: 'currency',
-      currency,
+      currency: window.themeRoutes?.cartCurrency || 'USD',
       minimumFractionDigits: hasDecimal ? 2 : 0,
       maximumFractionDigits: hasDecimal ? 2 : 0
     }).format(amount);
