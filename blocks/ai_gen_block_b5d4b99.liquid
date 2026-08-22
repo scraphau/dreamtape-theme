@@ -13,6 +13,9 @@
     padding: {{ block.settings.vertical_padding }}px 24px;
     background: {{ block.settings.background_color }};
     color: {{ block.settings.text_color }};
+    /* Named outright for the same reason as the comparison block: neither
+       block relies on the theme's font custom properties any more. */
+    font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
     box-sizing: border-box;
   }
 
@@ -40,8 +43,9 @@
   .ai-habit-timeline-{{ ai_gen_id }}__title {
     margin: 0 0 14px;
     color: {{ block.settings.heading_color }};
-    font-family: var(--font-serif, Georgia, serif);
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
     font-weight: 400;
+    font-optical-sizing: auto;
     font-size: {{ block.settings.heading_size }}px;
     line-height: 1.1;
     letter-spacing: -0.02em;
@@ -97,8 +101,9 @@
     color: {{ block.settings.heading_color }};
     font-size: 18px;
     line-height: 1.3;
-    font-family: var(--font-serif, Georgia, serif);
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
     font-weight: 500;
+    font-optical-sizing: auto;
   }
 
   .ai-habit-timeline-{{ ai_gen_id }}__item-text {
