@@ -382,7 +382,7 @@ function renderCartDrawer(cart) {
           <p class="cart-drawer-item-price">${(pricing => pricing.saved
             ? `<s class="cart-line-was">${formatMoney(pricing.wasLine)}</s><span class="cart-line-now">${formatMoney(item.final_line_price)}</span><span class="cart-line-save">(Save ${formatMoney(pricing.saved)})</span>`
             : `<span class="cart-line-now">${formatMoney(item.final_line_price)}</span>`)(cartLinePricing(item))}</p>
-          <button type="button" class="cart-drawer-item-remove" data-cart-remove aria-label="Remove ${escapeHtml(item.product_title)}">Remove</button>
+          <button type="button" class="cart-drawer-item-remove" data-cart-remove aria-label="Remove ${escapeHtml(item.product_title)}">&times;</button>
         </div>
         ${(plan => plan
           ? `<button type="button" class="cart-subscribe-upsell" data-cart-subscribe data-selling-plan-id="${plan.id}" data-quantity="${item.quantity}">${escapeHtml(plan.name)}</button>`

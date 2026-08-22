@@ -134,7 +134,7 @@
           </div>
           <div class="cart-drawer-item-side">
             <p class="cart-drawer-item-price">{% render 'cart-line-price', item: item %}</p>
-            <button type="button" class="cart-drawer-item-remove" data-cart-remove aria-label="Remove {{ item.product.title | escape }}">Remove</button>
+            <button type="button" class="cart-drawer-item-remove" data-cart-remove aria-label="Remove {{ item.product.title | escape }}">&times;</button>
           </div>
           {% render 'cart-subscribe-upsell', item: item %}
         </div>

@@ -436,23 +436,25 @@ a { color: inherit; text-decoration: none; }
   padding: 4px;
 }
 .cart-drawer-item-side { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
-.cart-drawer-item-price { font-family: var(--font-serif); font-size: 15px; white-space: nowrap; }
+.cart-drawer-item-price { font-family: var(--font-serif); font-size: 18px; white-space: nowrap; }
 /* The three parts stack on their own lines: side by side they push the line's
    third column wide enough to squeeze the title beside it. */
 .cart-line-was,
 .cart-line-now,
 .cart-line-save { display: block; }
+/* Same size as the price it is struck against - the muted colour carries the
+   hierarchy, so shrinking it as well left it looking like a footnote. */
 .cart-line-was {
   color: var(--section-muted, var(--muted));
-  font-size: 0.85em;
   font-weight: 400;
   text-decoration: line-through;
 }
 .cart-line-save {
   margin-top: 2px;
-  color: #146b45;
+  /* The green the RECOMMENDED badge and the review ticks already use. */
+  color: #2f8f4e;
   font-family: var(--font-sans);
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 600;
 }
 .cart-item-price {
@@ -461,20 +463,36 @@ a { color: inherit; text-decoration: none; }
   font-size: 17px;
   color: var(--section-text, var(--midnight));
 }
+/* Ordered to the top of the side column rather than absolutely positioned, so
+   it sits in the line's top right corner without being lifted out of the flow
+   and needing the price padded clear of it. */
 .cart-drawer-item-remove {
+  order: -1;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin: -4px -6px -2px 0;
+  padding: 0;
   background: none;
   border: none;
-  cursor: pointer;
-  font-size: 12px;
+  border-radius: 50%;
   color: var(--muted);
-  text-decoration: underline;
-  padding: 0;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+}
+.cart-drawer-item-remove:hover {
+  color: var(--section-text, var(--midnight));
+  background: var(--cream-warm);
 }
 .cart-drawer-item-remove::after {
   content: '';
   position: absolute;
-  inset: -12px -8px;
+  inset: -8px;
 }
 .cart-drawer-empty { text-align: center; padding: 0 0 40px; }
 .cart-drawer-empty p { font-size: 16px; color: var(--muted); margin-bottom: 24px; }
