@@ -264,50 +264,29 @@
       }
     },
     "blocks_MMBGQC": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_7e33fc0_pnDTLh": {
-          "type": "ai_gen_block_7e33fc0",
-          "settings": {
-            "eyebrow": "Not all tape is the same",
-            "heading": "Built for lips, not for parcels",
-            "intro": "Most mouth tape is repurposed from something else. Dreamtape was drawn for the job.",
-            "benefit_heading": "",
-            "brand_heading": "Dreamtape",
-            "other_heading": "Generic tape",
-            "benefit_1": "Hypoallergenic adhesive made for facial skin",
-            "benefit_2": "Dermatologist tested",
-            "benefit_3": "Contoured to fit your lips",
-            "benefit_4": "Holds a full night without re-sticking",
-            "benefit_5": "Peels off gently, no morning sting",
-            "benefit_6": "Works over a beard or moustache",
-            "note": "Made for healthy adults who can breathe comfortably through the nose. If you have sleep apnea, blocked nasal passages or any ongoing breathing concern, speak with a healthcare professional first.",
-            "desktop_width_percent": 100,
-            "section_padding": 60,
-            "border_radius": 14,
-            "text_alignment": "center",
-            "background_color": "#f3f6fb",
-            "card_color": "#ffffff",
-            "heading_color": "#0e1a3a",
-            "text_color": "#0a1432",
-            "muted_color": "#5a6580",
-            "accent_color": "#0e1a3a",
-            "border_color": "#d9e0ec",
-            "brand_column_color": "#0e1a3a",
-            "brand_text_color": "#ffffff",
-            "yes_background": "#dcefe7",
-            "yes_color": "#146b45",
-            "no_background": "#eef1f5",
-            "no_color": "#5a6580"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_7e33fc0_pnDTLh"
-      ],
-      "name": "Mouth tape comparison",
-      "settings": {}
+      "type": "comparison-card",
+      "settings": {
+        "product_handles": "",
+        "eyebrow": "Not all tape is the same",
+        "heading": "Built for lips, not for parcels",
+        "intro": "Most mouth tape is repurposed from something else. Dreamtape was drawn for the job.",
+        "benefit_heading": "Us vs them",
+        "brand_heading": "Dreamtape",
+        "other_heading": "Generic tape",
+        "rows": "Hypoallergenic adhesive made for facial skin\nDermatologist tested\nContoured to fit your lips\nHolds a full night without re-sticking\nPeels off gently, no morning sting\nWorks over a beard or moustache",
+        "note": "Made for healthy adults who can breathe comfortably through the nose. If you have sleep apnea, blocked nasal passages or any ongoing breathing concern, speak with a healthcare professional first.",
+        "background_color": "#f3f6fb",
+        "text_color": "#0a1432",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "brand_column_color": "#0e1a3a",
+        "brand_text_color": "#ffffff",
+        "yes_background": "#dcefe7",
+        "yes_color": "#146b45",
+        "no_background": "#eef1f5",
+        "no_color": "#5a6580"
+      }
     }
   },
   "order": [

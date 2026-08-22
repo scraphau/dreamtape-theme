@@ -293,50 +293,29 @@
       }
     },
     "blocks_BBiK9p": {
-      "type": "_blocks",
-      "blocks": {
-        "ai_gen_block_7e33fc0_nCkGPN": {
-          "type": "ai_gen_block_7e33fc0",
-          "settings": {
-            "eyebrow": "Not all strips are the same",
-            "heading": "A spring band, not a sticker",
-            "intro": "Most nose strips are a plaster with a crease in it. The band is what does the work.",
-            "benefit_heading": "",
-            "brand_heading": "Dreamtape",
-            "other_heading": "Generic strips",
-            "benefit_1": "Sweat-proof, stays put all night",
-            "benefit_2": "Maximum lift, maximum airflow",
-            "benefit_3": "No latex, kind to skin",
-            "benefit_4": "Strong hold, gentle on sensitive skin",
-            "benefit_5": "Peels off clean, no residue",
-            "benefit_6": "Dermatologist tested and approved",
-            "note": "Made for healthy adults. If you have sensitive skin, sleep apnea or any ongoing breathing concern, speak with a healthcare professional first.",
-            "desktop_width_percent": 100,
-            "section_padding": 60,
-            "border_radius": 14,
-            "text_alignment": "center",
-            "background_color": "#f3f6fb",
-            "card_color": "#ffffff",
-            "heading_color": "#0e1a3a",
-            "text_color": "#0a1432",
-            "muted_color": "#5a6580",
-            "accent_color": "#0e1a3a",
-            "border_color": "#d9e0ec",
-            "brand_column_color": "#0e1a3a",
-            "brand_text_color": "#ffffff",
-            "yes_background": "#dcefe7",
-            "yes_color": "#146b45",
-            "no_background": "#eef1f5",
-            "no_color": "#5a6580"
-          },
-          "blocks": {}
-        }
-      },
-      "block_order": [
-        "ai_gen_block_7e33fc0_nCkGPN"
-      ],
-      "name": "Mouth tape comparison",
-      "settings": {}
+      "type": "comparison-card",
+      "settings": {
+        "product_handles": "",
+        "eyebrow": "Not all strips are the same",
+        "heading": "A spring band, not a sticker",
+        "intro": "Most nose strips are a plaster with a crease in it. The band is what does the work.",
+        "benefit_heading": "Us vs them",
+        "brand_heading": "Dreamtape",
+        "other_heading": "Generic strips",
+        "rows": "Sweat-proof, stays put all night\nMaximum lift, maximum airflow\nNo latex, kind to skin\nStrong hold, gentle on sensitive skin\nPeels off clean, no residue\nDermatologist tested and approved",
+        "note": "Made for healthy adults. If you have sensitive skin, sleep apnea or any ongoing breathing concern, speak with a healthcare professional first.",
+        "background_color": "#f3f6fb",
+        "text_color": "#0a1432",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "brand_column_color": "#0e1a3a",
+        "brand_text_color": "#ffffff",
+        "yes_background": "#dcefe7",
+        "yes_color": "#146b45",
+        "no_background": "#eef1f5",
+        "no_color": "#5a6580"
+      }
     }
   },
   "order": [
