@@ -293,8 +293,15 @@
                     {%- comment -%} No literal percentage in the plan name (e.g. fixed-price plan) - round down to the nearest 5 so a slightly-off dollar amount still shows a clean number. {%- endcomment -%}
                     {%- assign sub_discount_percent = sub_discount_percent | divided_by: 5 | times: 5 -%}
                   {%- endif -%}
+                  {%- comment -%}
+                    A pack is a month of strips and its plan refills on the same
+                    cadence, so the supply size is the delivery interval: 1, 3 or
+                    6 packs is every 30, 90 or 180 days.
+                  {%- endcomment -%}
+                  {%- assign sub_interval_days = packs | times: 30 -%}
                   {%- if variant.id == first.id -%}
                     {%- assign first_sub_discount_percent = sub_discount_percent -%}
+                    {%- assign first_sub_interval_days = sub_interval_days -%}
                   {%- endif -%}
 
                   <button type="button"
@@ -308,6 +315,7 @@
                     data-sub-discount="{{ sub_discount_percent }}"
                     data-per-strip="{{ per_strip | money }}"
                     data-sub-per-strip="{{ sub_per_strip }}"
+                    data-sub-interval="{{ sub_interval_days }}"
                     data-selling-plan-id="{{ selling_plan_id }}">
 
                     {%- if is_popular -%}
@@ -389,6 +397,13 @@
               {%- endif -%}
             {%- endif -%}
             {%- assign first_sub_discount_percent = sub_discount_percent -%}
+            {%- assign single_packs = 1 -%}
+            {%- if single_variant.title contains '3' or single_variant.title contains 'Three' -%}
+              {%- assign single_packs = 3 -%}
+            {%- elsif single_variant.title contains '6' or single_variant.title contains 'Six' -%}
+              {%- assign single_packs = 6 -%}
+            {%- endif -%}
+            {%- assign first_sub_interval_days = single_packs | times: 30 -%}
             {%- assign discount_percent = 0 -%}
             {%- if product.compare_at_price > product.price -%}
               {%- assign saved = product.compare_at_price | minus: product.price -%}
@@ -402,7 +417,8 @@
               data-discount="{{ discount_percent }}"
               data-sub-price="{{ sub_price }}"
               data-sub-compare="{{ sub_compare }}"
-              data-sub-discount="{{ sub_discount_percent }}">
+              data-sub-discount="{{ sub_discount_percent }}"
+              data-sub-interval="{{ first_sub_interval_days }}">
               <span class="product-price-compare" data-compare-price {% unless product.compare_at_price > product.price %}style="display:none;"{% endunless %}>{{ product.compare_at_price | money_without_trailing_zeros }}</span>
               <span class="product-price-current {% if product.compare_at_price > product.price %}is-discounted{% endif %}" data-current-price>{{ product.price | money_without_trailing_zeros }}</span>
               <span class="product-price-pill" data-price-pill {% if discount_percent == 0 %}style="display:none;"{% endif %}>{{ discount_percent }}% off</span>
@@ -697,17 +713,17 @@
         textWrap.appendChild(summary);
       }
       addExpandingPerks(group, `
-        <span>\u{1FA99} Instant <span class="loop-custom-discount">{{ first_sub_discount_percent }}</span>% Off</span>
-        <span>\u{1F4E6} Delivered every 30, 90 or 180 Days</span>
-        <span>\u{1F6E1}\u{FE0F} 30-Day Risk Free Trial</span>
-        <span>\u{2708}\u{FE0F} Free Shipping Australia Wide</span>
-        <span>\u{1F310} 30% off shipping to US, CA, NZ, &amp; SG</span>
-        <span>\u{1F4F1} Cancel or Pause Anytime</span>
+        <span>\u{1F4E6} A fresh pack every <span class="loop-custom-interval">{{ first_sub_interval_days }}</span> days, without reordering</span>
+        <span>\u{1FA99} <span class="loop-custom-discount">{{ first_sub_discount_percent }}</span>% off every delivery, not just the first</span>
+        <span>\u{2708}\u{FE0F} Shipping is free anywhere in Australia</span>
+        <span>\u{1F310} 30% off delivery to the US, CA, NZ and SG</span>
+        <span>\u{1F6E1}\u{FE0F} 30 nights to change your mind</span>
+        <span>\u{1F4F1} Skip, pause or cancel from your account</span>
       `);
     });
   }
 
-  function updateLoopPerksDiscount(source) {
+  function updateLoopPerks(source) {
     if (!source) return;
     // Every variant's subscription group gets its own perks block (only the
     // active one is visible at a time), so update them all rather than just
@@ -716,6 +732,15 @@
     form?.querySelectorAll('.loop-custom-discount').forEach(discountEl => {
       discountEl.textContent = source.dataset.subDiscount || '0';
     });
+    // The pack card is the frequency here - Loop's own dropdown is hidden - so
+    // the cadence line follows whichever supply is selected, rather than
+    // listing all three and leaving the customer to work out which is theirs.
+    const interval = source.dataset.subInterval;
+    if (interval) {
+      form?.querySelectorAll('.loop-custom-interval').forEach(intervalEl => {
+        intervalEl.textContent = interval;
+      });
+    }
   }
 
   // Free shipping and cancel-anytime are subscription terms. On a one-time
@@ -733,12 +758,12 @@
     const activeCard = document.querySelector('.variant-card.active');
     if (activeCard) {
       applyTopPricing(activeCard);
-      updateLoopPerksDiscount(activeCard);
+      updateLoopPerks(activeCard);
     } else {
       const priceRow = form?.querySelector('.product-price-row[data-sub-price]');
       if (priceRow) {
         applyTopPricing(priceRow);
-        updateLoopPerksDiscount(priceRow);
+        updateLoopPerks(priceRow);
       }
     }
   }
