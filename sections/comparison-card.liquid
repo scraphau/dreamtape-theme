@@ -1,0 +1,94 @@
+{%- comment -%}
+  The dark-column comparison, as a section rather than a theme block.
+
+  Both products render templates/product.json, so this section is added to that
+  template once per product and gated on the handle - an instance renders only
+  on the products named in its "Show on products" setting, and on nothing else.
+  Leave that setting empty and it shows wherever the section is placed.
+{%- endcomment -%}
+
+{%- assign show = false -%}
+{%- if section.settings.product_handles == blank -%}
+  {%- assign show = true -%}
+{%- elsif product != blank -%}
+  {%- assign handles = section.settings.product_handles | replace: ' ', '' | downcase | split: ',' -%}
+  {%- if handles contains product.handle -%}
+    {%- assign show = true -%}
+  {%- endif -%}
+{%- endif -%}
+
+{%- if show -%}
+  <section class="comparison-card-section" style="{% render 'section-color-vars', section: section %}--cc-brand-bg: {{ section.settings.brand_column_color }}; --cc-brand-text: {{ section.settings.brand_text_color }}; --cc-yes-bg: {{ section.settings.yes_background }}; --cc-yes-color: {{ section.settings.yes_color }}; --cc-no-bg: {{ section.settings.no_background }}; --cc-no-color: {{ section.settings.no_color }};">
+    <div class="container">
+      <div class="cc-head reveal">
+        {%- if section.settings.eyebrow != blank -%}
+          <p class="cc-eyebrow">{{ section.settings.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="cc-title">{{ section.settings.heading }}</h2>
+        {%- if section.settings.intro != blank -%}
+          <p class="cc-intro">{{ section.settings.intro }}</p>
+        {%- endif -%}
+      </div>
+
+      <div class="cc-table-wrap reveal">
+        <table class="cc-table">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col" class="cc-brand">{{ section.settings.brand_heading }}</th>
+              <th scope="col">{{ section.settings.other_heading }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {%- assign rows = section.settings.rows | newline_to_br | split: '<br />' -%}
+            {%- for row in rows -%}
+              {%- assign label = row | strip -%}
+              {%- unless label == blank -%}
+                <tr>
+                  <td>{{ label }}</td>
+                  <td class="cc-brand"><span class="cc-mark cc-mark-yes" role="img" aria-label="Included">&#10003;</span></td>
+                  <td><span class="cc-mark cc-mark-no" role="img" aria-label="Not included">&#8212;</span></td>
+                </tr>
+              {%- endunless -%}
+            {%- endfor -%}
+          </tbody>
+        </table>
+      </div>
+
+      {%- if section.settings.note != blank -%}
+        <p class="cc-note reveal">{{ section.settings.note }}</p>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Comparison card",
+  "settings": [
+    { "type": "header", "content": "Visibility" },
+    { "type": "text", "id": "product_handles", "label": "Show on products (comma-separated handles)", "info": "Leave empty to show wherever this section is placed." },
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Not all tape is the same" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Built for lips, not for parcels" },
+    { "type": "textarea", "id": "intro", "label": "Introduction", "default": "Most mouth tape is repurposed from something else. Dreamtape was drawn for the job." },
+    { "type": "text", "id": "brand_heading", "label": "Our column label", "default": "Dreamtape" },
+    { "type": "text", "id": "other_heading", "label": "Competitor column label", "default": "Generic tape" },
+    { "type": "textarea", "id": "rows", "label": "Comparison rows (one per line)", "default": "Hypoallergenic adhesive made for facial skin\nBreathable centre, so air can still get through\nPre-cut to shape, no scissors at bedtime\nHolds a full night without re-sticking\nPeels off gently, no morning sting\nWorks over a beard or moustache" },
+    { "type": "textarea", "id": "note", "label": "Footnote", "default": "Made for healthy adults who can breathe comfortably through the nose. If you have sleep apnea, blocked nasal passages or any ongoing breathing concern, speak with a healthcare professional first." },
+    { "type": "header", "content": "Colors" },
+    { "type": "color", "id": "background_color", "label": "Background color", "default": "#f3f6fb" },
+    { "type": "color", "id": "text_color", "label": "Text color", "default": "#0a1432" },
+    { "type": "color", "id": "muted_text_color", "label": "Muted text color", "default": "#5a6580" },
+    { "type": "color", "id": "accent_color", "label": "Accent color", "default": "#0e1a3a" },
+    { "type": "color", "id": "card_background_color", "label": "Card background color", "default": "#ffffff" },
+    { "type": "color", "id": "brand_column_color", "label": "Our column background", "default": "#0e1a3a" },
+    { "type": "color", "id": "brand_text_color", "label": "Our column text", "default": "#ffffff" },
+    { "type": "color", "id": "yes_background", "label": "Included chip background", "default": "#dcefe7" },
+    { "type": "color", "id": "yes_color", "label": "Included chip icon", "default": "#146b45" },
+    { "type": "color", "id": "no_background", "label": "Not included chip background", "default": "#eef1f5" },
+    { "type": "color", "id": "no_color", "label": "Not included chip icon", "default": "#5a6580" }
+  ],
+  "presets": [{ "name": "Comparison card" }]
+}
+{% endschema %}

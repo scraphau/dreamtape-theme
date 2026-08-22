@@ -127,6 +127,54 @@
         "lead": "When you switch from mouth to nose breathing, you unlock better oxygenation, deeper REM, a stronger jawline, and a sharper immune system — naturally and effortlessly."
       }
     },
+    "comparison_mouth_tape": {
+      "type": "comparison-card",
+      "settings": {
+        "product_handles": "mouth-tape",
+        "eyebrow": "Not all tape is the same",
+        "heading": "Built for lips, not for parcels",
+        "intro": "Most mouth tape is repurposed from something else. Dreamtape was drawn for the job.",
+        "brand_heading": "Dreamtape",
+        "other_heading": "Generic tape",
+        "rows": "Hypoallergenic adhesive made for facial skin\nBreathable centre, so air can still get through\nPre-cut to shape, no scissors at bedtime\nHolds a full night without re-sticking\nPeels off gently, no morning sting\nWorks over a beard or moustache",
+        "note": "Made for healthy adults who can breathe comfortably through the nose. If you have sleep apnea, blocked nasal passages or any ongoing breathing concern, speak with a healthcare professional first.",
+        "background_color": "#f3f6fb",
+        "text_color": "#0a1432",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "brand_column_color": "#0e1a3a",
+        "brand_text_color": "#ffffff",
+        "yes_background": "#dcefe7",
+        "yes_color": "#146b45",
+        "no_background": "#eef1f5",
+        "no_color": "#5a6580"
+      }
+    },
+    "comparison_nose_strips": {
+      "type": "comparison-card",
+      "settings": {
+        "product_handles": "dreamtape-nose-strips",
+        "eyebrow": "Not all strips are the same",
+        "heading": "A spring band, not a sticker",
+        "intro": "Most nose strips are a plaster with a crease in it. The band is what does the work.",
+        "brand_heading": "Dreamtape",
+        "other_heading": "Generic strips",
+        "rows": "Spring band that lifts the nasal wall open\nHypoallergenic adhesive made for facial skin\nStays flat all night without curling\nWarm water softens it off, no tugging\nLow profile enough to sleep on your side\nMade to pair with Dreamtape mouth tape",
+        "note": "Made for healthy adults. If you have sensitive skin, sleep apnea or any ongoing breathing concern, speak with a healthcare professional first.",
+        "background_color": "#f3f6fb",
+        "text_color": "#0a1432",
+        "muted_text_color": "#5a6580",
+        "accent_color": "#0e1a3a",
+        "card_background_color": "#ffffff",
+        "brand_column_color": "#0e1a3a",
+        "brand_text_color": "#ffffff",
+        "yes_background": "#dcefe7",
+        "yes_color": "#146b45",
+        "no_background": "#eef1f5",
+        "no_color": "#5a6580"
+      }
+    },
     "how": {
       "type": "how-it-works",
       "settings": {
@@ -225,6 +273,8 @@
     "main",
     "trust",
     "benefits",
+    "comparison_mouth_tape",
+    "comparison_nose_strips",
     "how",
     "guarantee",
     "faq"
