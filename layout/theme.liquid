@@ -69,7 +69,15 @@
         cartUrl: {{ routes.cart_url | json }},
         cartChangeUrl: {{ routes.cart_change_url | json }},
         cartUpdateUrl: {{ routes.cart_update_url | json }},
-        cartCurrency: {{ cart.currency.iso_code | json }}
+        cartCurrency: {{ cart.currency.iso_code | json }},
+        {%- comment -%}
+          The shop's own currency formatting, so prices the theme renders in
+          JavaScript come out the same as the ones Liquid renders. Without it
+          the two disagree: Intl formats by the reader's browser language, so
+          an American browser writes AUD as "A$210" on a page where Liquid has
+          already written "$210".
+        {%- endcomment -%}
+        moneyFormat: {{ shop.money_format | json }}
       };
       {%- comment -%} null when the shop has no shipping-protection product, which turns the sync in theme.js off. {%- endcomment -%}
       window.themeShippingProtectionVariantId = {{ all_products['shipping-protection'].variants.first.id | json }};

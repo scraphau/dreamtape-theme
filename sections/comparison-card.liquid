@@ -35,7 +35,31 @@
           <thead>
             <tr>
               <th scope="col">{{ section.settings.benefit_heading }}</th>
-              <th scope="col" class="cc-brand">{{ section.settings.brand_heading }}</th>
+              <th scope="col" class="cc-brand">
+                {%- if section.settings.brand_logo != blank -%}
+                  <img
+                    class="cc-brand-logo"
+                    src="{{ section.settings.brand_logo | image_url: width: 400 }}"
+                    alt="{{ section.settings.brand_heading | escape }}"
+                    width="{{ section.settings.brand_logo.width }}"
+                    height="{{ section.settings.brand_logo.height }}"
+                    loading="lazy"
+                  >
+                {%- else -%}
+                  {%- comment -%}
+                    The theme's wordmark is navy, so on the dark column it is
+                    inverted to white in CSS rather than shipping a second file.
+                  {%- endcomment -%}
+                  <img
+                    class="cc-brand-logo cc-brand-logo--invert"
+                    src="{{ 'dreamtape-logo.png' | asset_url }}"
+                    alt="{{ section.settings.brand_heading | escape }}"
+                    width="1006"
+                    height="233"
+                    loading="lazy"
+                  >
+                {%- endif -%}
+              </th>
               <th scope="col">{{ section.settings.other_heading }}</th>
             </tr>
           </thead>
@@ -73,7 +97,8 @@
     { "type": "text", "id": "heading", "label": "Heading", "default": "Built for lips, not for parcels" },
     { "type": "textarea", "id": "intro", "label": "Introduction", "default": "Most mouth tape is repurposed from something else. Dreamtape was drawn for the job." },
     { "type": "text", "id": "benefit_heading", "label": "Row column label", "default": "Us vs them" },
-    { "type": "text", "id": "brand_heading", "label": "Our column label", "default": "Dreamtape" },
+    { "type": "text", "id": "brand_heading", "label": "Our column label", "info": "Used as the logo's alt text.", "default": "Dreamtape" },
+    { "type": "image_picker", "id": "brand_logo", "label": "Our column logo", "info": "Leave empty to use the theme's wordmark, which is inverted to white for the dark column." },
     { "type": "text", "id": "other_heading", "label": "Competitor column label", "default": "Generic tape" },
     { "type": "textarea", "id": "rows", "label": "Comparison rows (one per line)", "default": "Hypoallergenic, skin-safe adhesive\nDermatologist tested\nContoured to fit your lips\nAll-night hold, no re-sticking\nGentle, sting-free removal\nBeard & moustache friendly" },
     { "type": "textarea", "id": "note", "label": "Footnote", "default": "Made for healthy adults who can breathe comfortably through the nose. If you have sleep apnea, blocked nasal passages or any ongoing breathing concern, speak with a healthcare professional first." },

@@ -45,14 +45,44 @@ document.querySelectorAll('#product-add-form').forEach(form => {
 });
 
 // Cart drawer
+// Mirrors Liquid's money_without_trailing_zeros: the shop's own currency format
+// with .00 dropped. It has to be the shop's format rather than Intl's, because
+// Intl formats by the reader's browser language - an American browser writes
+// AUD as "A$210" on a page where Liquid has already written "$210", so the same
+// price changed appearance the moment the cart re-rendered.
+function groupedAmount(cents, decimals, thousands, decimalMark) {
+  const [whole, fraction] = (cents / 100).toFixed(decimals).split('.');
+  const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, thousands);
+  return fraction ? grouped + decimalMark + fraction : grouped;
+}
+
 function formatMoney(cents) {
-  const amount = cents / 100;
-  const currency = window.themeRoutes?.cartCurrency || 'USD';
-  const hasDecimal = amount % 1 !== 0;
+  const rounded = Math.round(cents);
+  const hasDecimal = rounded % 100 !== 0;
+  const format = window.themeRoutes?.moneyFormat;
+
+  if (format && format.includes('{{')) {
+    return format.replace(/\{\{\s*(\w+)\s*\}\}/, (match, placeholder) => {
+      switch (placeholder) {
+        case 'amount_no_decimals': return groupedAmount(rounded, 0, ',', '.');
+        case 'amount_with_comma_separator': return groupedAmount(rounded, hasDecimal ? 2 : 0, '.', ',');
+        case 'amount_no_decimals_with_comma_separator': return groupedAmount(rounded, 0, '.', ',');
+        case 'amount_with_apostrophe_separator': return groupedAmount(rounded, hasDecimal ? 2 : 0, "'", '.');
+        case 'amount_no_decimals_with_space_separator': return groupedAmount(rounded, 0, ' ', ',');
+        case 'amount_with_space_separator': return groupedAmount(rounded, hasDecimal ? 2 : 0, ' ', ',');
+        case 'amount_with_period_and_space_separator': return groupedAmount(rounded, hasDecimal ? 2 : 0, ' ', '.');
+        default: return groupedAmount(rounded, hasDecimal ? 2 : 0, ',', '.');
+      }
+    });
+  }
+
+  // No format from the server: fall back to Intl, which at least gets the
+  // currency right even if the prefix may not match Liquid's.
+  const amount = rounded / 100;
   try {
     return new Intl.NumberFormat(undefined, {
       style: 'currency',
-      currency,
+      currency: window.themeRoutes?.cartCurrency || 'USD',
       minimumFractionDigits: hasDecimal ? 2 : 0,
       maximumFractionDigits: hasDecimal ? 2 : 0
     }).format(amount);
@@ -192,6 +222,7 @@ function renderProtectionToggle(cart) {
 
 async function refreshCart(cart) {
   const synced = await syncShippingProtection(cart);
+  await primeUpsellPlans(synced);
   renderCartDrawer(synced);
   renderProtectionToggle(synced);
 }
@@ -258,6 +289,92 @@ document.addEventListener('click', async (e) => {
   }
 });
 
+// /cart.js says which plan a line is on, never which plans it could be on, so
+// the offer has to come from the product. Cached per handle: the drawer
+// re-renders on every quantity change and the answer cannot move between them.
+const upsellPlanByHandle = new Map();
+
+// Both of these mirror snippets/cart-subscribe-upsell.liquid, which renders the
+// same button server-side. Keep them in step.
+function packsInTitle(variantTitle) {
+  const title = variantTitle || '';
+  if (title.includes('3') || title.includes('Three')) return 3;
+  if (title.includes('6') || title.includes('Six')) return 6;
+  return 1;
+}
+
+function planForPacks(product, packs) {
+  const plans = (product.selling_plan_groups || []).flatMap(group => group.selling_plans || []);
+  return plans.find(plan => {
+    const name = (plan.name || '').toLowerCase().replace(/[-_]/g, ' ');
+    if (packs === 3) return name.includes('3 month');
+    if (packs === 6) return name.includes('6 month');
+    return name.includes('month') && !name.includes('3 month') && !name.includes('6 month');
+  }) || null;
+}
+
+async function loadUpsellPlans(handle) {
+  if (upsellPlanByHandle.has(handle)) return;
+  // Cache the miss too, so a product without subscriptions is not refetched on
+  // every render.
+  upsellPlanByHandle.set(handle, new Map());
+  try {
+    const response = await fetch(`/products/${handle}.js`, { headers: { Accept: 'application/json' } });
+    if (!response.ok) return;
+    const product = await response.json();
+    const byVariant = new Map();
+    (product.variants || []).forEach(variant => {
+      // The plan that matches the pack, not always the monthly one - a 3 month
+      // supply on a 30-day plan would arrive three times faster than it is used.
+      const plan = planForPacks(product, packsInTitle(variant.title));
+      const offered = plan && (variant.selling_plan_allocations || [])
+        .some(alloc => alloc.selling_plan_id === plan.id);
+      byVariant.set(variant.id, {
+        plan: offered ? plan : null,
+        compareAtPrice: variant.compare_at_price || 0
+      });
+    });
+    upsellPlanByHandle.set(handle, byVariant);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Called before rendering so the buttons appear with the rest of the line
+// rather than popping in a moment later.
+async function primeUpsellPlans(cart) {
+  const handles = [...new Set(
+    shoppableCartItems(cart)
+      .filter(item => item.handle)
+      .map(item => item.handle)
+  )];
+  await Promise.all(handles.map(loadUpsellPlans));
+}
+
+function upsellPlanFor(item) {
+  if (item.selling_plan_allocation) return null;
+  return upsellPlanByHandle.get(item.handle)?.get(item.variant_id)?.plan || null;
+}
+
+// Mirrors snippets/cart-line-price.liquid. A selling plan sets the line's own
+// price, so Shopify reports no discount on a subscription - original_line_price
+// equals final_line_price and total_discount is zero. The "was" price comes
+// from the plan's allocation, or the variant's compare-at, or a cart discount,
+// whichever is highest. Keep the two in step.
+function cartLinePricing(item) {
+  const allocation = item.selling_plan_allocation;
+  let wasUnit = 0;
+  if (allocation && allocation.compare_at_price > item.final_price) {
+    wasUnit = allocation.compare_at_price;
+  } else {
+    const compareAt = upsellPlanByHandle.get(item.handle)?.get(item.variant_id)?.compareAtPrice || 0;
+    if (compareAt > item.final_price) wasUnit = compareAt;
+  }
+  const wasLine = Math.max(wasUnit * item.quantity, item.original_line_price || 0);
+  const saved = wasLine - item.final_line_price;
+  return { wasLine, saved: saved > 0 ? saved : 0 };
+}
+
 function renderCartDrawer(cart) {
   const itemsEl = document.getElementById('cartDrawerItems');
   const footerEl = document.getElementById('cartDrawerFooter');
@@ -292,9 +409,14 @@ function renderCartDrawer(cart) {
           </div>
         </div>
         <div class="cart-drawer-item-side">
-          <p class="cart-drawer-item-price">${formatMoney(item.final_line_price)}</p>
-          <button type="button" class="cart-drawer-item-remove" data-cart-remove aria-label="Remove ${escapeHtml(item.product_title)}">Remove</button>
+          <p class="cart-drawer-item-price">${(pricing => pricing.saved
+            ? `<s class="cart-line-was">${formatMoney(pricing.wasLine)}</s><span class="cart-line-now">${formatMoney(item.final_line_price)}</span><span class="cart-line-save">(Save ${formatMoney(pricing.saved)})</span>`
+            : `<span class="cart-line-now">${formatMoney(item.final_line_price)}</span>`)(cartLinePricing(item))}</p>
+          <button type="button" class="cart-drawer-item-remove" data-cart-remove aria-label="Remove ${escapeHtml(item.product_title)}">&times;</button>
         </div>
+        ${(plan => plan
+          ? `<button type="button" class="cart-subscribe-upsell" data-cart-subscribe data-selling-plan-id="${plan.id}" data-quantity="${item.quantity}">${escapeHtml(plan.name)}</button>`
+          : '')(upsellPlanFor(item))}
       </div>`).join('');
     if (footerEl) {
       footerEl.hidden = false;
@@ -307,11 +429,28 @@ function renderCartDrawer(cart) {
     }
   }
 
+  syncCartUpsells(items);
+
   document.querySelectorAll('.cart-count').forEach(el => {
     el.textContent = items.reduce((total, item) => total + item.quantity, 0);
   });
 
   renderShippingPromo(cart);
+}
+
+// The upsell rows are rendered once by Liquid and live in the footer, which
+// renderCartDrawer does not replace, so they only need hiding and showing as
+// the cart changes underneath them.
+function syncCartUpsells(items) {
+  const held = new Set(items.map(item => item.variant_id));
+  document.querySelectorAll('[data-cart-upsells]').forEach(block => {
+    const rows = [...block.querySelectorAll('[data-cart-upsell]')];
+    rows.forEach(row => {
+      row.hidden = held.has(Number(row.dataset.variantId));
+    });
+    // Nothing left to offer: the heading should not sit there on its own.
+    block.hidden = rows.every(row => row.hidden);
+  });
 }
 
 function openCartDrawer() {
@@ -371,6 +510,91 @@ document.addEventListener('click', async (e) => {
   }
 });
 
+// Add an upsell to the cart. One-time on purpose: the row offers a pack, not a
+// plan, and the line's own subscribe button is there if they want one.
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('[data-cart-upsell-add]');
+  if (!btn || btn.disabled) return;
+
+  const variantId = btn.dataset.variantId;
+  if (!variantId) return;
+
+  btn.disabled = true;
+  btn.classList.add('is-loading');
+
+  try {
+    const cartAddUrl = window.themeRoutes?.cartAddUrl || '/cart/add.js';
+    const response = await fetch(cartAddUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ items: [{ id: Number(variantId), quantity: 1 }] })
+    });
+    const added = await response.json();
+    if (!response.ok) throw new Error(added?.description || 'Could not add that to your cart');
+
+    if (document.body.classList.contains('template-cart')) {
+      window.location.reload();
+      return;
+    }
+    const cart = await (await fetch('/cart.js', { headers: { Accept: 'application/json' } })).json();
+    await refreshCart(cart);
+    openCartDrawer();
+  } catch (err) {
+    console.error(err);
+    alert("Sorry, we couldn't add that to your cart. Please try again.");
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('is-loading');
+  }
+});
+
+// Convert a one-time line to the monthly plan. /cart/change.js takes a
+// selling_plan and swaps it in place, keeping the quantity, so there is no
+// remove-then-re-add for the customer to watch.
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('[data-cart-subscribe]');
+  if (!btn || btn.disabled) return;
+
+  const itemEl = btn.closest('[data-line-key]');
+  const key = itemEl?.dataset.lineKey;
+  const sellingPlan = btn.dataset.sellingPlanId;
+  if (!key || !sellingPlan) return;
+
+  // The drawer keeps quantity in its own control, the cart page in an input
+  // the customer may have typed into without submitting yet.
+  const shown = itemEl.querySelector('[data-cart-qty-value]')?.textContent
+    ?? itemEl.querySelector('input[name^="updates["]')?.value
+    ?? btn.dataset.quantity;
+  const quantity = Math.max(1, parseInt(shown, 10) || 1);
+
+  btn.disabled = true;
+  btn.classList.add('is-loading');
+
+  try {
+    const cartChangeUrl = window.themeRoutes?.cartChangeUrl || '/cart/change.js';
+    const response = await fetch(cartChangeUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ id: key, quantity, selling_plan: sellingPlan })
+    });
+    const cart = await response.json();
+    if (!response.ok) throw new Error(cart?.description || 'Could not start the subscription');
+
+    // The cart page renders its lines and totals server-side, so it has to come
+    // back from the server to show the new price; the drawer re-renders itself.
+    if (document.body.classList.contains('template-cart')) {
+      window.location.reload();
+      return;
+    }
+    await refreshCart(cart);
+  } catch (err) {
+    console.error(err);
+    btn.disabled = false;
+    btn.classList.remove('is-loading');
+    alert("Sorry, we couldn't switch that to a subscription. Please try again.");
+  }
+});
+
 // The cart can arrive out of sync from an earlier visit (protection missing,
 // or left behind after the last real item was removed), so reconcile it once
 // on load. The cart page renders its totals server-side, so it needs a reload
@@ -386,6 +610,7 @@ if (shippingProtectionVariantId) {
         window.location.reload();
         return;
       }
+      await primeUpsellPlans(synced);
       renderCartDrawer(synced);
       renderProtectionToggle(synced);
     } catch (err) {

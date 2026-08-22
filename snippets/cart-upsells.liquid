@@ -1,0 +1,82 @@
+{%- comment -%}
+  Two one-time add-ons near the bottom of the cart: a three month supply of
+  each product.
+
+  Named by handle rather than picked in the editor, because the drawer lives in
+  the header section and the cart page in its own - a setting would have to be
+  configured twice and could drift apart. Two handles in one place is easier to
+  follow than that.
+
+  A row hides itself when that exact variant is already in the cart, so the
+  cart never offers to add what it is already holding. The block hides with the
+  last of its rows. The drawer re-renders its items in JavaScript, which is why
+  the rows carry data-variant-id: theme.js toggles them there too.
+{%- endcomment -%}
+
+{%- assign upsell_handles = 'dreamtape-nose-strips,mouth-tape' | split: ',' -%}
+
+{%- comment -%} Padded with commas so 436 cannot match inside 1436. {%- endcomment -%}
+{%- assign cart_variant_ids = ',' -%}
+{%- for line in cart.items -%}
+  {%- assign cart_variant_ids = cart_variant_ids | append: line.variant_id | append: ',' -%}
+{%- endfor -%}
+
+{%- assign rows = '' -%}
+{%- capture upsell_rows -%}
+  {%- for handle in upsell_handles -%}
+    {%- assign upsell_product = all_products[handle] -%}
+    {%- if upsell_product != blank -%}
+      {%- comment -%} The three month pack, falling back to nothing rather than to a pack the row does not describe. {%- endcomment -%}
+      {%- assign upsell_variant = blank -%}
+      {%- for variant in upsell_product.variants -%}
+        {%- if upsell_variant == blank and variant.available and variant.title contains '3' -%}
+          {%- assign upsell_variant = variant -%}
+        {%- endif -%}
+      {%- endfor -%}
+
+      {%- if upsell_variant != blank -%}
+        {%- assign needle = ',' | append: upsell_variant.id | append: ',' -%}
+        {%- assign already_in_cart = false -%}
+        {%- if cart_variant_ids contains needle -%}
+          {%- assign already_in_cart = true -%}
+        {%- endif -%}
+
+        <div class="cart-upsell" data-cart-upsell data-variant-id="{{ upsell_variant.id }}" {% if already_in_cart %}hidden{% endif %}>
+          {%- if upsell_variant.image or upsell_product.featured_image -%}
+            {%- assign upsell_image = upsell_variant.image | default: upsell_product.featured_image -%}
+            <img class="cart-upsell-image" src="{{ upsell_image | image_url: width: 120 }}" alt="" width="60" height="60" loading="lazy">
+          {%- else -%}
+            <div class="cart-upsell-image cart-upsell-image--empty" aria-hidden="true">◐</div>
+          {%- endif -%}
+
+          <div class="cart-upsell-info">
+            <p class="cart-upsell-title">{{ upsell_product.title }}</p>
+            <p class="cart-upsell-variant">{{ upsell_variant.title }}</p>
+            <p class="cart-upsell-price">
+              <span class="cart-upsell-now">{{ upsell_variant.price | money_without_trailing_zeros }}</span>
+              {%- if upsell_variant.compare_at_price > upsell_variant.price -%}
+                <s class="cart-upsell-was">{{ upsell_variant.compare_at_price | money_without_trailing_zeros }}</s>
+              {%- endif -%}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            class="cart-upsell-add"
+            data-cart-upsell-add
+            data-variant-id="{{ upsell_variant.id }}"
+            aria-label="Add {{ upsell_product.title | escape }}, {{ upsell_variant.title | escape }}, to your cart"
+          >Add</button>
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- assign rows = upsell_rows | strip -%}
+{%- if rows != blank -%}
+  <div class="cart-upsells" data-cart-upsells>
+    <p class="cart-upsells-heading">Add to your order</p>
+    {{ upsell_rows }}
+  </div>
+{%- endif -%}

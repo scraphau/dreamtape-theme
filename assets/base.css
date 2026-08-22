@@ -369,6 +369,32 @@ a { color: inherit; text-decoration: none; }
   border-bottom: 1px solid var(--line);
   align-items: flex-start;
 }
+/* Spans the line rather than sitting in one of its three columns, so it reads
+   as an offer on the item above it instead of another control beside the
+   quantity stepper. Same element on the cart page, where .cart-item is also a
+   grid. */
+.cart-subscribe-upsell {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 4px;
+  padding: 11px 14px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--midnight);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+.cart-subscribe-upsell:hover { background: var(--midnight-2); }
+.cart-subscribe-upsell:disabled { cursor: default; }
+.cart-subscribe-upsell.is-loading { opacity: 0.6; }
+
 .cart-drawer-item img {
   width: 72px;
   height: 72px;
@@ -410,22 +436,154 @@ a { color: inherit; text-decoration: none; }
   padding: 4px;
 }
 .cart-drawer-item-side { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
-.cart-drawer-item-price { font-family: var(--font-serif); font-size: 15px; white-space: nowrap; }
+.cart-drawer-item-price { font-family: var(--font-serif); font-size: 18px; white-space: nowrap; }
+/* The three parts stack on their own lines: side by side they push the line's
+   third column wide enough to squeeze the title beside it. */
+.cart-line-was,
+.cart-line-now,
+.cart-line-save { display: block; }
+/* Same size as the price it is struck against - the muted colour carries the
+   hierarchy, so shrinking it as well left it looking like a footnote. */
+.cart-line-was {
+  color: var(--section-muted, var(--muted));
+  font-weight: 400;
+  text-decoration: line-through;
+}
+.cart-line-save {
+  margin-top: 2px;
+  /* The green the RECOMMENDED badge and the review ticks already use. */
+  color: #2f8f4e;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+}
+.cart-item-price {
+  margin-top: 6px;
+  font-family: var(--font-serif);
+  font-size: 17px;
+  color: var(--section-text, var(--midnight));
+}
+/* Ordered to the top of the side column rather than absolutely positioned, so
+   it sits in the line's top right corner without being lifted out of the flow
+   and needing the price padded clear of it. */
 .cart-drawer-item-remove {
+  order: -1;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  margin: -4px -6px -2px 0;
+  padding: 0;
   background: none;
   border: none;
-  cursor: pointer;
-  font-size: 12px;
+  border-radius: 50%;
   color: var(--muted);
-  text-decoration: underline;
-  padding: 0;
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s;
+}
+.cart-drawer-item-remove:hover {
+  color: var(--section-text, var(--midnight));
+  background: var(--cream-warm);
 }
 .cart-drawer-item-remove::after {
   content: '';
   position: absolute;
-  inset: -12px -8px;
+  inset: -8px;
 }
+/* ---------- Cart upsells ---------- */
+/* A band of its own between the items and the footer, so it carries the
+   drawer's gutter rather than inheriting the footer's padding. The cart page
+   drops the gutter, since .container already provides one there. */
+.cart-upsells {
+  flex: 0 0 auto;
+  padding: 14px 28px;
+  border-top: 1px solid var(--line);
+}
+.cart-page .cart-upsells {
+  padding-right: 0;
+  padding-left: 0;
+  margin-top: 8px;
+}
+.cart-upsells-heading {
+  margin-bottom: 10px;
+  color: var(--section-muted, var(--muted));
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.cart-upsell {
+  display: grid;
+  grid-template-columns: 52px 1fr auto;
+  gap: 12px;
+  align-items: center;
+  padding: 8px 0;
+}
+.cart-upsell[hidden] { display: none; }
+.cart-upsell-image {
+  width: 52px;
+  height: 52px;
+  object-fit: cover;
+  border-radius: 8px;
+  background: var(--cream-warm);
+}
+.cart-upsell-image--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 20px;
+}
+.cart-upsell-title {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--section-text, var(--midnight));
+}
+.cart-upsell-variant {
+  margin-top: 1px;
+  color: var(--section-muted, var(--muted));
+  font-size: 12px;
+}
+.cart-upsell-price {
+  margin-top: 3px;
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+}
+.cart-upsell-now {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--section-text, var(--midnight));
+}
+.cart-upsell-was {
+  color: var(--section-muted, var(--muted));
+  font-size: 13px;
+  text-decoration: line-through;
+}
+.cart-upsell-add {
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 9px;
+  background: var(--midnight);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+.cart-upsell-add:hover { background: var(--midnight-2); }
+.cart-upsell-add.is-loading { opacity: 0.6; }
+
 .cart-drawer-empty { text-align: center; padding: 0 0 40px; }
 .cart-drawer-empty p { font-size: 16px; color: var(--muted); margin-bottom: 24px; }
 .cart-drawer-footer {
@@ -2891,6 +3049,20 @@ span.cart-protection-icon {
   top: 100%;
   border-radius: 0 0 16px 16px;
 }
+.cc-brand-logo {
+  display: block;
+  width: 100%;
+  max-width: 138px;
+  height: auto;
+  margin: 0 auto;
+}
+/* The theme wordmark is a solid navy PNG. brightness(0) flattens it to black
+   and invert(1) lifts that to white, so it reads on the dark column without a
+   second image to keep in step with the first. */
+.cc-brand-logo--invert {
+  filter: brightness(0) invert(1);
+}
+
 .cc-mark {
   display: inline-flex;
   align-items: center;
@@ -2920,16 +3092,22 @@ span.cart-protection-icon {
 }
 @media (max-width: 640px) {
   .comparison-card-section { padding: 64px 0; }
-  /* Dropping the min-width lets the six rows wrap instead of pushing the
-     table into a sideways scroll, which hides the column the section exists
-     to show. The wrap keeps overflow-x as the safety net for long labels. */
+  /* Dropping the min-width lets the rows wrap instead of pushing the table
+     into a sideways scroll, which hides the column the section exists to
+     show. The wrap keeps overflow-x as the safety net for long labels. */
   .cc-table { min-width: 0; border-spacing: 6px 0; }
-  .cc-table th:first-child, .cc-table td:first-child { width: 62%; }
+  /* Three readable columns rather than one wide one and two slivers. The
+     label column takes a little under half and its rows wrap to two lines,
+     which buys the brand column enough width to keep the wordmark. */
+  .cc-table th:first-child, .cc-table td:first-child { width: 44%; }
+  .cc-table th:last-child, .cc-table td:last-child { width: 27%; }
   .cc-table th, .cc-table td { padding: 12px 8px; }
-  .cc-table tbody td:first-child { font-size: 13.5px; }
-  .cc-table thead th { font-size: 12.5px; padding-top: 16px; padding-bottom: 14px; }
-  .cc-table thead th:first-child { font-size: 11px; letter-spacing: 0.08em; }
-  .cc-table thead .cc-brand { font-size: 16px; }
+  .cc-table tbody td:first-child { font-size: 13px; line-height: 1.35; }
+  .cc-table thead th { font-size: 12px; padding-top: 16px; padding-bottom: 14px; }
+  .cc-table thead th:first-child { font-size: 10.5px; letter-spacing: 0.07em; }
+  .cc-table thead th:last-child { font-size: 11.5px; line-height: 1.25; }
+  .cc-table thead .cc-brand { padding-left: 6px; padding-right: 6px; }
+  .cc-brand-logo { max-width: 76px; }
   .cc-mark { width: 24px; height: 24px; font-size: 15px; }
 }
 

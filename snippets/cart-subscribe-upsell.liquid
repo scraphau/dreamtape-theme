@@ -1,0 +1,62 @@
+{%- comment -%}
+  Turns a one-time cart line into a subscription in place.
+
+  Shown only on lines that have no selling plan yet and whose variant actually
+  offers a matching one. The label is the plan's own name, so it stays true if
+  the discount is ever changed in Shopify rather than hard-coding a percentage
+  the theme would have to be edited to keep honest.
+
+  The plan offered is the one that matches the pack, not always the monthly
+  one: a 3 month supply on a 30-day plan would arrive three times faster than
+  it is consumed. Matched the same way sections/main-product.liquid matches it
+  - pack size from the variant title, then plan name and option values
+  together with hyphens flattened - so "3-month subscription", or a plan
+  carrying its interval only in an option, still resolves.
+
+  Accepts: item (a cart line item).
+{%- endcomment -%}
+
+{%- unless item.selling_plan_allocation -%}
+  {%- assign packs = 1 -%}
+  {%- if item.variant.title contains '3' or item.variant.title contains 'Three' -%}
+    {%- assign packs = 3 -%}
+  {%- elsif item.variant.title contains '6' or item.variant.title contains 'Six' -%}
+    {%- assign packs = 6 -%}
+  {%- endif -%}
+
+  {%- assign matched_plan_id = blank -%}
+  {%- assign matched_plan_name = blank -%}
+  {%- for alloc in item.variant.selling_plan_allocations -%}
+    {%- if matched_plan_id == blank -%}
+      {%- assign plan_haystack = alloc.selling_plan.name -%}
+      {%- for plan_option in alloc.selling_plan.options -%}
+        {%- assign plan_haystack = plan_haystack | append: ' ' | append: plan_option.value -%}
+      {%- endfor -%}
+      {%- assign plan_name = plan_haystack | downcase | replace: '-', ' ' | replace: '_', ' ' -%}
+      {%- assign is_match = false -%}
+      {%- if packs == 3 and plan_name contains '3 month' -%}
+        {%- assign is_match = true -%}
+      {%- elsif packs == 6 and plan_name contains '6 month' -%}
+        {%- assign is_match = true -%}
+      {%- elsif packs == 1 and plan_name contains 'month' -%}
+        {%- unless plan_name contains '3 month' or plan_name contains '6 month' -%}
+          {%- assign is_match = true -%}
+        {%- endunless -%}
+      {%- endif -%}
+      {%- if is_match -%}
+        {%- assign matched_plan_id = alloc.selling_plan.id -%}
+        {%- assign matched_plan_name = alloc.selling_plan.name -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if matched_plan_id != blank -%}
+    <button
+      type="button"
+      class="cart-subscribe-upsell"
+      data-cart-subscribe
+      data-selling-plan-id="{{ matched_plan_id }}"
+      data-quantity="{{ item.quantity }}"
+    >{{ matched_plan_name }}</button>
+  {%- endif -%}
+{%- endunless -%}

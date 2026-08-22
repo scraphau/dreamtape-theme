@@ -1,0 +1,36 @@
+{%- comment -%}
+  A cart line's price, with what it was struck through and what it saves.
+
+  The "was" price comes from whichever source applies to the line, because
+  Shopify reports no discount on a subscription: a selling plan sets the line's
+  own price, so original_line_price equals final_line_price and total_discount
+  is zero. The plan's allocation carries compare_at_price instead.
+
+  In order: the plan's compare-at for a subscription line, the variant's
+  compare-at for a one-time line, and original_line_price if a cart discount
+  has beaten both. Nothing renders but the price when there is no saving to
+  show, so a full-price line stays quiet rather than reading "Save $0".
+
+  Accepts: item (a cart line item).
+{%- endcomment -%}
+
+{%- assign was_unit = 0 -%}
+{%- if item.selling_plan_allocation and item.selling_plan_allocation.compare_at_price > item.final_price -%}
+  {%- assign was_unit = item.selling_plan_allocation.compare_at_price -%}
+{%- elsif item.variant.compare_at_price > item.final_price -%}
+  {%- assign was_unit = item.variant.compare_at_price -%}
+{%- endif -%}
+
+{%- assign was_line = was_unit | times: item.quantity -%}
+{%- if item.original_line_price > was_line -%}
+  {%- assign was_line = item.original_line_price -%}
+{%- endif -%}
+{%- assign saved = was_line | minus: item.final_line_price -%}
+
+{%- if saved > 0 -%}
+  <s class="cart-line-was">{{ was_line | money_without_trailing_zeros }}</s>
+  <span class="cart-line-now">{{ item.final_line_price | money_without_trailing_zeros }}</span>
+  <span class="cart-line-save">(Save {{ saved | money_without_trailing_zeros }})</span>
+{%- else -%}
+  <span class="cart-line-now">{{ item.final_line_price | money_without_trailing_zeros }}</span>
+{%- endif -%}
