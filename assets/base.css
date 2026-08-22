@@ -2860,6 +2860,13 @@ span.cart-protection-icon {
   background: var(--cc-brand-bg, var(--midnight));
   border-color: var(--cc-brand-bg, var(--midnight));
 }
+/* The rounded ends of this column belong to the overhang blocks below, not to
+   the cells. Leaving the cells rounded punched a light wedge out of all four
+   corners, where a rounded corner met a square block. */
+.cc-table thead .cc-brand,
+.cc-table tbody tr:last-child .cc-brand {
+  border-radius: 0;
+}
 .cc-table thead .cc-brand {
   color: var(--cc-brand-text, #fff);
   font-size: 19px;
