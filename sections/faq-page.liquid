@@ -101,6 +101,40 @@
   </div>
 </section>
 
+{%- comment -%}
+  Same FAQPage markup as sections/faq.liquid. This is the page an answer engine
+  is most likely to quote, so leaving it to infer the question and answer
+  pairing from a button and a div would be the wrong place to save the effort.
+  The blocks repeat across three category loops above; this states each of them
+  once.
+{%- endcomment -%}
+{%- if section.blocks.size > 0 -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {%- assign written = 0 -%}
+      {%- for block in section.blocks -%}
+        {%- assign answer_text = block.settings.answer | strip_html | strip -%}
+        {%- if block.settings.question != blank and answer_text != blank -%}
+          {%- if written > 0 %},{% endif -%}
+          {
+            "@type": "Question",
+            "name": {{ block.settings.question | json }},
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": {{ answer_text | json }}
+            }
+          }
+          {%- assign written = written | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    ]
+  }
+  </script>
+{%- endif -%}
+
 {% schema %}
 {
   "name": "FAQ page",
