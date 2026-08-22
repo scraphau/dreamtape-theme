@@ -25,7 +25,7 @@
           "settings": {
             "category": "mouth_tape",
             "question": "How do I use Dreamtape?",
-            "answer": "<p>Start with clean, dry lips — skip heavy balm or moisturizer beforehand. Peel one strip from the sheet, center it across your closed lips with the breathing slit uncovered, and press the edges down so it feels secure. In the morning, peel it off slowly from one corner for the most comfortable removal.</p>"
+            "answer": "<p>Start with clean, dry lips — skip heavy balm or moisturizer beforehand. Peel one strip from the sheet, center it across your closed lips, and press the edges down so it feels secure. In the morning, peel it off slowly from one corner for the most comfortable removal.</p>"
           }
         },
         "mouth-safe": {
@@ -73,7 +73,7 @@
           "settings": {
             "category": "mouth_tape",
             "question": "Can I use it if I have a stuffy nose or cold?",
-            "answer": "<p>We recommend skipping mouth taping on nights when your nose is congested, since the breathing slit still relies on clear nasal airflow. Wait until congestion clears, or check with a healthcare professional if it lingers.</p>"
+            "answer": "<p>We recommend skipping mouth taping on nights when your nose is congested, since taping only works if you can breathe comfortably through your nose. Wait until congestion clears, or check with a healthcare professional if it lingers.</p>"
           }
         },
         "mouth-material": {
