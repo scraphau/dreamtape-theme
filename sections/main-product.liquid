@@ -967,6 +967,75 @@
 
   updateGalleryArrows(currentGalleryIndex());
 
+  // Swipe. Arrows and thumbnails are fine with a mouse, but on a phone the
+  // gesture people reach for is a drag, and there was nothing listening for it.
+  //
+  // touch-action: pan-y on the track hands vertical scrolling back to the
+  // browser and leaves us the horizontal axis, so these listeners can stay
+  // passive and never block a scroll.
+  if (galleryTrack && galleryThumbs.length > 1) {
+    let startX = 0;
+    let startY = 0;
+    let deltaX = 0;
+    let axis = null;
+    let trackWidth = 0;
+
+    galleryTrack.addEventListener('touchstart', (event) => {
+      if (event.touches.length !== 1) return;
+      startX = event.touches[0].clientX;
+      startY = event.touches[0].clientY;
+      deltaX = 0;
+      axis = null;
+      trackWidth = galleryTrack.getBoundingClientRect().width || 1;
+      galleryTrack.classList.add('is-dragging');
+    }, { passive: true });
+
+    galleryTrack.addEventListener('touchmove', (event) => {
+      if (event.touches.length !== 1 || !galleryTrack.classList.contains('is-dragging')) return;
+      const dx = event.touches[0].clientX - startX;
+      const dy = event.touches[0].clientY - startY;
+
+      // Decide once whether this gesture is a swipe or a scroll, then stay out
+      // of the way for the rest of it if it turned out to be a scroll.
+      if (axis === null) {
+        if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+        axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      }
+      if (axis !== 'x') return;
+
+      const index = currentGalleryIndex();
+      const pullingPastStart = index === 0 && dx > 0;
+      const pullingPastEnd = index === galleryThumbs.length - 1 && dx < 0;
+      // Resist at the ends rather than sliding away from the last photo.
+      deltaX = pullingPastStart || pullingPastEnd ? dx * 0.28 : dx;
+      galleryTrack.style.transform = `translateX(calc(${-index * 100}% + ${deltaX}px))`;
+    }, { passive: true });
+
+    const endSwipe = () => {
+      if (!galleryTrack.classList.contains('is-dragging')) return;
+      galleryTrack.classList.remove('is-dragging');
+
+      const index = currentGalleryIndex();
+      // A quick flick should count, so this is a fraction of the width with a
+      // floor and a ceiling rather than a bare percentage.
+      const threshold = Math.min(64, Math.max(36, trackWidth * 0.15));
+
+      if (axis === 'x' && Math.abs(deltaX) > threshold) {
+        const next = deltaX < 0 ? index + 1 : index - 1;
+        showGalleryIndex(Math.max(0, Math.min(next, galleryThumbs.length - 1)));
+      } else {
+        // Under the threshold, or never a swipe at all: put it back.
+        showGalleryIndex(index);
+      }
+
+      deltaX = 0;
+      axis = null;
+    };
+
+    galleryTrack.addEventListener('touchend', endSwipe, { passive: true });
+    galleryTrack.addEventListener('touchcancel', endSwipe, { passive: true });
+  }
+
   document.querySelectorAll('[data-gallery-faq] .gallery-faq-summary').forEach(btn => {
     btn.addEventListener('click', () => {
       const item = btn.closest('.gallery-faq-item');
