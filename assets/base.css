@@ -2891,6 +2891,23 @@ span.cart-protection-icon {
   top: 100%;
   border-radius: 0 0 16px 16px;
 }
+.cc-brand-logo {
+  display: block;
+  width: 100%;
+  max-width: 138px;
+  height: auto;
+  margin: 0 auto;
+}
+/* The theme wordmark is a solid navy PNG. brightness(0) flattens it to black
+   and invert(1) lifts that to white, so it reads on the dark column without a
+   second image to keep in step with the first. */
+.cc-brand-logo--invert {
+  filter: brightness(0) invert(1);
+}
+.cc-brand-label {
+  display: none;
+}
+
 .cc-mark {
   display: inline-flex;
   align-items: center;
@@ -2924,12 +2941,29 @@ span.cart-protection-icon {
      table into a sideways scroll, which hides the column the section exists
      to show. The wrap keeps overflow-x as the safety net for long labels. */
   .cc-table { min-width: 0; border-spacing: 6px 0; }
-  .cc-table th:first-child, .cc-table td:first-child { width: 62%; }
+  /* The third column only ever holds a 24px chip, so it gives its width to the
+     brand column, which has a nine-letter name to fit. Shrinking the name
+     alone never helps: the column narrows with it. */
+  .cc-table th:first-child, .cc-table td:first-child { width: 60%; }
+  .cc-table th:last-child, .cc-table td:last-child { width: 15%; }
   .cc-table th, .cc-table td { padding: 12px 8px; }
   .cc-table tbody td:first-child { font-size: 13.5px; }
   .cc-table thead th { font-size: 12.5px; padding-top: 16px; padding-bottom: 14px; }
   .cc-table thead th:first-child { font-size: 11px; letter-spacing: 0.08em; }
-  .cc-table thead .cc-brand { font-size: 16px; }
+  /* Too narrow for a wordmark, so the logo gives way to the name. */
+  .cc-table thead .cc-brand {
+    font-size: 12.5px;
+    padding-left: 4px;
+    padding-right: 4px;
+    letter-spacing: 0;
+  }
+  .cc-table thead th:last-child {
+    font-size: 11px;
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+  .cc-brand-logo { display: none; }
+  .cc-brand-label { display: block; }
   .cc-mark { width: 24px; height: 24px; font-size: 15px; }
 }
 
