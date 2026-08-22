@@ -192,7 +192,7 @@ function renderProtectionToggle(cart) {
 
 async function refreshCart(cart) {
   const synced = await syncShippingProtection(cart);
-  await primeMonthlyPlans(synced);
+  await primeUpsellPlans(synced);
   renderCartDrawer(synced);
   renderProtectionToggle(synced);
 }
@@ -260,37 +260,49 @@ document.addEventListener('click', async (e) => {
 });
 
 // /cart.js says which plan a line is on, never which plans it could be on, so
-// the monthly plan has to come from the product. Cached per handle: the drawer
+// the offer has to come from the product. Cached per handle: the drawer
 // re-renders on every quantity change and the answer cannot move between them.
-const monthlyPlanByHandle = new Map();
+const upsellPlanByHandle = new Map();
 
-function findMonthlyPlan(product) {
+// Both of these mirror snippets/cart-subscribe-upsell.liquid, which renders the
+// same button server-side. Keep them in step.
+function packsInTitle(variantTitle) {
+  const title = variantTitle || '';
+  if (title.includes('3') || title.includes('Three')) return 3;
+  if (title.includes('6') || title.includes('Six')) return 6;
+  return 1;
+}
+
+function planForPacks(product, packs) {
   const plans = (product.selling_plan_groups || []).flatMap(group => group.selling_plans || []);
-  // Same test as snippets/cart-subscribe-upsell.liquid.
   return plans.find(plan => {
     const name = (plan.name || '').toLowerCase().replace(/[-_]/g, ' ');
+    if (packs === 3) return name.includes('3 month');
+    if (packs === 6) return name.includes('6 month');
     return name.includes('month') && !name.includes('3 month') && !name.includes('6 month');
   }) || null;
 }
 
-async function loadMonthlyPlans(handle) {
-  if (monthlyPlanByHandle.has(handle)) return;
+async function loadUpsellPlans(handle) {
+  if (upsellPlanByHandle.has(handle)) return;
   // Cache the miss too, so a product without subscriptions is not refetched on
   // every render.
-  monthlyPlanByHandle.set(handle, new Map());
+  upsellPlanByHandle.set(handle, new Map());
   try {
     const response = await fetch(`/products/${handle}.js`, { headers: { Accept: 'application/json' } });
     if (!response.ok) return;
     const product = await response.json();
-    const monthly = findMonthlyPlan(product);
-    if (!monthly) return;
     const byVariant = new Map();
     (product.variants || []).forEach(variant => {
+      // The plan that matches the pack, not always the monthly one - a 3 month
+      // supply on a 30-day plan would arrive three times faster than it is used.
+      const plan = planForPacks(product, packsInTitle(variant.title));
+      if (!plan) return;
       const offered = (variant.selling_plan_allocations || [])
-        .some(alloc => alloc.selling_plan_id === monthly.id);
-      if (offered) byVariant.set(variant.id, monthly);
+        .some(alloc => alloc.selling_plan_id === plan.id);
+      if (offered) byVariant.set(variant.id, plan);
     });
-    monthlyPlanByHandle.set(handle, byVariant);
+    upsellPlanByHandle.set(handle, byVariant);
   } catch (err) {
     console.error(err);
   }
@@ -298,18 +310,18 @@ async function loadMonthlyPlans(handle) {
 
 // Called before rendering so the buttons appear with the rest of the line
 // rather than popping in a moment later.
-async function primeMonthlyPlans(cart) {
+async function primeUpsellPlans(cart) {
   const handles = [...new Set(
     shoppableCartItems(cart)
       .filter(item => !item.selling_plan_allocation && item.handle)
       .map(item => item.handle)
   )];
-  await Promise.all(handles.map(loadMonthlyPlans));
+  await Promise.all(handles.map(loadUpsellPlans));
 }
 
-function monthlyPlanFor(item) {
+function upsellPlanFor(item) {
   if (item.selling_plan_allocation) return null;
-  return monthlyPlanByHandle.get(item.handle)?.get(item.variant_id) || null;
+  return upsellPlanByHandle.get(item.handle)?.get(item.variant_id) || null;
 }
 
 function renderCartDrawer(cart) {
@@ -351,7 +363,7 @@ function renderCartDrawer(cart) {
         </div>
         ${(plan => plan
           ? `<button type="button" class="cart-subscribe-upsell" data-cart-subscribe data-selling-plan-id="${plan.id}" data-quantity="${item.quantity}">${escapeHtml(plan.name)}</button>`
-          : '')(monthlyPlanFor(item))}
+          : '')(upsellPlanFor(item))}
       </div>`).join('');
     if (footerEl) {
       footerEl.hidden = false;
@@ -490,7 +502,7 @@ if (shippingProtectionVariantId) {
         window.location.reload();
         return;
       }
-      await primeMonthlyPlans(synced);
+      await primeUpsellPlans(synced);
       renderCartDrawer(synced);
       renderProtectionToggle(synced);
     } catch (err) {
