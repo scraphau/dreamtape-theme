@@ -22,6 +22,36 @@
   </div>
 </section>
 
+{%- comment -%}
+  The questions are already on the page; this states them in the form search
+  engines and answer engines read directly, rather than leaving them to infer
+  the pairing from a button and a div. Answers are stripped of their markup,
+  which is what the spec asks for and what keeps the JSON valid.
+{%- endcomment -%}
+{%- if section.blocks.size > 0 -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {%- for block in section.blocks -%}
+        {%- assign answer_text = block.settings.answer | strip_html | strip -%}
+        {%- if block.settings.question != blank and answer_text != blank -%}
+        {
+          "@type": "Question",
+          "name": {{ block.settings.question | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ answer_text | json }}
+          }
+        }{% unless forloop.last %},{% endunless %}
+        {%- endif -%}
+      {%- endfor -%}
+    ]
+  }
+  </script>
+{%- endif -%}
+
 {% schema %}
 {
   "name": "FAQ",
