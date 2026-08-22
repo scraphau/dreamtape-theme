@@ -192,6 +192,7 @@ function renderProtectionToggle(cart) {
 
 async function refreshCart(cart) {
   const synced = await syncShippingProtection(cart);
+  await primeMonthlyPlans(synced);
   renderCartDrawer(synced);
   renderProtectionToggle(synced);
 }
@@ -258,6 +259,59 @@ document.addEventListener('click', async (e) => {
   }
 });
 
+// /cart.js says which plan a line is on, never which plans it could be on, so
+// the monthly plan has to come from the product. Cached per handle: the drawer
+// re-renders on every quantity change and the answer cannot move between them.
+const monthlyPlanByHandle = new Map();
+
+function findMonthlyPlan(product) {
+  const plans = (product.selling_plan_groups || []).flatMap(group => group.selling_plans || []);
+  // Same test as snippets/cart-subscribe-upsell.liquid.
+  return plans.find(plan => {
+    const name = (plan.name || '').toLowerCase().replace(/[-_]/g, ' ');
+    return name.includes('month') && !name.includes('3 month') && !name.includes('6 month');
+  }) || null;
+}
+
+async function loadMonthlyPlans(handle) {
+  if (monthlyPlanByHandle.has(handle)) return;
+  // Cache the miss too, so a product without subscriptions is not refetched on
+  // every render.
+  monthlyPlanByHandle.set(handle, new Map());
+  try {
+    const response = await fetch(`/products/${handle}.js`, { headers: { Accept: 'application/json' } });
+    if (!response.ok) return;
+    const product = await response.json();
+    const monthly = findMonthlyPlan(product);
+    if (!monthly) return;
+    const byVariant = new Map();
+    (product.variants || []).forEach(variant => {
+      const offered = (variant.selling_plan_allocations || [])
+        .some(alloc => alloc.selling_plan_id === monthly.id);
+      if (offered) byVariant.set(variant.id, monthly);
+    });
+    monthlyPlanByHandle.set(handle, byVariant);
+  } catch (err) {
+    console.error(err);
+  }
+}
+
+// Called before rendering so the buttons appear with the rest of the line
+// rather than popping in a moment later.
+async function primeMonthlyPlans(cart) {
+  const handles = [...new Set(
+    shoppableCartItems(cart)
+      .filter(item => !item.selling_plan_allocation && item.handle)
+      .map(item => item.handle)
+  )];
+  await Promise.all(handles.map(loadMonthlyPlans));
+}
+
+function monthlyPlanFor(item) {
+  if (item.selling_plan_allocation) return null;
+  return monthlyPlanByHandle.get(item.handle)?.get(item.variant_id) || null;
+}
+
 function renderCartDrawer(cart) {
   const itemsEl = document.getElementById('cartDrawerItems');
   const footerEl = document.getElementById('cartDrawerFooter');
@@ -295,6 +349,9 @@ function renderCartDrawer(cart) {
           <p class="cart-drawer-item-price">${formatMoney(item.final_line_price)}</p>
           <button type="button" class="cart-drawer-item-remove" data-cart-remove aria-label="Remove ${escapeHtml(item.product_title)}">Remove</button>
         </div>
+        ${(plan => plan
+          ? `<button type="button" class="cart-subscribe-upsell" data-cart-subscribe data-selling-plan-id="${plan.id}" data-quantity="${item.quantity}">${escapeHtml(plan.name)}</button>`
+          : '')(monthlyPlanFor(item))}
       </div>`).join('');
     if (footerEl) {
       footerEl.hidden = false;
@@ -371,6 +428,53 @@ document.addEventListener('click', async (e) => {
   }
 });
 
+// Convert a one-time line to the monthly plan. /cart/change.js takes a
+// selling_plan and swaps it in place, keeping the quantity, so there is no
+// remove-then-re-add for the customer to watch.
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('[data-cart-subscribe]');
+  if (!btn || btn.disabled) return;
+
+  const itemEl = btn.closest('[data-line-key]');
+  const key = itemEl?.dataset.lineKey;
+  const sellingPlan = btn.dataset.sellingPlanId;
+  if (!key || !sellingPlan) return;
+
+  // The drawer keeps quantity in its own control, the cart page in an input
+  // the customer may have typed into without submitting yet.
+  const shown = itemEl.querySelector('[data-cart-qty-value]')?.textContent
+    ?? itemEl.querySelector('input[name^="updates["]')?.value
+    ?? btn.dataset.quantity;
+  const quantity = Math.max(1, parseInt(shown, 10) || 1);
+
+  btn.disabled = true;
+  btn.classList.add('is-loading');
+
+  try {
+    const cartChangeUrl = window.themeRoutes?.cartChangeUrl || '/cart/change.js';
+    const response = await fetch(cartChangeUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ id: key, quantity, selling_plan: sellingPlan })
+    });
+    const cart = await response.json();
+    if (!response.ok) throw new Error(cart?.description || 'Could not start the subscription');
+
+    // The cart page renders its lines and totals server-side, so it has to come
+    // back from the server to show the new price; the drawer re-renders itself.
+    if (document.body.classList.contains('template-cart')) {
+      window.location.reload();
+      return;
+    }
+    await refreshCart(cart);
+  } catch (err) {
+    console.error(err);
+    btn.disabled = false;
+    btn.classList.remove('is-loading');
+    alert("Sorry, we couldn't switch that to a subscription. Please try again.");
+  }
+});
+
 // The cart can arrive out of sync from an earlier visit (protection missing,
 // or left behind after the last real item was removed), so reconcile it once
 // on load. The cart page renders its totals server-side, so it needs a reload
@@ -386,6 +490,7 @@ if (shippingProtectionVariantId) {
         window.location.reload();
         return;
       }
+      await primeMonthlyPlans(synced);
       renderCartDrawer(synced);
       renderProtectionToggle(synced);
     } catch (err) {

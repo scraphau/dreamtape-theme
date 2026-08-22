@@ -136,6 +136,7 @@
             <p class="cart-drawer-item-price">{{ item.final_line_price | money_without_trailing_zeros }}</p>
             <button type="button" class="cart-drawer-item-remove" data-cart-remove aria-label="Remove {{ item.product.title | escape }}">Remove</button>
           </div>
+          {% render 'cart-subscribe-upsell', item: item %}
         </div>
       {%- endfor -%}
     {%- else -%}

@@ -1,0 +1,45 @@
+{%- comment -%}
+  Turns a one-time cart line into a subscription in place.
+
+  Shown only on lines that have no selling plan yet and whose variant actually
+  offers a monthly one. The label is the plan's own name, so it stays true if
+  the discount is ever changed in Shopify rather than hard-coding a percentage
+  the theme would have to be edited to keep honest.
+
+  The plan is matched the same way sections/main-product.liquid matches it -
+  name and option values together, hyphens flattened - so a plan called
+  "1-month subscription" or one that only carries its interval in an option
+  still resolves to the monthly plan rather than dropping through.
+
+  Accepts: item (a cart line item).
+{%- endcomment -%}
+
+{%- unless item.selling_plan_allocation -%}
+  {%- assign monthly_plan_id = blank -%}
+  {%- assign monthly_plan_name = blank -%}
+  {%- for alloc in item.variant.selling_plan_allocations -%}
+    {%- if monthly_plan_id == blank -%}
+      {%- assign plan_haystack = alloc.selling_plan.name -%}
+      {%- for plan_option in alloc.selling_plan.options -%}
+        {%- assign plan_haystack = plan_haystack | append: ' ' | append: plan_option.value -%}
+      {%- endfor -%}
+      {%- assign plan_name = plan_haystack | downcase | replace: '-', ' ' | replace: '_', ' ' -%}
+      {%- if plan_name contains 'month' -%}
+        {%- unless plan_name contains '3 month' or plan_name contains '6 month' -%}
+          {%- assign monthly_plan_id = alloc.selling_plan.id -%}
+          {%- assign monthly_plan_name = alloc.selling_plan.name -%}
+        {%- endunless -%}
+      {%- endif -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {%- if monthly_plan_id != blank -%}
+    <button
+      type="button"
+      class="cart-subscribe-upsell"
+      data-cart-subscribe
+      data-selling-plan-id="{{ monthly_plan_id }}"
+      data-quantity="{{ item.quantity }}"
+    >{{ monthly_plan_name }}</button>
+  {%- endif -%}
+{%- endunless -%}

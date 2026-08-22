@@ -369,6 +369,32 @@ a { color: inherit; text-decoration: none; }
   border-bottom: 1px solid var(--line);
   align-items: flex-start;
 }
+/* Spans the line rather than sitting in one of its three columns, so it reads
+   as an offer on the item above it instead of another control beside the
+   quantity stepper. Same element on the cart page, where .cart-item is also a
+   grid. */
+.cart-subscribe-upsell {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin-top: 4px;
+  padding: 11px 14px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--midnight);
+  color: #fff;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1.3;
+  cursor: pointer;
+  transition: background 0.2s, opacity 0.2s;
+}
+.cart-subscribe-upsell:hover { background: var(--midnight-2); }
+.cart-subscribe-upsell:disabled { cursor: default; }
+.cart-subscribe-upsell.is-loading { opacity: 0.6; }
+
 .cart-drawer-item img {
   width: 72px;
   height: 72px;

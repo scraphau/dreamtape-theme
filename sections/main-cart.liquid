@@ -11,7 +11,7 @@
     {%- if shoppable_items.size > 0 -%}
       {%- form 'cart', cart -%}
         {%- for item in shoppable_items -%}
-          <div class="cart-item">
+          <div class="cart-item" data-line-key="{{ item.key }}">
             <a href="{{ item.url }}">
               {%- if item.image -%}
                 <img src="{{ item.image | image_url: width: 200 }}" alt="{{ item.title | escape }}">
@@ -37,6 +37,7 @@
               {%- comment -%} Keyed rather than positional, since the protection line is filtered out of this loop and a bare updates[] would shift every quantity onto the wrong line. {%- endcomment -%}
               <input type="number" name="updates[{{ item.key }}]" value="{{ item.quantity }}" min="0" style="width:60px;padding:8px;border:1px solid var(--line);border-radius:8px;font-family:inherit;text-align:center;">
             </div>
+            {% render 'cart-subscribe-upsell', item: item %}
           </div>
         {%- endfor -%}
 
