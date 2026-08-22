@@ -5,9 +5,11 @@
   template. It therefore needs no preset and touches no template file, so the
   home page cannot be affected by it.
 
-  Behaviour: the popup opens once. Closing it - by any route - collapses it to a
-  tab in the bottom left, which reopens it on click. Dismissing that tab ends it
-  for good. Signing up ends it for good. Nothing reopens on its own.
+  Behaviour: the popup opens by itself exactly once per browser, on a timer or
+  on exit intent, whichever comes first. Closing it - by any route - collapses
+  it to a tab in the bottom left, which reopens it only on click. Dismissing
+  that tab ends it for good, as does signing up. Nothing reopens on its own,
+  and nothing survives being dismissed.
 
   Uses Shopify's own customer form, so addresses land in Customers as marketing
   contacts with no app involved.
@@ -100,6 +102,16 @@
         var DISMISSED = 'dt_np_done';   // tab dismissed, or signed up - over for good
         var delay = (parseInt(overlay.dataset.delay, 10) || 8) * 1000;
         var opener = null;
+        var timer = null;
+        var exitHandler = null;
+
+        // Everything that can open the popup on its own, switched off together.
+        // Once it has had its one automatic opening, or been dismissed, the
+        // only thing left that opens it is a deliberate click on the tab.
+        function stopAutoOpen() {
+          if (timer) { clearTimeout(timer); timer = null; }
+          if (exitHandler) { document.removeEventListener('mouseout', exitHandler); exitHandler = null; }
+        }
 
         function store(key) {
           try { return window.localStorage.getItem(key); } catch (e) { return null; }
@@ -116,7 +128,9 @@
         }
 
         function openPopup() {
+          if (store(DISMISSED)) return;
           if (!overlay.hidden) return;
+          stopAutoOpen();
           opener = document.activeElement;
           overlay.hidden = false;
           hideTab();
@@ -136,6 +150,7 @@
         }
 
         function endForGood() {
+          stopAutoOpen();
           overlay.hidden = true;
           document.documentElement.classList.remove('np-open');
           hideTab();
@@ -171,15 +186,15 @@
         // Already had its opening on an earlier page - tab only, no interruption.
         if (store(SHOWN)) return showTab();
 
-        var timer = setTimeout(openPopup, delay);
+        timer = setTimeout(openPopup, delay);
 
-        // Leaving toward the tab bar - last chance, desktop only.
-        document.addEventListener('mouseout', function (e) {
-          if (!e.relatedTarget && e.clientY <= 0 && window.innerWidth > 768) {
-            clearTimeout(timer);
-            openPopup();
-          }
-        });
+        // Leaving toward the tab bar - last chance, desktop only. Whichever of
+        // the two fires first cancels the other, so this is one opening, not a
+        // second one waiting behind the first.
+        exitHandler = function (e) {
+          if (!e.relatedTarget && e.clientY <= 0 && window.innerWidth > 768) openPopup();
+        };
+        document.addEventListener('mouseout', exitHandler);
       } catch (e) {
         /* popup and tab stay closed */
       }
