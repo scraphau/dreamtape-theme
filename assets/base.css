@@ -1606,6 +1606,14 @@ span.cart-protection-icon {
   width: 100%;
   height: 100%;
   transition: transform 0.28s cubic-bezier(.65, 0, .35, 1);
+  /* Vertical panning stays with the browser so the page still scrolls off the
+     gallery; the horizontal axis is ours to read as a swipe. */
+  touch-action: pan-y;
+}
+/* While a finger is down the track follows it directly - easing here would lag
+   behind the drag. */
+.gallery-track.is-dragging {
+  transition: none;
 }
 .gallery-slide { flex: 0 0 100%; width: 100%; height: 100%; }
 .gallery-slide img { display: block; }
