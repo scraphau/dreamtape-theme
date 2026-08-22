@@ -28,7 +28,7 @@
               {%- if item.selling_plan_allocation -%}
                 <p class="cart-drawer-item-plan">{{ item.selling_plan_allocation.selling_plan.name }}</p>
               {%- endif -%}
-              <p style="margin-top:6px;font-family:var(--font-serif);font-size:17px;color:var(--midnight);">{{ item.final_line_price | money_without_trailing_zeros }}</p>
+              <p class="cart-item-price">{% render 'cart-line-price', item: item %}</p>
             </div>
             <div class="cart-qty">
               <a href="{{ item.url_to_remove }}" style="font-size:13px;color:var(--muted);">Remove</a>

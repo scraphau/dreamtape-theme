@@ -297,10 +297,12 @@ async function loadUpsellPlans(handle) {
       // The plan that matches the pack, not always the monthly one - a 3 month
       // supply on a 30-day plan would arrive three times faster than it is used.
       const plan = planForPacks(product, packsInTitle(variant.title));
-      if (!plan) return;
-      const offered = (variant.selling_plan_allocations || [])
+      const offered = plan && (variant.selling_plan_allocations || [])
         .some(alloc => alloc.selling_plan_id === plan.id);
-      if (offered) byVariant.set(variant.id, plan);
+      byVariant.set(variant.id, {
+        plan: offered ? plan : null,
+        compareAtPrice: variant.compare_at_price || 0
+      });
     });
     upsellPlanByHandle.set(handle, byVariant);
   } catch (err) {
@@ -313,7 +315,7 @@ async function loadUpsellPlans(handle) {
 async function primeUpsellPlans(cart) {
   const handles = [...new Set(
     shoppableCartItems(cart)
-      .filter(item => !item.selling_plan_allocation && item.handle)
+      .filter(item => item.handle)
       .map(item => item.handle)
   )];
   await Promise.all(handles.map(loadUpsellPlans));
@@ -321,7 +323,26 @@ async function primeUpsellPlans(cart) {
 
 function upsellPlanFor(item) {
   if (item.selling_plan_allocation) return null;
-  return upsellPlanByHandle.get(item.handle)?.get(item.variant_id) || null;
+  return upsellPlanByHandle.get(item.handle)?.get(item.variant_id)?.plan || null;
+}
+
+// Mirrors snippets/cart-line-price.liquid. A selling plan sets the line's own
+// price, so Shopify reports no discount on a subscription - original_line_price
+// equals final_line_price and total_discount is zero. The "was" price comes
+// from the plan's allocation, or the variant's compare-at, or a cart discount,
+// whichever is highest. Keep the two in step.
+function cartLinePricing(item) {
+  const allocation = item.selling_plan_allocation;
+  let wasUnit = 0;
+  if (allocation && allocation.compare_at_price > item.final_price) {
+    wasUnit = allocation.compare_at_price;
+  } else {
+    const compareAt = upsellPlanByHandle.get(item.handle)?.get(item.variant_id)?.compareAtPrice || 0;
+    if (compareAt > item.final_price) wasUnit = compareAt;
+  }
+  const wasLine = Math.max(wasUnit * item.quantity, item.original_line_price || 0);
+  const saved = wasLine - item.final_line_price;
+  return { wasLine, saved: saved > 0 ? saved : 0 };
 }
 
 function renderCartDrawer(cart) {
@@ -358,7 +379,9 @@ function renderCartDrawer(cart) {
           </div>
         </div>
         <div class="cart-drawer-item-side">
-          <p class="cart-drawer-item-price">${formatMoney(item.final_line_price)}</p>
+          <p class="cart-drawer-item-price">${(pricing => pricing.saved
+            ? `<s class="cart-line-was">${formatMoney(pricing.wasLine)}</s><span class="cart-line-now">${formatMoney(item.final_line_price)}</span><span class="cart-line-save">(Save ${formatMoney(pricing.saved)})</span>`
+            : `<span class="cart-line-now">${formatMoney(item.final_line_price)}</span>`)(cartLinePricing(item))}</p>
           <button type="button" class="cart-drawer-item-remove" data-cart-remove aria-label="Remove ${escapeHtml(item.product_title)}">Remove</button>
         </div>
         ${(plan => plan

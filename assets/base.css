@@ -437,6 +437,30 @@ a { color: inherit; text-decoration: none; }
 }
 .cart-drawer-item-side { text-align: right; display: flex; flex-direction: column; align-items: flex-end; gap: 10px; }
 .cart-drawer-item-price { font-family: var(--font-serif); font-size: 15px; white-space: nowrap; }
+/* The three parts stack on their own lines: side by side they push the line's
+   third column wide enough to squeeze the title beside it. */
+.cart-line-was,
+.cart-line-now,
+.cart-line-save { display: block; }
+.cart-line-was {
+  color: var(--section-muted, var(--muted));
+  font-size: 0.85em;
+  font-weight: 400;
+  text-decoration: line-through;
+}
+.cart-line-save {
+  margin-top: 2px;
+  color: #146b45;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+}
+.cart-item-price {
+  margin-top: 6px;
+  font-family: var(--font-serif);
+  font-size: 17px;
+  color: var(--section-text, var(--midnight));
+}
 .cart-drawer-item-remove {
   position: relative;
   background: none;
