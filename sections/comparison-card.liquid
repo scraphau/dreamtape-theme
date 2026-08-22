@@ -59,12 +59,6 @@
                     loading="lazy"
                   >
                 {%- endif -%}
-                {%- comment -%}
-                  The column is too narrow on a phone for a wordmark to be
-                  legible, so the name takes over below 640px. Only ever one of
-                  the two is displayed, so neither is read out twice.
-                {%- endcomment -%}
-                <span class="cc-brand-label">{{ section.settings.brand_heading }}</span>
               </th>
               <th scope="col">{{ section.settings.other_heading }}</th>
             </tr>
