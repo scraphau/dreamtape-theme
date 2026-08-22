@@ -429,11 +429,28 @@ function renderCartDrawer(cart) {
     }
   }
 
+  syncCartUpsells(items);
+
   document.querySelectorAll('.cart-count').forEach(el => {
     el.textContent = items.reduce((total, item) => total + item.quantity, 0);
   });
 
   renderShippingPromo(cart);
+}
+
+// The upsell rows are rendered once by Liquid and live in the footer, which
+// renderCartDrawer does not replace, so they only need hiding and showing as
+// the cart changes underneath them.
+function syncCartUpsells(items) {
+  const held = new Set(items.map(item => item.variant_id));
+  document.querySelectorAll('[data-cart-upsells]').forEach(block => {
+    const rows = [...block.querySelectorAll('[data-cart-upsell]')];
+    rows.forEach(row => {
+      row.hidden = held.has(Number(row.dataset.variantId));
+    });
+    // Nothing left to offer: the heading should not sit there on its own.
+    block.hidden = rows.every(row => row.hidden);
+  });
 }
 
 function openCartDrawer() {
@@ -490,6 +507,44 @@ document.addEventListener('click', async (e) => {
   } catch (err) {
     console.error(err);
     alert('Sorry, we couldn\'t update your cart. Please try again.');
+  }
+});
+
+// Add an upsell to the cart. One-time on purpose: the row offers a pack, not a
+// plan, and the line's own subscribe button is there if they want one.
+document.addEventListener('click', async (e) => {
+  const btn = e.target.closest('[data-cart-upsell-add]');
+  if (!btn || btn.disabled) return;
+
+  const variantId = btn.dataset.variantId;
+  if (!variantId) return;
+
+  btn.disabled = true;
+  btn.classList.add('is-loading');
+
+  try {
+    const cartAddUrl = window.themeRoutes?.cartAddUrl || '/cart/add.js';
+    const response = await fetch(cartAddUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ items: [{ id: Number(variantId), quantity: 1 }] })
+    });
+    const added = await response.json();
+    if (!response.ok) throw new Error(added?.description || 'Could not add that to your cart');
+
+    if (document.body.classList.contains('template-cart')) {
+      window.location.reload();
+      return;
+    }
+    const cart = await (await fetch('/cart.js', { headers: { Accept: 'application/json' } })).json();
+    await refreshCart(cart);
+    openCartDrawer();
+  } catch (err) {
+    console.error(err);
+    alert("Sorry, we couldn't add that to your cart. Please try again.");
+  } finally {
+    btn.disabled = false;
+    btn.classList.remove('is-loading');
   }
 });
 
