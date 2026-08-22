@@ -7,14 +7,52 @@
     <div class="product-layout">
 
       <!-- Gallery -->
+      {%- comment -%}
+        Images attached to a variant are left out of the gallery. With a pack
+        size on every variant, the strip ended in three near-identical shots of
+        the same pouch in ones, threes and sixes, which say nothing the variant
+        picker below does not already say. Nothing syncs the gallery to that
+        picker - it moves on thumbnail clicks and arrows only - so removing them
+        costs no behaviour.
+
+        Compared on image ids rather than media ids, since variant.image and
+        product.images are the same kind of object and compare cleanly. The
+        commas around each id stop 436 matching inside 1436.
+
+        If every image happens to be assigned to a variant the filter would
+        leave an empty gallery, so in that case it stands down and shows them
+        all.
+      {%- endcomment -%}
+      {%- assign variant_image_ids = ',' -%}
+      {%- for variant in product.variants -%}
+        {%- if variant.image != blank -%}
+          {%- assign variant_image_ids = variant_image_ids | append: variant.image.id | append: ',' -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- assign gallery_count = 0 -%}
+      {%- for image in product.images -%}
+        {%- assign needle = ',' | append: image.id | append: ',' -%}
+        {%- unless variant_image_ids contains needle -%}
+          {%- assign gallery_count = gallery_count | plus: 1 -%}
+        {%- endunless -%}
+      {%- endfor -%}
+      {%- if gallery_count == 0 -%}
+        {%- assign variant_image_ids = ',' -%}
+        {%- assign gallery_count = product.images.size -%}
+      {%- endif -%}
       <div class="product-gallery">
         <div class="product-gallery-main" data-gallery-main>
-          {%- if product.media.size > 0 -%}
+          {%- if gallery_count > 0 -%}
             <div class="gallery-track" data-gallery-track>
-              {%- for media in product.media -%}
-                <div class="gallery-slide">
-                  <img src="{{ media | image_url: width: 1600 }}" alt="{{ media.alt | escape }}" loading="{% if forloop.first %}eager{% else %}lazy{% endif %}">
-                </div>
+              {%- assign shown = 0 -%}
+              {%- for image in product.images -%}
+                {%- assign needle = ',' | append: image.id | append: ',' -%}
+                {%- unless variant_image_ids contains needle -%}
+                  <div class="gallery-slide">
+                    <img src="{{ image | image_url: width: 1600 }}" alt="{{ image.alt | escape }}" loading="{% if shown == 0 %}eager{% else %}lazy{% endif %}">
+                  </div>
+                  {%- assign shown = shown | plus: 1 -%}
+                {%- endunless -%}
               {%- endfor -%}
             </div>
           {%- else -%}
@@ -31,7 +69,7 @@
             <div class="gallery-badge">{{ section.settings.image_badge }}</div>
           {%- endif -%}
 
-          {%- if product.media.size > 1 -%}
+          {%- if gallery_count > 1 -%}
             <button type="button" class="gallery-arrow gallery-arrow--prev" data-gallery-prev aria-label="Previous image">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
@@ -41,12 +79,17 @@
           {%- endif -%}
         </div>
 
-        {%- if product.media.size > 1 -%}
+        {%- if gallery_count > 1 -%}
           <div class="product-thumbs">
-            {%- for media in product.media -%}
-              <div class="product-thumb {% if forloop.first %}active{% endif %}" data-gallery-thumb>
-                <img src="{{ media | image_url: width: 200 }}" alt="">
-              </div>
+            {%- assign shown = 0 -%}
+            {%- for image in product.images -%}
+              {%- assign needle = ',' | append: image.id | append: ',' -%}
+              {%- unless variant_image_ids contains needle -%}
+                <div class="product-thumb {% if shown == 0 %}active{% endif %}" data-gallery-thumb>
+                  <img src="{{ image | image_url: width: 200 }}" alt="" loading="lazy">
+                </div>
+                {%- assign shown = shown | plus: 1 -%}
+              {%- endunless -%}
             {%- endfor -%}
           </div>
         {%- endif -%}
