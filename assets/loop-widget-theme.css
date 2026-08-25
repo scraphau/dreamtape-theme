@@ -131,7 +131,7 @@
 .loop-custom-perks {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 7px;
   overflow: hidden;
   padding-left: 36px;
   padding-top: 6px;
@@ -140,6 +140,24 @@
   color: var(--section-muted, var(--muted));
   line-height: 1.4;
 }
+
+/* Each perk is an icon and a line of text. Only the direct children are laid
+   out - the spans inside carry the discount and the interval, and belong in
+   the run of text, not beside it. */
+.loop-custom-perks > span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.loop-perk-icon {
+  flex-shrink: 0;
+  width: 15px;
+  height: 15px;
+  /* The card's own navy rather than the muted grey the text uses: at this size
+     an outline drawn in grey on grey reads as a smudge. */
+  color: var(--section-accent, var(--midnight));
+}
+.loop-perk-icon svg { width: 100%; height: 100%; display: block; }
 
 /* Hide the summary line once the option is selected, replaced by the
    expanded perks list above. */
@@ -251,8 +269,12 @@
      title without moving the summary and perks, which line up under the icon
      rather than under the title. */
   .loop-custom-icon { margin-right: 8px; }
+  /* Pushed out to the end of the row rather than sitting against the title -
+     it is a label on the option, not part of its name. It fits there because
+     it is small enough not to wrap; the auto margin only spends the room that
+     is already left over. */
   .loop-custom-badge {
-    margin-left: 0;
+    margin-left: auto;
     font-size: 9px;
     padding: 3px 6px;
   }

@@ -28,8 +28,11 @@
 {%- assign saved = was_line | minus: item.final_line_price -%}
 
 {%- if saved > 0 -%}
-  <s class="cart-line-was">{{ was_line | money_without_trailing_zeros }}</s>
-  <span class="cart-line-now">{{ item.final_line_price | money_without_trailing_zeros }}</span>
+  {%- comment -%} The pair is wrapped so that putting them side by side stays one box as far as the layout is concerned: loose, the column has to be wide enough for both plus the saving, which is what squeezed the title beside it. {%- endcomment -%}
+  <span class="cart-line-prices">
+    <s class="cart-line-was">{{ was_line | money_without_trailing_zeros }}</s>
+    <span class="cart-line-now">{{ item.final_line_price | money_without_trailing_zeros }}</span>
+  </span>
   <span class="cart-line-save">(Save {{ saved | money_without_trailing_zeros }})</span>
 {%- else -%}
   <span class="cart-line-now">{{ item.final_line_price | money_without_trailing_zeros }}</span>

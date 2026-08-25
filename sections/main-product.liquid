@@ -755,13 +755,17 @@
         summary.innerHTML = 'Auto-Delivered \u{B7} Cancel Anytime';
         textWrap.appendChild(summary);
       }
+      {%- comment -%} Emoji here were whatever the reader's phone chose to draw -
+      one set on an iPhone, another on Android, neither of them this theme's.
+      These are the theme's own navy line icons instead, rendered into the
+      string by Liquid before the script ever runs. {%- endcomment -%}
       addExpandingPerks(group, `
-        <span>\u{1FA99} Instant <span class="loop-custom-discount">{{ first_sub_discount_percent }}</span>% Off</span>
-        <span>\u{1F4E6} Delivered every <span class="loop-custom-interval">{{ first_sub_interval_days }}</span> Days</span>
-        <span>\u{1F6E1}\u{FE0F} 30-Day Risk Free Trial</span>
-        <span>\u{2708}\u{FE0F} Free Shipping Australia Wide</span>
-        <span>\u{1F310} 30% off shipping to US, CA, NZ, &amp; SG</span>
-        <span>\u{1F4F1} Cancel or Pause Anytime</span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'percent' %}</span>Instant <span class="loop-custom-discount">{{ first_sub_discount_percent }}</span>% Off</span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'package' %}</span>Delivered every <span class="loop-custom-interval">{{ first_sub_interval_days }}</span> Days</span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'shield' %}</span>30-Day Risk Free Trial</span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'plane' %}</span>Free Shipping Australia Wide</span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'globe' %}</span>30% off shipping to US, CA, NZ, &amp; SG</span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'pause' %}</span>Cancel or Pause Anytime</span>
       `);
     });
   }

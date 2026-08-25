@@ -56,6 +56,11 @@
               <span class="cart-upsell-now">{{ upsell_variant.price | money_without_trailing_zeros }}</span>
               {%- if upsell_variant.compare_at_price > upsell_variant.price -%}
                 <s class="cart-upsell-was">{{ upsell_variant.compare_at_price | money_without_trailing_zeros }}</s>
+                {%- comment -%} Floored, not rounded: a saving is a promise, and 39.6% rounded up to 40 is a promise the price does not keep. {%- endcomment -%}
+                {%- assign saved_pct = upsell_variant.compare_at_price | minus: upsell_variant.price | times: 100.0 | divided_by: upsell_variant.compare_at_price | floor -%}
+                {%- if saved_pct > 0 -%}
+                  <span class="cart-upsell-save">{{ saved_pct }}% off</span>
+                {%- endif -%}
               {%- endif -%}
             </p>
           </div>
