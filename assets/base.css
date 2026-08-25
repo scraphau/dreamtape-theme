@@ -373,9 +373,12 @@ a { color: inherit; text-decoration: none; }
   align-items: center;
   justify-content: center;
 }
+/* The thumbnail gives up 8px so the middle column can hold the product name on
+   one line: side-by-side prices made the third column wider than it was when
+   they stacked. */
 .cart-drawer-item {
   display: grid;
-  grid-template-columns: 72px 1fr auto;
+  grid-template-columns: 64px 1fr auto;
   gap: 16px;
   padding: 20px 0;
   border-bottom: 1px solid var(--line);
@@ -408,8 +411,8 @@ a { color: inherit; text-decoration: none; }
 .cart-subscribe-upsell.is-loading { opacity: 0.6; }
 
 .cart-drawer-item img {
-  width: 72px;
-  height: 72px;
+  width: 64px;
+  height: 64px;
   object-fit: cover;
   border-radius: 10px;
 }
@@ -465,13 +468,16 @@ a { color: inherit; text-decoration: none; }
   display: flex;
   align-items: baseline;
   justify-content: flex-end;
-  gap: 8px;
+  gap: 6px;
 }
 .cart-drawer .cart-line-now { order: 0; }
 .cart-drawer .cart-line-was { order: 1; }
-/* Same size as the price it is struck against - the muted colour carries the
-   hierarchy, so shrinking it as well left it looking like a footnote. */
+/* Smaller than the price it is struck against. It used to match, on the basis
+   that the muted colour carried the hierarchy by itself - but side by side it
+   is also the widest thing the price column does not need, and the product
+   name next to it needs those pixels more. */
 .cart-line-was {
+  font-size: 13px;
   color: var(--section-muted, var(--muted));
   font-weight: 400;
   text-decoration: line-through;
@@ -481,7 +487,7 @@ a { color: inherit; text-decoration: none; }
   /* The green the RECOMMENDED badge and the review ticks already use. */
   color: #2f8f4e;
   font-family: var(--font-sans);
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 600;
 }
 .cart-item-price {
@@ -2627,9 +2633,20 @@ span.cart-protection-icon {
   .cart-drawer { width: 100%; max-width: none; }
   .cart-drawer-items { padding: 0 20px; }
   .cart-drawer-footer { padding-left: 20px; padding-right: 20px; }
-  .cart-drawer-item { grid-template-columns: 64px 1fr auto; gap: 12px; }
+  .cart-drawer-item { grid-template-columns: 56px 1fr auto; gap: 10px; }
   .cart-drawer-item img,
-  .cart-drawer-item-placeholder { width: 64px; height: 64px; }
+  .cart-drawer-item-placeholder { width: 56px; height: 56px; }
+  /* One line for the product name and one for the plan beneath it, down to a
+     360px screen. At the desktop sizes the name ran to two lines and the plan
+     to two more, and the cart read as a stack of paragraphs rather than a list
+     of things. The sizes below leave "Dreamtape Sleep Strips" and "3 month
+     subscription saves 30%" - the longest pair the shop can produce - 8px and
+     11px of room to spare at 360px, which is the margin the serif needs if it
+     ever falls back to Georgia. */
+  .cart-drawer-item-info h3 { font-size: 14.5px; }
+  .cart-drawer-item-plan { font-size: 11.5px; }
+  .cart-drawer-item-price { font-size: 15px; }
+  .cart-line-was { font-size: 12px; }
   .cart-drawer-item-qty button { padding: 8px 4px; }
   /* What it was sits beside what it is now rather than above it. Only the pair
      goes side by side - the saving stays on its own line, so the column is
