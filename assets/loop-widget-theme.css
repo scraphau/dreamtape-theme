@@ -230,3 +230,41 @@
   color: var(--section-text, var(--midnight)) !important;
   margin: 0 0 10px !important;
 }
+
+/* ---------- Phone ---------- */
+@media (max-width: 640px) {
+  /* There is no room beside a title this long for the "Recommended" pill, so
+     it wrapped onto a line of its own and its auto margin pushed it to the
+     right - leaving a stair-step of title, floating pill, then summary. It
+     moves into the corner instead, as the ribbon the supply cards further
+     down the page already use, and the card loses a whole row for it. */
+  .loop-subscription-group {
+    position: relative;
+    /* Clips the ribbon's outer corner to the card's own radius. */
+    overflow: hidden;
+    /* Clears the ribbon: the title row would otherwise run under it. */
+    padding: 30px 1.1em 1.1em !important;
+  }
+  .loop-custom-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 5px 13px;
+    border-radius: 0 0 0 10px;
+  }
+
+  /* Two columns rather than a wrapping row, so the summary lands under the
+     title it belongs to instead of under the icon beside it. The 16px gap is
+     what puts the title at the same indent the perks list uses. */
+  .loop-subscription-group-text {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    column-gap: 16px;
+    row-gap: 2px;
+  }
+  .loop-subscription-group-text .loop-custom-icon { margin-right: 0; }
+  .loop-subscription-group-label { margin-right: 0 !important; }
+  .loop-subscription-group-text .loop-custom-summary { grid-column: 2; }
+}

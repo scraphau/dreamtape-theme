@@ -37,6 +37,12 @@ html {
 }
 html.menu-open, html.menu-open body { overflow: hidden; height: 100%; }
 html.cart-open, html.cart-open body { overflow: hidden; height: 100%; }
+/* theme.js hides the chat bubble by shape when the drawer opens (see
+   setChatHidden). These are the containers Shopify Inbox has used by name,
+   covering a bubble that loads while the drawer is already open. */
+html.cart-open #ShopifyChat,
+html.cart-open #shopify-chat,
+html.cart-open #shopify-chat-widget { visibility: hidden !important; pointer-events: none !important; }
 
 body {
   font-family: var(--font-sans);
@@ -2562,12 +2568,54 @@ span.cart-protection-icon {
   .cart-empty { padding: 48px 0; }
 
   /* ----- Drawers ----- */
+  /* A panel sitting beside the page is a desktop idea. On a phone the strip
+     of page left showing down the left edge held nothing and only made the
+     cart narrower than it needed to be. */
+  .cart-drawer { width: 100%; max-width: none; }
   .cart-drawer-items { padding: 0 20px; }
   .cart-drawer-footer { padding-left: 20px; padding-right: 20px; }
   .cart-drawer-item { grid-template-columns: 64px 1fr auto; gap: 12px; }
   .cart-drawer-item img,
   .cart-drawer-item-placeholder { width: 64px; height: 64px; }
   .cart-drawer-item-qty button { padding: 8px 4px; }
+
+  /* The add-ons were taking up more of the drawer than the cart itself. They
+     get a smaller row and their own scroll here, so what the shopper actually
+     put in the cart keeps its room and the heading stays put while the
+     add-ons move under it. */
+  .cart-drawer .cart-upsells { padding: 12px 20px 14px; }
+  .cart-drawer .cart-upsells-heading { margin-bottom: 8px; }
+  /* Only in the drawer: on the cart page the whole page scrolls, and a short
+     scrolling window inside it would be a box within a box. */
+  .cart-drawer .cart-upsells-list {
+    max-height: 92px;
+    overflow-y: auto;
+    /* The row half in view at the bottom is what says there is more here;
+       a scrollbar over the top of it would only crowd the same message. */
+    scrollbar-width: none;
+  }
+  .cart-drawer .cart-upsells-list::-webkit-scrollbar { display: none; }
+  .cart-upsell { grid-template-columns: 44px 1fr auto; gap: 10px; padding: 6px 0; }
+  .cart-upsell-image { width: 44px; height: 44px; }
+  .cart-upsell-title { font-size: 13.5px; }
+  .cart-upsell-variant { font-size: 11.5px; }
+  .cart-upsell-now { font-size: 13.5px; }
+  .cart-upsell-was { font-size: 12px; }
+  /* Narrower, but no shorter - it still has to be worth aiming a thumb at. */
+  .cart-upsell-add { padding: 10px 14px; }
+
+  /* Desktop has the width for this to read as one tidy row. On a phone the
+     description was breaking into three lines, which left the switch floating
+     against a block of text. A smaller tile and switch hand the text back the
+     room it needs to sit in two. */
+  .cart-protection { gap: 12px; margin-bottom: 14px; }
+  .cart-protection-icon { width: 40px; height: 40px; border-radius: 10px; }
+  .cart-protection-icon svg { width: 22px; height: 22px; }
+  .cart-protection-title { font-size: 14px; gap: 6px; }
+  .cart-protection-desc { font-size: 12px; }
+  .cart-protection-toggle { width: 46px; height: 26px; }
+  .cart-protection-toggle::after { width: 20px; height: 20px; top: 3px; left: 3px; }
+  .cart-protection-toggle[aria-checked="true"]::after { transform: translateX(20px); }
   .mobile-menu { font-size: 20px; padding-left: 24px; padding-right: 24px; }
 }
 

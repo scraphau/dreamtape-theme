@@ -453,16 +453,40 @@ function syncCartUpsells(items) {
   });
 }
 
+// The chat bubble is fixed to the bottom-right corner, which on a phone is
+// where the drawer puts its checkout button. It belongs to an app rather than
+// to this theme, so it sits outside the drawer's stacking context and nothing
+// here can simply cover it - it has to be hidden while the cart is open.
+//
+// Found by shape rather than by a selector the app is free to rename: a fixed
+// element, named for chat, that is not part of the theme's own markup.
+function chatWidgets() {
+  return Array.from(document.querySelectorAll('[id*="chat" i], [class*="chat" i]'))
+    .filter(el => !el.closest('.cart-drawer, .cart-drawer-backdrop, .header, .footer'))
+    .filter(el => getComputedStyle(el).position === 'fixed');
+}
+
+// Hidden rather than removed from the layout: an iframe that goes display:none
+// reloads, which would throw away a conversation in progress.
+function setChatHidden(hidden) {
+  chatWidgets().forEach(el => {
+    el.style.visibility = hidden ? 'hidden' : '';
+    el.style.pointerEvents = hidden ? 'none' : '';
+  });
+}
+
 function openCartDrawer() {
   document.getElementById('cartDrawer')?.classList.add('open');
   document.getElementById('cartDrawerBackdrop')?.classList.add('open');
   document.documentElement.classList.add('cart-open');
+  setChatHidden(true);
 }
 
 function closeCartDrawer() {
   document.getElementById('cartDrawer')?.classList.remove('open');
   document.getElementById('cartDrawerBackdrop')?.classList.remove('open');
   document.documentElement.classList.remove('cart-open');
+  setChatHidden(false);
 }
 
 document.addEventListener('click', (e) => {
