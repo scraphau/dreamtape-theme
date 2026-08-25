@@ -2585,22 +2585,35 @@ span.cart-protection-icon {
   .cart-drawer-item-placeholder { width: 64px; height: 64px; }
   .cart-drawer-item-qty button { padding: 8px 4px; }
 
-  /* The add-ons were taking up more of the drawer than the cart itself. They
-     get a smaller row and their own scroll here, so what the shopper actually
-     put in the cart keeps its room and the heading stays put while the
-     add-ons move under it. */
+  /* One scroll for the whole drawer, not a scrolling panel per section. The
+     items list used to scroll inside its own window while the add-ons scrolled
+     inside another, which on a phone meant three ways to move and no sense of
+     how much cart there was. Everything is in normal flow now and the drawer
+     itself is what scrolls.
+
+     The items list keeps flex-grow so a short cart still pushes the footer to
+     the bottom of the screen; a basis of auto is what stops it being squashed
+     to the leftover space and painting over the rows below it. */
+  .cart-drawer {
+    overflow-y: auto;
+    /* Stops a flick that runs out of cart from scrolling the page behind it. */
+    overscroll-behavior: contain;
+  }
+  .cart-drawer-items { flex: 1 1 auto; overflow-y: visible; }
+  /* The close button would otherwise scroll away, and a full-width drawer
+     leaves no backdrop to tap instead. */
+  .cart-drawer-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background: #ffffff;
+  }
+
+  /* The add-ons were taking up more of the drawer than the cart itself, so the
+     rows are smaller - but they scroll with everything else. */
   .cart-drawer .cart-upsells { padding: 12px 20px 14px; }
   .cart-drawer .cart-upsells-heading { margin-bottom: 8px; }
-  /* Only in the drawer: on the cart page the whole page scrolls, and a short
-     scrolling window inside it would be a box within a box. */
-  .cart-drawer .cart-upsells-list {
-    max-height: 92px;
-    overflow-y: auto;
-    /* The row half in view at the bottom is what says there is more here;
-       a scrollbar over the top of it would only crowd the same message. */
-    scrollbar-width: none;
-  }
-  .cart-drawer .cart-upsells-list::-webkit-scrollbar { display: none; }
+  .cart-drawer .cart-upsells-list { max-height: none; overflow: visible; }
   .cart-upsell { grid-template-columns: 44px 1fr auto; gap: 10px; padding: 6px 0; }
   .cart-upsell-image { width: 44px; height: 44px; }
   .cart-upsell-title { font-size: 13.5px; }
