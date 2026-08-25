@@ -730,8 +730,8 @@
         label.after(summary);
       }
       addExpandingPerks(oneTime, `
-        <span>\u{2713} 30-Day Risk Free Trial.</span>
-        <span>\u{2713} Flat Fee Shipping</span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'check' %}</span><span class="loop-perk-text">30-Day Risk Free Trial.</span></span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'check' %}</span><span class="loop-perk-text">Flat Fee Shipping</span></span>
       `);
     }
 
@@ -760,12 +760,12 @@
       These are the theme's own navy line icons instead, rendered into the
       string by Liquid before the script ever runs. {%- endcomment -%}
       addExpandingPerks(group, `
-        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'percent' %}</span>Instant <span class="loop-custom-discount">{{ first_sub_discount_percent }}</span>% Off</span>
-        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'package' %}</span>Delivered every <span class="loop-custom-interval">{{ first_sub_interval_days }}</span> Days</span>
-        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'shield' %}</span>30-Day Risk Free Trial</span>
-        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'plane' %}</span>Free Shipping Australia Wide</span>
-        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'globe' %}</span>30% off shipping to US, CA, NZ, &amp; SG</span>
-        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'pause' %}</span>Cancel or Pause Anytime</span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'percent' %}</span><span class="loop-perk-text">Instant <span class="loop-custom-discount">{{ first_sub_discount_percent }}</span>% Off</span></span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'package' %}</span><span class="loop-perk-text">Delivered every <span class="loop-custom-interval">{{ first_sub_interval_days }}</span> Days</span></span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'shield' %}</span><span class="loop-perk-text">30-Day Risk Free Trial</span></span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'plane' %}</span><span class="loop-perk-text">Free Shipping Australia Wide</span></span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'globe' %}</span><span class="loop-perk-text">30% off shipping to US, CA, NZ, &amp; SG</span></span>
+        <span><span class="loop-perk-icon">{% render 'icon-line', icon: 'pause' %}</span><span class="loop-perk-text">Cancel or Pause Anytime</span></span>
       `);
     });
   }
