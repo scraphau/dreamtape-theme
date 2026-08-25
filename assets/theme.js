@@ -391,6 +391,9 @@ function renderCartDrawer(cart) {
       </div>`;
     if (footerEl) footerEl.hidden = true;
   } else {
+    // Liquid draws these lines for the first paint and this draws every one
+    // after, so the two have to agree: see snippets/cart-line-price.liquid,
+    // whose markup the price below mirrors.
     itemsEl.innerHTML = items.map(item => `
       <div class="cart-drawer-item" data-line-key="${item.key}">
         <a href="${item.url}">
@@ -410,7 +413,7 @@ function renderCartDrawer(cart) {
         </div>
         <div class="cart-drawer-item-side">
           <p class="cart-drawer-item-price">${(pricing => pricing.saved
-            ? `<s class="cart-line-was">${formatMoney(pricing.wasLine)}</s><span class="cart-line-now">${formatMoney(item.final_line_price)}</span><span class="cart-line-save">(Save ${formatMoney(pricing.saved)})</span>`
+            ? `<span class="cart-line-prices"><s class="cart-line-was">${formatMoney(pricing.wasLine)}</s><span class="cart-line-now">${formatMoney(item.final_line_price)}</span></span><span class="cart-line-save">(Save ${formatMoney(pricing.saved)})</span>`
             : `<span class="cart-line-now">${formatMoney(item.final_line_price)}</span>`)(cartLinePricing(item))}</p>
           <button type="button" class="cart-drawer-item-remove" data-cart-remove aria-label="Remove ${escapeHtml(item.product_title)}">&times;</button>
         </div>

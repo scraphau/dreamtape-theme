@@ -141,14 +141,17 @@
   line-height: 1.4;
 }
 
-/* Each perk is an icon and a line of text. Only the direct children are laid
-   out - the spans inside carry the discount and the interval, and belong in
-   the run of text, not beside it. */
+/* Each perk is an icon and a line of text, and exactly those two. The text
+   goes in its own element rather than loose in the row: loose, the spans
+   holding the discount and the interval counted as items of the row too, so
+   the gap meant to separate the icon from the words opened up either side of
+   the number as well - "Instant 30 % Off". */
 .loop-custom-perks > span {
   display: flex;
   align-items: center;
   gap: 8px;
 }
+.loop-perk-text { min-width: 0; }
 .loop-perk-icon {
   flex-shrink: 0;
   width: 15px;

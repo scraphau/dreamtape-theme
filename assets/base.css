@@ -2622,6 +2622,11 @@ span.cart-protection-icon {
   }
   .cart-drawer .cart-line-now { order: 0; }
   .cart-drawer .cart-line-was { order: 1; }
+  /* The brighter green already carrying "FREE Shipping" on the supply cards,
+     rather than the deeper one used for text set on a tinted background. On a
+     phone this line is small and a long way from the price it belongs to, so
+     it needs to be the thing the eye lands on. */
+  .cart-drawer .cart-line-save { color: #32cd32; }
 
   /* One scroll for the whole drawer, not a scrolling panel per section. The
      items list used to scroll inside its own window while the add-ons scrolled
