@@ -361,15 +361,17 @@ function upsellPlanFor(item) {
 // equals final_line_price and total_discount is zero. The "was" price comes
 // from the plan's allocation, or the variant's compare-at, or a cart discount,
 // whichever is highest. Keep the two in step.
+//
+// Highest, not the first that answers: a subscription line carries both
+// compare-ats, and the plan's own is only the one-time price. Struck against
+// that, a subscription taking 30% off the full price reads as saving the
+// difference from the sale price instead - $84 rather than $105 on a line
+// charging $73.50.
 function cartLinePricing(item) {
-  const allocation = item.selling_plan_allocation;
-  let wasUnit = 0;
-  if (allocation && allocation.compare_at_price > item.final_price) {
-    wasUnit = allocation.compare_at_price;
-  } else {
-    const compareAt = upsellPlanByHandle.get(item.handle)?.get(item.variant_id)?.compareAtPrice || 0;
-    if (compareAt > item.final_price) wasUnit = compareAt;
-  }
+  const allocationCompareAt = item.selling_plan_allocation?.compare_at_price || 0;
+  const variantCompareAt = upsellPlanByHandle.get(item.handle)?.get(item.variant_id)?.compareAtPrice || 0;
+  let wasUnit = Math.max(allocationCompareAt, variantCompareAt);
+  if (wasUnit <= item.final_price) wasUnit = 0;
   const wasLine = Math.max(wasUnit * item.quantity, item.original_line_price || 0);
   const saved = wasLine - item.final_line_price;
   return { wasLine, saved: saved > 0 ? saved : 0 };

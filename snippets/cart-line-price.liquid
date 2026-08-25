@@ -6,19 +6,30 @@
   own price, so original_line_price equals final_line_price and total_discount
   is zero. The plan's allocation carries compare_at_price instead.
 
-  In order: the plan's compare-at for a subscription line, the variant's
-  compare-at for a one-time line, and original_line_price if a cart discount
-  has beaten both. Nothing renders but the price when there is no saving to
-  show, so a full-price line stays quiet rather than reading "Save $0".
+  Whichever is highest of: the plan's compare-at, the variant's compare-at,
+  and original_line_price if a cart discount has beaten both. Highest rather
+  than first-that-answers, because a subscription line carries both compare-ats
+  and the plan's own is only the one-time price - struck against that, a
+  subscription that takes 30% off the full price reads as saving the difference
+  from the sale price instead. sections/main-product.liquid strikes the
+  subscribe price against the same basis.
+
+  Nothing renders but the price when there is no saving to show, so a
+  full-price line stays quiet rather than reading "Save $0".
 
   Accepts: item (a cart line item).
 {%- endcomment -%}
 
 {%- assign was_unit = 0 -%}
-{%- if item.selling_plan_allocation and item.selling_plan_allocation.compare_at_price > item.final_price -%}
+{%- if item.selling_plan_allocation.compare_at_price > was_unit -%}
   {%- assign was_unit = item.selling_plan_allocation.compare_at_price -%}
-{%- elsif item.variant.compare_at_price > item.final_price -%}
+{%- endif -%}
+{%- if item.variant.compare_at_price > was_unit -%}
   {%- assign was_unit = item.variant.compare_at_price -%}
+{%- endif -%}
+{%- comment -%} Nothing to strike through if the line is already at or above it. {%- endcomment -%}
+{%- if was_unit <= item.final_price -%}
+  {%- assign was_unit = 0 -%}
 {%- endif -%}
 
 {%- assign was_line = was_unit | times: item.quantity -%}
