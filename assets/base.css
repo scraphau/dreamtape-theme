@@ -2451,23 +2451,24 @@ span.cart-protection-icon {
   /* 9.5px was the smallest type anywhere in the theme. */
   .product-award-badge { font-size: 10.5px; }
   /* Desktop padding left the middle column at 139px on a 375px screen.
-     Trimming the sides and the gaps buys it back about 30px, which is what
-     lets the pack name sit on one line below. */
+     Trimming the sides and the gaps buys back about 30px, which is what
+     lets the pack name and its pill share a row below. The extra top
+     padding clears the 22px corner ribbon, which that row now reaches. */
   .variant-card {
     grid-template-columns: 22px 1fr auto;
     gap: 12px;
-    padding: 20px 16px 18px;
+    padding: 26px 16px 18px;
     min-height: 0;
   }
   .vc-radio { width: 18px; height: 18px; }
   /* The pack name and the "% off" pill share a ~168px column on a phone,
-     which is just short of fitting — "1 Month Supply" squeezed in and the
-     longer names broke across three lines, so the three cards came out at
-     different heights. Giving the name its own line and dropping the pill
-     beneath it keeps every card identical at any phone width. */
-  .vc-top { flex-wrap: wrap; gap: 3px 6px; }
-  .vc-title { font-size: 14.5px; flex: 0 0 100%; }
-  .vc-pill { padding: 3px 8px; }
+     which is just short of fitting at desktop sizes. The pill belongs beside
+     the name rather than under it, so the name is held to one line and both
+     it and the pill are trimmed enough to sit on the same row. Narrower
+     phones tighten further, and the last resort stacks them — see below. */
+  .vc-top { flex-wrap: nowrap; gap: 6px; }
+  .vc-title { font-size: 14px; white-space: nowrap; }
+  .vc-pill { padding: 3px 7px; flex-shrink: 0; }
   .vc-price { font-size: 17px; }
   .product-price-current, .product-price-compare { font-size: 30px; }
   .product-bullets li { font-size: 14px; }
@@ -2507,6 +2508,25 @@ span.cart-protection-icon {
   .cart-drawer-item-placeholder { width: 64px; height: 64px; }
   .cart-drawer-item-qty button { padding: 8px 4px; }
   .mobile-menu { font-size: 20px; padding-left: 24px; padding-right: 24px; }
+}
+
+/* Under ~375px the name and the pill no longer clear the middle column at
+   the sizes above, so both step down one notch and the per-strip line gives
+   a few pixels back off the price column. Covers the 360px Android width. */
+@media (max-width: 374px) {
+  .variant-card { gap: 10px; padding-left: 14px; padding-right: 14px; }
+  .vc-top { gap: 5px; }
+  .vc-title { font-size: 13.5px; }
+  .vc-pill { font-size: 9.5px; padding: 3px 5px; }
+  .vc-per-strip { font-size: 10.5px; }
+}
+
+/* Below that the row genuinely cannot fit, so the pill drops beneath the
+   name. Forced on every card at once: letting only the shortest name keep
+   its pill inline would leave the three cards at different heights. */
+@media (max-width: 339px) {
+  .vc-top { flex-wrap: wrap; gap: 3px 6px; }
+  .vc-title { flex: 0 0 100%; }
 }
 
 /* A tapped element keeps its :hover state on a touchscreen until something
