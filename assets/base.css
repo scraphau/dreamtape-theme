@@ -703,6 +703,12 @@ a { color: inherit; text-decoration: none; }
   .product-preorder { align-items: flex-start; gap: 10px; padding: 11px 12px; }
   .preorder-text { font-size: 12.5px; }
 }
+/* Beside the badge, the note was left a column barely wider than the badge
+   itself and ran to five or six short lines. On a phone the badge takes its
+   own line and the note reads full width underneath it. */
+@media (max-width: 640px) {
+  .product-preorder { flex-direction: column; gap: 8px; }
+}
 
 /* Shipping protection opt-in (see shipping-protection-row.liquid) */
 .cart-protection {
