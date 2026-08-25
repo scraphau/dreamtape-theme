@@ -36,7 +36,13 @@ html {
   text-size-adjust: 100%;
 }
 html.menu-open, html.menu-open body { overflow: hidden; height: 100%; }
-html.cart-open, html.cart-open body { overflow: hidden; height: 100%; }
+/* The page behind still cannot scroll, but without the height: 100% the menu
+   lock uses. Pinning the root to exactly one screen is what stopped the cart
+   moving at all under a finger; without it the drawer keeps the native pull
+   and spring back at its ends. (thegoatco.au locks the body alone and lets the
+   root propagate it, which is not open to us - html carries overflow-x: hidden
+   further up, so the root owns the viewport's overflow either way.) */
+html.cart-open, html.cart-open body { overflow: hidden; }
 /* theme.js hides the chat bubble by shape when the drawer opens (see
    setChatHidden). These are the containers Shopify Inbox has used by name,
    covering a bubble that loads while the drawer is already open. */
@@ -2600,6 +2606,22 @@ span.cart-protection-icon {
   .cart-drawer-item img,
   .cart-drawer-item-placeholder { width: 64px; height: 64px; }
   .cart-drawer-item-qty button { padding: 8px 4px; }
+  /* What it was sits beside what it is now rather than above it. Only the pair
+     goes side by side - the saving stays on its own line, so the column is
+     only ever as wide as the wider of the two rows rather than as wide as all
+     three parts laid end to end, which would eat the title's half of the row.
+     The markup reads "was" then "now" for a screen reader; on screen the new
+     price leads, the way the supply cards and the add-on rows show it. */
+  /* The drawer only: the cart page puts this price in a left-aligned column
+     of its own, where none of this applies. */
+  .cart-drawer .cart-line-prices {
+    display: flex;
+    align-items: baseline;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  .cart-drawer .cart-line-now { order: 0; }
+  .cart-drawer .cart-line-was { order: 1; }
 
   /* One scroll for the whole drawer, not a scrolling panel per section. The
      items list used to scroll inside its own window while the add-ons scrolled
@@ -2610,11 +2632,10 @@ span.cart-protection-icon {
      The items list keeps flex-grow so a short cart still pushes the footer to
      the bottom of the screen; a basis of auto is what stops it being squashed
      to the leftover space and painting over the rows below it. */
-  .cart-drawer {
-    overflow-y: auto;
-    /* Stops a flick that runs out of cart from scrolling the page behind it. */
-    overscroll-behavior: contain;
-  }
+  /* No overscroll-behavior: a flick that runs out of cart has nothing behind
+     it to scroll, so it rubber-bands and settles back instead of stopping
+     dead against the end. */
+  .cart-drawer { overflow-y: auto; }
   .cart-drawer-items { flex: 1 1 auto; overflow-y: visible; }
   /* The close button would otherwise scroll away, and a full-width drawer
      leaves no backdrop to tap instead. */
