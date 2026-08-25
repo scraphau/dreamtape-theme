@@ -1,16 +1,26 @@
 {%- comment -%}
-  Two one-time add-ons near the bottom of the cart: a three month supply of
-  each product.
+  Two one-time add-ons near the bottom of the cart: the next pack up from what
+  the shopper is already holding.
+
+  A three month supply by default, but six once they hold a three of that
+  product - offering a second three month pack to someone who just bought one
+  is asking them to buy the same thing twice. Someone already holding a six is
+  offered nothing, there being nothing bigger.
+
+  Both packs are rendered for each product and all but the wanted one start
+  hidden, because the shopper can change the cart without reloading the page:
+  theme.js picks the row again on every cart change (see syncCartUpsells) and
+  it can only pick from what is already in the DOM. That is also why the rows
+  carry the handle and the pack size.
 
   Named by handle rather than picked in the editor, because the drawer lives in
   the header section and the cart page in its own - a setting would have to be
   configured twice and could drift apart. Two handles in one place is easier to
   follow than that.
 
-  A row hides itself when that exact variant is already in the cart, so the
-  cart never offers to add what it is already holding. The block hides with the
-  last of its rows. The drawer re-renders its items in JavaScript, which is why
-  the rows carry data-variant-id: theme.js toggles them there too.
+  A row also hides when that exact variant is already in the cart, so the cart
+  never offers to add what it is already holding. The block hides with the last
+  of its rows.
 {%- endcomment -%}
 
 {%- assign upsell_handles = 'dreamtape-nose-strips,mouth-tape' | split: ',' -%}
@@ -26,54 +36,91 @@
   {%- for handle in upsell_handles -%}
     {%- assign upsell_product = all_products[handle] -%}
     {%- if upsell_product != blank -%}
-      {%- comment -%} The three month pack, falling back to nothing rather than to a pack the row does not describe. {%- endcomment -%}
-      {%- assign upsell_variant = blank -%}
-      {%- for variant in upsell_product.variants -%}
-        {%- if upsell_variant == blank and variant.available and variant.title contains '3' -%}
-          {%- assign upsell_variant = variant -%}
+      {%- comment -%} The biggest pack of this product the cart already holds. Pack size is read off the variant title the same way sections/main-product.liquid reads it. {%- endcomment -%}
+      {%- assign held_packs = 0 -%}
+      {%- for line in cart.items -%}
+        {%- if line.product.handle == handle -%}
+          {%- assign line_packs = 1 -%}
+          {%- if line.variant.title contains '6' or line.variant.title contains 'Six' -%}
+            {%- assign line_packs = 6 -%}
+          {%- elsif line.variant.title contains '3' or line.variant.title contains 'Three' -%}
+            {%- assign line_packs = 3 -%}
+          {%- endif -%}
+          {%- if line_packs > held_packs -%}
+            {%- assign held_packs = line_packs -%}
+          {%- endif -%}
         {%- endif -%}
       {%- endfor -%}
 
-      {%- if upsell_variant != blank -%}
-        {%- assign needle = ',' | append: upsell_variant.id | append: ',' -%}
-        {%- assign already_in_cart = false -%}
-        {%- if cart_variant_ids contains needle -%}
-          {%- assign already_in_cart = true -%}
-        {%- endif -%}
+      {%- assign wanted_packs = 3 -%}
+      {%- if held_packs >= 3 -%}
+        {%- assign wanted_packs = 6 -%}
+      {%- endif -%}
 
-        <div class="cart-upsell" data-cart-upsell data-variant-id="{{ upsell_variant.id }}" {% if already_in_cart %}hidden{% endif %}>
-          {%- if upsell_variant.image or upsell_product.featured_image -%}
-            {%- assign upsell_image = upsell_variant.image | default: upsell_product.featured_image -%}
-            <img class="cart-upsell-image" src="{{ upsell_image | image_url: width: 120 }}" alt="" width="60" height="60" loading="lazy">
-          {%- else -%}
-            <div class="cart-upsell-image cart-upsell-image--empty" aria-hidden="true">◐</div>
+      {%- assign offer_packs = '3,6' | split: ',' -%}
+      {%- for offer in offer_packs -%}
+        {%- assign packs = offer | plus: 0 -%}
+        {%- comment -%} The pack this row offers, falling back to nothing rather than to one the row does not describe. {%- endcomment -%}
+        {%- assign upsell_variant = blank -%}
+        {%- for variant in upsell_product.variants -%}
+          {%- if upsell_variant == blank and variant.available -%}
+            {%- assign variant_packs = 1 -%}
+            {%- if variant.title contains '6' or variant.title contains 'Six' -%}
+              {%- assign variant_packs = 6 -%}
+            {%- elsif variant.title contains '3' or variant.title contains 'Three' -%}
+              {%- assign variant_packs = 3 -%}
+            {%- endif -%}
+            {%- if variant_packs == packs -%}
+              {%- assign upsell_variant = variant -%}
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- if upsell_variant != blank -%}
+          {%- assign needle = ',' | append: upsell_variant.id | append: ',' -%}
+          {%- assign already_in_cart = false -%}
+          {%- if cart_variant_ids contains needle -%}
+            {%- assign already_in_cart = true -%}
+          {%- endif -%}
+          {%- assign show_row = false -%}
+          {%- if packs == wanted_packs and already_in_cart == false -%}
+            {%- assign show_row = true -%}
           {%- endif -%}
 
-          <div class="cart-upsell-info">
-            <p class="cart-upsell-title">{{ upsell_product.title }}</p>
-            <p class="cart-upsell-variant">{{ upsell_variant.title }}</p>
-            <p class="cart-upsell-price">
-              <span class="cart-upsell-now">{{ upsell_variant.price | money_without_trailing_zeros }}</span>
-              {%- if upsell_variant.compare_at_price > upsell_variant.price -%}
-                <s class="cart-upsell-was">{{ upsell_variant.compare_at_price | money_without_trailing_zeros }}</s>
-                {%- comment -%} Floored, not rounded: a saving is a promise, and 39.6% rounded up to 40 is a promise the price does not keep. {%- endcomment -%}
-                {%- assign saved_pct = upsell_variant.compare_at_price | minus: upsell_variant.price | times: 100.0 | divided_by: upsell_variant.compare_at_price | floor -%}
-                {%- if saved_pct > 0 -%}
-                  <span class="cart-upsell-save">{{ saved_pct }}% off</span>
-                {%- endif -%}
-              {%- endif -%}
-            </p>
-          </div>
+          <div class="cart-upsell" data-cart-upsell data-variant-id="{{ upsell_variant.id }}" data-upsell-handle="{{ handle }}" data-upsell-packs="{{ packs }}" {% unless show_row %}hidden{% endunless %}>
+            {%- if upsell_variant.image or upsell_product.featured_image -%}
+              {%- assign upsell_image = upsell_variant.image | default: upsell_product.featured_image -%}
+              <img class="cart-upsell-image" src="{{ upsell_image | image_url: width: 120 }}" alt="" width="60" height="60" loading="lazy">
+            {%- else -%}
+              <div class="cart-upsell-image cart-upsell-image--empty" aria-hidden="true">◐</div>
+            {%- endif -%}
 
-          <button
-            type="button"
-            class="cart-upsell-add"
-            data-cart-upsell-add
-            data-variant-id="{{ upsell_variant.id }}"
-            aria-label="Add {{ upsell_product.title | escape }}, {{ upsell_variant.title | escape }}, to your cart"
-          >Add</button>
-        </div>
-      {%- endif -%}
+            <div class="cart-upsell-info">
+              <p class="cart-upsell-title">{{ upsell_product.title }}</p>
+              <p class="cart-upsell-variant">{{ upsell_variant.title }}</p>
+              <p class="cart-upsell-price">
+                <span class="cart-upsell-now">{{ upsell_variant.price | money_without_trailing_zeros }}</span>
+                {%- if upsell_variant.compare_at_price > upsell_variant.price -%}
+                  <s class="cart-upsell-was">{{ upsell_variant.compare_at_price | money_without_trailing_zeros }}</s>
+                  {%- comment -%} Floored, not rounded: a saving is a promise, and 39.6% rounded up to 40 is a promise the price does not keep. {%- endcomment -%}
+                  {%- assign saved_pct = upsell_variant.compare_at_price | minus: upsell_variant.price | times: 100.0 | divided_by: upsell_variant.compare_at_price | floor -%}
+                  {%- if saved_pct > 0 -%}
+                    <span class="cart-upsell-save">{{ saved_pct }}% off</span>
+                  {%- endif -%}
+                {%- endif -%}
+              </p>
+            </div>
+
+            <button
+              type="button"
+              class="cart-upsell-add"
+              data-cart-upsell-add
+              data-variant-id="{{ upsell_variant.id }}"
+              aria-label="Add {{ upsell_product.title | escape }}, {{ upsell_variant.title | escape }}, to your cart"
+            >Add</button>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
     {%- endif -%}
   {%- endfor -%}
 {%- endcapture -%}

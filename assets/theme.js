@@ -441,15 +441,40 @@ function renderCartDrawer(cart) {
   renderShippingPromo(cart);
 }
 
-// The upsell rows are rendered once by Liquid and live in the footer, which
+// Pack size as the variant titles carry it - "3 Month Supply". Zero for a
+// title that names no pack, which then counts for nothing when picking the
+// next size up.
+function packSizeOf(variantTitle) {
+  const match = /(\d+)\s*month/i.exec(variantTitle || '');
+  return match ? Number(match[1]) : 0;
+}
+
+// The upsell rows are rendered once by Liquid and live below the items, which
 // renderCartDrawer does not replace, so they only need hiding and showing as
 // the cart changes underneath them.
+//
+// Every product has a row for each pack it offers and only one of them belongs
+// on screen: the next size up from the biggest pack of that product already in
+// the cart. Someone holding a three month supply is offered the six rather
+// than a second three; someone holding the six is offered nothing, there being
+// nothing bigger. Liquid works the same choice out for the first paint (see
+// snippets/cart-upsells.liquid) - this is what keeps it true afterwards.
 function syncCartUpsells(items) {
   const held = new Set(items.map(item => item.variant_id));
+
+  const biggestHeld = {};
+  items.forEach(item => {
+    const packs = packSizeOf(item.variant_title);
+    if (!packs) return;
+    biggestHeld[item.handle] = Math.max(biggestHeld[item.handle] || 0, packs);
+  });
+
   document.querySelectorAll('[data-cart-upsells]').forEach(block => {
     const rows = [...block.querySelectorAll('[data-cart-upsell]')];
     rows.forEach(row => {
-      row.hidden = held.has(Number(row.dataset.variantId));
+      const wanted = (biggestHeld[row.dataset.upsellHandle] || 0) >= 3 ? 6 : 3;
+      const isWantedPack = Number(row.dataset.upsellPacks) === wanted;
+      row.hidden = !isWantedPack || held.has(Number(row.dataset.variantId));
     });
     // Nothing left to offer: the heading should not sit there on its own.
     block.hidden = rows.every(row => row.hidden);
