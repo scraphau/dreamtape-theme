@@ -37,6 +37,12 @@ html {
 }
 html.menu-open, html.menu-open body { overflow: hidden; height: 100%; }
 html.cart-open, html.cart-open body { overflow: hidden; height: 100%; }
+/* theme.js hides the chat bubble by shape when the drawer opens (see
+   setChatHidden). These are the containers Shopify Inbox has used by name,
+   covering a bubble that loads while the drawer is already open. */
+html.cart-open #ShopifyChat,
+html.cart-open #shopify-chat,
+html.cart-open #shopify-chat-widget { visibility: hidden !important; pointer-events: none !important; }
 
 body {
   font-family: var(--font-sans);
@@ -1217,6 +1223,9 @@ span.cart-protection-icon {
   color: var(--section-text, var(--midnight));
   font-weight: 400;
 }
+/* Dots belong to the phone carousel below - side by side, the cards are all
+   visible at once and there is no position to report. */
+.testimonial-dots { display: none; }
 .t-author { display: flex; flex-direction: column; font-size: 13.5px; }
 .t-author strong { font-weight: 600; }
 /* #2f8f4e is the green already used by the RECOMMENDED badge on the product
@@ -2314,8 +2323,66 @@ span.cart-protection-icon {
     justify-content: center;
     width: 100%;
   }
-  .product-grid, .benefits-grid, .how-grid, .testimonial-grid { grid-template-columns: 1fr; }
+  .product-grid, .benefits-grid, .how-grid { grid-template-columns: 1fr; }
   .wakeup, .products, .benefits, .how, .testimonials, .guarantee, .faq { padding: 64px 0; }
+
+  /* Stacked, the reviews were three screens of scrolling that most people
+     never reached the end of. One swipeable row puts them side by side
+     instead, and the sliver of the next card showing past the right edge is
+     what says there is more to swipe to. The negative margin cancels the
+     container's gutter so cards can run off the screen edge, and the matching
+     padding puts the gutter back in front of the first one. */
+  .testimonial-grid {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    margin: 0 -20px;
+    padding: 0 20px;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 20px;
+    -webkit-overflow-scrolling: touch;
+    /* The row is swiped, not scrolled through - the bar would only sit under
+       the cards restating what the dots already say. */
+    scrollbar-width: none;
+  }
+  .testimonial-grid::-webkit-scrollbar { display: none; }
+  .testimonial {
+    flex: 0 0 calc(100% - 48px);
+    scroll-snap-align: start;
+  }
+  /* There is not enough row left for the last card to reach the left gutter,
+     and a snap point it can never land on would drag the swipe back to the
+     card before it. Ending flush against the right gutter is both reachable
+     and where the swipe was heading. */
+  .testimonial:last-child { scroll-snap-align: end; }
+
+  .testimonial-dots { display: flex; justify-content: center; margin-top: 20px; }
+  /* The dot itself is 8px; the button around it is a thumb-sized target. */
+  .testimonial-dot {
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .testimonial-dot::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--section-muted, var(--muted));
+    opacity: 0.35;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .testimonial-dot.active::after {
+    background: var(--section-accent, var(--midnight));
+    opacity: 1;
+    transform: scale(1.25);
+  }
   .final-cta { padding: 72px 0; }
   .footer { padding: 36px 0 20px; }
   .footer-top { grid-template-columns: 1fr; gap: 4px; padding-bottom: 16px; }
@@ -2451,23 +2518,24 @@ span.cart-protection-icon {
   /* 9.5px was the smallest type anywhere in the theme. */
   .product-award-badge { font-size: 10.5px; }
   /* Desktop padding left the middle column at 139px on a 375px screen.
-     Trimming the sides and the gaps buys it back about 30px, which is what
-     lets the pack name sit on one line below. */
+     Trimming the sides and the gaps buys back about 30px, which is what
+     lets the pack name and its pill share a row below. The extra top
+     padding clears the 22px corner ribbon, which that row now reaches. */
   .variant-card {
     grid-template-columns: 22px 1fr auto;
     gap: 12px;
-    padding: 20px 16px 18px;
+    padding: 26px 16px 18px;
     min-height: 0;
   }
   .vc-radio { width: 18px; height: 18px; }
   /* The pack name and the "% off" pill share a ~168px column on a phone,
-     which is just short of fitting — "1 Month Supply" squeezed in and the
-     longer names broke across three lines, so the three cards came out at
-     different heights. Giving the name its own line and dropping the pill
-     beneath it keeps every card identical at any phone width. */
-  .vc-top { flex-wrap: wrap; gap: 3px 6px; }
-  .vc-title { font-size: 14.5px; flex: 0 0 100%; }
-  .vc-pill { padding: 3px 8px; }
+     which is just short of fitting at desktop sizes. The pill belongs beside
+     the name rather than under it, so the name is held to one line and both
+     it and the pill are trimmed enough to sit on the same row. Narrower
+     phones tighten further, and the last resort stacks them — see below. */
+  .vc-top { flex-wrap: nowrap; gap: 6px; }
+  .vc-title { font-size: 14px; white-space: nowrap; }
+  .vc-pill { padding: 3px 7px; flex-shrink: 0; }
   .vc-price { font-size: 17px; }
   .product-price-current, .product-price-compare { font-size: 30px; }
   .product-bullets li { font-size: 14px; }
@@ -2500,13 +2568,74 @@ span.cart-protection-icon {
   .cart-empty { padding: 48px 0; }
 
   /* ----- Drawers ----- */
+  /* A panel sitting beside the page is a desktop idea. On a phone the strip
+     of page left showing down the left edge held nothing and only made the
+     cart narrower than it needed to be. */
+  .cart-drawer { width: 100%; max-width: none; }
   .cart-drawer-items { padding: 0 20px; }
   .cart-drawer-footer { padding-left: 20px; padding-right: 20px; }
   .cart-drawer-item { grid-template-columns: 64px 1fr auto; gap: 12px; }
   .cart-drawer-item img,
   .cart-drawer-item-placeholder { width: 64px; height: 64px; }
   .cart-drawer-item-qty button { padding: 8px 4px; }
+
+  /* The add-ons were taking up more of the drawer than the cart itself. They
+     get a smaller row and their own scroll here, so what the shopper actually
+     put in the cart keeps its room and the heading stays put while the
+     add-ons move under it. */
+  .cart-drawer .cart-upsells { padding: 12px 20px 14px; }
+  .cart-drawer .cart-upsells-heading { margin-bottom: 8px; }
+  /* Only in the drawer: on the cart page the whole page scrolls, and a short
+     scrolling window inside it would be a box within a box. */
+  .cart-drawer .cart-upsells-list {
+    max-height: 92px;
+    overflow-y: auto;
+    /* The row half in view at the bottom is what says there is more here;
+       a scrollbar over the top of it would only crowd the same message. */
+    scrollbar-width: none;
+  }
+  .cart-drawer .cart-upsells-list::-webkit-scrollbar { display: none; }
+  .cart-upsell { grid-template-columns: 44px 1fr auto; gap: 10px; padding: 6px 0; }
+  .cart-upsell-image { width: 44px; height: 44px; }
+  .cart-upsell-title { font-size: 13.5px; }
+  .cart-upsell-variant { font-size: 11.5px; }
+  .cart-upsell-now { font-size: 13.5px; }
+  .cart-upsell-was { font-size: 12px; }
+  /* Narrower, but no shorter - it still has to be worth aiming a thumb at. */
+  .cart-upsell-add { padding: 10px 14px; }
+
+  /* Desktop has the width for this to read as one tidy row. On a phone the
+     description was breaking into three lines, which left the switch floating
+     against a block of text. A smaller tile and switch hand the text back the
+     room it needs to sit in two. */
+  .cart-protection { gap: 12px; margin-bottom: 14px; }
+  .cart-protection-icon { width: 40px; height: 40px; border-radius: 10px; }
+  .cart-protection-icon svg { width: 22px; height: 22px; }
+  .cart-protection-title { font-size: 14px; gap: 6px; }
+  .cart-protection-desc { font-size: 12px; }
+  .cart-protection-toggle { width: 46px; height: 26px; }
+  .cart-protection-toggle::after { width: 20px; height: 20px; top: 3px; left: 3px; }
+  .cart-protection-toggle[aria-checked="true"]::after { transform: translateX(20px); }
   .mobile-menu { font-size: 20px; padding-left: 24px; padding-right: 24px; }
+}
+
+/* Under ~375px the name and the pill no longer clear the middle column at
+   the sizes above, so both step down one notch and the per-strip line gives
+   a few pixels back off the price column. Covers the 360px Android width. */
+@media (max-width: 374px) {
+  .variant-card { gap: 10px; padding-left: 14px; padding-right: 14px; }
+  .vc-top { gap: 5px; }
+  .vc-title { font-size: 13.5px; }
+  .vc-pill { font-size: 9.5px; padding: 3px 5px; }
+  .vc-per-strip { font-size: 10.5px; }
+}
+
+/* Below that the row genuinely cannot fit, so the pill drops beneath the
+   name. Forced on every card at once: letting only the shortest name keep
+   its pill inline would leave the three cards at different heights. */
+@media (max-width: 339px) {
+  .vc-top { flex-wrap: wrap; gap: 3px 6px; }
+  .vc-title { flex: 0 0 100%; }
 }
 
 /* A tapped element keeps its :hover state on a touchscreen until something

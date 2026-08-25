@@ -453,16 +453,40 @@ function syncCartUpsells(items) {
   });
 }
 
+// The chat bubble is fixed to the bottom-right corner, which on a phone is
+// where the drawer puts its checkout button. It belongs to an app rather than
+// to this theme, so it sits outside the drawer's stacking context and nothing
+// here can simply cover it - it has to be hidden while the cart is open.
+//
+// Found by shape rather than by a selector the app is free to rename: a fixed
+// element, named for chat, that is not part of the theme's own markup.
+function chatWidgets() {
+  return Array.from(document.querySelectorAll('[id*="chat" i], [class*="chat" i]'))
+    .filter(el => !el.closest('.cart-drawer, .cart-drawer-backdrop, .header, .footer'))
+    .filter(el => getComputedStyle(el).position === 'fixed');
+}
+
+// Hidden rather than removed from the layout: an iframe that goes display:none
+// reloads, which would throw away a conversation in progress.
+function setChatHidden(hidden) {
+  chatWidgets().forEach(el => {
+    el.style.visibility = hidden ? 'hidden' : '';
+    el.style.pointerEvents = hidden ? 'none' : '';
+  });
+}
+
 function openCartDrawer() {
   document.getElementById('cartDrawer')?.classList.add('open');
   document.getElementById('cartDrawerBackdrop')?.classList.add('open');
   document.documentElement.classList.add('cart-open');
+  setChatHidden(true);
 }
 
 function closeCartDrawer() {
   document.getElementById('cartDrawer')?.classList.remove('open');
   document.getElementById('cartDrawerBackdrop')?.classList.remove('open');
   document.documentElement.classList.remove('cart-open');
+  setChatHidden(false);
 }
 
 document.addEventListener('click', (e) => {
@@ -748,4 +772,56 @@ document.querySelectorAll('[data-faq-tabs]').forEach(wrapper => {
       });
     });
   });
+});
+
+// Testimonial carousel dots. The row itself is a plain scroll-snap container
+// (see base.css) so the swipe is the browser's, momentum and all — these only
+// report where it stopped, and offer a tap for anyone who doesn't swipe.
+document.querySelectorAll('[data-testimonial-carousel]').forEach(carousel => {
+  const track = carousel.querySelector('[data-testimonial-track]');
+  const dots = Array.from(carousel.querySelectorAll('[data-testimonial-dot]'));
+  if (!track || dots.length < 2) return;
+
+  const cards = Array.from(track.children);
+  // Offsets are measured against the first card rather than the track, so the
+  // scroll padding in front of it doesn't shift every card by a gutter.
+  const positionOf = (card) => card.offsetLeft - cards[0].offsetLeft;
+
+  function syncDots() {
+    let index = 0;
+    let closest = Infinity;
+    cards.forEach((card, i) => {
+      const distance = Math.abs(positionOf(card) - track.scrollLeft);
+      if (distance < closest) {
+        closest = distance;
+        index = i;
+      }
+    });
+    dots.forEach((dot, i) => dot.classList.toggle('active', i === index));
+  }
+
+  // Scroll fires far faster than the dots can meaningfully change, so the
+  // reads are held to one a frame.
+  let pending = false;
+  track.addEventListener('scroll', () => {
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(() => {
+      pending = false;
+      syncDots();
+    });
+  }, { passive: true });
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => {
+      // The last card sits against the right gutter rather than the left one,
+      // so its own offset is past the end of the row. Asking for a position
+      // the row can't reach makes the snap pull back a whole card, which
+      // would leave the last dot unable to reach the last review.
+      const furthest = track.scrollWidth - track.clientWidth;
+      track.scrollTo({ left: Math.min(positionOf(cards[i]), furthest), behavior: 'smooth' });
+    });
+  });
+
+  syncDots();
 });

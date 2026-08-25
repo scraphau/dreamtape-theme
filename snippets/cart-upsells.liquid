@@ -77,6 +77,8 @@
 {%- if rows != blank -%}
   <div class="cart-upsells" data-cart-upsells>
     <p class="cart-upsells-heading">Add to your order</p>
-    {{ upsell_rows }}
+    {%- comment -%} The rows scroll inside this on a phone, so the heading
+    above them stays put and the cart itself keeps its share of the drawer. {%- endcomment -%}
+    <div class="cart-upsells-list">{{ upsell_rows }}</div>
   </div>
 {%- endif -%}
