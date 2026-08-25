@@ -251,8 +251,12 @@
      title without moving the summary and perks, which line up under the icon
      rather than under the title. */
   .loop-custom-icon { margin-right: 8px; }
+  /* Pushed out to the end of the row rather than sitting against the title -
+     it is a label on the option, not part of its name. It fits there because
+     it is small enough not to wrap; the auto margin only spends the room that
+     is already left over. */
   .loop-custom-badge {
-    margin-left: 0;
+    margin-left: auto;
     font-size: 9px;
     padding: 3px 6px;
   }
