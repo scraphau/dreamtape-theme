@@ -2146,6 +2146,16 @@ span.cart-protection-icon {
   transition: transform 0.15s ease, filter 0.2s ease;
 }
 .np-submit:hover { filter: brightness(0.96); }
+/* The success button swaps its two colours on hover - what was the background
+   becomes the label, and the label becomes the background. It needs saying
+   here because .btn-dark's own hover clears the background to transparent and
+   paints the label in the accent, which on this navy panel is navy on navy:
+   the words disappear rather than invert. */
+.np-modal .btn-dark:hover {
+  background: var(--section-card-bg, var(--cream));
+  color: var(--section-accent, var(--midnight));
+  border-color: var(--section-card-bg, var(--cream));
+}
 .np-submit:active { transform: translateY(1px); }
 .np-error {
   margin-top: 12px;
@@ -2712,7 +2722,10 @@ span.cart-protection-icon {
   .btn-primary:hover,
   .btn-dark:hover,
   .btn-atc:hover,
-  .btn-shop:hover {
+  .btn-shop:hover,
+  /* Carries a hover of its own further up, so it needs naming here too - the
+     shared selector is not specific enough to put it back. */
+  .np-modal .btn-dark:hover {
     background: var(--section-accent, var(--midnight));
     color: var(--section-card-bg, var(--cream));
     border-color: transparent;
