@@ -6,17 +6,34 @@
       {%- endif -%}
       <h2 class="section-title">{{ section.settings.heading }}</h2>
     </div>
-    <div class="testimonial-grid">
-      {%- for block in section.blocks -%}
-        <div class="testimonial">
-          <div class="t-stars">★★★★★</div>
-          <p>"{{ block.settings.quote }}"</p>
-          <div class="t-author">
-            <strong>{{ block.settings.author }}</strong>
-            <span>{{ block.settings.author_meta }}</span>
+    {%- comment -%} On a phone the cards become one swipeable row rather than a
+    stack (see base.css); the dots below are the only thing that says how many
+    are left, so they're hidden again once the cards are side by side. {%- endcomment -%}
+    <div class="testimonial-carousel" data-testimonial-carousel>
+      <div class="testimonial-grid" data-testimonial-track>
+        {%- for block in section.blocks -%}
+          <div class="testimonial">
+            <div class="t-stars">★★★★★</div>
+            <p>"{{ block.settings.quote }}"</p>
+            <div class="t-author">
+              <strong>{{ block.settings.author }}</strong>
+              <span>{{ block.settings.author_meta }}</span>
+            </div>
           </div>
+        {%- endfor -%}
+      </div>
+
+      {%- if section.blocks.size > 1 -%}
+        <div class="testimonial-dots">
+          {%- for block in section.blocks -%}
+            <button
+              type="button"
+              class="testimonial-dot{% if forloop.first %} active{% endif %}"
+              data-testimonial-dot
+              aria-label="Show review {{ forloop.index }} of {{ section.blocks.size }}"></button>
+          {%- endfor -%}
         </div>
-      {%- endfor -%}
+      {%- endif -%}
     </div>
   </div>
 </section>

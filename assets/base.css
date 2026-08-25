@@ -1217,6 +1217,9 @@ span.cart-protection-icon {
   color: var(--section-text, var(--midnight));
   font-weight: 400;
 }
+/* Dots belong to the phone carousel below - side by side, the cards are all
+   visible at once and there is no position to report. */
+.testimonial-dots { display: none; }
 .t-author { display: flex; flex-direction: column; font-size: 13.5px; }
 .t-author strong { font-weight: 600; }
 /* #2f8f4e is the green already used by the RECOMMENDED badge on the product
@@ -2314,8 +2317,66 @@ span.cart-protection-icon {
     justify-content: center;
     width: 100%;
   }
-  .product-grid, .benefits-grid, .how-grid, .testimonial-grid { grid-template-columns: 1fr; }
+  .product-grid, .benefits-grid, .how-grid { grid-template-columns: 1fr; }
   .wakeup, .products, .benefits, .how, .testimonials, .guarantee, .faq { padding: 64px 0; }
+
+  /* Stacked, the reviews were three screens of scrolling that most people
+     never reached the end of. One swipeable row puts them side by side
+     instead, and the sliver of the next card showing past the right edge is
+     what says there is more to swipe to. The negative margin cancels the
+     container's gutter so cards can run off the screen edge, and the matching
+     padding puts the gutter back in front of the first one. */
+  .testimonial-grid {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    margin: 0 -20px;
+    padding: 0 20px;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 20px;
+    -webkit-overflow-scrolling: touch;
+    /* The row is swiped, not scrolled through - the bar would only sit under
+       the cards restating what the dots already say. */
+    scrollbar-width: none;
+  }
+  .testimonial-grid::-webkit-scrollbar { display: none; }
+  .testimonial {
+    flex: 0 0 calc(100% - 48px);
+    scroll-snap-align: start;
+  }
+  /* There is not enough row left for the last card to reach the left gutter,
+     and a snap point it can never land on would drag the swipe back to the
+     card before it. Ending flush against the right gutter is both reachable
+     and where the swipe was heading. */
+  .testimonial:last-child { scroll-snap-align: end; }
+
+  .testimonial-dots { display: flex; justify-content: center; margin-top: 20px; }
+  /* The dot itself is 8px; the button around it is a thumb-sized target. */
+  .testimonial-dot {
+    width: 26px;
+    height: 26px;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .testimonial-dot::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--section-muted, var(--muted));
+    opacity: 0.35;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .testimonial-dot.active::after {
+    background: var(--section-accent, var(--midnight));
+    opacity: 1;
+    transform: scale(1.25);
+  }
   .final-cta { padding: 72px 0; }
   .footer { padding: 36px 0 20px; }
   .footer-top { grid-template-columns: 1fr; gap: 4px; padding-bottom: 16px; }
