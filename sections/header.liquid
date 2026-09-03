@@ -76,7 +76,7 @@
       {%- if block.settings.label != blank -%}
         <a href="{{ block.settings.link | default: routes.root_url }}" data-menu-close {{ block.shopify_attributes }}>
           <span>{{ block.settings.label }}</span>
-          <span aria-hidden="true">{% render 'nav-emoji', label: block.settings.label %}</span>
+          <span class="nav-icon-slot" aria-hidden="true">{% render 'nav-icon', label: block.settings.label %}</span>
         </a>
       {%- endif -%}
     {%- endfor -%}
@@ -84,13 +84,13 @@
     {%- for link in section.settings.menu.links -%}
       <a href="{{ link.url }}" data-menu-close>
         <span>{{ link.title }}</span>
-        <span aria-hidden="true">{% render 'nav-emoji', label: link.title %}</span>
+        <span class="nav-icon-slot" aria-hidden="true">{% render 'nav-icon', label: link.title %}</span>
       </a>
     {%- endfor -%}
     {%- unless has_faq_link -%}
       <a href="/search?view=faq" data-menu-close>
         <span>FAQ</span>
-        <span aria-hidden="true">❓</span>
+        <span class="nav-icon-slot" aria-hidden="true">{% render 'nav-icon', label: 'FAQ' %}</span>
       </a>
     {%- endunless -%}
   {%- endif -%}
