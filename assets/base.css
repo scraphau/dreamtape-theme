@@ -17,8 +17,6 @@
   --blush: #eaf0fb;
   --mist: #dbe5f6;
   --ink: #0a1432;
-  /* Reads as blue ink next to the near-black --midnight the menu text uses. */
-  --ink-blue: #2f4fa8;
   --muted: #5a6580;
   --line: rgba(14, 26, 58, 0.14);
   --shadow-soft: 0 20px 60px -20px rgba(14, 26, 58, 0.16);
@@ -305,18 +303,6 @@ a { color: inherit; text-decoration: none; }
   border-bottom: 1px solid var(--line);
   color: var(--midnight);
 }
-/* The nav marks are sketched line art (snippets/nav-icon.liquid), so the slot
-   is sized in pixels rather than by font-size the way the old emoji were. */
-.mobile-menu a .nav-icon-slot {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex: none;
-  width: 26px;
-  height: 26px;
-  color: var(--ink-blue);
-}
-.mobile-menu a .nav-icon { width: 100%; height: 100%; }
 .close-btn {
   position: absolute;
   top: 22px;
