@@ -1,3 +1,30 @@
+{%- comment -%}
+  The policy links were hard-coded to /pages/... handles that do not exist on
+  this store, so every one of them 404'd. Resolve them from Settings >
+  Policies first (those render at /policies/... and exist as soon as the
+  policy text is written), then fall back to a same-named page if the shop
+  keeps its own copy, and drop the link entirely when neither exists rather
+  than pointing at a missing page.
+{%- endcomment -%}
+{%- liquid
+  assign terms_url = shop.terms_of_service.url
+  if terms_url == blank
+    assign terms_url = pages['terms-conditions'].url
+  endif
+  if terms_url == blank
+    assign terms_url = pages['terms-of-service'].url
+  endif
+
+  assign privacy_url = shop.privacy_policy.url
+  if privacy_url == blank
+    assign privacy_url = pages['privacy-policy'].url
+  endif
+
+  assign refund_url = shop.refund_policy.url
+  if refund_url == blank
+    assign refund_url = pages['refund-policy'].url
+  endif
+-%}
 <footer class="footer" style="{% render 'section-color-vars', section: section %}">
   <div class="container">
     <div class="footer-top">
@@ -58,6 +85,7 @@
           <a href="{{ routes.account_url }}">Manage Orders</a>
         </div>
       </details>
+      {%- if terms_url != blank or privacy_url != blank or refund_url != blank -%}
       <details class="footer-col footer-accordion" open>
         <summary>
           <h4>Policies</h4>
@@ -66,11 +94,18 @@
           </span>
         </summary>
         <div class="footer-col-links">
-          <a href="/pages/terms-conditions">Terms &amp; Conditions</a>
-          <a href="/pages/privacy-policy">Privacy Policy</a>
-          <a href="/pages/refund-policy">Refund Policy</a>
+          {%- if terms_url != blank -%}
+            <a href="{{ terms_url }}">Terms &amp; Conditions</a>
+          {%- endif -%}
+          {%- if privacy_url != blank -%}
+            <a href="{{ privacy_url }}">Privacy Policy</a>
+          {%- endif -%}
+          {%- if refund_url != blank -%}
+            <a href="{{ refund_url }}">Refund Policy</a>
+          {%- endif -%}
         </div>
       </details>
+      {%- endif -%}
       <details class="footer-col footer-accordion" open>
         <summary>
           <h4>Shop</h4>
@@ -100,9 +135,15 @@
     <div class="footer-bottom">
       <p>© {{ 'now' | date: '%Y' }} {{ shop.name }}. All rights reserved.</p>
       <div class="footer-links">
-        <a href="/pages/privacy-policy">Privacy</a>
-        <a href="/pages/terms-conditions">Terms</a>
-        <a href="/pages/refund-policy">Refund Policy</a>
+        {%- if privacy_url != blank -%}
+          <a href="{{ privacy_url }}">Privacy</a>
+        {%- endif -%}
+        {%- if terms_url != blank -%}
+          <a href="{{ terms_url }}">Terms</a>
+        {%- endif -%}
+        {%- if refund_url != blank -%}
+          <a href="{{ refund_url }}">Refund Policy</a>
+        {%- endif -%}
       </div>
     </div>
 
