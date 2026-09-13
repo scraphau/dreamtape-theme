@@ -50,6 +50,8 @@
         --muted: {{ settings.color_muted | default: '#5a6580' }};
       }
     </style>
+
+    {% render 'meta-pixel' %}
   </head>
 
   <body class="template-{{ template | replace: '.', '-' | handle }}">
