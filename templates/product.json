@@ -65,7 +65,7 @@
         "cta_suffix": "Try Risk-Free",
         "subscribe_note": "Save an extra 15% with Auto-Refills — pause or cancel anytime",
         "sub_note": "30-night money-back guarantee · Free AU shipping on subscriptions",
-        "preorder_enabled": true,
+        "preorder_enabled": false,
         "preorder_badge": "Pre-order",
         "preorder_text": "Ordering now reserves yours from the first batch. You're charged today and we'll email you a dispatch date as soon as stock lands.",
         "preorder_ships_label": "Ships when stock lands"

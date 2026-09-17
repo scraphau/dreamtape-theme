@@ -65,7 +65,7 @@
         "cta_suffix": "Try Risk-Free",
         "subscribe_note": "Save up to an extra 20% with Auto-Refills — pause or cancel anytime",
         "sub_note": "30-night money-back guarantee · Free AU shipping on subscriptions",
-        "preorder_enabled": true
+        "preorder_enabled": false
       }
     },
     "trust": {
