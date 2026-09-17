@@ -1977,18 +1977,31 @@ span.cart-protection-icon {
 
 /* Trust row */
 .product-trust-row {
-  display: grid; grid-template-columns: 1fr 1fr;
-  gap: 10px; padding-top: 20px; border-top: 1px solid var(--line);
+  display: grid; grid-template-columns: repeat(3, auto);
+  justify-content: space-between;
+  gap: 10px 18px; padding-top: 20px; border-top: 1px solid var(--line);
 }
 .ptr-item {
   display: flex; align-items: center; gap: 8px;
   font-size: 12.5px; font-weight: 500;
   color: var(--section-text, var(--midnight));
 }
-/* display:flex above beats the hidden attribute's UA display:none, so the
-   subscription-only items would stay visible without this. */
+/* display:grid/flex above beats the hidden attribute's UA display:none, so
+   the subscription-only row would stay visible without these. */
+.product-trust-row[hidden] { display: none; }
 .ptr-item[hidden] { display: none; }
 .ptr-item svg { color: var(--section-accent, var(--midnight)); flex-shrink: 0; opacity: 0.7; }
+
+@media (max-width: 768px) {
+  /* Three labels across a phone are about 10px short of fitting at the
+     desktop size, and grid would otherwise solve that by wrapping each label
+     onto two lines. nowrap forbids that, and the clamp pays for it: the type
+     tracks the viewport down to a 320px screen, where 11px would overflow. */
+  .product-trust-row { gap: 8px; }
+  .ptr-item { font-size: clamp(9px, 2.8vw, 11px); gap: 5px; }
+  .ptr-item span { white-space: nowrap; }
+  .ptr-item svg { width: 14px; height: 14px; }
+}
 
 .product-judgeme-reviews { margin-top: 72px; }
 .product-judgeme-badge { margin: -4px 0 18px; }
