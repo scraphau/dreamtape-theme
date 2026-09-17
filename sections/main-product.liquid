@@ -511,35 +511,24 @@
         {%- endform -%}
 
         {%- comment -%}
-          Two columns. The always-on pair fills the first row - guarantee left,
-          dispatch right - and the subscription pair sits directly beneath them,
-          so the first row never moves when the purchase type changes.
+          Subscription only, three across. A one-time order gets no trust row:
+          free shipping and cancel anytime are both subscription terms, and
+          leaving the guarantee on its own put a half-empty row under the
+          button. The whole row is hidden in the markup and revealed by
+          renderTrustRow, so a script failure leaves it off rather than
+          promising free shipping on a one-time order.
         {%- endcomment -%}
         <!-- Trust row -->
-        <div class="product-trust-row">
+        <div class="product-trust-row" data-trust-subscription hidden>
           <div class="ptr-item">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             <span>30-Night Guarantee</span>
           </div>
           <div class="ptr-item">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-            {%- comment -%}
-              Has to follow the pre-order switch. Leaving "Ships in 1–2 Days"
-              under a pre-order button would promise a dispatch time the order
-              can't be filled in.
-            {%- endcomment -%}
-            <span>{% if section.settings.preorder_enabled %}{{ section.settings.preorder_ships_label }}{% else %}Ships in 1–2 Days{% endif %}</span>
-          </div>
-          {%- comment -%}
-            Second row, subscription only. Hidden in the markup and revealed by
-            renderTrustRow, so a script failure leaves them off rather than
-            promising free shipping on a one-time order.
-          {%- endcomment -%}
-          <div class="ptr-item" data-trust-subscription hidden>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
             <span>Free Shipping</span>
           </div>
-          <div class="ptr-item" data-trust-subscription hidden>
+          <div class="ptr-item">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
             <span>Cancel Anytime</span>
           </div>
