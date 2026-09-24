@@ -131,7 +131,7 @@ To match the full Respire-style functionality:
 ## Notes & customisation
 
 - **Colors**: edit in **Theme settings → Colors** in the theme editor. The four core colours (midnight, cream, paper, gold) flow through every section via CSS variables.
-- **Fonts**: Fraunces (display serif) + Inter Tight (sans). Loaded from Google Fonts in `layout/theme.liquid`. To change fonts, edit that link + the `--font-serif` / `--font-sans` variables in `assets/base.css`.
+- **Fonts**: Inter (clean product sans, used for both headings and body). Loaded from Google Fonts in `layout/theme.liquid`. To change fonts, edit that link + the `--font-serif` / `--font-sans` variables in `assets/base.css`.
 - **Product images**: Upload via product admin. Theme uses `featured_media` for the hero shot and `product.media` for the thumbnail gallery.
 - **Empty state**: If no collection is set on the homepage product grid, placeholder cards display. Once you assign a real collection, real products appear.
 

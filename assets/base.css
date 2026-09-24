@@ -21,8 +21,8 @@
   --line: rgba(14, 26, 58, 0.14);
   --shadow-soft: 0 20px 60px -20px rgba(14, 26, 58, 0.16);
   --shadow-deep: 0 30px 80px -30px rgba(14, 26, 58, 0.34);
-  --font-serif: 'Fraunces', Georgia, serif;
-  --font-sans: 'Inter Tight', system-ui, sans-serif;
+  --font-serif: 'Inter', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
